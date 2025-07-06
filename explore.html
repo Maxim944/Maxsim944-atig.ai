@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>АТИГ.AI — Исследуйте вселенную</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(ellipse at center, #0a0f2c 0%, #000000 100%);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .sidebar {
+      width: 340px;
+      padding: 50px 30px;
+    }
+
+    .menu-item {
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-title {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .menu-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .icon {
+      margin-right: 12px;
+      font-size: 18px;
+      color: #00aaff;
+    }
+
+    .menu-description {
+      font-size: 14px;
+      color: #aaa;
+      margin-left: 30px;
+      margin-top: 4px;
+    }
+
+    .empty-space {
+      flex: 1;
+    }
+
+    .back-button {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      background: none;
+      border: 1px solid #00aaff;
+      padding: 10px 20px;
+      border-radius: 20px;
+      color: #00aaff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .back-button:hover {
+      background: rgba(0, 170, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="menu-item">
+      <div class="menu-title"><span class="icon">★</span><a href="#">ПЕРСОНАЛЬНЫЙ АССИСТЕНТ</a></div>
+      <div class="menu-description">От рождения и до конца дней.</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-title"><span class="icon">★</span><a href="#">МИССИЯ ВЕЧНОСТЬ</a></div>
+      <div class="menu-description">Визуал. Апокалиптический проект.</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-title"><span class="icon">★</span><a href="#">УМОБУК</a></div>
+      <div class="menu-description">Детское приложение — игра букв.</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-title"><span class="icon">★</span><a href="#">УМНАЯ КОЛОНКА</a></div>
+      <div class="menu-description">Готовый прототип, описание проекта.</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-title"><span class="icon">★</span><a href="#">РОБОТ</a></div>
+      <div class="menu-description">Описание и чертежи создания.</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-title"><span class="icon">★</span><a href="#">ИИ-ГАДЖЕТ</a></div>
+      <div class="menu-description">Идеи будущих телефонов.</div>
+    </div>
+    <div class="menu-item">
+      <div class="menu-title"><span class="icon">★</span><a href="#">ОБРАЗОВАНИЕ</a></div>
+      <div class="menu-description">Помощь в подготовке. Перечень.</div>
+    </div>
+  </div>
+
+  <div class="empty-space"></div>
+
+  <button class="back-button" onclick="window.location.href='index.html'">← Вернуться на главную</button>
+
+</body>
+</html>

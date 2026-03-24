@@ -12,9 +12,16 @@ body{background:#000510;min-height:100vh;font-family:'Raleway',sans-serif;color:
 /* НАВИГАЦИЯ */
 nav{position:fixed;top:0;width:100%;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;z-index:100;background:rgba(0,5,16,0.8);backdrop-filter:blur(10px)}
 .nav-logo{font-size:24px;font-weight:600;color:#00e5ff;letter-spacing:6px;text-shadow:0 0 20px #00e5ff}
-.nav-links{display:flex;gap:30px}
+.nav-links{display:flex;gap:24px;flex-wrap:wrap}
 .nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;letter-spacing:2px;transition:color 0.3s}
 .nav-links a:hover{color:#00e5ff}
+.nav-links a.nav-sci{
+  color:#00e5ff;
+  border:1px solid rgba(0,229,255,0.3);
+  padding:4px 12px;border-radius:20px;
+  font-size:11px;letter-spacing:3px;
+}
+.nav-links a.nav-sci:hover{background:rgba(0,229,255,0.1);}
 
 /* КОСМОС */
 .cosmos{position:fixed;inset:0;background:radial-gradient(ellipse 100% 60% at 50% 40%,#0a1a3e 0%,transparent 60%),#000208;z-index:0}
@@ -53,6 +60,49 @@ section{position:relative;z-index:10;min-height:100vh;display:flex;flex-directio
 .about-card h3{font-size:14px;letter-spacing:3px;color:#00e5ff;margin-bottom:12px}
 .about-card p{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.8}
 
+/* ПРИНЦИПЫ */
+#principles{min-height:auto;padding:100px 20px;}
+.principles-wrap{max-width:900px;width:100%;display:flex;flex-direction:column;gap:40px}
+.principle-main{text-align:center;padding:40px 32px;border:1px solid rgba(0,229,255,0.2);border-radius:14px;background:rgba(0,15,40,0.5);backdrop-filter:blur(16px)}
+.principle-big{font-size:clamp(15px,2.2vw,20px);line-height:2;color:#fff;letter-spacing:2px}
+.principle-big em{font-style:normal;color:#00e5ff;text-shadow:0 0 20px rgba(0,229,255,0.5)}
+.principles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.principle-card{padding:26px 22px;border:1px solid rgba(125,211,252,0.15);border-radius:10px;background:rgba(0,0,0,0.4);transition:all 0.3s;cursor:default}
+.principle-card:hover{border-color:rgba(0,229,255,0.4);background:rgba(0,40,90,0.25);transform:translateY(-5px)}
+.principle-card .p-icon{font-size:20px;margin-bottom:12px}
+.principle-card h3{font-size:11px;letter-spacing:3px;color:#00e5ff;margin-bottom:10px;text-transform:uppercase}
+.principle-card p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.9}
+
+/* SCI MODE CTA */
+.sci-cta{
+  max-width:900px;width:100%;
+  margin-top:10px;
+  padding:32px 36px;
+  border:1px solid rgba(0,229,255,0.25);
+  border-radius:14px;
+  background:rgba(0,20,50,0.5);
+  backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;
+}
+.sci-cta-text{}
+.sci-cta-label{font-size:9px;letter-spacing:4px;color:rgba(0,229,255,0.5);margin-bottom:8px;text-transform:uppercase}
+.sci-cta-title{font-size:clamp(14px,2vw,18px);letter-spacing:2px;color:#fff}
+.sci-cta-desc{font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;letter-spacing:1px}
+.sci-cta-btn{
+  padding:14px 28px;
+  background:transparent;
+  border:1px solid #00e5ff;
+  border-radius:8px;
+  color:#00e5ff;
+  font-family:'Raleway',sans-serif;
+  font-size:12px;letter-spacing:4px;
+  cursor:pointer;text-decoration:none;
+  transition:all 0.3s;white-space:nowrap;
+  text-transform:uppercase;
+}
+.sci-cta-btn:hover{background:rgba(0,229,255,0.1);box-shadow:0 0 20px rgba(0,229,255,0.2)}
+
 /* ДОКУМЕНТЫ */
 .docs-list{max-width:700px;width:100%;display:flex;flex-direction:column;gap:15px}
 .doc-item{padding:20px 30px;border:1px solid rgba(125,211,252,0.15);border-radius:8px;background:rgba(0,0,0,0.4);display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all 0.3s}
@@ -86,9 +136,11 @@ footer p{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.2)}
   <div class="nav-logo">ATIG</div>
   <div class="nav-links">
     <a href="#about">О проекте</a>
+    <a href="#principles">Принципы</a>
     <a href="#docs">Документы</a>
     <a href="#join">Присоединиться</a>
     <a href="#mission">Миссия</a>
+    <a href="sci-mode.html" class="nav-sci">⚛ SCI MODE</a>
   </div>
 </nav>
 
@@ -127,6 +179,56 @@ footer p{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.2)}
       <h3>Миссия</h3>
       <p>Сделать каждого человека лучше. Свет вселенной. Вечность.</p>
     </div>
+  </div>
+</section>
+
+<!-- ПРИНЦИПЫ -->
+<section id="principles">
+  <div class="section-title">Принципы ATIG</div>
+  <div class="principles-wrap">
+
+    <div class="principle-main">
+      <p class="principle-big">
+        ATIG — это твой личный интеллект.<br/>
+        Он использует <em>силу мировых ИИ</em><br/>
+        для поиска, анализа и решений —<br/>
+        но <em>работает только на тебя</em>.
+      </p>
+    </div>
+
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="p-icon">🌐</div>
+        <h3>Мощь мировых ИИ</h3>
+        <p>ATIG подключён к ведущим системам искусственного интеллекта для поиска, анализа и точных ответов.</p>
+      </div>
+      <div class="principle-card">
+        <div class="p-icon">🔒</div>
+        <h3>Твои данные — твои</h3>
+        <p>Все запросы и история принадлежат только тебе. ATIG не продаёт и не передаёт данные третьим сторонам.</p>
+      </div>
+      <div class="principle-card">
+        <div class="p-icon">🧭</div>
+        <h3>Прозрачность</h3>
+        <p>ATIG честно показывает, что он делает — без скрытых алгоритмов и манипуляций.</p>
+      </div>
+      <div class="principle-card">
+        <div class="p-icon">🧬</div>
+        <h3>Персональный интеллект</h3>
+        <p>ATIG растёт вместе с тобой, адаптируется к твоему опыту и помогает принимать решения.</p>
+      </div>
+    </div>
+
+    <!-- SCI MODE CTA -->
+    <div class="sci-cta">
+      <div class="sci-cta-text">
+        <div class="sci-cta-label">Расширенный режим</div>
+        <div class="sci-cta-title">ATIG · SCI MODE</div>
+        <div class="sci-cta-desc">Физик · Химик · Математик · Философ</div>
+      </div>
+      <a href="sci-mode.html" class="sci-cta-btn">Открыть ⚛</a>
+    </div>
+
   </div>
 </section>
 

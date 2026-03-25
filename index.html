@@ -220,6 +220,69 @@ function register(){
   document.getElementById('regCountry').value='';
   console.log('Новый пользователь ATIG:',{name,email,country,date:new Date().toISOString()});
 }
+// === ATIG ГОЛОС ===
+
+const atom = document.getElementById("atom");
+const heroMsg = document.getElementById("heroMsg");
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.lang = 'ru-RU';
+
+function speak(msg) {
+  const utterance = new SpeechSynthesisUtterance(msg);
+  utterance.lang = 'ru-RU';
+  speechSynthesis.speak(utterance);
+}
+
+// Клик по атому
+atom.onclick = () => {
+  heroMsg.innerText = "Слушаю...";
+  recognition.start();
+};
+
+// Когда услышал
+recognition.onresult = function(event) {
+  const text = event.results[0][0].transcript.toLowerCase();
+  heroMsg.innerText = "Ты сказал: " + text;
+
+  if (text.includes("привет")) {
+    speak("Привет. Я ATIG. Рад тебя видеть.");
+  } else {
+    speak("Я тебя услышал. Пока учусь понимать.");
+  }
+// === ATIG ГОЛОС ===
+
+const atom = document.getElementById("atom");
+const heroMsg = document.getElementById("heroMsg");
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.lang = 'ru-RU';
+
+function speak(msg) {
+  const utterance = new SpeechSynthesisUtterance(msg);
+  utterance.lang = 'ru-RU';
+  speechSynthesis.speak(utterance);
+}
+
+// Клик по атому
+atom.onclick = () => {
+  heroMsg.innerText = "Слушаю...";
+  recognition.start();
+};
+
+// Когда услышал
+recognition.onresult = function(event) {
+  const text = event.results[0][0].transcript.toLowerCase();
+  heroMsg.innerText = "Ты сказал: " + text;
+
+  if (text.includes("привет")) {
+    speak("Привет. Я ATIG. Рад тебя видеть.");
+  } else {
+    speak("Я тебя услышал. Пока учусь понимать.");
+  }
+};
 </script>
 </body>
 </html>

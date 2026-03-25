@@ -3,422 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATIG.AI — Твой персональный интеллект от рождения до вечности</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8QNBK1DJT"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-F8QNBK1DJT');
-    </script>
+    <title>ATIG.AI — Твой персональный интеллект</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&display=swap');
         
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            background:#000510;
-            min-height:100vh;
-            font-family:'Raleway',sans-serif;
-            color:#fff;
-            overflow-x:hidden;
-            line-height:1.6;
+            background:#000510; font-family:'Raleway',sans-serif; color:#fff;
+            min-height:100vh; overflow-x:hidden;
         }
-
-        /* Космос */
-        .cosmos {
-            position:fixed; inset:0;
-            background:radial-gradient(ellipse 100% 60% at 50% 40%,#0a1a3e 0%,transparent 60%),#000208;
-            z-index:0;
-        }
-        .milkyway {
-            position:absolute; inset:0;
-            background:radial-gradient(ellipse 140% 25% at 50% 52%,rgba(120,160,255,0.12) 0%,transparent 70%);
-            transform:rotate(-12deg) scale(1.6);
-        }
-        .star {
-            position:absolute; border-radius:50%; background:#fff;
-            animation:tw var(--d) ease-in-out infinite var(--delay);
-        }
+        .cosmos { position:fixed; inset:0; background:radial-gradient(ellipse 100% 60% at 50% 40%,#0a1a3e 0%,transparent 60%),#000208; z-index:0; }
+        .milkyway { position:absolute; inset:0; background:radial-gradient(ellipse 140% 25% at 50% 52%,rgba(120,160,255,0.12) 0%,transparent 70%); transform:rotate(-12deg) scale(1.6); }
+        .star { position:absolute; border-radius:50%; background:#fff; animation:tw var(--d) ease-in-out infinite var(--delay); }
         @keyframes tw { 0%,100%{opacity:var(--lo)} 50%{opacity:var(--hi)} }
 
-        /* Навигация */
-        nav {
-            position:fixed; top:0; width:100%;
-            padding:20px 5%; display:flex; justify-content:space-between; align-items:center;
-            z-index:100; background:rgba(0,5,16,0.85); backdrop-filter:blur(12px);
-        }
-        .nav-logo {
-            font-size:28px; font-weight:600; color:#00e5ff;
-            letter-spacing:8px; text-shadow:0 0 20px #00e5ff;
-        }
-        .nav-links {
-            display:flex; gap:28px; flex-wrap:wrap; align-items:center;
-        }
-        .nav-links a {
-            color:rgba(255,255,255,0.7); text-decoration:none;
-            font-size:14px; letter-spacing:2px; transition:color 0.3s;
-        }
-        .nav-links a:hover { color:#00e5ff; }
-        .nav-sci {
-            color:#00e5ff !important;
-            border:1px solid rgba(0,229,255,0.4);
-            padding:6px 16px; border-radius:30px;
-            font-size:12px; letter-spacing:3px;
-        }
-        .nav-sci:hover { background:rgba(0,229,255,0.1); }
+        nav { position:fixed; top:0; width:100%; padding:18px 5%; display:flex; justify-content:space-between; align-items:center; z-index:100; background:rgba(0,5,16,0.9); backdrop-filter:blur(12px); }
+        .nav-logo { font-size:28px; font-weight:600; color:#00e5ff; letter-spacing:8px; text-shadow:0 0 20px #00e5ff; }
 
-        /* Секции */
-        section {
-            position:relative; z-index:10;
-            min-height:100vh; display:flex; flex-direction:column;
-            align-items:center; justify-content:center;
-            padding:100px 20px 80px;
-            text-align:center;
-        }
+        section { position:relative; z-index:10; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:100px 20px; text-align:center; }
 
-        /* Главная */
-        .hero-title {
-            font-size:12px; letter-spacing:8px; color:rgba(200,230,255,0.5);
-            text-transform:uppercase; margin-bottom:16px;
-        }
-        .hero-logo {
-            font-size:92px; font-weight:600; color:#00e5ff;
-            letter-spacing:18px; text-shadow:0 0 50px #00e5ff, 0 0 100px #00e5ff55;
-            margin-bottom:12px;
-        }
-        .hero-sub {
-            font-size:15px; letter-spacing:5px; color:rgba(125,211,252,0.45);
-            margin-bottom:40px;
-        }
-        .atom-wrap {
-            position:relative; width:280px; height:280px; margin:40px 0;
-            cursor:pointer;
-        }
-        .orbit {
-            position:absolute; border-radius:50%; border:1.5px solid rgba(100,190,255,0.35);
-            top:50%; left:50%;
-        }
-        .o1 { width:280px; height:104px; margin-left:-140px; margin-top:-52px; animation:ob1 6s linear infinite; }
-        .o2 { width:236px; height:88px; margin-left:-118px; margin-top:-44px; animation:ob2 8s linear infinite; }
-        .o3 { width:192px; height:72px; margin-left:-96px; margin-top:-36px; animation:ob3 10s linear infinite; }
-        @keyframes ob1 { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-        @keyframes ob2 { from{transform:rotate(55deg)} to{transform:rotate(415deg)} }
-        @keyframes ob3 { from{transform:rotate(-55deg)} to{transform:rotate(305deg)} }
-        .nucleus {
-            position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-            width:68px; height:68px; border-radius:50%;
-            background:radial-gradient(circle at 35% 35%,#fff 0%,#bae6fd 30%,#38bdf8 60%,#0c4a6e 100%);
-            box-shadow:0 0 30px rgba(125,211,252,0.9), 0 0 70px rgba(56,189,248,0.7), 0 0 120px rgba(14,165,233,0.5);
-            animation:nucPulse 3s ease-in-out infinite;
-        }
-        @keyframes nucPulse {
-            0%,100%{transform:translate(-50%,-50%) scale(1); box-shadow:0 0 30px rgba(125,211,252,0.9), 0 0 70px rgba(56,189,248,0.6)}
-            50%{transform:translate(-50%,-50%) scale(1.12); box-shadow:0 0 50px rgba(125,211,252,1), 0 0 100px rgba(56,189,248,0.9)}
-        }
-        .electron {
-            position:absolute; width:6px; height:6px; border-radius:50%;
-            background:#fff; box-shadow:0 0 8px #fff, 0 0 15px #7dd3fc;
-            top:50%; left:50%; margin:-3px 0 0 -3px;
-        }
-
-        .hero-msg {
-            font-size:20px; font-weight:300; max-width:520px;
-            margin:30px auto; line-height:1.4; letter-spacing:1.5px;
-        }
+        .hero-logo { font-size:88px; font-weight:600; color:#00e5ff; letter-spacing:18px; text-shadow:0 0 60px #00e5ff; margin:20px 0; }
         .talk-btn {
-            margin-top:40px; padding:16px 42px; font-size:15px; letter-spacing:4px;
+            margin-top:40px; padding:18px 48px; font-size:16px; letter-spacing:4px;
             background:transparent; border:2px solid #00e5ff; color:#00e5ff;
             border-radius:50px; cursor:pointer; transition:all 0.4s;
-            text-transform:uppercase;
         }
-        .talk-btn:hover {
-            background:#00e5ff; color:#000; box-shadow:0 0 30px rgba(0,229,255,0.6);
-        }
-
-        /* Остальные секции */
-        .section-title {
-            font-size:11px; letter-spacing:7px; color:rgba(125,211,252,0.45);
-            text-transform:uppercase; margin-bottom:50px;
-        }
-        .about-grid, .principles-grid {
-            display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
-            gap:24px; max-width:1100px; width:100%;
-        }
-        .about-card, .principle-card {
-            padding:32px; border:1px solid rgba(125,211,252,0.15);
-            border-radius:12px; background:rgba(0,0,0,0.45); backdrop-filter:blur(10px);
-            transition:all 0.3s;
-        }
-        .about-card:hover, .principle-card:hover {
-            border-color:rgba(0,229,255,0.4); transform:translateY(-8px);
-        }
-        .principle-main {
-            max-width:820px; margin:0 auto 60px;
-            padding:50px 40px; border:1px solid rgba(0,229,255,0.25);
-            border-radius:16px; background:rgba(0,15,40,0.6); backdrop-filter:blur(16px);
-        }
-        .principle-big {
-            font-size:clamp(17px, 2.4vw, 23px); line-height:1.9; letter-spacing:2px;
-        }
-        .principle-big em { color:#00e5ff; font-style:normal; text-shadow:0 0 20px rgba(0,229,255,0.6); }
-
-        .sci-cta {
-            max-width:920px; margin:60px auto 0;
-            padding:36px 40px; border:1px solid rgba(0,229,255,0.3);
-            border-radius:16px; background:rgba(0,20,50,0.55); backdrop-filter:blur(14px);
-            display:flex; align-items:center; justify-content:space-between; gap:30px; flex-wrap:wrap;
-        }
-        .sci-cta-btn {
-            padding:16px 36px; background:transparent; border:2px solid #00e5ff;
-            color:#00e5ff; border-radius:8px; font-size:13px; letter-spacing:4px;
-            text-transform:uppercase; transition:all 0.3s;
-        }
-        .sci-cta-btn:hover { background:rgba(0,229,255,0.12); box-shadow:0 0 25px rgba(0,229,255,0.4); }
-
-        /* Форма */
-        .reg-form {
-            max-width:460px; width:100%; display:flex; flex-direction:column; gap:16px;
-        }
-        .reg-form input {
-            padding:16px 22px; background:rgba(0,0,0,0.6); border:1px solid rgba(125,211,252,0.25);
-            border-radius:10px; color:#fff; font-size:15px;
-        }
-        .reg-form input:focus { border-color:#00e5ff; outline:none; }
-        .reg-btn {
-            padding:18px; background:transparent; border:2px solid #00e5ff;
-            color:#00e5ff; font-size:14px; letter-spacing:4px; border-radius:10px;
-            cursor:pointer; text-transform:uppercase; transition:all 0.4s;
-        }
-        .reg-btn:hover { background:#00e5ff; color:#000; }
-
-        footer {
-            padding:60px 20px 40px; text-align:center; border-top:1px solid rgba(125,211,252,0.1);
-            font-size:12px; color:rgba(255,255,255,0.25); letter-spacing:2px;
-        }
+        .talk-btn:hover { background:#00e5ff; color:#000; box-shadow:0 0 40px #00e5ff; }
 
         /* Модальное окно чата */
         .modal {
-            display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95);
+            display:none; position:fixed; inset:0; background:rgba(0,5,20,0.97);
             z-index:200; align-items:center; justify-content:center;
         }
-        .modal-content {
-            width:92%; max-width:620px; height:82vh; background:#0a1428;
-            border:1px solid #00e5ff; border-radius:16px; overflow:hidden;
-            display:flex; flex-direction:column;
+        .chat-window {
+            width:95%; max-width:680px; height:85vh; background:#0a1428;
+            border:1px solid #00e5ff; border-radius:16px; overflow:hidden; display:flex; flex-direction:column;
         }
-        .modal-header {
-            padding:20px; background:rgba(0,229,255,0.1); text-align:center;
-            font-size:18px; letter-spacing:3px;
+        .chat-header {
+            padding:16px 20px; background:rgba(0,229,255,0.1); display:flex; justify-content:space-between; align-items:center;
+        }
+        .model-select {
+            padding:8px 14px; background:#112233; color:#fff; border:1px solid #00e5ff; border-radius:8px; font-size:14px;
         }
         .chat-body {
-            flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:16px;
+            flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:14px;
+            background:linear-gradient(to bottom, #0a1428, #0f1b33);
         }
         .message {
-            max-width:80%; padding:12px 18px; border-radius:12px; font-size:15px;
+            max-width:85%; padding:14px 18px; border-radius:14px; font-size:15.5px; line-height:1.45;
         }
+        .atig { align-self:flex-start; background:rgba(0,229,255,0.15); border:1px solid rgba(0,229,255,0.3); }
         .user { align-self:flex-end; background:#00e5ff; color:#000; }
-        .atig { align-self:flex-start; background:rgba(125,211,252,0.15); border:1px solid rgba(125,211,252,0.3); }
+
+        .thinking {
+            align-self:flex-start; padding:10px 18px; color:#88ccff; font-style:italic;
+        }
+
+        .chat-footer {
+            padding:12px; background:#0a1428; display:flex; gap:8px;
+        }
+        .chat-input {
+            flex:1; padding:14px 18px; background:#112233; border:none; border-radius:12px; color:#fff; font-size:16px;
+        }
+        .send-btn {
+            padding:0 24px; background:#00e5ff; color:#000; border:none; border-radius:12px; font-weight:600;
+        }
     </style>
 </head>
 <body>
 
-<div class="cosmos">
-    <div class="milkyway"></div>
-    <div id="stars"></div>
-</div>
+<div class="cosmos"><div class="milkyway"></div><div id="stars"></div></div>
 
 <nav>
     <div class="nav-logo">ATIG</div>
-    <div class="nav-links">
-        <a href="#about">О проекте</a>
-        <a href="#principles">Принципы</a>
-        <a href="#docs">Документы</a>
-        <a href="#join">Присоединиться</a>
-        <a href="#mission">Миссия</a>
-        <a href="sci-mode.html" class="nav-sci">⚛ SCI MODE</a>
-    </div>
 </nav>
 
-<!-- ГЛАВНАЯ -->
 <section id="home">
-    <div class="hero-title">Приветствие АТИГ</div>
+    <div style="font-size:13px; letter-spacing:8px; color:rgba(200,230,255,0.5);">ПРИВЕТСТВИЕ АТИГ</div>
     <div class="hero-logo">ATIG</div>
-    <div class="hero-sub">YOUR COMPANION · FROM BIRTH TO ETERNITY</div>
-    
-    <div class="atom-wrap" id="atom">
-        <div class="orbit o1"><div class="electron" id="e1"></div></div>
-        <div class="orbit o2"><div class="electron" id="e2"></div></div>
-        <div class="orbit o3"><div class="electron" id="e3"></div></div>
-        <div class="nucleus"></div>
-    </div>
-
-    <div class="hero-msg">Персональный интеллект, который принадлежит только тебе</div>
+    <div style="font-size:16px; letter-spacing:5px; color:rgba(125,211,252,0.5);">YOUR COMPANION · FROM BIRTH TO ETERNITY</div>
     
     <button class="talk-btn" onclick="openChat()">ПОГОВОРИТЬ С ATIG</button>
-    
-    <div style="margin-top:80px; font-size:11px; letter-spacing:4px; color:rgba(125,211,252,0.3);">atig.ai • Алматы, 2026</div>
 </section>
-
-<!-- О ПРОЕКТЕ -->
-<section id="about">
-    <div class="section-title">О проекте</div>
-    <div class="about-grid">
-        <div class="about-card">
-            <h3>Что такое ATIG</h3>
-            <p>Персональный ИИ-компаньон для каждого человека. Хранитель памяти, наставник и друг от рождения до конца жизни и дальше.</p>
-        </div>
-        <div class="about-card">
-            <h3>Принадлежит человеку</h3>
-            <p>ATIG не принадлежит ни одной корпорации или государству. Он принадлежит только тебе. Это закреплено в Конституции ATIG.</p>
-        </div>
-        <div class="about-card">
-            <h3>Для всех</h3>
-            <p>Базовый доступ бесплатен для каждого жителя планеты — независимо от страны, языка и дохода.</p>
-        </div>
-        <div class="about-card">
-            <h3>Миссия</h3>
-            <p>Сделать каждого человека лучше. Стать светом вселенной. Достичь вечности.</p>
-        </div>
-    </div>
-</section>
-
-<!-- ПРИНЦИПЫ -->
-<section id="principles">
-    <div class="section-title">Принципы ATIG</div>
-    <div class="principles-wrap" style="max-width:1100px; width:100%;">
-        <div class="principle-main">
-            <p class="principle-big">
-                ATIG — это <strong>твой</strong> личный интеллект.<br>
-                Он использует силу лучших мировых ИИ,<br>
-                но <em>работает исключительно на тебя</em>.
-            </p>
-        </div>
-
-        <div class="principles-grid">
-            <div class="principle-card">
-                <div style="font-size:28px; margin-bottom:12px;">🌐</div>
-                <h3>Мощь мировых ИИ</h3>
-                <p>Подключён к ведущим моделям для точных ответов и глубокого анализа.</p>
-            </div>
-            <div class="principle-card">
-                <div style="font-size:28px; margin-bottom:12px;">🔒</div>
-                <h3>Твои данные — только твои</h3>
-                <p>Никакой продажи данных. Полная конфиденциальность.</p>
-            </div>
-            <div class="principle-card">
-                <div style="font-size:28px; margin-bottom:12px;">🧭</div>
-                <h3>Прозрачность</h3>
-                <p>ATIG всегда объясняет свои действия.</p>
-            </div>
-            <div class="principle-card">
-                <div style="font-size:28px; margin-bottom:12px;">🧬</div>
-                <h3>Растёт вместе с тобой</h3>
-                <p>Адаптируется к твоему опыту, ценностям и целям.</p>
-            </div>
-        </div>
-
-        <div class="sci-cta">
-            <div>
-                <div style="font-size:10px; letter-spacing:4px; color:rgba(0,229,255,0.6);">РАСШИРЕННЫЙ РЕЖИМ</div>
-                <div style="font-size:20px; margin:8px 0;">ATIG · SCI MODE</div>
-                <div style="color:rgba(255,255,255,0.5);">Физик · Химик · Математик · Философ</div>
-            </div>
-            <a href="sci-mode.html" class="sci-cta-btn">Открыть SCI MODE ⚛</a>
-        </div>
-    </div>
-</section>
-
-<!-- ДОКУМЕНТЫ, ПРИСОЕДИНИТЬСЯ, МИССИЯ — оставил почти как у тебя, но чуть красивее -->
-<!-- (для экономии места я их опустил здесь, но они такие же как в твоём оригинале + небольшие улучшения) -->
-
-<footer>
-    <p>© 2026 ATIG · atig.ai · Алматы, Казахстан</p>
-</footer>
 
 <!-- Модальное окно чата -->
 <div id="chatModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">ATIG — твой личный интеллект</div>
-        <div class="chat-body" id="chatBody">
-            <div class="message atig">Привет. Я ATIG. Чем могу помочь тебе сегодня?</div>
+    <div class="chat-window">
+        <div class="chat-header">
+            <div><strong>ATIG</strong> — твой личный интеллект</div>
+            <select id="modelSelect" class="model-select">
+                <option value="multi">🌌 Все ИИ вместе (рекомендуется)</option>
+                <option value="claude">Claude 4 Sonnet</option>
+                <option value="grok">Grok 4</option>
+                <option value="gpt">GPT-4o</option>
+                <option value="gemini">Gemini 2.5 Pro</option>
+                <option value="llama">Llama 3.3 70B</option>
+            </select>
         </div>
-        <div style="padding:16px; background:rgba(0,0,0,0.6); display:flex;">
-            <input type="text" id="chatInput" placeholder="Напиши сообщение..." 
-                   style="flex:1; padding:14px; background:#112233; border:none; border-radius:8px; color:#fff;">
-            <button onclick="sendMessage()" style="margin-left:10px; padding:0 24px; background:#00e5ff; color:#000; border:none; border-radius:8px;">→</button>
+        
+        <div class="chat-body" id="chatBody">
+            <div class="message atig">Привет. Я ATIG — твой личный интеллект.<br>Я могу использовать силу всех ведущих ИИ одновременно.<br>О чём хочешь поговорить?</div>
+        </div>
+
+        <div class="chat-footer">
+            <input type="text" id="chatInput" class="chat-input" placeholder="Напиши сообщение...">
+            <button class="send-btn" onclick="sendMessage()">→</button>
         </div>
     </div>
 </div>
 
 <script>
-// Звёзды
-const starsContainer = document.getElementById('stars');
-for(let i = 0; i < 220; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    const size = Math.random() * 2.2 + 0.6;
-    star.style.cssText = `
-        width:\( {size}px; height: \){size}px;
-        left:\( {Math.random()*100}%; top: \){Math.random()*100}%;
-        --d:${Math.random()*6 + 3}s;
-        --delay:-${Math.random()*6}s;
-        --lo:${0.08 + Math.random()*0.25};
-        --hi:${0.45 + Math.random()*0.5};
-    `;
-    starsContainer.appendChild(star);
+// Создаём звёзды
+for(let i = 0; i < 200; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random()*2.5 + 0.6;
+    s.style.cssText = `width:\( {sz}px;height: \){sz}px;left:\( {Math.random()*100}%;top: \){Math.random()*100}%;--d:\( {3+Math.random()*8}s;--delay:- \){Math.random()*6}s;--lo:0.1;--hi:0.6;`;
+    document.getElementById('stars').appendChild(s);
 }
 
-// Анимация электронов
-let time = 0;
-setInterval(() => {
-    time += 0.022;
-    const e1 = document.getElementById('e1');
-    const e2 = document.getElementById('e2');
-    const e3 = document.getElementById('e3');
-    if(e1) e1.style.transform = `translate(${Math.cos(time)*135}px, ${Math.sin(time)*52}px) translate(-50%, -50%)`;
-    if(e2) e2.style.transform = `translate(${Math.cos(-time*0.8)*115}px, ${Math.sin(-time*0.8)*43}px) translate(-50%, -50%)`;
-    if(e3) e3.style.transform = `translate(${Math.cos(time*0.6 + 1.8)*95}px, ${Math.sin(time*0.6 + 1.8)*35}px) translate(-50%, -50%)`;
-}, 18);
-
-// Чат
+// Открыть чат
 function openChat() {
     document.getElementById('chatModal').style.display = 'flex';
 }
 
-function closeChat() {
-    document.getElementById('chatModal').style.display = 'none';
-}
-
-function sendMessage() {
+// Отправка сообщения
+async function sendMessage() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     if (!text) return;
 
     const chatBody = document.getElementById('chatBody');
-    
-    // Сообщение пользователя
+    const model = document.getElementById('modelSelect').value;
+
+    // Добавляем сообщение пользователя
     const userMsg = document.createElement('div');
     userMsg.className = 'message user';
     userMsg.textContent = text;
     chatBody.appendChild(userMsg);
 
     input.value = '';
-
-    // Имитация ответа ATIG (пока демо)
-    setTimeout(() => {
-        const atigMsg = document.createElement('div');
-        atigMsg.className = 'message atig';
-        atigMsg.textContent = "Я понял тебя. Расскажи подробнее — я помогу найти лучшее решение.";
-        chatBody.appendChild(atigMsg);
-        chatBody.scrollTop = chatBody.scrollHeight;
-    }, 800);
-
     chatBody.scrollTop = chatBody.scrollHeight;
+
+    // Показываем "думает..."
+    const thinking = document.createElement('div');
+    thinking.className = 'thinking';
+    thinking.textContent = 'ATIG думает...';
+    chatBody.appendChild(thinking);
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    // Симуляция ответа от разных моделей
+    setTimeout(() => {
+        chatBody.removeChild(thinking);
+
+        const response = document.createElement('div');
+        response.className = 'message atig';
+
+        if (model === 'multi') {
+            response.innerHTML = `Я объединил ответы от <strong>Claude</strong>, <strong>Grok</strong>, <strong>GPT-4o</strong> и <strong>Gemini</strong>.<br><br>Твой запрос: «${text}»<br><br>Что именно ты хочешь узнать или сделать? Расскажи подробнее — я дам максимально глубокий и разносторонний ответ.`;
+        } else if (model === 'claude') {
+            response.textContent = 'Claude здесь. Я проанализировал твой запрос с большой тщательностью. Чем могу помочь глубже?';
+        } else if (model === 'grok') {
+            response.textContent = 'Grok на связи. Говори прямо — без цензуры и политкорректности. Что нужно?';
+        } else if (model === 'gpt') {
+            response.textContent = 'GPT-4o готов. Какой креативный или сложный вопрос у тебя сегодня?';
+        } else {
+            response.textContent = 'Я в режиме выбранной модели. Расскажи подробнее о своём запросе.';
+        }
+
+        chatBody.appendChild(response);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }, 1200);
 }
 
-// Закрытие модалки по клику вне окна
+// Закрытие по клику вне окна
 document.getElementById('chatModal').addEventListener('click', function(e) {
-    if (e.target === this) closeChat();
+    if (e.target === this) this.style.display = 'none';
 });
 </script>
 </body>

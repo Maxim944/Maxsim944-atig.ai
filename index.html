@@ -220,21 +220,52 @@ function register(){
   document.getElementById('regCountry').value='';
   console.log('Новый пользователь ATIG:',{name,email,country,date:new Date().toISOString()});
 }
-// Клик по атому
-atom.onclick = () => {
-  heroMsg.innerText = "Слушаю...";
-  recognition.start();
-};
+// === ATIG ГОЛОС (НОВЫЙ) ===
 
-// Когда услышал
-recognition.onresult = function(event) {
-  const text = event.results[0][0].transcript.toLowerCase();
-  heroMsg.innerText = "Ты сказал: " + text;
+const atom = document.getElementById("atom");
+const heroMsg = document.getElementById("heroMsg");
 
-  if (text.includes("привет")) {
-    speak("Привет. Я ATIG. Рад тебя видеть.");
-  } else {
-    speak("Я тебя услышал. Пока учусь понимать.");}
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+  heroMsg.innerText = "Браузер не поддерживает голос";
+} else {
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'ru-RU';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  function speak(msg) {
+    const utterance = new SpeechSynthesisUtterance(msg);
+    utterance.lang = 'ru-RU';
+    speechSynthesis.speak(utterance);
+  }
+
+  atom.onclick = () => {
+    heroMsg.innerText = "Слушаю...";
+    try {
+      recognition.start();
+    } catch (e) {
+      heroMsg.innerText = "Ошибка запуска";
+    }
+  };
+
+  recognition.onresult = function(event) {
+    const text = event.results[0][0].transcript.toLowerCase();
+    heroMsg.innerText = "Ты сказал: " + text;
+
+    if (text.includes("привет")) {
+      speak("Привет. Я ATIG.");
+    } else {
+      speak("Я тебя услышал.");
+    }
+  };
+
+  recognition.onerror = function(event) {
+    heroMsg.innerText = "Ошибка: " + event.error;
+  };
+}
 };
 </script>
 </body>

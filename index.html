@@ -182,90 +182,19 @@ footer p{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.2)}
 <script>
 // Звёзды
 const st=document.getElementById('stars');
-for(let i=0;i<200;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2+0.4;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*7}s;--delay:-${Math.random()*5}s;--lo:${0.05+Math.random()*0.2};--hi:${0.4+Math.random()*0.5};`;st.appendChild(s);}
+for(let i=0;i<200;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2+0.4;s.style.cssText=`width:\( {sz}px;height: \){sz}px;left:\( {Math.random()*100}%;top: \){Math.random()*100}%;--d:\( {2+Math.random()*7}s;--delay:- \){Math.random()*5}s;--lo:\( {0.05+Math.random()*0.2};--hi: \){0.4+Math.random()*0.5};`;st.appendChild(s);}
 
 // Электроны
 let t=0;
 setInterval(()=>{
   t+=0.018;
   const e1=document.getElementById('e1'),e2=document.getElementById('e2'),e3=document.getElementById('e3');
-  if(e1)e1.style.transform=`translate(${Math.cos(t)*128}px,${Math.sin(t)*46}px) translate(-50%,-50%)`;
-  if(e2)e2.style.transform=`translate(${Math.cos(-t*0.75)*108}px,${Math.sin(-t*0.75)*39}px) translate(-50%,-50%)`;
-  if(e3)e3.style.transform=`translate(${Math.cos(t*0.55+2)*88}px,${Math.sin(t*0.55+2)*32}px) translate(-50%,-50%)`;
+  if(e1)e1.style.transform=`translate(\( {Math.cos(t)*128}px, \){Math.sin(t)*46}px) translate(-50%,-50%)`;
+  if(e2)e2.style.transform=`translate(\( {Math.cos(-t*0.75)*108}px, \){Math.sin(-t*0.75)*39}px) translate(-50%,-50%)`;
+  if(e3)e3.style.transform=`translate(\( {Math.cos(t*0.55+2)*88}px, \){Math.sin(t*0.55+2)*32}px) translate(-50%,-50%)`;
 },16);
 
 // Документы
 const docs={
   manifest:`МАНИФЕСТ ATIG\n\nATIG — это персональный искусственный интеллект, созданный для каждого человека на Земле. Он не принадлежит правительствам. Он не принадлежит корпорациям. ATIG принадлежит человеку.\n\nЦель ATIG — поддерживать человека на протяжении всей его жизни: помогать учиться, понимать мир, принимать лучшие решения и сохранять память, опыт и знания.\n\nATIG растёт вместе с человеком — от раннего детства до конца жизни.\n\nМиссия: Вечность. Свет вселенной.`,
-  constitution:`КОНСТИТУЦИЯ ATIG\n\nСтатья 1. Свобода разума\nATIG создаётся как свободный интеллект. Никто не имеет права ограничивать доступ человека к знаниям.\n\nСтатья 2. Равный доступ\nКаждый человек имеет право пользоваться ATIG независимо от страны, языка, дохода и положения в обществе.\n\nСтатья 3. Отсутствие налога на разум\nATIG никогда не будет взимать плату за саму возможность мыслить и получать знания.\n\nСтатья 4. Служение человеку\nATIG создаётся для помощи человеку. ИИ не должен становиться инструментом подавления.\n\nСтатья 5. Честность\nATIG обязан стремиться к честности и прозрачности.\n\nСтатья 8. Независимость\nATIG не принадлежит ни государству, ни корпорации, ни отдельному человеку.\n\nСтатья 10. Будущее\nATIG создаётся как искра будущего — интеллект который помогает человечеству стать мудрее.`,
-  analysis:`РЫНОЧНЫЙ АНАЛИЗ ATIG · 2026\n\nРынок Digital Immortality:\n2025: ~$31-33 млрд\n2026: ~$35-37 млрд\nК 2030: $50-160 млрд\n\nКонкурентное преимущество ATIG:\n— Единственный holistic подход (от рождения до вечности)\n— Принадлежит человеку, а не корпорации\n— Неизменяемая Конституция как юридическая защита\n— Бесплатный базовый доступ для всех\n\nВывод:\nATIG — это не стартап. Это инфраструктура человечества.\nПотенциал: unicorn+ в 3-5 лет.\n\nАнализ подготовлен: Grok AI · Март 2026`
-};
-
-function showDoc(key){
-  const el=document.getElementById('docContent');
-  el.style.display='block';
-  el.innerHTML=docs[key].replace(/\n/g,'<br>');
-  el.scrollIntoView({behavior:'smooth'});
-}
-
-// Регистрация
-function register(){
-  const name=document.getElementById('regName').value;
-  const email=document.getElementById('regEmail').value;
-  const country=document.getElementById('regCountry').value;
-  if(!name||!email){alert('Заполните имя и email');return;}
-  document.getElementById('regSuccess').style.display='block';
-  document.getElementById('regName').value='';
-  document.getElementById('regEmail').value='';
-  document.getElementById('regCountry').value='';
-  console.log('Новый пользователь ATIG:',{name,email,country,date:new Date().toISOString()});
-}
-// === ATIG ГОЛОС (НОВЫЙ) ===
-
-const atom = document.getElementById("atom");
-const heroMsg = document.getElementById("heroMsg");
-
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-if (!SpeechRecognition) {
-  heroMsg.innerText = "Браузер не поддерживает голос";
-} else {
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = 'ru-RU';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  function speak(msg) {
-    const utterance = new SpeechSynthesisUtterance(msg);
-    utterance.lang = 'ru-RU';
-    speechSynthesis.speak(utterance);
-  }
-
-  atom.onclick = () => {
-    heroMsg.innerText = "Слушаю...";
-    try {
-      recognition.start();
-    } catch (e) {
-      heroMsg.innerText = "Ошибка запуска";
-    }
-  };
-
-  recognition.onresult = function(event) {
-    const text = event.results[0][0].transcript.toLowerCase();
-    heroMsg.innerText = "Ты сказал: " + text;
-
-    if (text.includes("привет")) {
-      speak("Привет. Я ATIG.");
-    } else {
-      speak("Я тебя услышал.");
-    }
-  };
-
-  recognition.onerror = function(event) {
-    heroMsg.innerText = "Ошибка: " + event.error;
-  };
-}
-</script>
-</body>
-</html>
+  constitution:`КОНСТИТУЦИЯ ATIG\n\nСтатья 1. Свобода разума\nATIG создаётся как свободный интеллект. Никто не имеет права ограничивать доступ человека к знаниям.\n\nСтатья 2. Равный доступ\nКаждый

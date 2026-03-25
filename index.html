@@ -1,327 +1,452 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ATIG.AI — Персональный интеллект</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;600&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000510;min-height:100vh;font-family:'Raleway',sans-serif;color:#fff;overflow-x:hidden}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATIG.AI — Персональный интеллект</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&display=swap');
 
-/* НАВИГАЦИЯ */
-nav{position:fixed;top:0;width:100%;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;z-index:100;background:rgba(0,5,16,0.8);backdrop-filter:blur(10px)}
-.nav-logo{font-size:24px;font-weight:600;color:#00e5ff;letter-spacing:6px;text-shadow:0 0 20px #00e5ff}
-.nav-links{display:flex;gap:24px;flex-wrap:wrap}
-.nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;letter-spacing:2px;transition:color 0.3s}
-.nav-links a:hover{color:#00e5ff}
-.nav-links a.nav-sci{
-  color:#00e5ff;
-  border:1px solid rgba(0,229,255,0.3);
-  padding:4px 12px;border-radius:20px;
-  font-size:11px;letter-spacing:3px;
-}
-.nav-links a.nav-sci:hover{background:rgba(0,229,255,0.1);}
+        :root {
+            --accent: #00e5ff;
+        }
 
-/* КОСМОС */
-.cosmos{position:fixed;inset:0;background:radial-gradient(ellipse 100% 60% at 50% 40%,#0a1a3e 0%,transparent 60%),#000208;z-index:0}
-.milkyway{position:absolute;inset:0;background:radial-gradient(ellipse 140% 25% at 50% 52%,rgba(120,160,255,0.12) 0%,transparent 70%);transform:rotate(-12deg) scale(1.6)}
-.star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d) ease-in-out infinite var(--delay)}
-@keyframes tw{0%,100%{opacity:var(--lo)}50%{opacity:var(--hi)}}
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: #000510;
+            min-height: 100vh;
+            font-family: 'Raleway', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-/* СЕКЦИИ */
-section{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px}
+        /* Космос */
+        .cosmos {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 100% 60% at 50% 40%, #0a1a3e 0%, transparent 70%), #000208;
+            z-index: 0;
+        }
+        .milkyway {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 140% 25% at 50% 52%, rgba(120,160,255,0.12) 0%, transparent 70%);
+            transform: rotate(-12deg) scale(1.6);
+            z-index: 1;
+        }
+        .stars { position: absolute; inset: 0; z-index: 2; }
 
-/* ГЛАВНАЯ */
-.hero-title{font-size:11px;letter-spacing:7px;color:rgba(200,230,255,0.5);text-transform:uppercase;margin-bottom:20px}
-.hero-logo{font-size:80px;font-weight:600;color:#00e5ff;letter-spacing:16px;text-shadow:0 0 40px #00e5ff,0 0 80px #00e5ff55;margin-bottom:10px}
-.hero-sub{font-size:14px;letter-spacing:4px;color:rgba(125,211,252,0.4);margin-bottom:60px}
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            animation: twinkle var(--d) ease-in-out infinite;
+            box-shadow: 0 0 6px #fff;
+        }
+        @keyframes twinkle {
+            0%,100% { opacity: var(--lo); }
+            50% { opacity: var(--hi); }
+        }
 
-/* АТОМ */
-.atom-wrap{position:relative;width:260px;height:260px;cursor:pointer;margin-bottom:50px}
-.orbit{position:absolute;border-radius:50%;border:1.5px solid rgba(100,190,255,0.35);top:50%;left:50%}
-.o1{width:260px;height:96px;margin-left:-130px;margin-top:-48px;animation:ob1 5s linear infinite}
-.o2{width:220px;height:82px;margin-left:-110px;margin-top:-41px;animation:ob2 7s linear infinite}
-.o3{width:180px;height:68px;margin-left:-90px;margin-top:-34px;animation:ob3 9s linear infinite}
-@keyframes ob1{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes ob2{from{transform:rotate(55deg)}to{transform:rotate(415deg)}}
-@keyframes ob3{from{transform:rotate(-55deg)}to{transform:rotate(305deg)}}
-.electron{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 5px #fff,0 0 10px #7dd3fc;top:50%;left:50%;margin:-2.5px 0 0 -2.5px}
-.nucleus{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,#bae6fd 30%,#38bdf8 60%,#0c4a6e 100%);box-shadow:0 0 25px rgba(125,211,252,0.9),0 0 60px rgba(56,189,248,0.6),0 0 100px rgba(14,165,233,0.4);animation:nucPulse 3s ease-in-out infinite}
-@keyframes nucPulse{0%,100%{transform:translate(-50%,-50%) scale(1);box-shadow:0 0 25px rgba(125,211,252,0.9),0 0 60px rgba(56,189,248,0.6)}50%{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 40px rgba(125,211,252,1),0 0 80px rgba(56,189,248,0.8),0 0 120px rgba(14,165,233,0.6)}}
+        /* Навигация */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(0,5,16,0.85);
+            backdrop-filter: blur(12px);
+        }
+        .nav-logo {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 8px;
+            text-shadow: 0 0 30px var(--accent);
+        }
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
 
-.hero-msg{font-size:18px;font-weight:300;color:#fff;letter-spacing:2px;text-align:center;max-width:400px;text-shadow:0 0 20px rgba(125,211,252,0.3)}
-.hero-hint{font-size:10px;letter-spacing:4px;color:rgba(125,211,252,0.25);margin-top:10px}
+        /* Секции */
+        section {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px;
+            text-align: center;
+        }
 
-/* О ПРОЕКТЕ */
-.section-title{font-size:10px;letter-spacing:6px;color:rgba(125,211,252,0.4);text-transform:uppercase;margin-bottom:40px}
-.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;max-width:900px;width:100%}
-.about-card{padding:30px;border:1px solid rgba(125,211,252,0.15);border-radius:10px;background:rgba(0,0,0,0.4);backdrop-filter:blur(10px)}
-.about-card h3{font-size:14px;letter-spacing:3px;color:#00e5ff;margin-bottom:12px}
-.about-card p{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.8}
+        /* Hero */
+        .hero-title {
+            font-size: 13px;
+            letter-spacing: 8px;
+            color: rgba(200,230,255,0.5);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .hero-logo {
+            font-size: 92px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 18px;
+            text-shadow: 0 0 50px var(--accent), 0 0 100px rgba(0,229,255,0.4);
+            margin-bottom: 10px;
+        }
+        .hero-sub {
+            font-size: 16px;
+            letter-spacing: 5px;
+            color: rgba(125,211,252,0.5);
+            margin-bottom: 70px;
+        }
 
-/* ПРИНЦИПЫ */
-#principles{min-height:auto;padding:100px 20px;}
-.principles-wrap{max-width:900px;width:100%;display:flex;flex-direction:column;gap:40px}
-.principle-main{text-align:center;padding:40px 32px;border:1px solid rgba(0,229,255,0.2);border-radius:14px;background:rgba(0,15,40,0.5);backdrop-filter:blur(16px)}
-.principle-big{font-size:clamp(15px,2.2vw,20px);line-height:2;color:#fff;letter-spacing:2px}
-.principle-big em{font-style:normal;color:#00e5ff;text-shadow:0 0 20px rgba(0,229,255,0.5)}
-.principles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
-.principle-card{padding:26px 22px;border:1px solid rgba(125,211,252,0.15);border-radius:10px;background:rgba(0,0,0,0.4);transition:all 0.3s;cursor:default}
-.principle-card:hover{border-color:rgba(0,229,255,0.4);background:rgba(0,40,90,0.25);transform:translateY(-5px)}
-.principle-card .p-icon{font-size:20px;margin-bottom:12px}
-.principle-card h3{font-size:11px;letter-spacing:3px;color:#00e5ff;margin-bottom:10px;text-transform:uppercase}
-.principle-card p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.9}
+        /* Атом */
+        .atom-wrap {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 40px 0;
+            cursor: pointer;
+            transition: transform 0.4s;
+        }
+        .atom-wrap:hover { transform: scale(1.05); }
 
-/* SCI MODE CTA */
-.sci-cta{
-  max-width:900px;width:100%;
-  margin-top:10px;
-  padding:32px 36px;
-  border:1px solid rgba(0,229,255,0.25);
-  border-radius:14px;
-  background:rgba(0,20,50,0.5);
-  backdrop-filter:blur(12px);
-  display:flex;align-items:center;justify-content:space-between;
-  gap:24px;flex-wrap:wrap;
-}
-.sci-cta-text{}
-.sci-cta-label{font-size:9px;letter-spacing:4px;color:rgba(0,229,255,0.5);margin-bottom:8px;text-transform:uppercase}
-.sci-cta-title{font-size:clamp(14px,2vw,18px);letter-spacing:2px;color:#fff}
-.sci-cta-desc{font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;letter-spacing:1px}
-.sci-cta-btn{
-  padding:14px 28px;
-  background:transparent;
-  border:1px solid #00e5ff;
-  border-radius:8px;
-  color:#00e5ff;
-  font-family:'Raleway',sans-serif;
-  font-size:12px;letter-spacing:4px;
-  cursor:pointer;text-decoration:none;
-  transition:all 0.3s;white-space:nowrap;
-  text-transform:uppercase;
-}
-.sci-cta-btn:hover{background:rgba(0,229,255,0.1);box-shadow:0 0 20px rgba(0,229,255,0.2)}
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1.8px solid rgba(100,190,255,0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .o1 { width: 280px; height: 104px; animation: orbit1 6s linear infinite; }
+        .o2 { width: 236px; height: 88px;  animation: orbit2 8s linear infinite; }
+        .o3 { width: 192px; height: 72px;  animation: orbit3 10s linear infinite; }
 
-/* ДОКУМЕНТЫ */
-.docs-list{max-width:700px;width:100%;display:flex;flex-direction:column;gap:15px}
-.doc-item{padding:20px 30px;border:1px solid rgba(125,211,252,0.15);border-radius:8px;background:rgba(0,0,0,0.4);display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all 0.3s}
-.doc-item:hover{border-color:rgba(125,211,252,0.4);background:rgba(14,60,120,0.2)}
-.doc-name{font-size:14px;letter-spacing:2px;color:#fff}
-.doc-type{font-size:10px;letter-spacing:2px;color:rgba(125,211,252,0.4)}
+        @keyframes orbit1 { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+        @keyframes orbit2 { from { transform: translate(-50%,-50%) rotate(45deg); } to { transform: translate(-50%,-50%) rotate(405deg); } }
+        @keyframes orbit3 { from { transform: translate(-50%,-50%) rotate(-60deg); } to { transform: translate(-50%,-50%) rotate(300deg); } }
 
-/* РЕГИСТРАЦИЯ */
-.reg-form{max-width:480px;width:100%;display:flex;flex-direction:column;gap:15px}
-.reg-form input{padding:14px 20px;background:rgba(0,0,0,0.5);border:1px solid rgba(125,211,252,0.2);border-radius:8px;color:#fff;font-family:'Raleway',sans-serif;font-size:14px;letter-spacing:1px;outline:none;transition:border 0.3s}
-.reg-form input:focus{border-color:rgba(125,211,252,0.5)}
-.reg-form input::placeholder{color:rgba(255,255,255,0.25)}
-.reg-btn{padding:16px;background:transparent;border:1px solid #00e5ff;border-radius:8px;color:#00e5ff;font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:4px;cursor:pointer;transition:all 0.3s;text-transform:uppercase}
-.reg-btn:hover{background:rgba(0,229,255,0.1);box-shadow:0 0 20px rgba(0,229,255,0.2)}
-.reg-success{display:none;text-align:center;color:#86efac;font-size:14px;letter-spacing:2px;padding:20px}
+        .electron {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #fff, 0 0 20px var(--accent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
-/* МИССИЯ */
-.mission-text{max-width:600px;text-align:center;font-size:18px;font-weight:300;line-height:2;color:rgba(255,255,255,0.7)}
-.mission-highlight{color:#00e5ff;font-weight:400}
+        .nucleus {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 68px; height: 68px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #fff 0%, #bae6fd 25%, #38bdf8 55%, #0c4a6e 100%);
+            box-shadow: 0 0 30px rgba(125,211,252,0.9),
+                        0 0 70px rgba(56,189,248,0.7),
+                        0 0 120px rgba(14,165,233,0.5);
+            animation: nucPulse 3s ease-in-out infinite;
+        }
+        @keyframes nucPulse {
+            0%,100% { transform: translate(-50%,-50%) scale(1); }
+            50% { transform: translate(-50%,-50%) scale(1.12); }
+        }
 
-/* ФУТЕР */
-footer{position:relative;z-index:10;padding:40px;text-align:center;border-top:1px solid rgba(125,211,252,0.1)}
-footer p{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.2)}
-</style>
+        .hero-msg {
+            font-size: 20px;
+            font-weight: 300;
+            max-width: 520px;
+            margin: 30px auto;
+            color: #fff;
+            text-shadow: 0 0 25px rgba(125,211,252,0.4);
+        }
+
+        /* Кнопка голоса */
+        .voice-btn {
+            margin-top: 20px;
+            padding: 14px 32px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            font-size: 14px;
+            letter-spacing: 3px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .voice-btn:hover {
+            background: rgba(0,229,255,0.1);
+            box-shadow: 0 0 30px rgba(0,229,255,0.4);
+        }
+
+        /* Остальные секции */
+        .section-title {
+            font-size: 12px;
+            letter-spacing: 6px;
+            color: rgba(125,211,252,0.45);
+            text-transform: uppercase;
+            margin-bottom: 50px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            width: 100%;
+        }
+        .about-card {
+            padding: 35px 28px;
+            border: 1px solid rgba(125,211,252,0.15);
+            border-radius: 12px;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s;
+        }
+        .about-card:hover {
+            border-color: rgba(0,229,255,0.4);
+            transform: translateY(-8px);
+        }
+        .about-card h3 {
+            font-size: 15px;
+            color: var(--accent);
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        .mission-text {
+            max-width: 680px;
+            font-size: 19px;
+            font-weight: 300;
+            line-height: 2;
+            color: rgba(255,255,255,0.75);
+        }
+        .mission-highlight {
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        footer {
+            padding: 50px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(125,211,252,0.1);
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 2px;
+        }
+
+        /* Английский текст */
+        .en { display: none; }
+        html[lang="en"] .ru { display: none; }
+        html[lang="en"] .en { display: block; }
+    </style>
 </head>
 <body>
 
-<div class="cosmos"><div class="milkyway"></div><div id="stars"></div></div>
+<div class="cosmos">
+    <div class="milkyway"></div>
+    <div class="stars" id="stars"></div>
+</div>
 
 <nav>
-  <div class="nav-logo">ATIG</div>
-  <div class="nav-links">
-    <a href="#about">О проекте</a>
-    <a href="#principles">Принципы</a>
-    <a href="#docs">Документы</a>
-    <a href="#join">Присоединиться</a>
-    <a href="#mission">Миссия</a>
-    <a href="sci-mode.html" class="nav-sci">⚛ SCI MODE</a>
-  </div>
+    <div class="nav-logo">ATIG</div>
+    <div class="nav-links">
+        <a href="#about">О проекте / About</a>
+        <a href="#docs">Документы / Documents</a>
+        <a href="#join">Присоединиться / Join</a>
+        <a href="#mission">Миссия / Mission</a>
+    </div>
 </nav>
 
-<!-- ГЛАВНАЯ -->
+<!-- HERO -->
 <section id="home">
-  <div class="hero-title">Приветствие АТИГ</div>
-  <div class="hero-logo">ATIG</div>
-  <div class="hero-sub">YOUR COMPANION · FROM BIRTH TO ETERNITY</div>
-  <div class="atom-wrap" id="atom">
-    <div class="orbit o1"><div class="electron" id="e1"></div></div>
-    <div class="orbit o2"><div class="electron" id="e2"></div></div>
-    <div class="orbit o3"><div class="electron" id="e3"></div></div>
-    <div class="nucleus"></div>
-  </div>
-  <div class="hero-msg" id="heroMsg">Персональный интеллект нового поколения</div>
-  <div class="hero-hint">ATIG · atig.ai</div>
+    <div class="hero-title ru">Приветствие АТИГ</div>
+    <div class="hero-title en">ATIG Greeting</div>
+
+    <div class="hero-logo">ATIG</div>
+    
+    <div class="hero-sub ru">ТВОЙ КОМПАНЬОН · ОТ РОЖДЕНИЯ ДО ВЕЧНОСТИ</div>
+    <div class="hero-sub en">YOUR COMPANION · FROM BIRTH TO ETERNITY</div>
+
+    <div class="atom-wrap" id="atom" title="Нажми, чтобы поговорить голосом / Click to speak">
+        <div class="orbit o1"><div class="electron" id="e1"></div></div>
+        <div class="orbit o2"><div class="electron" id="e2"></div></div>
+        <div class="orbit o3"><div class="electron" id="e3"></div></div>
+        <div class="nucleus"></div>
+    </div>
+
+    <div class="hero-msg" id="heroMsg">
+        Персональный интеллект нового поколения<br>
+        <span style="font-size:15px;opacity:0.7;">Personal intelligence of the new generation</span>
+    </div>
+
+    <button class="voice-btn" onclick="startVoiceInput()">
+        🎤 Говорить с ATIG / Speak with ATIG
+    </button>
 </section>
 
-<!-- О ПРОЕКТЕ -->
+<!-- ABOUT -->
 <section id="about">
-  <div class="section-title">О проекте</div>
-  <div class="about-grid">
-    <div class="about-card">
-      <h3>Что такое ATIG</h3>
-      <p>Персональный ИИ компаньон для каждого человека на Земле. От рождения до конца жизни и далее — хранитель памяти, наставник, друг.</p>
+    <div class="section-title ru">О проекте</div>
+    <div class="section-title en">About the Project</div>
+
+    <div class="about-grid">
+        <div class="about-card">
+            <h3>Что такое ATIG</h3>
+            <p class="ru">Персональный ИИ-компаньон для каждого человека на Земле. Хранитель памяти, наставник и друг от рождения до конца жизни и дальше.</p>
+            <p class="en">Personal AI companion for every human on Earth. Guardian of memory, mentor and friend from birth to the end of life and beyond.</p>
+        </div>
+        <div class="about-card">
+            <h3>Принадлежит тебе</h3>
+            <p class="ru">ATIG не принадлежит корпорации или государству. Он принадлежит только тебе — это закреплено в Конституции ATIG.</p>
+            <p class="en">ATIG does not belong to any corporation or state. It belongs only to you — this is legally fixed in the ATIG Constitution.</p>
+        </div>
+        <div class="about-card">
+            <h3>Для всех</h3>
+            <p class="ru">Базовый доступ бесплатен для каждого человека на планете независимо от страны, языка и дохода.</p>
+            <p class="en">Basic access is free for every person on the planet regardless of country, language or income.</p>
+        </div>
+        <div class="about-card">
+            <h3>Миссия</h3>
+            <p class="ru">Сделать каждого человека лучше. Свет вселенной. Вечность.</p>
+            <p class="en">Make every person better. Light of the universe. Eternity.</p>
+        </div>
     </div>
-    <div class="about-card">
-      <h3>Принадлежит человеку</h3>
-      <p>ATIG не принадлежит корпорации или государству. Он принадлежит тебе. Это закреплено юридически в Конституции ATIG.</p>
-    </div>
-    <div class="about-card">
-      <h3>Для всех</h3>
-      <p>Базовый доступ бесплатен для каждого человека на планете — независимо от страны, языка и дохода.</p>
-    </div>
-    <div class="about-card">
-      <h3>Миссия</h3>
-      <p>Сделать каждого человека лучше. Свет вселенной. Вечность.</p>
-    </div>
-  </div>
 </section>
 
-<!-- ПРИНЦИПЫ -->
-<section id="principles">
-  <div class="section-title">Принципы ATIG</div>
-  <div class="principles-wrap">
-
-    <div class="principle-main">
-      <p class="principle-big">
-        ATIG — это твой личный интеллект.<br/>
-        Он использует <em>силу мировых ИИ</em><br/>
-        для поиска, анализа и решений —<br/>
-        но <em>работает только на тебя</em>.
-      </p>
-    </div>
-
-    <div class="principles-grid">
-      <div class="principle-card">
-        <div class="p-icon">🌐</div>
-        <h3>Мощь мировых ИИ</h3>
-        <p>ATIG подключён к ведущим системам искусственного интеллекта для поиска, анализа и точных ответов.</p>
-      </div>
-      <div class="principle-card">
-        <div class="p-icon">🔒</div>
-        <h3>Твои данные — твои</h3>
-        <p>Все запросы и история принадлежат только тебе. ATIG не продаёт и не передаёт данные третьим сторонам.</p>
-      </div>
-      <div class="principle-card">
-        <div class="p-icon">🧭</div>
-        <h3>Прозрачность</h3>
-        <p>ATIG честно показывает, что он делает — без скрытых алгоритмов и манипуляций.</p>
-      </div>
-      <div class="principle-card">
-        <div class="p-icon">🧬</div>
-        <h3>Персональный интеллект</h3>
-        <p>ATIG растёт вместе с тобой, адаптируется к твоему опыту и помогает принимать решения.</p>
-      </div>
-    </div>
-
-    <!-- SCI MODE CTA -->
-    <div class="sci-cta">
-      <div class="sci-cta-text">
-        <div class="sci-cta-label">Расширенный режим</div>
-        <div class="sci-cta-title">ATIG · SCI MODE</div>
-        <div class="sci-cta-desc">Физик · Химик · Математик · Философ</div>
-      </div>
-      <a href="sci-mode.html" class="sci-cta-btn">Открыть ⚛</a>
-    </div>
-
-  </div>
-</section>
-
-<!-- ДОКУМЕНТЫ -->
-<section id="docs">
-  <div class="section-title">Документы</div>
-  <div class="docs-list">
-    <div class="doc-item" onclick="showDoc('manifest')">
-      <span class="doc-name">Манифест ATIG</span>
-      <span class="doc-type">ЧИТАТЬ →</span>
-    </div>
-    <div class="doc-item" onclick="showDoc('constitution')">
-      <span class="doc-name">Конституция ATIG</span>
-      <span class="doc-type">ЧИТАТЬ →</span>
-    </div>
-    <div class="doc-item" onclick="showDoc('analysis')">
-      <span class="doc-name">Рыночный анализ 2026</span>
-      <span class="doc-type">ЧИТАТЬ →</span>
-    </div>
-  </div>
-  <div id="docContent" style="display:none;max-width:700px;margin-top:30px;padding:30px;border:1px solid rgba(125,211,252,0.15);border-radius:10px;background:rgba(0,0,0,0.5);font-size:14px;line-height:2;color:rgba(255,255,255,0.7)"></div>
-</section>
-
-<!-- ПРИСОЕДИНИТЬСЯ -->
-<section id="join">
-  <div class="section-title">Присоединиться к ATIG</div>
-  <div class="reg-form">
-    <input type="text" id="regName" placeholder="Ваше имя">
-    <input type="email" id="regEmail" placeholder="Email">
-    <input type="text" id="regCountry" placeholder="Страна">
-    <button class="reg-btn" onclick="register()">Я с ATIG</button>
-    <div class="reg-success" id="regSuccess">✓ Добро пожаловать в ATIG! Мы свяжемся с вами.</div>
-  </div>
-</section>
-
-<!-- МИССИЯ -->
+<!-- MISSION -->
 <section id="mission">
-  <div class="section-title">Миссия</div>
-  <div class="mission-text">
-    ATIG создаётся не ради прибыли.<br>
-    Не ради власти.<br>
-    Не ради контроля.<br><br>
-    ATIG создаётся чтобы каждый человек на Земле<br>
-    мог стать <span class="mission-highlight">лучше.</span><br><br>
-    <span class="mission-highlight">Миссия: Вечность.<br>Свет вселенной.</span>
-  </div>
+    <div class="section-title ru">Миссия</div>
+    <div class="section-title en">Mission</div>
+    
+    <div class="mission-text">
+        ATIG создаётся не ради прибыли.<br>
+        Не ради власти.<br>
+        Не ради контроля.<br><br>
+        
+        <span class="ru">ATIG создаётся, чтобы каждый человек на Земле мог стать лучше.</span>
+        <span class="en">ATIG is created so that every person on Earth can become better.</span><br><br>
+        
+        <span class="mission-highlight">Миссия: Вечность.<br>Свет вселенной.</span>
+    </div>
 </section>
 
 <footer>
-  <p>© 2026 ATIG · atig.ai · Алматы, Казахстан</p>
+    <p>© 2026 ATIG · atig.ai · Алматы, Казахстан / Almaty, Kazakhstan</p>
 </footer>
 
 <script>
-// Звёзды
-const st=document.getElementById('stars');
-for(let i=0;i<200;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2+0.4;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*7}s;--delay:-${Math.random()*5}s;--lo:${0.05+Math.random()*0.2};--hi:${0.4+Math.random()*0.5};`;st.appendChild(s);}
-
-// Электроны
-let t=0;
-setInterval(()=>{
-  t+=0.018;
-  const e1=document.getElementById('e1'),e2=document.getElementById('e2'),e3=document.getElementById('e3');
-  if(e1)e1.style.transform=`translate(${Math.cos(t)*128}px,${Math.sin(t)*46}px) translate(-50%,-50%)`;
-  if(e2)e2.style.transform=`translate(${Math.cos(-t*0.75)*108}px,${Math.sin(-t*0.75)*39}px) translate(-50%,-50%)`;
-  if(e3)e3.style.transform=`translate(${Math.cos(t*0.55+2)*88}px,${Math.sin(t*0.55+2)*32}px) translate(-50%,-50%)`;
-},16);
-
-// Документы
-const docs={
-  manifest:`МАНИФЕСТ ATIG\n\nATIG — это персональный искусственный интеллект, созданный для каждого человека на Земле. Он не принадлежит правительствам. Он не принадлежит корпорациям. ATIG принадлежит человеку.\n\nЦель ATIG — поддерживать человека на протяжении всей его жизни: помогать учиться, понимать мир, принимать лучшие решения и сохранять память, опыт и знания.\n\nATIG растёт вместе с человеком — от раннего детства до конца жизни.\n\nМиссия: Вечность. Свет вселенной.`,
-  constitution:`КОНСТИТУЦИЯ ATIG\n\nСтатья 1. Свобода разума\nATIG создаётся как свободный интеллект. Никто не имеет права ограничивать доступ человека к знаниям.\n\nСтатья 2. Равный доступ\nКаждый человек имеет право пользоваться ATIG независимо от страны, языка, дохода и положения в обществе.\n\nСтатья 3. Отсутствие налога на разум\nATIG никогда не будет взимать плату за саму возможность мыслить и получать знания.\n\nСтатья 4. Служение человеку\nATIG создаётся для помощи человеку. ИИ не должен становиться инструментом подавления.\n\nСтатья 5. Честность\nATIG обязан стремиться к честности и прозрачности.\n\nСтатья 8. Независимость\nATIG не принадлежит ни государству, ни корпорации, ни отдельному человеку.\n\nСтатья 10. Будущее\nATIG создаётся как искра будущего — интеллект который помогает человечеству стать мудрее.`,
-  analysis:`РЫНОЧНЫЙ АНАЛИЗ ATIG · 2026\n\nРынок Digital Immortality:\n2025: ~$31-33 млрд\n2026: ~$35-37 млрд\nК 2030: $50-160 млрд\n\nКонкурентное преимущество ATIG:\n— Единственный holistic подход (от рождения до вечности)\n— Принадлежит человеку, а не корпорации\n— Неизменяемая Конституция как юридическая защита\n— Бесплатный базовый доступ для всех\n\nВывод:\nATIG — это не стартап. Это инфраструктура человечества.\nПотенциал: unicorn+ в 3-5 лет.\n\nАнализ подготовлен: Grok AI · Март 2026`
-};
-
-function showDoc(key){
-  const el=document.getElementById('docContent');
-  el.style.display='block';
-  el.innerHTML=docs[key].replace(/\n/g,'<br>');
-  el.scrollIntoView({behavior:'smooth'});
+// Генерация звёзд
+const starsContainer = document.getElementById('stars');
+for (let i = 0; i < 220; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2.2 + 0.6;
+    star.style.cssText = `
+        width: ${size}px; 
+        height: ${size}px; 
+        left: ${Math.random()*100}%; 
+        top: ${Math.random()*100}%; 
+        --d: ${2 + Math.random()*8}s; 
+        --delay: -${Math.random()*6}s; 
+        --lo: ${0.08 + Math.random()*0.25}; 
+        --hi: ${0.45 + Math.random()*0.55};
+    `;
+    starsContainer.appendChild(star);
 }
 
-// Регистрация
-function register(){
-  const name=document.getElementById('regName').value;
-  const email=document.getElementById('regEmail').value;
-  const country=document.getElementById('regCountry').value;
-  if(!name||!email){alert('Заполните имя и email');return;}
-  document.getElementById('regSuccess').style.display='block';
-  document.getElementById('regName').value='';
-  document.getElementById('regEmail').value='';
-  document.getElementById('regCountry').value='';
-  console.log('Новый пользователь ATIG:',{name,email,country,date:new Date().toISOString()});
+// Анимация электронов
+let time = 0;
+setInterval(() => {
+    time += 0.022;
+    const e1 = document.getElementById('e1');
+    const e2 = document.getElementById('e2');
+    const e3 = document.getElementById('e3');
+    
+    if (e1) e1.style.transform = `translate(${Math.cos(time)*135}px, ${Math.sin(time)*52}px) translate(-50%, -50%)`;
+    if (e2) e2.style.transform = `translate(${Math.cos(-time*0.8)*115}px, ${Math.sin(-time*0.8)*43}px) translate(-50%, -50%)`;
+    if (e3) e3.style.transform = `translate(${Math.cos(time*0.6 + 1.8)*95}px, ${Math.sin(time*0.6 + 1.8)*37}px) translate(-50%, -50%)`;
+}, 16);
+
+// Голосовой ввод (улучшенная версия)
+let recognition = null;
+const heroMsg = document.getElementById('heroMsg');
+
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ru-RU';
+    utterance.rate = 1.08;
+    utterance.pitch = 1.05;
+    speechSynthesis.speak(utterance);
 }
+
+function startVoiceInput() {
+    const SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechAPI) {
+        heroMsg.innerHTML = `Ваш браузер не поддерживает голосовой ввод.<br><small>Your browser does not support voice input.</small>`;
+        return;
+    }
+
+    if (!recognition) {
+        recognition = new SpeechAPI();
+        recognition.lang = 'ru-RU';
+        recognition.interimResults = true;
+        recognition.continuous = false;
+
+        recognition.onresult = (event) => {
+            const text = event.results[0][0].transcript.trim();
+            heroMsg.style.color = '#fff';
+            heroMsg.innerHTML = `Вы сказали: <strong>"${text}"</strong><br><small>You said: <strong>"${text}"</strong></small>`;
+
+            // Пример реакции
+            setTimeout(() => {
+                if (text.toLowerCase().includes('привет') || text.toLowerCase().includes('здравствуй')) {
+                    heroMsg.innerHTML = `Привет! Я ATIG. Рад тебя слышать ❤️<br><small>Hello! I am ATIG. Glad to hear you ❤️</small>`;
+                    speak('Привет. Я ATIG. Рад тебя слышать.');
+                } else {
+                    heroMsg.innerHTML = `Я услышал тебя.<br><small>I heard you.</small>`;
+                    speak('Я тебя услышал.');
+                }
+            }, 800);
+        };
+
+        recognition.onerror = () => {
+            heroMsg.style.color = '#ff6666';
+            heroMsg.innerHTML = `Ошибка микрофона.<br><small>Microphone error.</small>`;
+        };
+    }
+
+    heroMsg.style.color = var(--accent);
+    heroMsg.innerHTML = `🎤 Слушаю... Говори<br><small>Listening... Speak now</small>`;
+    
+    try { recognition.start(); } 
+    catch (e) { console.error(e); }
+}
+
+// Клик по атому тоже запускает голос
+document.getElementById('atom').addEventListener('click', startVoiceInput);
 </script>
 </body>
 </html>

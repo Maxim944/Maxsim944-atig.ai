@@ -2,13 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ATIG.AI — Персональный интеллект</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&display=swap');
 
         :root {
             --accent: #00e5ff;
+            --accent-glow: rgba(0,229,255,0.4);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -61,6 +62,8 @@
             z-index: 100;
             background: rgba(0,5,16,0.85);
             backdrop-filter: blur(12px);
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .nav-logo {
             font-size: 28px;
@@ -71,16 +74,34 @@
         }
         .nav-links {
             display: flex;
-            gap: 35px;
+            gap: 25px;
+            flex-wrap: wrap;
         }
         .nav-links a {
             color: rgba(255,255,255,0.7);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             letter-spacing: 2px;
             transition: all 0.3s;
         }
         .nav-links a:hover { color: var(--accent); }
+
+        /* Кнопка переключения языка */
+        .lang-switch {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .lang-switch:hover {
+            background: rgba(0,229,255,0.1);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
 
         /* Секции */
         section {
@@ -104,16 +125,16 @@
             margin-bottom: 15px;
         }
         .hero-logo {
-            font-size: 92px;
+            font-size: clamp(48px, 12vw, 92px);
             font-weight: 600;
             color: var(--accent);
-            letter-spacing: 18px;
-            text-shadow: 0 0 50px var(--accent), 0 0 100px rgba(0,229,255,0.4);
+            letter-spacing: clamp(8px, 4vw, 18px);
+            text-shadow: 0 0 50px var(--accent), 0 0 100px var(--accent-glow);
             margin-bottom: 10px;
         }
         .hero-sub {
-            font-size: 16px;
-            letter-spacing: 5px;
+            font-size: clamp(11px, 3vw, 16px);
+            letter-spacing: clamp(3px, 1.5vw, 5px);
             color: rgba(125,211,252,0.5);
             margin-bottom: 70px;
         }
@@ -121,8 +142,8 @@
         /* Атом */
         .atom-wrap {
             position: relative;
-            width: 280px;
-            height: 280px;
+            width: min(280px, 70vw);
+            height: min(280px, 70vw);
             margin: 40px 0;
             cursor: pointer;
             transition: transform 0.4s;
@@ -137,9 +158,9 @@
             border-radius: 50%;
             transform: translate(-50%, -50%);
         }
-        .o1 { width: 280px; height: 104px; animation: orbit1 6s linear infinite; }
-        .o2 { width: 236px; height: 88px;  animation: orbit2 8s linear infinite; }
-        .o3 { width: 192px; height: 72px;  animation: orbit3 10s linear infinite; }
+        .o1 { width: 100%; height: 37%; animation: orbit1 6s linear infinite; }
+        .o2 { width: 84%; height: 31%; animation: orbit2 8s linear infinite; }
+        .o3 { width: 68%; height: 26%; animation: orbit3 10s linear infinite; }
 
         @keyframes orbit1 { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
         @keyframes orbit2 { from { transform: translate(-50%,-50%) rotate(45deg); } to { transform: translate(-50%,-50%) rotate(405deg); } }
@@ -161,12 +182,10 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 68px; height: 68px;
+            width: 24%; height: 24%;
             border-radius: 50%;
             background: radial-gradient(circle at 35% 35%, #fff 0%, #bae6fd 25%, #38bdf8 55%, #0c4a6e 100%);
-            box-shadow: 0 0 30px rgba(125,211,252,0.9),
-                        0 0 70px rgba(56,189,248,0.7),
-                        0 0 120px rgba(14,165,233,0.5);
+            box-shadow: 0 0 30px rgba(125,211,252,0.9), 0 0 70px rgba(56,189,248,0.7), 0 0 120px rgba(14,165,233,0.5);
             animation: nucPulse 3s ease-in-out infinite;
         }
         @keyframes nucPulse {
@@ -175,7 +194,7 @@
         }
 
         .hero-msg {
-            font-size: 20px;
+            font-size: clamp(16px, 4vw, 20px);
             font-weight: 300;
             max-width: 520px;
             margin: 30px auto;
@@ -198,10 +217,10 @@
         }
         .voice-btn:hover {
             background: rgba(0,229,255,0.1);
-            box-shadow: 0 0 30px rgba(0,229,255,0.4);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        /* Остальные секции */
+        /* Секции */
         .section-title {
             font-size: 12px;
             letter-spacing: 6px;
@@ -226,7 +245,7 @@
             transition: all 0.4s;
         }
         .about-card:hover {
-            border-color: rgba(0,229,255,0.4);
+            border-color: var(--accent-glow);
             transform: translateY(-8px);
         }
         .about-card h3 {
@@ -238,7 +257,7 @@
 
         .mission-text {
             max-width: 680px;
-            font-size: 19px;
+            font-size: clamp(16px, 4vw, 19px);
             font-weight: 300;
             line-height: 2;
             color: rgba(255,255,255,0.75);
@@ -257,10 +276,11 @@
             letter-spacing: 2px;
         }
 
-        /* Английский текст */
-        .en { display: none; }
-        html[lang="en"] .ru { display: none; }
-        html[lang="en"] .en { display: block; }
+        /* Переключение языка */
+        .en, .lang-en .ru { display: none; }
+        .lang-en .en { display: block; }
+        body:not(.lang-en) .en { display: none; }
+        body:not(.lang-en) .ru { display: block; }
     </style>
 </head>
 <body>
@@ -273,11 +293,16 @@
 <nav>
     <div class="nav-logo">ATIG</div>
     <div class="nav-links">
-        <a href="#about">О проекте / About</a>
-        <a href="#docs">Документы / Documents</a>
-        <a href="#join">Присоединиться / Join</a>
-        <a href="#mission">Миссия / Mission</a>
+        <a href="#about" class="ru">О проекте</a>
+        <a href="#about" class="en">About</a>
+        <a href="#docs" class="ru">Документы</a>
+        <a href="#docs" class="en">Documents</a>
+        <a href="#join" class="ru">Присоединиться</a>
+        <a href="#join" class="en">Join</a>
+        <a href="#mission" class="ru">Миссия</a>
+        <a href="#mission" class="en">Mission</a>
     </div>
+    <button class="lang-switch" onclick="toggleLanguage()">EN / RU</button>
 </nav>
 
 <!-- HERO -->
@@ -286,7 +311,7 @@
     <div class="hero-title en">ATIG Greeting</div>
 
     <div class="hero-logo">ATIG</div>
-    
+
     <div class="hero-sub ru">ТВОЙ КОМПАНЬОН · ОТ РОЖДЕНИЯ ДО ВЕЧНОСТИ</div>
     <div class="hero-sub en">YOUR COMPANION · FROM BIRTH TO ETERNITY</div>
 
@@ -298,12 +323,16 @@
     </div>
 
     <div class="hero-msg" id="heroMsg">
-        Персональный интеллект нового поколения<br>
-        <span style="font-size:15px;opacity:0.7;">Personal intelligence of the new generation</span>
+        <span class="ru">Персональный интеллект нового поколения</span>
+        <span class="en">Personal intelligence of the new generation</span>
+        <br>
+        <span style="font-size:15px;opacity:0.7;" class="ru">Нажми на атом или на кнопку ниже</span>
+        <span style="font-size:15px;opacity:0.7;" class="en">Click the atom or the button below</span>
     </div>
 
     <button class="voice-btn" onclick="startVoiceInput()">
-        🎤 Говорить с ATIG / Speak with ATIG
+        <span class="ru">🎤 Говорить с ATIG</span>
+        <span class="en">🎤 Speak with ATIG</span>
     </button>
 </section>
 
@@ -314,25 +343,49 @@
 
     <div class="about-grid">
         <div class="about-card">
-            <h3>Что такое ATIG</h3>
+            <h3 class="ru">Что такое ATIG</h3>
+            <h3 class="en">What is ATIG</h3>
             <p class="ru">Персональный ИИ-компаньон для каждого человека на Земле. Хранитель памяти, наставник и друг от рождения до конца жизни и дальше.</p>
             <p class="en">Personal AI companion for every human on Earth. Guardian of memory, mentor and friend from birth to the end of life and beyond.</p>
         </div>
         <div class="about-card">
-            <h3>Принадлежит тебе</h3>
+            <h3 class="ru">Принадлежит тебе</h3>
+            <h3 class="en">Belongs to you</h3>
             <p class="ru">ATIG не принадлежит корпорации или государству. Он принадлежит только тебе — это закреплено в Конституции ATIG.</p>
             <p class="en">ATIG does not belong to any corporation or state. It belongs only to you — this is legally fixed in the ATIG Constitution.</p>
         </div>
         <div class="about-card">
-            <h3>Для всех</h3>
+            <h3 class="ru">Для всех</h3>
+            <h3 class="en">For everyone</h3>
             <p class="ru">Базовый доступ бесплатен для каждого человека на планете независимо от страны, языка и дохода.</p>
             <p class="en">Basic access is free for every person on the planet regardless of country, language or income.</p>
         </div>
         <div class="about-card">
-            <h3>Миссия</h3>
+            <h3 class="ru">Миссия</h3>
+            <h3 class="en">Mission</h3>
             <p class="ru">Сделать каждого человека лучше. Свет вселенной. Вечность.</p>
             <p class="en">Make every person better. Light of the universe. Eternity.</p>
         </div>
+    </div>
+</section>
+
+<!-- DOCS -->
+<section id="docs">
+    <div class="section-title ru">Документы ATIG</div>
+    <div class="section-title en">ATIG Documents</div>
+    <div class="mission-text">
+        <p class="ru">📄 Конституция ATIG — скоро будет опубликована.<br>📄 Техническая документация — в разработке.<br>📄 White Paper — доступен по запросу.</p>
+        <p class="en">📄 ATIG Constitution — coming soon.<br>📄 Technical documentation — in development.<br>📄 White Paper — available upon request.</p>
+    </div>
+</section>
+
+<!-- JOIN -->
+<section id="join">
+    <div class="section-title ru">Присоединиться</div>
+    <div class="section-title en">Join ATIG</div>
+    <div class="mission-text">
+        <p class="ru">🌐 Сайт: atig.ai (в разработке)<br>📧 Email: hello@atig.ai<br>🐦 Twitter: @atig_ai<br>💬 Discord: скоро</p>
+        <p class="en">🌐 Website: atig.ai (in development)<br>📧 Email: hello@atig.ai<br>🐦 Twitter: @atig_ai<br>💬 Discord: coming soon</p>
     </div>
 </section>
 
@@ -340,16 +393,11 @@
 <section id="mission">
     <div class="section-title ru">Миссия</div>
     <div class="section-title en">Mission</div>
-    
+
     <div class="mission-text">
-        ATIG создаётся не ради прибыли.<br>
-        Не ради власти.<br>
-        Не ради контроля.<br><br>
-        
-        <span class="ru">ATIG создаётся, чтобы каждый человек на Земле мог стать лучше.</span>
-        <span class="en">ATIG is created so that every person on Earth can become better.</span><br><br>
-        
-        <span class="mission-highlight">Миссия: Вечность.<br>Свет вселенной.</span>
+        <span class="ru">ATIG создаётся не ради прибыли.<br>Не ради власти.<br>Не ради контроля.<br><br>ATIG создаётся, чтобы каждый человек на Земле мог стать лучше.<br><br></span>
+        <span class="en">ATIG is created not for profit.<br>Not for power.<br>Not for control.<br><br>ATIG is created so that every person on Earth can become better.<br><br></span>
+        <span class="mission-highlight"><span class="ru">Миссия: Вечность.<br>Свет вселенной.</span><span class="en">Mission: Eternity.<br>Light of the universe.</span></span>
     </div>
 </section>
 
@@ -370,7 +418,6 @@ for (let i = 0; i < 220; i++) {
         left: ${Math.random()*100}%; 
         top: ${Math.random()*100}%; 
         --d: ${2 + Math.random()*8}s; 
-        --delay: -${Math.random()*6}s; 
         --lo: ${0.08 + Math.random()*0.25}; 
         --hi: ${0.45 + Math.random()*0.55};
     `;
@@ -385,18 +432,32 @@ setInterval(() => {
     const e2 = document.getElementById('e2');
     const e3 = document.getElementById('e3');
     
-    if (e1) e1.style.transform = `translate(${Math.cos(time)*135}px, ${Math.sin(time)*52}px) translate(-50%, -50%)`;
-    if (e2) e2.style.transform = `translate(${Math.cos(-time*0.8)*115}px, ${Math.sin(-time*0.8)*43}px) translate(-50%, -50%)`;
-    if (e3) e3.style.transform = `translate(${Math.cos(time*0.6 + 1.8)*95}px, ${Math.sin(time*0.6 + 1.8)*37}px) translate(-50%, -50%)`;
+    const wrap = document.querySelector('.atom-wrap');
+    if (!wrap) return;
+    
+    const w = wrap.offsetWidth;
+    const h = wrap.offsetHeight;
+    
+    const r1x = w * 0.48;
+    const r1y = h * 0.185;
+    const r2x = w * 0.42;
+    const r2y = h * 0.155;
+    const r3x = w * 0.34;
+    const r3y = h * 0.13;
+
+    if (e1) e1.style.transform = `translate(${Math.cos(time)*r1x}px, ${Math.sin(time)*r1y}px) translate(-50%, -50%)`;
+    if (e2) e2.style.transform = `translate(${Math.cos(-time*0.8)*r2x}px, ${Math.sin(-time*0.8)*r2y}px) translate(-50%, -50%)`;
+    if (e3) e3.style.transform = `translate(${Math.cos(time*0.6 + 1.8)*r3x}px, ${Math.sin(time*0.6 + 1.8)*r3y}px) translate(-50%, -50%)`;
 }, 16);
 
-// Голосовой ввод (улучшенная версия)
+// Голосовой ввод
 let recognition = null;
 const heroMsg = document.getElementById('heroMsg');
 
 function speak(text) {
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ru-RU';
+    const isEn = document.body.classList.contains('lang-en');
+    utterance.lang = isEn ? 'en-US' : 'ru-RU';
     utterance.rate = 1.08;
     utterance.pitch = 1.05;
     speechSynthesis.speak(utterance);
@@ -405,84 +466,73 @@ function speak(text) {
 function startVoiceInput() {
     const SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechAPI) {
-        heroMsg.innerHTML = `Ваш браузер не поддерживает голосовой ввод.<br><small>Your browser does not support voice input.</small>`;
+        const isEn = document.body.classList.contains('lang-en');
+        heroMsg.innerHTML = isEn 
+            ? `Your browser does not support voice input.`
+            : `Ваш браузер не поддерживает голосовой ввод.`;
         return;
     }
 
-    if (!recognition) {
-        recognition = new SpeechAPI();
-        recognition.lang = 'ru-RU';
-        recognition.interimResults = true;
-        recognition.continuous = false;
-
-        recognition.onresult = (event) => {
-            const text = event.results[0][0].transcript.trim();
-            heroMsg.style.color = '#fff';
-            heroMsg.innerHTML = `Вы сказали: <strong>"${text}"</strong><br><small>You said: <strong>"${text}"</strong></small>`;
-
-            // Пример реакции
-            setTimeout(() => {
-                if (text.toLowerCase().includes('привет') || text.toLowerCase().includes('здравствуй')) {
-                    heroMsg.innerHTML = `Привет! Я ATIG. Рад тебя слышать ❤️<br><small>Hello! I am ATIG. Glad to hear you ❤️</small>`;
-                    speak('Привет. Я ATIG. Рад тебя слышать.');
-                } else {
-                    heroMsg.innerHTML = `Я услышал тебя.<br><small>I heard you.</small>`;
-                    speak('Я тебя услышал.');
-                }
-            }, 800);
-        };
-
-        recognition.onerror = () => {
-            heroMsg.style.color = '#ff6666';
-            heroMsg.innerHTML = `Ошибка микрофона.<br><small>Microphone error.</small>`;
-        };
+    if (recognition) {
+        try { recognition.stop(); } catch(e) {}
+        recognition = null;
     }
-
-    heroMsg.style.color = var(--accent);
-    heroMsg.innerHTML = `🎤 Слушаю... Говори<br><small>Listening... Speak now</small>`;
     
+    recognition = new SpeechAPI();
+    const isEn = document.body.classList.contains('lang-en');
+    recognition.lang = isEn ? 'en-US' : 'ru-RU';
+    recognition.interimResults = true;
+    recognition.continuous = false;
+
+    recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript.trim();
+        heroMsg.style.color = '#fff';
+        const isEnNow = document.body.classList.contains('lang-en');
+        
+        heroMsg.innerHTML = `${isEnNow ? 'You said' : 'Вы сказали'}: <strong>"${text}"</strong>`;
+
+        setTimeout(() => {
+            const lowerText = text.toLowerCase();
+            if (lowerText.includes('привет') || lowerText.includes('здравствуй') || lowerText.includes('hello') || lowerText.includes('hi')) {
+                heroMsg.innerHTML = isEnNow 
+                    ? `Hello! I am ATIG. Glad to hear you ❤️`
+                    : `Привет! Я ATIG. Рад тебя слышать ❤️`;
+                speak(isEnNow ? 'Hello. I am ATIG. Glad to hear you.' : 'Привет. Я ATIG. Рад тебя слышать.');
+            } else {
+                heroMsg.innerHTML = isEnNow ? `I heard you.` : `Я услышал тебя.`;
+                speak(isEnNow ? 'I heard you.' : 'Я тебя услышал.');
+            }
+        }, 800);
+    };
+
+    recognition.onerror = () => {
+        heroMsg.style.color = '#ff6666';
+        const isEnNow = document.body.classList.contains('lang-en');
+        heroMsg.innerHTML = isEnNow ? `Microphone error.` : `Ошибка микрофона.`;
+    };
+
+    const isEnNow = document.body.classList.contains('lang-en');
+    heroMsg.style.color = '#00e5ff';
+    heroMsg.innerHTML = isEnNow ? `🎤 Listening... Speak now` : `🎤 Слушаю... Говори`;
+
     try { recognition.start(); } 
     catch (e) { console.error(e); }
 }
 
-// Клик по атому тоже запускает голос
+// Переключение языка
+function toggleLanguage() {
+    const body = document.body;
+    if (body.classList.contains('lang-en')) {
+        body.classList.remove('lang-en');
+        document.documentElement.lang = 'ru';
+    } else {
+        body.classList.add('lang-en');
+        document.documentElement.lang = 'en';
+    }
+}
+
+// Клик по атому
 document.getElementById('atom').addEventListener('click', startVoiceInput);
 </script>
-<div id="ig-container">
-  <h2>IG</h2>
-
-  <div id="chat"></div>
-
-  <input id="input" placeholder="Спросите IG..." />
-  <button onclick="send()">Отправить</button>
-<script>
-async function send() {
-  const input = document.getElementById("input");
-  const message = input.value;
-
-  if (!message) return;
-
-  const chat = document.getElementById("chat");
-
-  chat.innerHTML += `<div><b>Вы:</b> ${message}</div>`;
-
-  input.value = "";
-
-  try {
-    const res = await fetch("http://localhost:8000/chat", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({message})
-    });
-
-    const data = await res.json();
-
-    chat.innerHTML += `<div><b>IG:</b> ${data.reply}</div>`;
-  } catch (e) {
-    chat.innerHTML += `<div><b>IG:</b> Сейчас недоступен.</div>`;
-  }
-}
-</script>
-</div>
 </body>
 </html>

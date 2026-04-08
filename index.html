@@ -448,5 +448,41 @@ function startVoiceInput() {
 // Клик по атому тоже запускает голос
 document.getElementById('atom').addEventListener('click', startVoiceInput);
 </script>
+<div id="ig-container">
+  <h2>IG</h2>
+
+  <div id="chat"></div>
+
+  <input id="input" placeholder="Спросите IG..." />
+  <button onclick="send()">Отправить</button>
+<script>
+async function send() {
+  const input = document.getElementById("input");
+  const message = input.value;
+
+  if (!message) return;
+
+  const chat = document.getElementById("chat");
+
+  chat.innerHTML += `<div><b>Вы:</b> ${message}</div>`;
+
+  input.value = "";
+
+  try {
+    const res = await fetch("http://localhost:8000/chat", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({message})
+    });
+
+    const data = await res.json();
+
+    chat.innerHTML += `<div><b>IG:</b> ${data.reply}</div>`;
+  } catch (e) {
+    chat.innerHTML += `<div><b>IG:</b> Сейчас недоступен.</div>`;
+  }
+}
+</script>
+</div>
 </body>
 </html>

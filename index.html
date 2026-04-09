@@ -2,339 +2,156 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATIG.AI — Персональный интеллект</title>
-
-    <!-- SEO -->
-    <meta name="description" content="ATIG — персональный искусственный интеллект, сопровождающий человека от рождения до вечности.">
-    <meta name="keywords" content="ATIG, AI, искусственный интеллект, персональный ассистент">
-    <meta name="author" content="ATIG.AI">
-
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ATIG.AI \u2014 \u041f\u0435\u0440\u0441\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0438\u043d\u0442\u0435\u043b\u043b\u0435\u043a\u0442</title>
     <style>
-        :root {
-            --accent: #00e5ff;
-            --accent-glow: rgba(0,229,255,0.4);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&display=swap');
 
+        :root { --accent: #00e5ff; --accent-glow: rgba(0,229,255,0.4); }
         * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#000510; min-height:100vh; font-family:'Raleway',sans-serif; color:#fff; overflow-x:hidden; line-height:1.6; }
 
-        html { scroll-behavior: smooth; }
-
-        body {
-            background:#000510;
-            min-height:100vh;
-            font-family:'Raleway',sans-serif;
-            color:#fff;
-            overflow-x:hidden;
-            line-height:1.6;
-        }
-
-        /* ================= COSMOS ================= */
-        .cosmos {
-            position:fixed;
-            inset:0;
-            background:radial-gradient(ellipse 100% 60% at 50% 40%,#0a1a3e 0%,transparent 70%),#000208;
-            z-index:0;
-        }
-        .milkyway {
-            position:absolute;
-            inset:0;
-            background:radial-gradient(ellipse 140% 25% at 50% 52%,rgba(120,160,255,0.12) 0%,transparent 70%);
-            transform:rotate(-12deg) scale(1.6);
-            z-index:1;
-        }
+        .cosmos { position:fixed; inset:0; background:radial-gradient(ellipse 100% 60% at 50% 40%,#0a1a3e 0%,transparent 70%),#000208; z-index:0; }
+        .milkyway { position:absolute; inset:0; background:radial-gradient(ellipse 140% 25% at 50% 52%,rgba(120,160,255,0.12) 0%,transparent 70%); transform:rotate(-12deg) scale(1.6); z-index:1; }
         .stars { position:absolute; inset:0; z-index:2; }
-        .star {
-            position:absolute;
-            border-radius:50%;
-            background:#fff;
-            animation:twinkle var(--d) ease-in-out infinite;
-            box-shadow:0 0 6px #fff;
-        }
+        .star { position:absolute; border-radius:50%; background:#fff; animation:twinkle var(--d) ease-in-out infinite; box-shadow:0 0 6px #fff; }
         @keyframes twinkle { 0%,100%{opacity:var(--lo)} 50%{opacity:var(--hi)} }
 
-        /* ================= NAVIGATION ================= */
-        nav {
-            position:fixed;
-            top:0;
-            width:100%;
-            padding:20px 5%;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            z-index:100;
-            background:rgba(0,5,16,0.85);
-            backdrop-filter:blur(12px);
-            flex-wrap:wrap;
-            gap:15px;
-        }
-        .nav-logo {
-            font-size:28px;
-            font-weight:600;
-            color:var(--accent);
-            letter-spacing:8px;
-            text-shadow:0 0 30px var(--accent);
-        }
+        nav { position:fixed; top:0; width:100%; padding:20px 5%; display:flex; justify-content:space-between; align-items:center; z-index:100; background:rgba(0,5,16,0.85); backdrop-filter:blur(12px); flex-wrap:wrap; gap:15px; }
+        .nav-logo { font-size:28px; font-weight:600; color:var(--accent); letter-spacing:8px; text-shadow:0 0 30px var(--accent); }
         .nav-links { display:flex; gap:25px; flex-wrap:wrap; }
-        .nav-links a {
-            color:rgba(255,255,255,0.7);
-            text-decoration:none;
-            font-size:13px;
-            letter-spacing:2px;
-            transition:all 0.3s;
-        }
+        .nav-links a { color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; letter-spacing:2px; transition:all 0.3s; }
         .nav-links a:hover { color:var(--accent); }
+        .lang-switch { background:transparent; border:1px solid var(--accent); color:var(--accent); padding:6px 14px; border-radius:30px; cursor:pointer; font-size:12px; letter-spacing:1px; transition:all 0.3s; font-family:'Raleway',sans-serif; }
+        .lang-switch:hover { background:rgba(0,229,255,0.1); box-shadow:0 0 15px var(--accent-glow); }
 
-        .lang-switch {
-            background:transparent;
-            border:1px solid var(--accent);
-            color:var(--accent);
-            padding:6px 14px;
-            border-radius:30px;
-            cursor:pointer;
-            font-size:12px;
-            letter-spacing:1px;
-        }
+        section { position:relative; z-index:10; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:100px 20px; text-align:center; }
 
-        section {
-            position:relative;
-            z-index:10;
-            min-height:100vh;
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            padding:100px 20px;
-            text-align:center;
-        }
+        .hero-title { font-size:13px; letter-spacing:8px; color:rgba(200,230,255,0.5); text-transform:uppercase; margin-bottom:15px; }
+        .hero-logo { font-size:clamp(48px,12vw,92px); font-weight:600; color:var(--accent); letter-spacing:clamp(8px,4vw,18px); text-shadow:0 0 50px var(--accent),0 0 100px var(--accent-glow); margin-bottom:10px; }
+        .hero-sub { font-size:clamp(11px,3vw,16px); letter-spacing:clamp(3px,1.5vw,5px); color:rgba(125,211,252,0.5); margin-bottom:70px; }
 
-        .hero-title {
-            font-size:13px;
-            letter-spacing:8px;
-            color:rgba(200,230,255,0.5);
-            text-transform:uppercase;
-            margin-bottom:15px;
-        }
-        .hero-logo {
-            font-size:clamp(48px,12vw,92px);
-            font-weight:600;
-            color:var(--accent);
-            letter-spacing:clamp(8px,4vw,18px);
-            text-shadow:0 0 50px var(--accent),0 0 100px var(--accent-glow);
-        }
-        .hero-sub {
-            font-size:clamp(11px,3vw,16px);
-            letter-spacing:clamp(3px,1.5vw,5px);
-            color:rgba(125,211,252,0.5);
-            margin-bottom:50px;
-        }
-
-        /* ================= ATOM ================= */
-        .atom-wrap {
-            position:relative;
-            width:min(280px,70vw);
-            height:min(280px,70vw);
-            margin:40px 0;
-            cursor:pointer;
-        }
-        .orbit {
-            position:absolute;
-            top:50%;
-            left:50%;
-            border:1.8px solid rgba(100,190,255,0.4);
-            border-radius:50%;
-            transform:translate(-50%,-50%);
-        }
+        .atom-wrap { position:relative; width:min(280px,70vw); height:min(280px,70vw); margin:40px 0; cursor:pointer; transition:transform 0.4s; }
+        .atom-wrap:hover { transform:scale(1.05); }
+        .orbit { position:absolute; top:50%; left:50%; border:1.8px solid rgba(100,190,255,0.4); border-radius:50%; transform:translate(-50%,-50%); }
         .o1 { width:100%; height:37%; animation:orbit1 6s linear infinite; }
         .o2 { width:84%; height:31%; animation:orbit2 8s linear infinite; }
         .o3 { width:68%; height:26%; animation:orbit3 10s linear infinite; }
-
-        @keyframes orbit1 { from{transform:translate(-50%,-50%) rotate(0)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+        @keyframes orbit1 { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
         @keyframes orbit2 { from{transform:translate(-50%,-50%) rotate(45deg)} to{transform:translate(-50%,-50%) rotate(405deg)} }
         @keyframes orbit3 { from{transform:translate(-50%,-50%) rotate(-60deg)} to{transform:translate(-50%,-50%) rotate(300deg)} }
+        .electron { position:absolute; width:7px; height:7px; background:#fff; border-radius:50%; box-shadow:0 0 12px #fff,0 0 20px var(--accent); top:50%; left:50%; transform:translate(-50%,-50%); }
+        .nucleus { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:24%; height:24%; border-radius:50%; background:radial-gradient(circle at 35% 35%,#fff 0%,#bae6fd 25%,#38bdf8 55%,#0c4a6e 100%); box-shadow:0 0 30px rgba(125,211,252,0.9),0 0 70px rgba(56,189,248,0.7),0 0 120px rgba(14,165,233,0.5); animation:nucPulse 3s ease-in-out infinite; }
+        @keyframes nucPulse { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.12)} }
 
-        .electron {
-            position:absolute;
-            width:7px;
-            height:7px;
-            background:#fff;
-            border-radius:50%;
-            box-shadow:0 0 12px #fff,0 0 20px var(--accent);
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-        }
-        .nucleus {
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            width:24%;
-            height:24%;
-            border-radius:50%;
-            background:radial-gradient(circle at 35% 35%,#fff 0%,#bae6fd 25%,#38bdf8 55%,#0c4a6e 100%);
-            box-shadow:0 0 30px rgba(125,211,252,0.9),0 0 70px rgba(56,189,248,0.7);
-        }
+        .hero-msg { font-size:clamp(16px,4vw,20px); font-weight:300; max-width:520px; margin:30px auto; color:#fff; text-shadow:0 0 25px rgba(125,211,252,0.4); }
+        .section-title { font-size:12px; letter-spacing:6px; color:rgba(125,211,252,0.45); text-transform:uppercase; margin-bottom:50px; }
 
-        .hero-msg {
-            max-width:520px;
-            margin:30px auto;
-            font-size:18px;
-            font-weight:300;
-        }
+        .about-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; max-width:1100px; width:100%; }
+        .about-card { padding:35px 28px; border:1px solid rgba(125,211,252,0.15); border-radius:12px; background:rgba(0,0,0,0.45); backdrop-filter:blur(10px); transition:all 0.4s; }
+        .about-card:hover { border-color:var(--accent-glow); transform:translateY(-8px); }
+        .about-card h3 { font-size:15px; color:var(--accent); margin-bottom:16px; letter-spacing:2px; }
 
-        .open-chat-btn {
-            margin-top:20px;
-            padding:14px 32px;
-            border:2px solid var(--accent);
-            color:var(--accent);
-            background:transparent;
-            border-radius:50px;
-            cursor:pointer;
-            letter-spacing:2px;
-        }
+        .mission-text { max-width:680px; font-size:clamp(16px,4vw,19px); font-weight:300; line-height:2; color:rgba(255,255,255,0.75); }
+        .mission-highlight { color:var(--accent); font-weight:400; }
 
-        /* ================= DOCS ================= */
-        .section-title {
-            font-size:12px;
-            letter-spacing:6px;
-            color:rgba(125,211,252,0.45);
-            text-transform:uppercase;
-            margin-bottom:30px;
-        }
+        footer { position:relative; z-index:10; padding:50px 20px; text-align:center; border-top:1px solid rgba(125,211,252,0.1); font-size:12px; color:rgba(255,255,255,0.25); letter-spacing:2px; }
 
-        .about-grid, .docs-grid {
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-            gap:25px;
-            max-width:1100px;
-            width:100%;
-        }
-
-        .about-card, .doc-card {
-            padding:30px;
-            border:1px solid rgba(0,229,255,0.15);
-            border-radius:16px;
-            background:rgba(0,10,30,0.6);
-            backdrop-filter:blur(10px);
-            text-align:left;
-        }
-
-        .about-card h3, .doc-card h3 {
-            color:var(--accent);
-            margin-bottom:10px;
-        }
-
-        .doc-status {
-            display:inline-block;
-            padding:5px 14px;
-            border-radius:30px;
-            font-size:12px;
-            letter-spacing:1px;
-        }
-        .doc-status.coming {
-            background:rgba(255,165,0,0.1);
-            border:1px solid rgba(255,165,0,0.3);
-            color:#ffa500;
-        }
-        .doc-status.dev {
-            background:rgba(0,229,255,0.08);
-            border:1px solid rgba(0,229,255,0.25);
-            color:var(--accent);
-        }
-        .doc-request-btn {
-            display:inline-block;
-            margin-top:10px;
-            padding:8px 20px;
-            border:1px solid var(--accent);
-            color:var(--accent);
-            text-decoration:none;
-            border-radius:30px;
-            font-size:12px;
-        }
-
-        footer {
-            padding:40px;
-            text-align:center;
-            font-size:12px;
-            color:rgba(255,255,255,0.3);
-        }
-
-        /* ================= LANGUAGE ================= */
-        .en, .lang-en .ru { display:none; }
+        .en,.lang-en .ru { display:none; }
         .lang-en .en { display:block; }
         body:not(.lang-en) .en { display:none; }
         body:not(.lang-en) .ru { display:block; }
 
-        /* ================= CHAT OVERLAY ================= */
-        #chatOverlay {
-            position:fixed;
-            inset:0;
-            background:rgba(0,4,14,0.97);
-            z-index:999;
-            display:none;
-            flex-direction:column;
-        }
-        #chatOverlay.active { display:flex; }
+        /* DOCS */
+        .docs-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; max-width:1000px; width:100%; }
+        .doc-card { position:relative; padding:32px 28px; border:1px solid rgba(0,229,255,0.12); border-radius:16px; background:rgba(0,10,30,0.6); backdrop-filter:blur(12px); text-align:left; transition:all 0.4s; overflow:hidden; }
+        .doc-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0; transition:opacity 0.4s; }
+        .doc-card:hover { border-color:rgba(0,229,255,0.3); transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,229,255,0.1); }
+        .doc-card:hover::before { opacity:1; }
+        .doc-icon { font-size:32px; margin-bottom:16px; display:block; }
+        .doc-card h3 { font-size:16px; font-weight:500; color:var(--accent); letter-spacing:2px; margin-bottom:12px; }
+        .doc-card p { font-size:14px; font-weight:300; color:rgba(255,255,255,0.65); line-height:1.7; margin-bottom:20px; }
+        .doc-status { display:inline-block; padding:5px 14px; border-radius:30px; font-size:12px; letter-spacing:1.5px; }
+        .doc-status.coming { background:rgba(255,165,0,0.1); border:1px solid rgba(255,165,0,0.3); color:#ffa500; }
+        .doc-status.dev { background:rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.25); color:var(--accent); }
+        .doc-request-btn { display:inline-block; padding:8px 20px; background:transparent; border:1px solid var(--accent); color:var(--accent); text-decoration:none; border-radius:30px; font-size:12px; letter-spacing:2px; font-family:'Raleway',sans-serif; transition:all 0.3s; }
+        .doc-request-btn:hover { background:rgba(0,229,255,0.1); box-shadow:0 0 20px var(--accent-glow); }
+        .docs-intro { max-width:600px; font-size:15px; font-weight:300; color:rgba(255,255,255,0.5); margin-bottom:50px; line-height:1.8; }
 
-        .chat-header {
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:20px;
-            border-bottom:1px solid rgba(0,229,255,0.2);
-        }
+        /* OPEN CHAT BTN */
+        .open-chat-btn { margin-top:12px; padding:14px 32px; background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(0,100,180,0.15)); border:2px solid var(--accent); color:var(--accent); font-size:14px; letter-spacing:3px; border-radius:50px; cursor:pointer; transition:all 0.3s; font-family:'Raleway',sans-serif; text-shadow:0 0 15px var(--accent); box-shadow:0 0 25px rgba(0,229,255,0.15); }
+        .open-chat-btn:hover { background:rgba(0,229,255,0.2); box-shadow:0 0 40px var(--accent-glow); transform:translateY(-2px); }
 
-        .chat-messages {
-            flex:1;
-            overflow-y:auto;
-            padding:20px;
-            display:flex;
-            flex-direction:column;
-            gap:15px;
-        }
+        /* CHAT OVERLAY */
+        #chatOverlay { position:fixed; inset:0; z-index:999; display:none; flex-direction:column; background:rgba(0,4,14,0.97); backdrop-filter:blur(20px); }
+        #chatOverlay.active { display:flex; animation:chatFadeIn 0.4s ease; }
+        @keyframes chatFadeIn { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
 
-        .msg-row { display:flex; gap:10px; }
+        .chat-cosmos { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 30%,#060e2a 0%,transparent 70%); pointer-events:none; z-index:0; }
+
+        .chat-header { position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid rgba(0,229,255,0.12); background:rgba(0,5,20,0.8); backdrop-filter:blur(10px); }
+        .chat-header-left { display:flex; align-items:center; gap:14px; }
+        .chat-atom-mini { position:relative; width:38px; height:38px; }
+        .chat-atom-mini .orbit { border-color:rgba(0,229,255,0.35); }
+        .chat-atom-mini .o1 { width:100%; height:40%; }
+        .chat-atom-mini .o2 { width:80%; height:32%; }
+        .chat-atom-mini .nucleus { width:30%; height:30%; box-shadow:0 0 12px rgba(125,211,252,0.9),0 0 24px rgba(56,189,248,0.5); }
+        .atig-name { font-size:18px; font-weight:600; color:var(--accent); letter-spacing:5px; text-shadow:0 0 20px var(--accent); }
+        .atig-status { font-size:11px; color:rgba(125,211,252,0.5); letter-spacing:2px; }
+        .status-dot { display:inline-block; width:6px; height:6px; background:#00ff88; border-radius:50%; margin-right:6px; box-shadow:0 0 8px #00ff88; animation:blink 2s ease-in-out infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .chat-close-btn { background:transparent; border:1px solid rgba(0,229,255,0.25); color:rgba(255,255,255,0.6); width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:all 0.3s; }
+        .chat-close-btn:hover { border-color:var(--accent); color:var(--accent); }
+        .key-btn { background:transparent; border:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:18px; padding:4px; transition:color 0.3s; }
+        .key-btn:hover { color:var(--accent); }
+
+        .chat-messages { position:relative; z-index:2; flex:1; overflow-y:auto; padding:24px 20px; display:flex; flex-direction:column; gap:16px; scroll-behavior:smooth; }
+        .chat-messages::-webkit-scrollbar { width:4px; }
+        .chat-messages::-webkit-scrollbar-thumb { background:rgba(0,229,255,0.2); border-radius:4px; }
+
+        .msg-row { display:flex; gap:12px; align-items:flex-end; animation:msgSlide 0.35s ease; }
+        @keyframes msgSlide { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
         .msg-row.user { flex-direction:row-reverse; }
+        .msg-avatar { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+        .msg-avatar.atig-av { background:radial-gradient(circle at 35% 35%,#fff 0%,#bae6fd 25%,#38bdf8 60%,#0c4a6e 100%); box-shadow:0 0 15px rgba(56,189,248,0.6); }
+        .msg-avatar.user-av { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.7); font-size:16px; }
+        .msg-bubble { max-width:min(72%,520px); padding:13px 18px; border-radius:18px; font-size:15px; line-height:1.65; font-weight:300; }
+        .msg-row.atig .msg-bubble { background:rgba(0,40,70,0.7); border:1px solid rgba(0,229,255,0.15); color:rgba(255,255,255,0.92); border-bottom-left-radius:4px; }
+        .msg-row.user .msg-bubble { background:rgba(0,229,255,0.1); border:1px solid rgba(0,229,255,0.25); color:#fff; border-bottom-right-radius:4px; text-align:right; }
 
-        .msg-bubble {
-            padding:12px 16px;
-            border-radius:16px;
-            max-width:70%;
-        }
-        .msg-row.atig .msg-bubble {
-            background:rgba(0,40,70,0.7);
-            border:1px solid rgba(0,229,255,0.2);
-        }
-        .msg-row.user .msg-bubble {
-            background:rgba(0,229,255,0.15);
-        }
+        .typing-indicator { display:flex; gap:5px; padding:14px 18px; align-items:center; }
+        .typing-dot { width:7px; height:7px; border-radius:50%; background:var(--accent); animation:typingPulse 1.2s ease-in-out infinite; opacity:0.5; }
+        .typing-dot:nth-child(2){animation-delay:0.2s} .typing-dot:nth-child(3){animation-delay:0.4s}
+        @keyframes typingPulse { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.1)} }
 
-        .chat-input-bar {
-            padding:20px;
-            border-top:1px solid rgba(0,229,255,0.2);
-            display:flex;
-            gap:10px;
-        }
-        .chat-textarea {
-            flex:1;
-            border-radius:20px;
-            padding:12px;
-            border:1px solid rgba(0,229,255,0.3);
-            background:rgba(255,255,255,0.05);
-            color:#fff;
-        }
-        .chat-btn {
-            width:48px;
-            height:48px;
-            border-radius:50%;
-            border:none;
-            background:var(--accent);
-            cursor:pointer;
-        }
+        .chat-input-bar { position:relative; z-index:2; padding:16px 20px; border-top:1px solid rgba(0,229,255,0.1); background:rgba(0,5,20,0.8); backdrop-filter:blur(10px); }
+        .chat-input-row { display:flex; gap:10px; align-items:flex-end; max-width:800px; margin:0 auto; }
+        .chat-textarea { flex:1; background:rgba(255,255,255,0.04); border:1px solid rgba(0,229,255,0.2); border-radius:24px; padding:12px 20px; color:#fff; font-family:'Raleway',sans-serif; font-size:15px; font-weight:300; resize:none; outline:none; max-height:120px; min-height:48px; overflow-y:auto; transition:border-color 0.3s,box-shadow 0.3s; line-height:1.5; }
+        .chat-textarea::placeholder { color:rgba(125,211,252,0.3); }
+        .chat-textarea:focus { border-color:rgba(0,229,255,0.5); box-shadow:0 0 20px rgba(0,229,255,0.1); }
+        .chat-btn { width:48px; height:48px; border-radius:50%; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.3s; font-size:18px; flex-shrink:0; }
+        .send-btn { background:var(--accent); color:#000; box-shadow:0 0 20px var(--accent-glow); }
+        .send-btn:hover { box-shadow:0 0 35px var(--accent); transform:scale(1.08); }
+        .send-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+        .mic-btn { background:rgba(0,229,255,0.08); border:1px solid rgba(0,229,255,0.25); color:var(--accent); }
+        .mic-btn:hover { background:rgba(0,229,255,0.15); }
+        .mic-btn.listening { background:rgba(255,50,50,0.15); border-color:rgba(255,80,80,0.6); color:#ff6666; animation:micPulse 1s ease-in-out infinite; }
+        @keyframes micPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,80,80,0.4)} 50%{box-shadow:0 0 0 8px rgba(255,80,80,0)} }
+        .chat-hint { text-align:center; font-size:11px; color:rgba(125,211,252,0.25); letter-spacing:1px; margin-top:10px; }
+
+        /* API KEY PROMPT */
+        #apiKeyPrompt { position:absolute; inset:0; z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:center; background:rgba(0,4,14,0.98); backdrop-filter:blur(10px); padding:30px; text-align:center; gap:18px; }
+        #apiKeyPrompt h2 { color:var(--accent); letter-spacing:5px; font-size:20px; text-shadow:0 0 20px var(--accent); }
+        #apiKeyPrompt .apk-desc { color:rgba(255,255,255,0.55); font-size:14px; max-width:380px; line-height:1.8; }
+        #apiKeyPrompt .apk-desc a { color:var(--accent); }
+        #apiKeyInput { width:100%; max-width:400px; padding:13px 22px; background:rgba(255,255,255,0.05); border:1px solid rgba(0,229,255,0.3); border-radius:30px; color:#fff; font-size:14px; font-family:'Raleway',sans-serif; outline:none; text-align:center; letter-spacing:1px; transition:border-color 0.3s; }
+        #apiKeyInput:focus { border-color:var(--accent); }
+        #apiKeyInput::placeholder { color:rgba(125,211,252,0.3); }
+        #apiKeyInput.error { border-color:#ff5555; animation:shake 0.3s; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+        #apiKeySave { padding:12px 32px; background:transparent; border:2px solid var(--accent); color:var(--accent); border-radius:30px; cursor:pointer; font-size:14px; letter-spacing:3px; font-family:'Raleway',sans-serif; transition:all 0.3s; }
+        #apiKeySave:hover { background:rgba(0,229,255,0.1); box-shadow:0 0 25px var(--accent-glow); }
+        .apk-hint { font-size:11px; color:rgba(255,255,255,0.2); letter-spacing:1px; }
     </style>
 </head>
 <body>
@@ -347,208 +164,200 @@
 <nav>
     <div class="nav-logo">ATIG</div>
     <div class="nav-links">
-        <a href="#about" class="ru">О проекте</a>
-        <a href="#about" class="en">About</a>
-        <a href="#docs" class="ru">Документы</a>
-        <a href="#docs" class="en">Documents</a>
-        <a href="#mission" class="ru">Миссия</a>
-        <a href="#mission" class="en">Mission</a>
+        <a href="#about" class="ru">\u041e \u043f\u0440\u043e\u0435\u043a\u0442\u0435</a><a href="#about" class="en">About</a>
+        <a href="#docs" class="ru">\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b</a><a href="#docs" class="en">Documents</a>
+        <a href="#join" class="ru">\u041f\u0440\u0438\u0441\u043e\u0435\u0434\u0438\u043d\u0438\u0442\u044c\u0441\u044f</a><a href="#join" class="en">Join</a>
+        <a href="#mission" class="ru">\u041c\u0438\u0441\u0441\u0438\u044f</a><a href="#mission" class="en">Mission</a>
     </div>
     <button class="lang-switch" onclick="toggleLanguage()">EN / RU</button>
 </nav>
 
-<!-- HERO -->
 <section id="home">
-    <div class="hero-title ru">Приветствие ATIG</div>
+    <div class="hero-title ru">\u041f\u0440\u0438\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0435 \u0410\u0422\u0418\u0413</div>
     <div class="hero-title en">ATIG Greeting</div>
     <div class="hero-logo">ATIG</div>
-    <div class="hero-sub ru">ТВОЙ КОМПАНЬОН · ОТ РОЖДЕНИЯ ДО ВЕЧНОСТИ</div>
-    <div class="hero-sub en">YOUR COMPANION · FROM BIRTH TO ETERNITY</div>
-
+    <div class="hero-sub ru">\u0422\u0412\u041e\u0419 \u041a\u041e\u041c\u041f\u0410\u041d\u042c\u041e\u041d \u00b7 \u041e\u0422 \u0420\u041e\u0416\u0414\u0415\u041d\u0418\u042f \u0414\u041e \u0412\u0415\u0427\u041d\u041e\u0421\u0422\u0418</div>
+    <div class="hero-sub en">YOUR COMPANION \u00b7 FROM BIRTH TO ETERNITY</div>
     <div class="atom-wrap" id="atom">
-        <div class="orbit o1"><div class="electron"></div></div>
-        <div class="orbit o2"><div class="electron"></div></div>
-        <div class="orbit o3"><div class="electron"></div></div>
+        <div class="orbit o1"><div class="electron" id="e1"></div></div>
+        <div class="orbit o2"><div class="electron" id="e2"></div></div>
+        <div class="orbit o3"><div class="electron" id="e3"></div></div>
         <div class="nucleus"></div>
     </div>
-
     <div class="hero-msg">
-        <span class="ru">Персональный интеллект нового поколения</span>
-        <span class="en">Personal intelligence of the new generation</span>
+        <span class="ru">\u041f\u0435\u0440\u0441\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0438\u043d\u0442\u0435\u043b\u043b\u0435\u043a\u0442 \u043d\u043e\u0432\u043e\u0433\u043e \u043f\u043e\u043a\u043e\u043b\u0435\u043d\u0438\u044f</span>
+        <span class="en">Personal intelligence of the new generation</span><br>
+        <span style="font-size:15px;opacity:0.7;" class="ru">\u041d\u0430\u0436\u043c\u0438 \u043d\u0430 \u0430\u0442\u043e\u043c, \u0447\u0442\u043e\u0431\u044b \u043d\u0430\u0447\u0430\u0442\u044c \u0440\u0430\u0437\u0433\u043e\u0432\u043e\u0440</span>
+        <span style="font-size:15px;opacity:0.7;" class="en">Click the atom to start a conversation</span>
     </div>
-
     <button class="open-chat-btn" onclick="openChat()">
-        <span class="ru">💬 Говорить с ATIG</span>
-        <span class="en">💬 Talk to ATIG</span>
+        <span class="ru">\ud83d\udcac \u0413\u043e\u0432\u043e\u0440\u0438\u0442\u044c \u0441 ATIG</span>
+        <span class="en">\ud83d\udcac Talk to ATIG</span>
     </button>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
-    <div class="section-title ru">О проекте</div>
+    <div class="section-title ru">\u041e \u043f\u0440\u043e\u0435\u043a\u0442\u0435</div>
     <div class="section-title en">About the Project</div>
     <div class="about-grid">
         <div class="about-card">
-            <h3 class="ru">Что такое ATIG</h3>
-            <h3 class="en">What is ATIG</h3>
-            <p class="ru">
-                Персональный ИИ-компаньон для каждого человека на Земле.
-                Хранитель памяти, наставник и друг от рождения до вечности.
-            </p>
-            <p class="en">
-                A personal AI companion for every human on Earth.
-                A keeper of memories, mentor, and friend from birth to eternity.
-            </p>
+            <h3 class="ru">\u0427\u0442\u043e \u0442\u0430\u043a\u043e\u0435 ATIG</h3><h3 class="en">What is ATIG</h3>
+            <p class="ru">\u041f\u0435\u0440\u0441\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0418\u0418-\u043a\u043e\u043c\u043f\u0430\u043d\u044c\u043e\u043d \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0430 \u043d\u0430 \u0417\u0435\u043c\u043b\u0435. \u0425\u0440\u0430\u043d\u0438\u0442\u0435\u043b\u044c \u043f\u0430\u043c\u044f\u0442\u0438, \u043d\u0430\u0441\u0442\u0430\u0432\u043d\u0438\u043a \u0438 \u0434\u0440\u0443\u0433 \u043e\u0442 \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044f \u0434\u043e \u043a\u043e\u043d\u0446\u0430 \u0436\u0438\u0437\u043d\u0438 \u0438 \u0434\u0430\u043b\u044c\u0448\u0435.</p>
+            <p class="en">Personal AI companion for every human on Earth. Guardian of memory, mentor and friend from birth to the end of life and beyond.</p>
+        </div>
+        <div class="about-card">
+            <h3 class="ru">\u041f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u0438\u0442 \u0442\u0435\u0431\u0435</h3><h3 class="en">Belongs to you</h3>
+            <p class="ru">ATIG \u043d\u0435 \u043f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u0438\u0442 \u043a\u043e\u0440\u043f\u043e\u0440\u0430\u0446\u0438\u0438 \u0438\u043b\u0438 \u0433\u043e\u0441\u0443\u0434\u0430\u0440\u0441\u0442\u0432\u0443. \u041e\u043d \u043f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u0438\u0442 \u0442\u043e\u043b\u044c\u043a\u043e \u0442\u0435\u0431\u0435 \u2014 \u044d\u0442\u043e \u0437\u0430\u043a\u0440\u0435\u043f\u043b\u0435\u043d\u043e \u0432 \u041a\u043e\u043d\u0441\u0442\u0438\u0442\u0443\u0446\u0438\u0438 ATIG.</p>
+            <p class="en">ATIG does not belong to any corporation or state. It belongs only to you \u2014 this is legally fixed in the ATIG Constitution.</p>
+        </div>
+        <div class="about-card">
+            <h3 class="ru">\u0414\u043b\u044f \u0432\u0441\u0435\u0445</h3><h3 class="en">For everyone</h3>
+            <p class="ru">\u0411\u0430\u0437\u043e\u0432\u044b\u0439 \u0434\u043e\u0441\u0442\u0443\u043f \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u0435\u043d \u0434\u043b\u044f \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0430 \u043d\u0430 \u043f\u043b\u0430\u043d\u0435\u0442\u0435 \u043d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e \u043e\u0442 \u0441\u0442\u0440\u0430\u043d\u044b, \u044f\u0437\u044b\u043a\u0430 \u0438 \u0434\u043e\u0445\u043e\u0434\u0430.</p>
+            <p class="en">Basic access is free for every person on the planet regardless of country, language or income.</p>
+        </div>
+        <div class="about-card">
+            <h3 class="ru">\u041c\u0438\u0441\u0441\u0438\u044f</h3><h3 class="en">Mission</h3>
+            <p class="ru">\u0421\u0434\u0435\u043b\u0430\u0442\u044c \u043a\u0430\u0436\u0434\u043e\u0433\u043e \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0430 \u043b\u0443\u0447\u0448\u0435. \u0421\u0432\u0435\u0442 \u0432\u0441\u0435\u043b\u0435\u043d\u043d\u043e\u0439. \u0412\u0435\u0447\u043d\u043e\u0441\u0442\u044c.</p>
+            <p class="en">Make every person better. Light of the universe. Eternity.</p>
         </div>
     </div>
 </section>
 
-<!-- DOCUMENTS -->
 <section id="docs">
-    <div class="section-title ru">Документы ATIG</div>
+    <div class="section-title ru">\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b ATIG</div>
     <div class="section-title en">ATIG Documents</div>
+    <p class="docs-intro ru">\u041a\u043b\u044e\u0447\u0435\u0432\u044b\u0435 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u044b, \u0440\u0430\u0441\u043a\u0440\u044b\u0432\u0430\u044e\u0449\u0438\u0435 \u0444\u0438\u043b\u043e\u0441\u043e\u0444\u0438\u044e, \u0442\u0435\u0445\u043d\u0438\u0447\u0435\u0441\u043a\u0443\u044e \u043e\u0441\u043d\u043e\u0432\u0443 \u0438 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u0432\u0438\u0434\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0435\u043a\u0442\u0430 ATIG.</p>
+    <p class="docs-intro en">Key materials revealing the philosophy, technical foundation and strategic vision of the ATIG project.</p>
     <div class="docs-grid">
         <div class="doc-card">
-            <span class="doc-icon">📜</span>
-            <h3>Конституция ATIG</h3>
-            <p>Философский и этический фундамент проекта.</p>
-            <span class="doc-status coming">Скоро будет опубликована</span>
+            <span class="doc-icon">\ud83d\udcdc</span>
+            <h3 class="ru">\u041a\u043e\u043d\u0441\u0442\u0438\u0442\u0443\u0446\u0438\u044f ATIG</h3><h3 class="en">ATIG Constitution</h3>
+            <p class="ru">\u0424\u0438\u043b\u043e\u0441\u043e\u0444\u0441\u043a\u0438\u0439 \u0438 \u044d\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u0444\u0443\u043d\u0434\u0430\u043c\u0435\u043d\u0442 \u043f\u0440\u043e\u0435\u043a\u0442\u0430. \u041e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u043c\u0438\u0441\u0441\u0438\u044e, \u0446\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0438 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0418\u0418 \u0441 \u0447\u0435\u043b\u043e\u0432\u0435\u0447\u0435\u0441\u0442\u0432\u043e\u043c.</p>
+            <p class="en">The philosophical and ethical foundation of the project. Defines the mission, values and principles of AI interaction with humanity.</p>
+            <span class="doc-status coming ru">\u0421\u043a\u043e\u0440\u043e \u0431\u0443\u0434\u0435\u0442 \u043e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u043d\u0430</span>
+            <span class="doc-status coming en">Coming soon</span>
         </div>
         <div class="doc-card">
-            <span class="doc-icon">📘</span>
-            <h3>Техническая документация</h3>
-            <p>Описание архитектуры системы и технологий.</p>
-            <span class="doc-status dev">В разработке</span>
+            <span class="doc-icon">\ud83d\udcd8</span>
+            <h3 class="ru">\u0422\u0435\u0445\u043d\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f</h3><h3 class="en">Technical Documentation</h3>
+            <p class="ru">\u0410\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u044b, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c\u044b\u0435 \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u0438, \u043c\u043e\u0434\u0443\u043b\u0438 \u0438 API. \u041f\u0440\u0435\u0434\u043d\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u0430 \u0434\u043b\u044f \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0447\u0438\u043a\u043e\u0432 \u0438 \u0442\u0435\u0445\u043d\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u043f\u0430\u0440\u0442\u043d\u0451\u0440\u043e\u0432.</p>
+            <p class="en">System architecture, technologies, modules and API. Intended for developers and technical partners.</p>
+            <span class="doc-status dev ru">\u0412 \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0435</span>
+            <span class="doc-status dev en">In development</span>
         </div>
         <div class="doc-card">
-            <span class="doc-icon">📗</span>
+            <span class="doc-icon">\ud83d\udcd7</span>
             <h3>White Paper</h3>
-            <p>Описание концепции и бизнес-модели.</p>
-            <a href="mailto:info@atig.ai" class="doc-request-btn">Запросить</a>
+            <p class="ru">\u041a\u043e\u043d\u0446\u0435\u043f\u0446\u0438\u044f, \u0431\u0438\u0437\u043d\u0435\u0441-\u043c\u043e\u0434\u0435\u043b\u044c \u0438 \u0441\u0442\u0440\u0430\u0442\u0435\u0433\u0438\u044f \u0440\u0430\u0437\u0432\u0438\u0442\u0438\u044f ATIG. \u0414\u043e\u0441\u0442\u0443\u043f\u0435\u043d \u0434\u043b\u044f \u0438\u043d\u0432\u0435\u0441\u0442\u043e\u0440\u043e\u0432 \u0438 \u043f\u0430\u0440\u0442\u043d\u0451\u0440\u043e\u0432 \u043f\u043e \u0437\u0430\u043f\u0440\u043e\u0441\u0443.</p>
+            <p class="en">Concept, business model and development strategy of ATIG. Available for investors and partners upon request.</p>
+            <a href="mailto:hello@atig.ai" class="doc-request-btn ru">\u0417\u0430\u043f\u0440\u043e\u0441\u0438\u0442\u044c \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442</a>
+            <a href="mailto:hello@atig.ai" class="doc-request-btn en">Request document</a>
         </div>
     </div>
 </section>
 
-<!-- MISSION -->
-<section id="mission">
-    <div class="section-title ru">Миссия</div>
-    <div class="section-title en">Mission</div>
-    <p class="mission-text">
-        <span class="ru">Создать совершенного ИИ-спутника для каждого человека.</span>
-        <span class="en">To create a perfect AI companion for every human.</span>
-    </p>
+<section id="join">
+    <div class="section-title ru">\u041f\u0440\u0438\u0441\u043e\u0435\u0434\u0438\u043d\u0438\u0442\u044c\u0441\u044f</div>
+    <div class="section-title en">Join ATIG</div>
+    <div class="mission-text">
+        <p class="ru">\ud83c\udf10 \u0421\u0430\u0439\u0442: atig.ai (\u0432 \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0435)<br>\ud83d\udce7 Email: hello@atig.ai<br>\ud83d\udc26 Twitter: @atig_ai<br>\ud83d\udcac Discord: \u0441\u043a\u043e\u0440\u043e</p>
+        <p class="en">\ud83c\udf10 Website: atig.ai (in development)<br>\ud83d\udce7 Email: hello@atig.ai<br>\ud83d\udc26 Twitter: @atig_ai<br>\ud83d\udcac Discord: coming soon</p>
+    </div>
 </section>
 
-<footer>
-    © 2026 ATIG.AI — All Rights Reserved
-</footer>
-
-<!-- CHAT OVERLAY -->
-<div id="chatOverlay">
-    <div class="chat-header">
-        <div>ATIG</div>
-        <button onclick="closeChat()">✕</button>
+<section id="mission">
+    <div class="section-title ru">\u041c\u0438\u0441\u0441\u0438\u044f</div>
+    <div class="section-title en">Mission</div>
+    <div class="mission-text">
+        <span class="ru">ATIG \u0441\u043e\u0437\u0434\u0430\u0451\u0442\u0441\u044f \u043d\u0435 \u0440\u0430\u0434\u0438 \u043f\u0440\u0438\u0431\u044b\u043b\u0438.<br>\u041d\u0435 \u0440\u0430\u0434\u0438 \u0432\u043b\u0430\u0441\u0442\u0438.<br>\u041d\u0435 \u0440\u0430\u0434\u0438 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044f.<br><br>ATIG \u0441\u043e\u0437\u0434\u0430\u0451\u0442\u0441\u044f, \u0447\u0442\u043e\u0431\u044b \u043a\u0430\u0436\u0434\u044b\u0439 \u0447\u0435\u043b\u043e\u0432\u0435\u043a \u043d\u0430 \u0417\u0435\u043c\u043b\u0435 \u043c\u043e\u0433 \u0441\u0442\u0430\u0442\u044c \u043b\u0443\u0447\u0448\u0435.<br><br></span>
+        <span class="en">ATIG is created not for profit.<br>Not for power.<br>Not for control.<br><br>ATIG is created so that every person on Earth can become better.<br><br></span>
+        <span class="mission-highlight">
+            <span class="ru">\u041c\u0438\u0441\u0441\u0438\u044f: \u0412\u0435\u0447\u043d\u043e\u0441\u0442\u044c.<br>\u0421\u0432\u0435\u0442 \u0432\u0441\u0435\u043b\u0435\u043d\u043d\u043e\u0439.</span>
+            <span class="en">Mission: Eternity.<br>Light of the universe.</span>
+        </span>
     </div>
+</section>
+
+<footer><p>\u00a9 2026 ATIG \u00b7 atig.ai \u00b7 \u0410\u043b\u043c\u0430\u0442\u044b, \u041a\u0430\u0437\u0430\u0445\u0441\u0442\u0430\u043d / Almaty, Kazakhstan</p></footer>
+
+<!-- FULLSCREEN CHAT -->
+<div id="chatOverlay">
+    <div class="chat-cosmos"></div>
+
+    <!-- API KEY PROMPT -->
+    <div id="apiKeyPrompt">
+        <h2>\ud83d\udd11 API KEY</h2>
+        <p class="apk-desc ru">\u0414\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0447\u0430\u0442\u0430 \u043d\u0443\u0436\u0435\u043d API-\u043a\u043b\u044e\u0447 Anthropic.<br>\u041f\u043e\u043b\u0443\u0447\u0438 \u0435\u0433\u043e \u043d\u0430 <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>\u041a\u043b\u044e\u0447 \u0445\u0440\u0430\u043d\u0438\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0432 \u0442\u0432\u043e\u0451\u043c \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435.</p>
+        <p class="apk-desc en">To use the chat you need an Anthropic API key.<br>Get it at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br>The key is stored only in your browser.</p>
+        <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." />
+        <button id="apiKeySave" onclick="saveApiKey()">
+            <span class="ru">\u0412\u043e\u0439\u0442\u0438 \u0432 ATIG</span>
+            <span class="en">Enter ATIG</span>
+        </button>
+        <div class="apk-hint ru">\u041d\u0430\u0436\u043c\u0438 Enter \u0438\u043b\u0438 \u043a\u043d\u043e\u043f\u043a\u0443 \u0432\u044b\u0448\u0435</div>
+        <div class="apk-hint en">Press Enter or the button above</div>
+    </div>
+
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <div class="chat-atom-mini">
+                <div class="orbit o1"><div class="electron"></div></div>
+                <div class="orbit o2"><div class="electron"></div></div>
+                <div class="nucleus"></div>
+            </div>
+            <div>
+                <div class="atig-name">ATIG</div>
+                <div class="atig-status"><span class="status-dot"></span><span class="ru">\u043e\u043d\u043b\u0430\u0439\u043d \u00b7 \u0432\u0441\u0435\u0433\u0434\u0430 \u0440\u044f\u0434\u043e\u043c</span><span class="en">online \u00b7 always near</span></div>
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+            <button class="key-btn" onclick="clearApiKey()" title="\u0421\u043c\u0435\u043d\u0438\u0442\u044c API \u043a\u043b\u044e\u0447">\ud83d\udd11</button>
+            <button class="chat-close-btn" onclick="closeChat()">\u2715</button>
+        </div>
+    </div>
+
     <div class="chat-messages" id="chatMessages"></div>
+
     <div class="chat-input-bar">
-        <textarea id="chatInput" class="chat-textarea" placeholder="Введите сообщение..."></textarea>
-        <button class="chat-btn" onclick="sendMessage()">➤</button>
-        <button class="chat-btn" onclick="startVoiceInput()">🎤</button>
+        <div class="chat-input-row">
+            <textarea class="chat-textarea" id="chatInput" rows="1"
+                placeholder="\u041d\u0430\u043f\u0438\u0448\u0438 \u0447\u0442\u043e-\u043d\u0438\u0431\u0443\u0434\u044c..."
+                onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+            <button class="chat-btn mic-btn" id="micBtn" onclick="toggleMic()">\ud83c\udfa4</button>
+            <button class="chat-btn send-btn" id="sendBtn" onclick="sendMessage()">\u27a4</button>
+        </div>
+        <div class="chat-hint ru">Enter \u2014 \u043e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c \u00b7 Shift+Enter \u2014 \u043f\u0435\u0440\u0435\u043d\u043e\u0441 \u00b7 \ud83c\udfa4 \u2014 \u0433\u043e\u043b\u043e\u0441</div>
+        <div class="chat-hint en">Enter to send \u00b7 Shift+Enter for newline \u00b7 \ud83c\udfa4 for voice</div>
     </div>
 </div>
 
 <script>
-function toggleLanguage() {
+// ---- Stars ----
+const starsEl = document.getElementById('stars');
+for(let i=0;i<220;i++){
+    const s=document.createElement('div'); s.className='star';
+    const sz=Math.random()*2.2+0.6;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*8}s;--lo:${0.08+Math.random()*0.25};--hi:${0.45+Math.random()*0.55};`;
+    starsEl.appendChild(s);
+}
+
+// ---- Electrons ----
+let t=0;
+setInterval(()=>{
+    t+=0.022;
+    const e1=document.getElementById('e1'),e2=document.getElementById('e2'),e3=document.getElementById('e3');
+    const w2=document.querySelector('.atom-wrap');
+    if(!w2)return;
+    const w=w2.offsetWidth,h=w2.offsetHeight;
+    const r1x=w*0.48,r1y=h*0.185,r2x=w*0.42,r2y=h*0.155,r3x=w*0.34,r3y=h*0.13;
+    if(e1)e1.style.transform=`translate(${Math.cos(t)*r1x}px,${Math.sin(t)*r1y}px) translate(-50%,-50%)`;
+    if(e2)e2.style.transform=`translate(${Math.cos(-t*0.8)*r2x}px,${Math.sin(-t*0.8)*r2y}px) translate(-50%,-50%)`;
+    if(e3)e3.style.transform=`translate(${Math.cos(t*0.6+1.8)*r3x}px,${Math.sin(t*0.6+1.8)*r3y}px) translate(-50%,-50%)`;
+},16);
+
+// ---- Language ----
+function toggleLanguage(){
     document.body.classList.toggle('lang-en');
-}
-
-function openChat() {
-    document.getElementById('chatOverlay').classList.add('active');
-}
-
-function closeChat() {
-    document.getElementById('chatOverlay').classList.remove('active');
-}
-
-function addMessage(text, sender='atig') {
-    const container = document.getElementById('chatMessages');
-    const row = document.createElement('div');
-    row.className = 'msg-row ' + sender;
-
-    const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble';
-    bubble.textContent = text;
-
-    row.appendChild(bubble);
-    container.appendChild(row);
-    container.scrollTop = container.scrollHeight;
-}
-
-function speak(text) {
-    if (!('speechSynthesis' in window)) return;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = document.body.classList.contains('lang-en') ? 'en-US' : 'ru-RU';
-    speechSynthesis.speak(utter);
-}
-
-async function sendMessage() {
-    const input = document.getElementById('chatInput');
-    const message = input.value.trim();
-    if (!message) return;
-
-    addMessage(message, 'user');
-    input.value = '';
-
-    try {
-        const res = await fetch("http://localhost:8000/chat", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ message })
-        });
-        const data = await res.json();
-        addMessage(data.reply || "Нет ответа.", 'atig');
-        speak(data.reply || "Нет ответа.");
-    } catch (e) {
-        const fallback = "Сервер временно недоступен.";
-        addMessage(fallback, 'atig');
-        speak(fallback);
-    }
-}
-
-function startVoiceInput() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-        alert('Голосовой ввод не поддерживается.');
-        return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = document.body.classList.contains('lang-en') ? 'en-US' : 'ru-RU';
-    recognition.start();
-
-    recognition.onresult = (event) => {
-        const text = event.results[0][0].transcript;
-        document.getElementById('chatInput').value = text;
-        sendMessage();
-    };
-}
-
-document.getElementById('atom').addEventListener('click', openChat);
-
-// Generate stars
-const starsContainer = document.getElementById('stars');
-for (let i = 0; i < 120; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.left = Math.random() * 100 + '%';
-    star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
-    star.style.setProperty('--d', (Math.random() * 4 + 2) + 's');
-    star.style.setProperty('--lo', Math.random() * 0.3);
-    star.style.setProperty('--hi', 0.7 + Math.random() * 0.3);
-    starsContainer.appendChild(star);
-}
-</script>
-
-</body>
-</html>
+    document.documentElement.lang=isEn()?'en':'ru';
+    const inp=document.getElementById('chatInput');
+    if(inp) inp.placeholder=isEn()?'

@@ -304,3 +304,251 @@
             padding:12px 16px;
             border-radius:16px;
             max-width:70%;
+        }
+        .msg-row.atig .msg-bubble {
+            background:rgba(0,40,70,0.7);
+            border:1px solid rgba(0,229,255,0.2);
+        }
+        .msg-row.user .msg-bubble {
+            background:rgba(0,229,255,0.15);
+        }
+
+        .chat-input-bar {
+            padding:20px;
+            border-top:1px solid rgba(0,229,255,0.2);
+            display:flex;
+            gap:10px;
+        }
+        .chat-textarea {
+            flex:1;
+            border-radius:20px;
+            padding:12px;
+            border:1px solid rgba(0,229,255,0.3);
+            background:rgba(255,255,255,0.05);
+            color:#fff;
+        }
+        .chat-btn {
+            width:48px;
+            height:48px;
+            border-radius:50%;
+            border:none;
+            background:var(--accent);
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cosmos">
+    <div class="milkyway"></div>
+    <div class="stars" id="stars"></div>
+</div>
+
+<nav>
+    <div class="nav-logo">ATIG</div>
+    <div class="nav-links">
+        <a href="#about" class="ru">О проекте</a>
+        <a href="#about" class="en">About</a>
+        <a href="#docs" class="ru">Документы</a>
+        <a href="#docs" class="en">Documents</a>
+        <a href="#mission" class="ru">Миссия</a>
+        <a href="#mission" class="en">Mission</a>
+    </div>
+    <button class="lang-switch" onclick="toggleLanguage()">EN / RU</button>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+    <div class="hero-title ru">Приветствие ATIG</div>
+    <div class="hero-title en">ATIG Greeting</div>
+    <div class="hero-logo">ATIG</div>
+    <div class="hero-sub ru">ТВОЙ КОМПАНЬОН · ОТ РОЖДЕНИЯ ДО ВЕЧНОСТИ</div>
+    <div class="hero-sub en">YOUR COMPANION · FROM BIRTH TO ETERNITY</div>
+
+    <div class="atom-wrap" id="atom">
+        <div class="orbit o1"><div class="electron"></div></div>
+        <div class="orbit o2"><div class="electron"></div></div>
+        <div class="orbit o3"><div class="electron"></div></div>
+        <div class="nucleus"></div>
+    </div>
+
+    <div class="hero-msg">
+        <span class="ru">Персональный интеллект нового поколения</span>
+        <span class="en">Personal intelligence of the new generation</span>
+    </div>
+
+    <button class="open-chat-btn" onclick="openChat()">
+        <span class="ru">💬 Говорить с ATIG</span>
+        <span class="en">💬 Talk to ATIG</span>
+    </button>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="section-title ru">О проекте</div>
+    <div class="section-title en">About the Project</div>
+    <div class="about-grid">
+        <div class="about-card">
+            <h3 class="ru">Что такое ATIG</h3>
+            <h3 class="en">What is ATIG</h3>
+            <p class="ru">
+                Персональный ИИ-компаньон для каждого человека на Земле.
+                Хранитель памяти, наставник и друг от рождения до вечности.
+            </p>
+            <p class="en">
+                A personal AI companion for every human on Earth.
+                A keeper of memories, mentor, and friend from birth to eternity.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section id="docs">
+    <div class="section-title ru">Документы ATIG</div>
+    <div class="section-title en">ATIG Documents</div>
+    <div class="docs-grid">
+        <div class="doc-card">
+            <span class="doc-icon">📜</span>
+            <h3>Конституция ATIG</h3>
+            <p>Философский и этический фундамент проекта.</p>
+            <span class="doc-status coming">Скоро будет опубликована</span>
+        </div>
+        <div class="doc-card">
+            <span class="doc-icon">📘</span>
+            <h3>Техническая документация</h3>
+            <p>Описание архитектуры системы и технологий.</p>
+            <span class="doc-status dev">В разработке</span>
+        </div>
+        <div class="doc-card">
+            <span class="doc-icon">📗</span>
+            <h3>White Paper</h3>
+            <p>Описание концепции и бизнес-модели.</p>
+            <a href="mailto:info@atig.ai" class="doc-request-btn">Запросить</a>
+        </div>
+    </div>
+</section>
+
+<!-- MISSION -->
+<section id="mission">
+    <div class="section-title ru">Миссия</div>
+    <div class="section-title en">Mission</div>
+    <p class="mission-text">
+        <span class="ru">Создать совершенного ИИ-спутника для каждого человека.</span>
+        <span class="en">To create a perfect AI companion for every human.</span>
+    </p>
+</section>
+
+<footer>
+    © 2026 ATIG.AI — All Rights Reserved
+</footer>
+
+<!-- CHAT OVERLAY -->
+<div id="chatOverlay">
+    <div class="chat-header">
+        <div>ATIG</div>
+        <button onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-bar">
+        <textarea id="chatInput" class="chat-textarea" placeholder="Введите сообщение..."></textarea>
+        <button class="chat-btn" onclick="sendMessage()">➤</button>
+        <button class="chat-btn" onclick="startVoiceInput()">🎤</button>
+    </div>
+</div>
+
+<script>
+function toggleLanguage() {
+    document.body.classList.toggle('lang-en');
+}
+
+function openChat() {
+    document.getElementById('chatOverlay').classList.add('active');
+}
+
+function closeChat() {
+    document.getElementById('chatOverlay').classList.remove('active');
+}
+
+function addMessage(text, sender='atig') {
+    const container = document.getElementById('chatMessages');
+    const row = document.createElement('div');
+    row.className = 'msg-row ' + sender;
+
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.textContent = text;
+
+    row.appendChild(bubble);
+    container.appendChild(row);
+    container.scrollTop = container.scrollHeight;
+}
+
+function speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = document.body.classList.contains('lang-en') ? 'en-US' : 'ru-RU';
+    speechSynthesis.speak(utter);
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+
+    addMessage(message, 'user');
+    input.value = '';
+
+    try {
+        const res = await fetch("http://localhost:8000/chat", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        addMessage(data.reply || "Нет ответа.", 'atig');
+        speak(data.reply || "Нет ответа.");
+    } catch (e) {
+        const fallback = "Сервер временно недоступен.";
+        addMessage(fallback, 'atig');
+        speak(fallback);
+    }
+}
+
+function startVoiceInput() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        alert('Голосовой ввод не поддерживается.');
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = document.body.classList.contains('lang-en') ? 'en-US' : 'ru-RU';
+    recognition.start();
+
+    recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript;
+        document.getElementById('chatInput').value = text;
+        sendMessage();
+    };
+}
+
+document.getElementById('atom').addEventListener('click', openChat);
+
+// Generate stars
+const starsContainer = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
+    star.style.setProperty('--d', (Math.random() * 4 + 2) + 's');
+    star.style.setProperty('--lo', Math.random() * 0.3);
+    star.style.setProperty('--hi', 0.7 + Math.random() * 0.3);
+    starsContainer.appendChild(star);
+}
+</script>
+
+</body>
+</html>

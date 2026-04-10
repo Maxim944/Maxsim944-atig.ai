@@ -1,443 +1,375 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>ATIG.AI — Персональный интеллект | Конституция нового века</title>
-<meta name="description" content="ATIG — персональный ИИ компаньон для каждого человека. От рождения до вечности. Конституция ATIG — основа свободного интеллекта.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATIG.AI — Персональный интеллект</title>
+    <meta name="description" content="ATIG — персональный ИИ-компаньон для каждого человека. От рождения до вечности.">
+    
+    <!-- SEO -->
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="ATIG.AI — Персональный интеллект">
+    <meta property="og:description" content="Персональный ИИ-компаньон для каждого человека.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://atig.ai">
+    <meta property="og:image" content="https://atig.ai/preview.jpg">
+    <meta name="twitter:card" content="summary_large_image">
 
-<!-- SEO -->
-<meta name="robots" content="index, follow">
-<meta property="og:title" content="ATIG.AI — Персональный интеллект">
-<meta property="og:description" content="Персональный ИИ-компаньон для каждого человека.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://atig.ai">
-<meta property="og:image" content="https://atig.ai/preview.jpg">
-<meta name="twitter:card" content="summary_large_image">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Шрифты -->
-<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-/* ===== БАЗОВЫЕ СТИЛИ ===== */
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  background:#00020b;
-  min-height:100vh;
-  font-family:'Raleway',sans-serif;
-  color:#eef5ff;
-  overflow-x:hidden;
-  scroll-behavior:smooth;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #111111;
+            line-height: 1.6;
+        }
 
-/* ===== КОСМИЧЕСКИЙ ФОН ===== */
-.cosmos{position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,#0a1f3a 0%,#01000c 100%);z-index:0;overflow:hidden}
-.star-field{position:absolute;width:100%;height:100%}
-.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--dur) ease-in-out infinite var(--delay);opacity:0}
-@keyframes twinkle{0%,100%{opacity:var(--lo)}50%{opacity:var(--hi)}}
-.nebula{position:absolute;width:100%;height:100%;background:
-  radial-gradient(circle at 70% 20%, rgba(80,130,255,0.08) 0%, transparent 50%),
-  radial-gradient(circle at 20% 80%, rgba(180,100,255,0.05) 0%, transparent 60%);
-  pointer-events:none;
-}
+        /* Navigation */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-/* ===== НАВИГАЦИЯ ===== */
-nav{
-  position:fixed;top:0;width:100%;
-  padding:18px 40px;
-  display:flex;justify-content:space-between;align-items:center;
-  z-index:1000;
-  background:rgba(0,2,12,0.7);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(0,229,255,0.15);
-}
-.nav-logo{
-  font-size:26px;font-weight:700;
-  background:linear-gradient(135deg,#fff 20%,#00e5ff 80%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  letter-spacing:5px;
-}
-.nav-links{display:flex;gap:28px;flex-wrap:wrap;align-items:center}
-.nav-links a{
-  color:rgba(230,245,255,0.65);
-  text-decoration:none;font-size:12px;font-weight:500;
-  letter-spacing:1.8px;transition:all 0.25s;
-}
-.nav-links a:hover{color:#00e5ff;}
-.nav-links a.nav-sci{
-  color:#00e5ff;border:1px solid rgba(0,229,255,0.45);
-  padding:6px 14px;border-radius:40px;
-  font-size:11px;font-weight:600;letter-spacing:2.5px;
-  background:rgba(0,229,255,0.02);cursor:pointer;
-}
-.nav-links a.nav-sci:hover{
-  background:rgba(0,229,255,0.12);
-  box-shadow:0 0 12px rgba(0,229,255,0.2);
-}
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
-/* ===== СЕКЦИИ ===== */
-section{
-  position:relative;z-index:15;
-  min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:100px 24px 80px;
-}
-.section-title{
-  font-size:10px;letter-spacing:7px;color:#7dd3fc;
-  text-transform:uppercase;margin-bottom:48px;
-  background:rgba(0,229,255,0.1);
-  padding:6px 20px;border-radius:60px;
-}
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
 
-/* ===== HERO ===== */
-.hero-title{font-size:12px;letter-spacing:9px;color:#a0d0ff;margin-bottom:18px;}
-.hero-logo{
-  font-size:clamp(48px,12vw,96px);
-  font-weight:800;
-  background:linear-gradient(135deg,#ffffff 20%,#00e5ff 70%,#3b82f6 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  letter-spacing:10px;margin-bottom:8px;
-}
-.hero-sub{font-size:12px;letter-spacing:5px;color:#6ea8fe;margin-bottom:55px;}
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
 
-/* ===== АТОМ ===== */
-.atom-wrap{position:relative;width:280px;height:280px;cursor:pointer;margin-bottom:48px;}
-.orbit{position:absolute;border-radius:50%;border:1.2px solid rgba(0,229,255,0.45);top:50%;left:50%;}
-.o1{width:270px;height:100px;margin-left:-135px;margin-top:-50px;animation:orbitSpin 12s linear infinite}
-.o2{width:230px;height:86px;margin-left:-115px;margin-top:-43px;animation:orbitSpinRev 16s linear infinite}
-.o3{width:190px;height:70px;margin-left:-95px;margin-top:-35px;animation:orbitSpin 20s linear infinite}
-@keyframes orbitSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@keyframes orbitSpinRev{from{transform:rotate(40deg)}to{transform:rotate(400deg)}}
-.electron{
-  position:absolute;width:6px;height:6px;border-radius:50%;
-  background:radial-gradient(circle,#b9f2ff,#00e0ff);
-  box-shadow:0 0 12px #2dd4ff;
-  top:50%;left:50%;margin:-3px 0 0 -3px
-}
-.nucleus{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:68px;height:68px;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,#f0fcff 0%,#7dd3fc 50%,#1e88e5 100%);
-  box-shadow:0 0 35px #4bc0ff;
-  animation:pulseGlow 3.6s ease-in-out infinite;
-}
-@keyframes pulseGlow{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.08);}}
-.hero-msg{
-  font-size:clamp(16px,4vw,20px);
-  font-weight:300;text-align:center;max-width:500px;
-  background:linear-gradient(120deg,#ffffff,#bbffff);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.hero-hint{font-size:9px;letter-spacing:5px;color:#4c8eff60;margin-top:14px}
+        .nav-links a {
+            margin-left: 24px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
 
-/* ===== КАРТОЧКИ ===== */
-.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;max-width:1000px;width:100%}
-.about-card{
-  padding:32px 24px;border:1px solid rgba(0,229,255,0.2);
-  border-radius:28px;background:rgba(5,15,35,0.45);
-  backdrop-filter:blur(12px);transition:0.25s;
-}
-.about-card:hover{border-color:#00e5ff55;transform:translateY(-6px);}
-.about-card h3{font-size:15px;font-weight:600;letter-spacing:2px;color:#7ad0ff;margin-bottom:15px}
-.about-card p{font-size:13px;color:#bdd4ff;line-height:1.7}
+        .nav-links a:hover {
+            color: #000;
+        }
 
-/* ===== ПРИНЦИПЫ ===== */
-.principles-wrap{max-width:1000px;width:100%;display:flex;flex-direction:column;gap:48px}
-.principle-main{
-  padding:42px 32px;border:1px solid rgba(0,229,255,0.3);
-  border-radius:32px;background:rgba(0,10,30,0.6);
-  backdrop-filter:blur(12px);text-align:center
-}
-.principle-big{font-size:clamp(14px,2.3vw,19px);line-height:2;color:#e2f0ff;}
-.principle-big em{font-style:normal;color:#5ee0ff;font-weight:600;}
-.principles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
-.principle-card{
-  padding:28px 20px;border:1px solid rgba(100,180,255,0.2);
-  border-radius:24px;background:rgba(2,12,28,0.5);transition:0.2s
-}
-.principle-card:hover{border-color:#4bc0ff;background:rgba(0,229,255,0.05);transform:translateY(-4px)}
-.principle-card .p-icon{font-size:28px;margin-bottom:12px}
-.principle-card h3{font-size:12px;font-weight:700;letter-spacing:2px;color:#7ad0ff;margin-bottom:12px}
-.principle-card p{font-size:12px;color:#b5d0ff;line-height:1.75}
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+        }
 
-/* ===== ДОКУМЕНТЫ ===== */
-.docs-list{max-width:760px;width:100%;display:flex;flex-direction:column;gap:18px}
-.doc-item{
-  padding:18px 28px;border:1px solid rgba(125,211,252,0.25);
-  border-radius:50px;background:rgba(0,0,0,0.35);
-  display:flex;justify-content:space-between;align-items:center;
-  cursor:pointer;transition:0.2s
-}
-.doc-item:hover{border-color:#4bc0ff;background:rgba(0,229,255,0.1);transform:translateX(6px)}
-.doc-name{font-size:14px;font-weight:500;color:#ebf5ff}
-.doc-type{font-size:9px;letter-spacing:2.5px;color:#6aa9ff}
-#docContent{
-  max-width:760px;margin-top:35px;padding:32px;border-radius:28px;
-  background:rgba(0,8,25,0.7);backdrop-filter:blur(12px);
-  border-left:3px solid #00e5ff;font-size:14px;line-height:1.85;
-  color:#cae3ff;max-height:60vh;overflow-y:auto
-}
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
 
-/* ===== РЕГИСТРАЦИЯ ===== */
-.reg-form{max-width:520px;width:100%;display:flex;flex-direction:column;gap:18px}
-.reg-form input{
-  padding:16px 20px;background:rgba(0,5,18,0.7);
-  border:1px solid #2b6a9e;border-radius:60px;
-  color:#fff;font-family:'Raleway',sans-serif;font-size:14px;outline:none;
-}
-.reg-form input:focus{border-color:#00e5ff;box-shadow:0 0 8px #00e5ff40}
-.reg-btn{
-  padding:14px;background:linear-gradient(95deg,#00b3ff20,transparent);
-  border:1px solid #00e5ff;border-radius:60px;color:#bbf0ff;
-  font-weight:700;font-size:13px;letter-spacing:4px;cursor:pointer;
-}
-.reg-btn:hover{background:#00e5ff20;color:#ffffff;box-shadow:0 0 14px #00e5ff}
-.reg-success{
-  display:none;text-align:center;color:#a3f5c3;
-  padding:16px;background:#00a36c20;border-radius:40px
-}
+        .hero p {
+            font-size: 20px;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
 
-/* ===== МОДАЛЬНОЕ ОКНО ===== */
-.modal{
-  display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-  background:rgba(0,0,0,0.85);backdrop-filter:blur(20px);
-  z-index:2000;justify-content:center;align-items:center;
-}
-.modal-content{
-  background:linear-gradient(145deg,#030e1f,#00040c);
-  border:1px solid #00e5ff;border-radius:48px;
-  max-width:800px;width:90%;padding:40px;position:relative;
-}
-.close-modal{
-  position:absolute;top:20px;right:28px;font-size:32px;
-  cursor:pointer;color:#7dd3fc;
-}
-.sci-mode-title{text-align:center;color:#00e5ff;font-size:28px;margin-bottom:20px}
-.sci-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+        .cta-button {
+            display: inline-block;
+            padding: 14px 28px;
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
 
-/* ===== ФУТЕР ===== */
-footer{
-  position:relative;z-index:15;padding:48px 20px 36px;
-  text-align:center;border-top:1px solid rgba(0,229,255,0.15);
-  background:#00030cee
-}
-footer p{font-size:10px;letter-spacing:3px;color:#5a79a5}
-</style>
+        .cta-button:hover {
+            background-color: #333;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .card {
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 24px;
+            background-color: #fafafa;
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        /* Documents */
+        .doc-list {
+            max-width: 700px;
+            margin: 40px auto 0;
+        }
+
+        .doc-item {
+            border: 1px solid #e5e5e5;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .doc-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        #docContent {
+            margin-top: 24px;
+            padding: 20px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            background-color: #ffffff;
+            display: none;
+        }
+
+        /* Form */
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        .success {
+            display: none;
+            margin-top: 16px;
+            padding: 12px;
+            background-color: #e6f4ea;
+            color: #1e7e34;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #e5e5e5;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="cosmos">
-  <div class="nebula"></div>
-  <div class="star-field" id="starfield"></div>
-</div>
+<header>
+    <div class="container nav">
+        <div class="logo">ATIG.AI</div>
+        <nav class="nav-links">
+            <a href="#about">О проекте</a>
+            <a href="#principles">Принципы</a>
+            <a href="#documents">Документы</a>
+            <a href="#join">Присоединиться</a>
+            <a href="#mission">Миссия</a>
+        </nav>
+    </div>
+</header>
 
-<!-- ===== НАВИГАЦИЯ ===== -->
-<nav>
-  <div class="nav-logo">⎯ ATIG ⎯</div>
-  <div class="nav-links">
-    <a href="#about">● ПРОЕКТ</a>
-    <a href="#principles">ПРИНЦИПЫ</a>
-    <a href="#docs">ДОКУМЕНТЫ</a>
-    <a href="#join">ПРИСОЕДИНИТЬСЯ</a>
-    <a href="#mission">МИССИЯ</a>
-    <a class="nav-sci" id="openSciModalBtn">⚛ SCI MODE</a>
-  </div>
-</nav>
-
-<!-- ===== ГЛАВНАЯ ===== -->
-<section id="home">
-  <div class="hero-title">⚡ ATIG.AI | СВЕТ ВСЕЛЕННОЙ</div>
-  <div class="hero-logo">ATIG</div>
-  <div class="hero-sub">YOUR INTELLIGENCE · FROM BIRTH TO ETERNITY</div>
-
-  <div class="atom-wrap">
-    <div class="orbit o1"><div class="electron" id="el1"></div></div>
-    <div class="orbit o2"><div class="electron" id="el2"></div></div>
-    <div class="orbit o3"><div class="electron" id="el3"></div></div>
-    <div class="nucleus"></div>
-  </div>
-
-  <div class="hero-msg" id="dynamicMsg">
-    Персональный интеллект нового поколения. Твой спутник навсегда.
-  </div>
-  <div class="hero-hint">КОНСТИТУЦИЯ ATIG · НЕПРИКОСНОВЕННОСТЬ РАЗУМА</div>
+<section class="hero">
+    <div class="container">
+        <h1>Персональный интеллект для каждого человека</h1>
+        <p>
+            ATIG — персональный ИИ-компаньон, сопровождающий человека на протяжении всей жизни,
+            обеспечивая развитие, сохранение знаний и поддержку в принятии решений.
+        </p>
+        <a href="#join" class="cta-button">Присоединиться</a>
+    </div>
 </section>
 
-<!-- ===== О ПРОЕКТЕ ===== -->
 <section id="about">
-  <div class="section-title">❖ О ПРОЕКТЕ</div>
-  <div class="about-grid">
-    <div class="about-card">
-      <h3>🧠 Что такое ATIG?</h3>
-      <p>Персональный ИИ-компаньон для каждого жителя Земли.</p>
+    <div class="container">
+        <h2>О проекте</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Персональный интеллект</h3>
+                <p>Индивидуальный ИИ-ассистент, работающий исключительно в интересах пользователя.</p>
+            </div>
+            <div class="card">
+                <h3>Принадлежность пользователю</h3>
+                <p>Все данные и история взаимодействия полностью контролируются владельцем.</p>
+            </div>
+            <div class="card">
+                <h3>Доступность</h3>
+                <p>Базовые функции доступны каждому человеку независимо от его местоположения.</p>
+            </div>
+            <div class="card">
+                <h3>Долгосрочная миссия</h3>
+                <p>Создание устойчивой экосистемы персонального интеллекта для будущих поколений.</p>
+            </div>
+        </div>
     </div>
-    <div class="about-card">
-      <h3>⚖️ Принадлежит человеку</h3>
-      <p>ATIG закрепляет твои права на собственный интеллект.</p>
-    </div>
-    <div class="about-card">
-      <h3>🌍 Доступ для всех</h3>
-      <p>Базовый функционал навсегда бесплатен.</p>
-    </div>
-    <div class="about-card">
-      <h3>✨ Миссия: вечность</h3>
-      <p>Сделать каждого человека лучше.</p>
-    </div>
-  </div>
 </section>
 
-<!-- ===== ДОКУМЕНТЫ ===== -->
-<section id="docs">
-  <div class="section-title">📜 ДОКУМЕНТЫ ЭПОХИ</div>
-  <div class="docs-list">
-    <div class="doc-item" onclick="showDoc('manifest')">
-      <span class="doc-name">📄 Манифест ATIG</span>
-      <span class="doc-type">→</span>
+<section id="principles">
+    <div class="container">
+        <h2>Принципы</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Человекоцентричность</h3>
+                <p>Технологии служат человеку и его развитию.</p>
+            </div>
+            <div class="card">
+                <h3>Приватность</h3>
+                <p>Данные пользователя защищены и не передаются третьим лицам.</p>
+            </div>
+            <div class="card">
+                <h3>Прозрачность</h3>
+                <p>Алгоритмы и решения объяснимы и понятны пользователю.</p>
+            </div>
+            <div class="card">
+                <h3>Непрерывное развитие</h3>
+                <p>Система адаптируется и развивается вместе с человеком.</p>
+            </div>
+        </div>
     </div>
-    <div class="doc-item" onclick="showDoc('constitution')">
-      <span class="doc-name">⚖️ Конституция ATIG</span>
-      <span class="doc-type">→</span>
-    </div>
-    <div class="doc-item" onclick="showDoc('analysis')">
-      <span class="doc-name">📊 Рыночный анализ</span>
-      <span class="doc-type">→</span>
-    </div>
-  </div>
-  <div id="docContent" style="display:none;"></div>
 </section>
 
-<!-- ===== РЕГИСТРАЦИЯ ===== -->
+<section id="documents">
+    <div class="container">
+        <h2>Документы</h2>
+        <div class="doc-list">
+            <div class="doc-item" onclick="showDoc('manifest')">Манифест ATIG</div>
+            <div class="doc-item" onclick="showDoc('constitution')">Конституция ATIG</div>
+            <div class="doc-item" onclick="showDoc('analysis')">Рыночный анализ и дорожная карта</div>
+        </div>
+        <div id="docContent"></div>
+    </div>
+</section>
+
 <section id="join">
-  <div class="section-title">✧ СТАТЬ ЧАСТЬЮ ATIG</div>
-  <div class="reg-form">
-    <input type="text" id="regName" placeholder="Имя">
-    <input type="email" id="regEmail" placeholder="Email">
-    <input type="text" id="regCountry" placeholder="Страна">
-    <button class="reg-btn" onclick="registerUser()">ПРИСОЕДИНИТЬСЯ</button>
-    <div class="reg-success" id="regSuccess">
-      ✓ Регистрация принята. Добро пожаловать в будущее.
+    <div class="container">
+        <h2>Стать частью ATIG</h2>
+        <div class="form-container">
+            <div class="form-group">
+                <input type="text" id="name" placeholder="Имя">
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="text" id="country" placeholder="Страна">
+            </div>
+            <button onclick="registerUser()">Отправить</button>
+            <div class="success" id="successMessage">
+                Регистрация успешно завершена.
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
-<!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
-<div id="sciModal" class="modal">
-  <div class="modal-content">
-    <span class="close-modal" id="closeSciModal">&times;</span>
-    <div class="sci-mode-title">⚛ SCI MODE ⚛</div>
-    <div class="sci-grid">
-      <div class="sci-card"><h4>🔬 Физик</h4><p>Квантовая механика и астрофизика.</p></div>
-      <div class="sci-card"><h4>🧪 Химик</h4><p>Молекулярные структуры и реакции.</p></div>
-      <div class="sci-card"><h4>📐 Математик</h4><p>Алгоритмы и статистика.</p></div>
-      <div class="sci-card"><h4>📜 Философ</h4><p>Этика и будущее человечества.</p></div>
+<section id="mission">
+    <div class="container">
+        <h2>Миссия</h2>
+        <p style="text-align:center; max-width:700px; margin:0 auto;">
+            Миссия ATIG — предоставить каждому человеку персональный интеллект,
+            способствующий развитию личности, сохранению знаний и формированию
+            устойчивого будущего для всего человечества.
+        </p>
     </div>
-  </div>
-</div>
+</section>
 
 <footer>
-  <p>© 2026 ATIG · atig.ai · Алматы — Земля — Будущее</p>
+    <p>© 2026 ATIG.AI. Все права защищены.</p>
 </footer>
 
-<!-- ===== JAVASCRIPT ===== -->
 <script>
-// Генерация звёзд
-const starContainer = document.getElementById('starfield');
-for(let i=0;i<320;i++){
-  const star = document.createElement('div');
-  star.classList.add('star');
-  const size = 0.8+Math.random()*2.2;
-  star.style.cssText = `
-    width:${size}px;height:${size}px;
-    left:${Math.random()*100}%;top:${Math.random()*100}%;
-    --dur:${2+Math.random()*8}s;
-    --delay:${-(Math.random()*8)}s;
-    --lo:${0.1+Math.random()*0.25};
-    --hi:${0.45+Math.random()*0.55};
-  `;
-  starContainer.appendChild(star);
-}
-
-// Анимация электронов
-let a1=0,a2=1.2,a3=2.5;
-function animateE(){
-  const e1=document.getElementById('el1');
-  const e2=document.getElementById('el2');
-  const e3=document.getElementById('el3');
-  if(!e1) return;
-  a1+=0.018; a2+=0.012; a3+=0.023;
-  e1.style.transform=`translate(${Math.cos(a1)*133}px,${Math.sin(a1)*48}px)`;
-  e2.style.transform=`translate(${Math.cos(a2+1.8)*114}px,${Math.sin(a2)*41}px)`;
-  e3.style.transform=`translate(${Math.cos(a3+0.9)*92}px,${Math.sin(a3+1.2)*33}px)`;
-  requestAnimationFrame(animateE);
-}
-requestAnimationFrame(animateE);
-
-// Динамические сообщения
-const msgs=[
-  "🧬 ATIG помнит каждую твою мысль.",
-  "🔮 Свободный интеллект, растущий с тобой.",
-  "⚛️ Ядро ATIG: служение человеку.",
-  "🌠 Конституция защищает твой разум."
-];
-document.querySelector('.atom-wrap').addEventListener('click',()=>{
-  document.getElementById('dynamicMsg').textContent =
-    msgs[Math.floor(Math.random()*msgs.length)];
-});
-
-// Документы
-const docsLib={
-  manifest:"✨ Манифест ATIG — право каждого на персональный интеллект.",
-  constitution:"📜 Конституция ATIG — 10 статей о защите разума.",
-  analysis:"📈 Рынок Personal AI: рост до $210 млрд к 2032 году."
+const docs = {
+    manifest: `
+        <h3>Манифест ATIG</h3>
+        <p>Каждый человек имеет право на собственного ИИ-компаньона.
+        ATIG создаётся для расширения возможностей личности и сохранения знаний.</p>
+    `,
+    constitution: `
+        <h3>Конституция ATIG</h3>
+        <p>1. ATIG усиливает человека, а не заменяет его.<br>
+        2. Пользователь обладает полным контролем над своими данными.<br>
+        3. Система действует исключительно в интересах владельца.<br>
+        4. Соблюдаются принципы этичности и прозрачности.</p>
+    `,
+    analysis: `
+        <h3>Рыночный анализ</h3>
+        <p>Рынок персональных ИИ-ассистентов демонстрирует устойчивый рост и
+        открывает значительные возможности для развития экосистемы ATIG.</p>
+    `
 };
-function showDoc(key){
-  const c=document.getElementById('docContent');
-  c.style.display='block';
-  c.innerHTML=docsLib[key];
-  c.scrollIntoView({behavior:'smooth'});
+
+function showDoc(key) {
+    const content = document.getElementById('docContent');
+    content.innerHTML = docs[key];
+    content.style.display = 'block';
 }
 
-// Регистрация
-function registerUser(){
-  const name=document.getElementById('regName').value.trim();
-  const email=document.getElementById('regEmail').value.trim();
-  const country=document.getElementById('regCountry').value.trim();
+function registerUser() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const country = document.getElementById('country').value.trim();
 
-  if(!name || !email){
-    alert("Пожалуйста, заполните имя и email.");
-    return;
-  }
-
-  const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if(!emailPattern.test(email)){
-    alert("Введите корректный email.");
-    return;
-  }
-
-  const userData={name,email,country,date:new Date().toISOString()};
-  let users=JSON.parse(localStorage.getItem('atig_users')||'[]');
-  users.push(userData);
-  localStorage.setItem('atig_users',JSON.stringify(users));
-
-  document.getElementById('regSuccess').style.display='block';
-  setTimeout(()=>{
-    document.getElementById('regSuccess').style.display='none';
-  },5000);
-
-  document.getElementById('regName').value='';
-  document.getElementById('regEmail').value='';
-  document.getElementById('regCountry').value='';
-}
-
-// Модальное окно SCI MODE
-const modal=document.getElementById('sciModal');
-document.getElementById('openSciModalBtn').onclick=()=>modal.style.display='flex';
-document.getElementById('closeSciModal').onclick=()=>modal.style.display='none';
-window.onclick=(e)=>{if(e.target===modal) modal.style.display='none';};
-</script>
-
-</body>
-</html>
+    if (!name || !email) {
+        alert('Пожалуйста, заполните обязательные поля.');

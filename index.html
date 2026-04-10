@@ -134,4 +134,33 @@ async function send() {
                 "Authorization": "Bearer YOUR_API_KEY"
             },
             body: JSON.stringify({
-                model: "
+                model: "gpt-4o-mini",
+                messages: [
+                    { role: "system", content: system },
+                    { role: "user", content: text }
+                ]
+            })
+        });
+
+        if (!res.ok) throw new Error("API error");
+
+        const data = await res.json();
+        const reply = data.choices[0].message.content;
+        addMsg(reply, "atig");
+
+    } catch (error) {
+        console.error(error);
+        addMsg("Извините, произошла ошибка соединения. Попробуйте позже.", "atig");
+    }
+}
+
+/* Отправка по Enter */
+input.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        send();
+    }
+});
+</script>
+
+</body>
+</html>

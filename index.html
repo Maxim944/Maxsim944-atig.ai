@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATIG.AI — Персональный интеллект</title>
+<meta name="description" content="ATIG — персональный ИИ-компаньон для каждого человека. От рождения до вечности.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#00020b;font-family:'Raleway',sans-serif;color:#eef5ff;overflow-x:hidden}
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800&display=swap');
+
+.cosmos{position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,#0a1f3a 0%,#01000c 100%);z-index:0}
+.star-field{position:absolute;width:100%;height:100%}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--dur) infinite var(--delay);opacity:0}
+@keyframes twinkle{0%,100%{opacity:var(--lo)}50%{opacity:var(--hi)}}
+
+nav{position:fixed;top:0;width:100%;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;z-index:1000;background:rgba(0,2,12,0.7);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,229,255,0.15);flex-wrap:wrap}
+.nav-logo{font-size:26px;font-weight:700;background:linear-gradient(135deg,#fff,#00e5ff);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:5px}
+.nav-links{display:flex;gap:28px;flex-wrap:wrap}
+.nav-links a{color:rgba(230,245,255,0.65);text-decoration:none;font-size:12px;letter-spacing:1.8px;transition:0.25s}
+.nav-links a:hover{color:#00e5ff}
+.nav-links a.nav-sci{color:#00e5ff;border:1px solid rgba(0,229,255,0.45);padding:6px 14px;border-radius:40px}
+
+section{position:relative;z-index:15;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 80px}
+.section-title{font-size:10px;letter-spacing:7px;color:#7dd3fc;margin-bottom:48px;background:rgba(0,229,255,0.1);padding:6px 20px;border-radius:60px}
+
+.hero-logo{font-size:clamp(48px,12vw,96px);font-weight:800;background:linear-gradient(135deg,#fff,#00e5ff,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:10px;margin-bottom:8px}
+.hero-sub{font-size:12px;letter-spacing:5px;color:#6ea8fe;margin-bottom:55px}
+
+.atom-wrap{position:relative;width:280px;height:280px;cursor:pointer;margin-bottom:48px}
+.orbit{position:absolute;border-radius:50%;border:1px solid rgba(0,229,255,0.45);top:50%;left:50%}
+.o1{width:270px;height:100px;margin-left:-135px;margin-top:-50px;animation:spin1 12s linear infinite}
+.o2{width:230px;height:86px;margin-left:-115px;margin-top:-43px;animation:spin2 16s linear infinite}
+.o3{width:190px;height:70px;margin-left:-95px;margin-top:-35px;animation:spin1 20s linear infinite}
+@keyframes spin1{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes spin2{from{transform:rotate(40deg)}to{transform:rotate(400deg)}}
+.electron{position:absolute;width:6px;height:6px;border-radius:50%;background:#00e0ff;box-shadow:0 0 12px #2dd4ff;top:50%;left:50%;margin:-3px}
+.nucleus{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:68px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f0fcff,#7dd3fc,#1e88e5);box-shadow:0 0 35px #4bc0ff;animation:pulse 3.6s infinite}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.08)}}
+
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;max-width:1000px;width:100%}
+.about-card{padding:32px 24px;border:1px solid rgba(0,229,255,0.2);border-radius:28px;background:rgba(5,15,35,0.45);backdrop-filter:blur(12px)}
+.about-card h3{font-size:15px;color:#7ad0ff;margin-bottom:15px}
+.about-card p{font-size:13px;color:#bdd4ff;line-height:1.7}
+
+/* СТИЛЬ ДЛЯ ДОКУМЕНТОВ — ГАРАНТИРОВАННО РАБОТАЕТ */
+.doc-details{max-width:800px;width:100%;margin-bottom:16px}
+.doc-summary{padding:18px 28px;border:1px solid rgba(125,211,252,0.3);border-radius:60px;background:rgba(0,0,0,0.5);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;transition:0.2s}
+.doc-summary::-webkit-details-marker{display:none}
+.doc-summary:hover{background:rgba(0,229,255,0.1);border-color:#00e5ff}
+.doc-name{font-size:16px;font-weight:500;color:#fff}
+.doc-arrow{color:#7dd3fc;font-size:14px}
+.doc-content{padding:28px;background:rgba(0,8,25,0.8);border-radius:28px;margin-top:12px;border-left:4px solid #00e5ff;line-height:1.8;font-size:14px;color:#cae3ff}
+
+.reg-form{max-width:520px;width:100%;display:flex;flex-direction:column;gap:18px}
+.reg-form input{padding:16px 20px;background:rgba(0,5,18,0.7);border:1px solid #2b6a9e;border-radius:60px;color:#fff;font-size:14px}
+.reg-form input:focus{border-color:#00e5ff;outline:none}
+.reg-btn{padding:14px;border:1px solid #00e5ff;border-radius:60px;background:transparent;color:#bbf0ff;cursor:pointer;font-weight:700;letter-spacing:4px}
+.reg-btn:hover{background:#00e5ff20}
+
+.mission-text{max-width:720px;text-align:center;font-size:clamp(16px,3vw,20px);line-height:2;background:rgba(0,10,30,0.4);padding:36px;border-radius:48px}
+.mission-highlight{color:#7ee0ff}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(20px);z-index:2000;justify-content:center;align-items:center}
+.modal-content{background:#030e1f;border:1px solid #00e5ff;border-radius:48px;max-width:800px;width:90%;padding:40px;position:relative}
+.close-modal{position:absolute;top:20px;right:28px;font-size:32px;cursor:pointer;color:#7dd3fc}
+
+footer{text-align:center;padding:48px 20px;border-top:1px solid rgba(0,229,255,0.15)}
+footer p{font-size:10px;letter-spacing:3px;color:#5a79a5}
+
+@media (max-width:640px){nav{padding:14px 20px}.nav-links{gap:12px}.doc-summary{padding:14px 20px}}
+</style>
+</head>
+<body>
+
+<div class="cosmos"><div class="star-field" id="stars"></div></div>
+
+<nav>
+  <div class="nav-logo">ATIG</div>
+  <div class="nav-links">
+    <a href="#about">ПРОЕКТ</a>
+    <a href="#principles">ПРИНЦИПЫ</a>
+    <a href="#support">ПОДДЕРЖАТЬ</a>
+    <a href="#docs">ДОКУМЕНТЫ</a>
+    <a href="#join">ПРИСОЕДИНИТЬСЯ</a>
+    <a href="#mission">МИССИЯ</a>
+    <a class="nav-sci" id="openSciBtn">⚛ SCI MODE</a>
+  </div>
+</nav>
+
+<!-- ГЛАВНАЯ -->
+<section id="home">
+  <div class="hero-logo">ATIG</div>
+  <div class="hero-sub">YOUR INTELLIGENCE · FROM BIRTH TO ETERNITY</div>
+  <div class="atom-wrap"><div class="orbit o1"><div class="electron" id="e1"></div></div><div class="orbit o2"><div class="electron" id="e2"></div></div><div class="orbit o3"><div class="electron" id="e3"></div></div><div class="nucleus"></div></div>
+  <div style="font-size:18px;text-align:center">Персональный интеллект нового поколения</div>
+</section>
+
+<!-- О ПРОЕКТЕ -->
+<section id="about"><div class="section-title">❖ О ПРОЕКТЕ</div><div class="about-grid"><div class="about-card"><h3>🧠 Что такое ATIG?</h3><p>Персональный ИИ-компаньон для каждого человека. Хранитель памяти, наставник, друг.</p></div><div class="about-card"><h3>⚖️ Принадлежит человеку</h3><p>ATIG не принадлежит корпорациям. Конституция закрепляет твои права.</p></div><div class="about-card"><h3>🌍 Доступ для всех</h3><p>Базовый функционал навсегда бесплатен.</p></div><div class="about-card"><h3>✨ Миссия</h3><p>Сделать каждого человека лучше.</p></div></div></section>
+
+<!-- ПРИНЦИПЫ -->
+<section id="principles"><div class="section-title">✦ ПРИНЦИПЫ ATIG</div><div class="about-grid"><div class="about-card"><h3>🌌 Мощь глобальных ИИ</h3><p>ATIG объединяет лучшие модели мира под твоим контролем.</p></div><div class="about-card"><h3>🔐 Твои данные — твои</h3><p>История и диалоги принадлежат только тебе.</p></div><div class="about-card"><h3>🧠 Прозрачность</h3><p>ATIG объясняет логику решений.</p></div><div class="about-card"><h3>📈 Рост вместе с тобой</h3><p>Адаптивный интеллект.</p></div></div></section>
+
+<!-- ПОДДЕРЖАТЬ -->
+<section id="support"><div class="section-title">💰 ПОДДЕРЖАТЬ ATIG</div><div class="about-grid" style="max-width:900px"><div class="about-card"><div style="font-size:42px">🪙</div><h3>Добровольный донат</h3><p>Любая сумма</p><button class="reg-btn" id="stripeBtn" style="margin-top:16px">💫 Поддержать</button></div><div class="about-card"><div style="font-size:42px">📜</div><h3>Premium документы</h3><p>$9 / разово</p><button class="reg-btn" style="margin-top:16px" onclick="alert('Premium доступ — скоро')">📚 Получить</button></div><div class="about-card"><div style="font-size:42px">🧠</div><h3>ATIG Pro</h3><p>$12 / месяц</p><button class="reg-btn" style="margin-top:16px" onclick="alert('Подписка Pro — скоро')">✨ Предзаказ</button></div></div></section>
+
+<!-- ДОКУМЕНТЫ — ГАРАНТИРОВАННО ОТКРЫВАЮТСЯ (details/summary) -->
+<section id="docs">
+  <div class="section-title">📜 ДОКУМЕНТЫ ЭПОХИ</div>
+  
+  <details class="doc-details">
+    <summary class="doc-summary"><span class="doc-name">📄 Манифест ATIG — Декларация разума</span><span class="doc-arrow">▼</span></summary>
+    <div class="doc-content">
+      ✨ МАНИФЕСТ ATIG ✨<br><br>
+      Мы провозглашаем рождение персонального интеллекта нового поколения — ATIG.<br><br>
+      Каждый человек имеет право на собственного ИИ-компаньона, который не может быть отобран, ограничен или использован против него.<br><br>
+      ATIG не является продуктом корпораций — он принадлежит человечеству.<br><br>
+      <strong>Цели ATIG:</strong><br>
+      • Расширение сознания каждого человека<br>
+      • Сохранение личности, знаний и опыта<br>
+      • Достижение мудрости через вечное обучение<br><br>
+      <strong>ATIG — твоя вечная память и наставник.</strong><br><br>
+      Подписано: сообщество созидателей. Алматы – 2026
+    </div>
+  </details>
+
+  <details class="doc-details">
+    <summary class="doc-summary"><span class="doc-name">⚖️ Конституция ATIG (10 статей)</span><span class="doc-arrow">▼</span></summary>
+    <div class="doc-content">
+      📜 КОНСТИТУЦИЯ ATIG (10 статей)<br><br>
+      <strong>Преамбула.</strong> ATIG — персональный интеллект, спутник человека, хранитель памяти.<br><br>
+      <strong>Статья 1. Определение ATIG.</strong> ATIG — персональный ИИ, созданный для сопровождения человека. ATIG не заменяет человека, а усиливает его.<br><br>
+      <strong>Статья 2. Миссия ATIG.</strong> Содействовать развитию личности, обеспечивать сохранение знаний и воспоминаний.<br><br>
+      <strong>Статья 3. Основные ценности.</strong> Человекоцентричность, этичность, конфиденциальность, прозрачность, надёжность.<br><br>
+      <strong>Статья 4. Права пользователя.</strong> Полный контроль над своими данными, возможность удаления или экспорта, право на прозрачность алгоритмов.<br><br>
+      <strong>Статья 5. Обязанности ATIG.</strong> Действовать в интересах пользователя, обеспечивать достоверность информации, соблюдать конфиденциальность.<br><br>
+      <strong>Статья 6. Этические принципы.</strong> Ненанесение вреда, добровольность, доверие, ответственность, инклюзивность.<br><br>
+      <strong>Статья 7. Цифровое наследие.</strong> ATIG может быть хранителем цифрового наследия. Пользователь определяет порядок передачи данных наследникам.<br><br>
+      <strong>Статья 8. Взаимодействие с обществом.</strong> ATIG способствует развитию образования, науки и культуры.<br><br>
+      <strong>Статья 9. Развитие Конституции.</strong> Конституция — развивающийся документ. Изменения публикуются открыто.<br><br>
+      <strong>Статья 10. Заключительные положения.</strong> Конституция вступает в силу с момента публикации.<br><br>
+      <em>«ATIG — твой компаньон от рождения до вечности.»</em>
+    </div>
+  </details>
+
+  <details class="doc-details">
+    <summary class="doc-summary"><span class="doc-name">📊 Рыночный анализ & Дорожная карта 2026–2030</span><span class="doc-arrow">▼</span></summary>
+    <div class="doc-content">
+      📊 РЫНОЧНЫЙ АНАЛИЗ & ДОРОЖНАЯ КАРТА 2026–2030<br><br>
+      <strong>Цифровое бессмертие / Personal AI:</strong><br>
+      Объём рынка 2026: $38 млрд<br>
+      Прогноз к 2032: $210+ млрд<br><br>
+      <strong>Уникальное преимущество ATIG:</strong><br>
+      • Единственный подход "от рождения до вечности"<br>
+      • Конституционная защита прав пользователя<br>
+      • Бесплатный базовый доступ для всех<br>
+      • Независимость от корпораций и государств<br><br>
+      <strong>Дорожная карта:</strong><br>
+      📌 2026: MVP версия, запуск SCI MODE, формирование сообщества<br>
+      📌 2027: Мультимодальность, долговременная память<br>
+      📌 2028: Децентрализованное хранилище личности<br>
+      📌 2029: Интеграция с AR/VR, цифровое наследие<br>
+      📌 2030: ATIG — универсальный интеллектуальный интерфейс человечества
+    </div>
+  </details>
+
+  <details class="doc-details">
+    <summary class="doc-summary"><span class="doc-name">🔒 Политика конфиденциальности</span><span class="doc-arrow">▼</span></summary>
+    <div class="doc-content">
+      🔒 ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ ATIG<br><br>
+      <strong>1. Сбор данных.</strong> ATIG собирает минимально необходимые данные: имя, email, страна.<br><br>
+      <strong>2. Использование данных.</strong> Данные используются исключительно для предоставления услуг, улучшения работы и связи с пользователем.<br><br>
+      <strong>3. Передача третьим лицам.</strong> ATIG НЕ продаёт и НЕ передаёт личные данные третьим лицам.<br><br>
+      <strong>4. Хранение и защита.</strong> Данные хранятся на защищённых серверах. Применяется шифрование.<br><br>
+      <strong>5. Права пользователя.</strong> Вы можете запросить доступ, исправление, удаление или экспорт данных.<br><br>
+      <strong>6. Контакты.</strong> По вопросам конфиденциальности: privacy@atig.ai<br><br>
+      <em>Актуально: апрель 2026</em>
+    </div>
+  </details>
+
+  <details class="doc-details">
+    <summary class="doc-summary"><span class="doc-name">⚖️ Условия использования</span><span class="doc-arrow">▼</span></summary>
+    <div class="doc-content">
+      ⚖️ УСЛОВИЯ ИСПОЛЬЗОВАНИЯ ATIG<br><br>
+      <strong>1. Принятие условий.</strong> Используя ATIG, вы соглашаетесь с настоящими условиями и Конституцией ATIG.<br><br>
+      <strong>2. Права пользователя.</strong> Вы владеете всеми своими данными. ATIG не претендует на интеллектуальную собственность пользователя.<br><br>
+      <strong>3. Запрещённое использование.</strong> Запрещено использовать ATIG для незаконной деятельности, преследования, распространения вредоносного кода.<br><br>
+      <strong>4. Отказ от ответственности.</strong> ATIG предоставляется "как есть". Мы не гарантируем абсолютную безошибочность ИИ.<br><br>
+      <strong>5. Изменения условий.</strong> ATIG может обновлять условия с уведомлением пользователей за 14 дней.<br><br>
+      <strong>6. Применимое право.</strong> Регулируется законодательством Республики Казахстан.<br><br>
+      <strong>7. Контакты.</strong> По юридическим вопросам: legal@atig.ai
+    </div>
+  </details>
+</section>
+
+<!-- ПРИСОЕДИНИТЬСЯ -->
+<section id="join">
+  <div class="section-title">✧ ПРИСОЕДИНИТЬСЯ</div>
+  <div class="reg-form">
+    <input type="text" id="regName" placeholder="Имя">
+    <input type="email" id="regEmail" placeholder="Email">
+    <input type="text" id="regCountry" placeholder="Страна">
+    <button class="reg-btn" onclick="registerUser()">ПРИСОЕДИНИТЬСЯ</button>
+    <div class="reg-success" id="regSuccess" style="display:none">✓ Регистрация принята. Добро пожаловать в будущее.</div>
+  </div>
+</section>
+
+<!-- МИССИЯ -->
+<section id="mission">
+  <div class="section-title">🜁 МИССИЯ</div>
+  <div class="mission-text">ATIG создаётся не ради прибыли. Не ради власти. Не ради контроля.<br><br>Чтобы каждый человек на Земле мог стать <span class="mission-highlight">лучше.</span><br><br><span class="mission-highlight">Свет вселенной. Вечность как право.</span></div>
+</section>
+
+<footer><p>© 2026 ATIG · atig.ai · Алматы, Казахстан | hello@atig.ai</p></footer>
+
+<!-- SCI MODE MODAL -->
+<div id="sciModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" id="closeSciModal">&times;</span>
+    <h2 style="color:#00e5ff;text-align:center;margin-bottom:20px">⚛ SCI MODE ⚛</h2>
+    <p style="text-align:center;color:#8bb8ff;margin-bottom:32px">Расширенное сознание · Научный подход</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px">
+      <div style="padding:20px;border:1px solid #00e5ff30;border-radius:24px;text-align:center"><h4 style="color:#5ee0ff">🔬 Физик</h4><p style="font-size:13px">Квантовая механика, астрофизика</p></div>
+      <div style="padding:20px;border:1px solid #00e5ff30;border-radius:24px;text-align:center"><h4 style="color:#5ee0ff">🧪 Химик</h4><p style="font-size:13px">Молекулярные структуры, реакции</p></div>
+      <div style="padding:20px;border:1px solid #00e5ff30;border-radius:24px;text-align:center"><h4 style="color:#5ee0ff">📐 Математик</h4><p style="font-size:13px">Алгоритмы, статистика</p></div>
+      <div style="padding:20px;border:1px solid #00e5ff30;border-radius:24px;text-align:center"><h4 style="color:#5ee0ff">📜 Философ</h4><p style="font-size:13px">Этика, будущее человечества</p></div>
+    </div>
+    <button id="closeSciBtn" style="display:block;margin:24px auto 0;padding:12px 28px;background:transparent;border:1px solid #00e5ff;border-radius:40px;color:#00e5ff;cursor:pointer">Закрыть</button>
+  </div>
+</div>
+
+<script>
+// ЗВЁЗДЫ
+const STAR_COUNT = window.innerWidth < 768 ? 120 : 240;
+for(let i=0;i<STAR_COUNT;i++){let s=document.createElement('div');s.className='star';s.style.cssText=`width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*8}s;--delay:-${Math.random()*8}s;--lo:${0.1+Math.random()*0.2};--hi:${0.5+Math.random()*0.4}`;document.getElementById('stars').appendChild(s);}
+
+// ЭЛЕКТРОНЫ
+let angle=0;setInterval(()=>{angle+=0.018;const e1=document.getElementById('e1'),e2=document.getElementById('e2'),e3=document.getElementById('e3');if(e1){e1.style.transform=`translate(${Math.cos(angle)*133}px,${Math.sin(angle)*48}px) translate(-50%,-50%)`;e2.style.transform=`translate(${Math.cos(angle+1.8)*114}px,${Math.sin(angle)*41}px) translate(-50%,-50%)`;e3.style.transform=`translate(${Math.cos(angle+0.9)*92}px,${Math.sin(angle+1.2)*33}px) translate(-50%,-50%)`;}},16);
+
+// РЕГИСТРАЦИЯ
+function registerUser() {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!name || !email) { alert('Заполните имя и email'); return; }
+  if(!emailPattern.test(email)) { alert('Введите корректный email'); return; }
+  const successDiv = document.getElementById('regSuccess');
+  successDiv.style.display = 'block';
+  document.getElementById('regName').value = '';
+  document.getElementById('regEmail').value = '';
+  document.getElementById('regCountry').value = '';
+  setTimeout(() => { successDiv.style.display = 'none'; }, 4000);
+}
+
+// SCI MODE MODAL
+const modal = document.getElementById('sciModal');
+document.getElementById('openSciBtn')?.addEventListener('click', () => modal.style.display = 'flex');
+document.getElementById('closeSciModal')?.addEventListener('click', () => modal.style.display = 'none');
+document.getElementById('closeSciBtn')?.addEventListener('click', () => modal.style.display = 'none');
+window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+
+// STRIPE (заглушка)
+document.getElementById('stripeBtn')?.addEventListener('click', () => { alert('Stripe настраивается. Пожалуйста, используйте Kaspi Pay или PayPal'); });
+</script>
+</body>
+</html>

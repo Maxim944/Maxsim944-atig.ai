@@ -3,282 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ATIG TRINITY \u2014 \u0422\u0440\u0438 \u0440\u0430\u0437\u0443\u043c\u0430. \u041e\u0434\u0438\u043d \u043e\u0442\u0432\u0435\u0442.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>ATIG.AI — Документы</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#00020b;
-  --claude:#da7756;   /* Claude \u2014 \u0442\u0451\u043f\u043b\u044b\u0439 \u043e\u0440\u0430\u043d\u0436\u0435\u0432\u044b\u0439 */
-  --gpt:#10a37f;      /* GPT \u2014 \u0437\u0435\u043b\u0451\u043d\u044b\u0439 */
-  --gemini:#4285f4;   /* Gemini \u2014 \u0441\u0438\u043d\u0438\u0439 */
-  --synth:#c084fc;    /* \u0421\u0438\u043d\u0442\u0435\u0437 \u2014 \u0444\u0438\u043e\u043b\u0435\u0442\u043e\u0432\u044b\u0439 */
-  --text:#eef5ff;
-  --dim:#8ab0d0;
-  --border:rgba(255,255,255,0.08);
-}
-
-body{
-  background:var(--bg);
-  font-family:'Raleway',sans-serif;
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* \u2500\u2500 COSMOS \u2500\u2500 */
-.cosmos{position:fixed;inset:0;z-index:0;overflow:hidden;
-  background:radial-gradient(ellipse 90% 70% at 50% 30%, #080f2a 0%, #00010a 100%)}
-.star{position:absolute;border-radius:50%;background:#fff;
-  animation:tw var(--d) ease-in-out infinite var(--dl);opacity:0}
-@keyframes tw{0%,100%{opacity:var(--lo)}50%{opacity:var(--hi)}}
-
-/* \u2500\u2500 LAYOUT \u2500\u2500 */
-.app{position:relative;z-index:10;min-height:100vh;
-  display:flex;flex-direction:column;align-items:center;padding:0 16px 60px}
-
-/* \u2500\u2500 HEADER \u2500\u2500 */
-header{width:100%;max-width:900px;padding:32px 0 24px;text-align:center}
-.logo{font-family:'Orbitron',monospace;font-size:clamp(28px,7vw,52px);
-  font-weight:900;letter-spacing:8px;
-  background:linear-gradient(135deg,#fff 0%,#da7756 30%,#10a37f 60%,#4285f4 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 30px rgba(196,132,252,0.3));
-  animation:logoBreath 4s ease-in-out infinite}
-@keyframes logoBreath{0%,100%{filter:drop-shadow(0 0 20px rgba(196,132,252,.25))}
-  50%{filter:drop-shadow(0 0 45px rgba(196,132,252,.5))}}
-.tagline{font-size:11px;letter-spacing:5px;color:var(--dim);margin-top:10px;font-weight:300}
-.subtitle{font-size:13px;color:rgba(200,220,255,.5);margin-top:6px;letter-spacing:1px}
-
-/* \u2500\u2500 AI BADGES \u2500\u2500 */
-.ai-trio{display:flex;justify-content:center;gap:12px;margin:20px 0 28px;flex-wrap:wrap}
-.ai-badge{display:flex;align-items:center;gap:7px;padding:6px 14px;
-  border-radius:40px;font-size:10px;font-weight:700;letter-spacing:2px;
-  border:1px solid;transition:.2s}
-.badge-claude{border-color:rgba(218,119,86,.4);color:var(--claude);background:rgba(218,119,86,.06)}
-.badge-gpt{border-color:rgba(16,163,127,.4);color:var(--gpt);background:rgba(16,163,127,.06)}
-.badge-gemini{border-color:rgba(66,133,244,.4);color:var(--gemini);background:rgba(66,133,244,.06)}
-.badge-dot{width:6px;height:6px;border-radius:50%;background:currentColor;
-  animation:dotPulse 2s ease-in-out infinite}
-@keyframes dotPulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
-
-/* \u2500\u2500 API KEYS PANEL \u2500\u2500 */
-.keys-panel{width:100%;max-width:900px;margin-bottom:24px;
-  background:rgba(5,15,35,.7);border:1px solid var(--border);
-  border-radius:20px;overflow:hidden}
-.keys-header{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;
-  cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:.2s}
-.keys-header:hover{background:rgba(255,255,255,.03)}
-.keys-header.open{border-bottom-color:var(--border)}
-.keys-title{font-size:11px;letter-spacing:3px;color:var(--dim);font-weight:600}
-.keys-arrow{font-size:12px;color:var(--dim);transition:.3s}
-.keys-arrow.open{transform:rotate(180deg)}
-.keys-body{display:none;padding:20px;display:flex;flex-direction:column;gap:12px}
-.keys-body.hidden{display:none}
-.key-row{display:flex;align-items:center;gap:12px}
-.key-label{font-size:10px;letter-spacing:2px;font-weight:700;min-width:72px}
-.lbl-claude{color:var(--claude)} .lbl-gpt{color:var(--gpt)} .lbl-gemini{color:var(--gemini)}
-.key-input{flex:1;padding:10px 16px;background:rgba(0,0,0,.4);
-  border:1px solid var(--border);border-radius:40px;color:#fff;
-  font-family:'Raleway',sans-serif;font-size:12px;outline:none;transition:.2s}
-.key-input:focus{border-color:rgba(255,255,255,.25);background:rgba(0,0,0,.6)}
-.key-status{width:8px;height:8px;border-radius:50%;background:#333;flex-shrink:0;transition:.3s}
-.key-status.ok{background:#10a37f;box-shadow:0 0 8px #10a37f}
-.key-status.err{background:#ef4444;box-shadow:0 0 8px #ef4444}
-.save-keys-btn{align-self:flex-end;padding:8px 22px;background:transparent;
-  border:1px solid rgba(255,255,255,.2);border-radius:40px;color:var(--dim);
-  font-size:11px;letter-spacing:2px;cursor:pointer;font-family:'Raleway',sans-serif;transition:.2s}
-.save-keys-btn:hover{border-color:rgba(255,255,255,.4);color:#fff}
-
-/* \u2500\u2500 MAIN INPUT \u2500\u2500 */
-.query-wrap{width:100%;max-width:900px;margin-bottom:20px;position:relative}
-.query-box{width:100%;padding:18px 70px 18px 24px;
-  background:rgba(5,15,40,.8);border:1px solid rgba(255,255,255,.12);
-  border-radius:20px;color:#fff;font-family:'Raleway',sans-serif;
-  font-size:15px;outline:none;resize:none;min-height:80px;
-  transition:.25s;line-height:1.6}
-.query-box::placeholder{color:rgba(138,176,208,.4)}
-.query-box:focus{border-color:rgba(196,132,252,.4);
-  box-shadow:0 0 0 1px rgba(196,132,252,.15),0 8px 40px rgba(0,0,0,.4)}
-.send-btn{position:absolute;right:14px;bottom:14px;
-  width:44px;height:44px;border-radius:50%;
-  background:linear-gradient(135deg,#da7756,#10a37f,#4285f4);
-  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:18px;transition:.2s;flex-shrink:0}
-.send-btn:hover{transform:scale(1.08);box-shadow:0 0 24px rgba(196,132,252,.4)}
-.send-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.query-hint{font-size:10px;color:rgba(138,176,208,.35);letter-spacing:1.5px;
-  margin-top:8px;text-align:center}
-
-/* \u2500\u2500 PROGRESS \u2500\u2500 */
-.progress-bar{width:100%;max-width:900px;margin-bottom:20px;display:none}
-.progress-track{height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-.progress-fill{height:100%;width:0%;border-radius:2px;transition:width .4s ease;
-  background:linear-gradient(90deg,var(--claude),var(--gpt),var(--gemini),var(--synth))}
-.progress-steps{display:flex;justify-content:space-between;margin-top:10px}
-.p-step{font-size:9px;letter-spacing:2px;color:rgba(138,176,208,.3);transition:.3s}
-.p-step.active{color:var(--dim)} .p-step.done{color:rgba(138,176,208,.6)}
-
-/* \u2500\u2500 RESULTS GRID \u2500\u2500 */
-.results-grid{width:100%;max-width:900px;display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px;display:none}
-.ai-card{border-radius:18px;background:rgba(5,15,35,.75);
-  border:1px solid var(--border);overflow:hidden;transition:.2s}
-.ai-card:hover{transform:translateY(-2px)}
-.card-head{padding:12px 16px;display:flex;align-items:center;gap:10px;
-  border-bottom:1px solid var(--border)}
-.card-icon{width:28px;height:28px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.icon-claude{background:rgba(218,119,86,.15);border:1px solid rgba(218,119,86,.3)}
-.icon-gpt{background:rgba(16,163,127,.15);border:1px solid rgba(16,163,127,.3)}
-.icon-gemini{background:rgba(66,133,244,.15);border:1px solid rgba(66,133,244,.3)}
-.card-name{font-size:10px;font-weight:700;letter-spacing:2px}
-.name-claude{color:var(--claude)} .name-gpt{color:var(--gpt)} .name-gemini{color:var(--gemini)}
-.card-timing{font-size:9px;color:rgba(138,176,208,.4);margin-left:auto}
-.card-body{padding:14px 16px;font-size:12.5px;color:rgba(200,220,255,.75);
-  line-height:1.75;max-height:180px;overflow-y:auto;min-height:60px}
-.card-body::-webkit-scrollbar{width:3px}
-.card-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
-.thinking-dots{display:inline-flex;gap:4px;align-items:center}
-.thinking-dots span{width:5px;height:5px;border-radius:50%;background:var(--dim);
-  animation:dotBounce 1.2s ease-in-out infinite}
-.thinking-dots span:nth-child(2){animation-delay:.2s}
-.thinking-dots span:nth-child(3){animation-delay:.4s}
-@keyframes dotBounce{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
-.card-err{color:#f87171;font-size:12px;font-style:italic}
-
-/* \u2500\u2500 SYNTHESIS \u2500\u2500 */
-.synthesis-wrap{width:100%;max-width:900px;display:none;
-  border-radius:24px;overflow:hidden;
-  border:1px solid rgba(192,132,252,.3);
-  background:linear-gradient(145deg,rgba(10,5,30,.9),rgba(5,0,20,.95));
-  box-shadow:0 0 60px rgba(192,132,252,.08)}
-.synth-head{padding:16px 24px;display:flex;align-items:center;gap:12px;
-  border-bottom:1px solid rgba(192,132,252,.15);
-  background:rgba(192,132,252,.04)}
-.synth-icon{font-size:22px;animation:spinSlow 8s linear infinite}
-@keyframes spinSlow{to{transform:rotate(360deg)}}
-.synth-label{font-family:'Orbitron',monospace;font-size:11px;
-  letter-spacing:3px;color:var(--synth)}
-.synth-tag{margin-left:auto;font-size:9px;letter-spacing:2px;
-  color:rgba(192,132,252,.5);background:rgba(192,132,252,.08);
-  padding:3px 10px;border-radius:20px;border:1px solid rgba(192,132,252,.15)}
-.synth-body{padding:24px;font-size:14.5px;color:#dde8ff;
-  line-height:1.9;white-space:pre-wrap}
-.synth-footer{padding:12px 24px;border-top:1px solid rgba(192,132,252,.1);
-  display:flex;gap:8px;flex-wrap:wrap}
-.source-tag{font-size:9px;letter-spacing:1.5px;padding:3px 10px;
-  border-radius:20px;border:1px solid;opacity:.6}
-.src-claude{border-color:var(--claude);color:var(--claude)}
-.src-gpt{border-color:var(--gpt);color:var(--gpt)}
-.src-gemini{border-color:var(--gemini);color:var(--gemini)}
-
-/* \u2500\u2500 HISTORY \u2500\u2500 */
-.history-wrap{width:100%;max-width:900px;margin-top:32px}
-.history-title{font-size:9px;letter-spacing:4px;color:rgba(138,176,208,.3);
-  margin-bottom:14px;text-align:center}
-.history-item{padding:12px 18px;border:1px solid var(--border);border-radius:12px;
-  margin-bottom:8px;cursor:pointer;transition:.15s;
-  display:flex;justify-content:space-between;align-items:center}
-.history-item:hover{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.02)}
-.history-q{font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:75%}
-.history-time{font-size:9px;color:rgba(138,176,208,.3);letter-spacing:1px;flex-shrink:0}
-
-/* \u2500\u2500 COPY BTN \u2500\u2500 */
-.copy-btn{padding:8px 20px;background:transparent;border:1px solid rgba(192,132,252,.3);
-  border-radius:40px;color:rgba(192,132,252,.7);font-size:10px;letter-spacing:2px;
-  cursor:pointer;font-family:'Raleway',sans-serif;transition:.2s;margin-left:auto}
-.copy-btn:hover{background:rgba(192,132,252,.1);color:var(--synth)}
-
-@media(max-width:600px){
-  .results-grid{grid-template-columns:1fr}
-  .ai-trio{gap:8px}
-  .key-row{flex-wrap:wrap}
-}
+body{background:#00020b;font-family:Arial,sans-serif;color:#eef5ff;padding:20px}
+.section-title{font-size:18px;color:#7dd3fc;margin-bottom:30px;text-align:center}
+.doc-item{background:rgba(0,0,0,0.5);border:1px solid #00e5ff;border-radius:50px;padding:15px 20px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.doc-item:active{background:#00e5ff20}
+.doc-name{color:#fff;font-size:16px}
+.doc-type{color:#7dd3fc;font-size:14px}
+#docContent{display:none;margin-top:25px;padding:25px;background:#000c1a;border-left:5px solid #00e5ff;border-radius:16px;line-height:1.6;color:#bbddff;font-size:14px}
 </style>
 </head>
 <body>
 
-<div class="cosmos" id="cosmos"></div>
-
-<div class="app">
-
-  <!-- HEADER -->
-  <header>
-    <div class="logo">ATIG TRINITY</div>
-    <div class="tagline">\u0422\u0420\u0418 \u0420\u0410\u0417\u0423\u041c\u0410 \u00b7 \u041e\u0414\u0418\u041d \u041e\u0422\u0412\u0415\u0422</div>
-    <div class="subtitle">Claude \u00b7 GPT-4o \u00b7 Gemini \u2014 \u0441\u0438\u043d\u0442\u0435\u0437 \u043b\u0443\u0447\u0448\u0435\u0433\u043e</div>
-    <div class="ai-trio">
-      <div class="ai-badge badge-claude"><span class="badge-dot"></span>CLAUDE</div>
-      <div class="ai-badge badge-gpt"><span class="badge-dot" style="animation-delay:.4s"></span>GPT-4O</div>
-      <div class="ai-badge badge-gemini"><span class="badge-dot" style="animation-delay:.8s"></span>GEMINI</div>
-    </div>
-  </header>
-
-  <!-- API KEYS -->
-  <div class="keys-panel">
-    <div class="keys-header" id="keysToggle">
-      <span class="keys-title">\ud83d\udd11 API \u041a\u041b\u042e\u0427\u0418</span>
-      <span class="keys-arrow" id="keysArrow">\u25bc</span>
-    </div>
-    <div class="keys-body" id="keysBody">
-      <div class="key-row">
-        <span class="key-label lbl-claude">CLAUDE</span>
-        <input class="key-input" id="keysClaude" type="password" placeholder="sk-ant-api03-...">
-        <div class="key-status" id="stClaude"></div>
-      </div>
-      <div class="key-row">
-        <span class="key-label lbl-gpt">GPT-4O</span>
-        <input class="key-input" id="keysGPT" type="password" placeholder="sk-proj-...">
-        <div class="key-status" id="stGPT"></div>
-      </div>
-      <div class="key-row">
-        <span class="key-label lbl-gemini">GEMINI</span>
-        <input class="key-input" id="keysGemini" type="password" placeholder="AIza...">
-        <div class="key-status" id="stGemini"></div>
-      </div>
-      <button class="save-keys-btn" onclick="saveKeys()">\u0421\u041e\u0425\u0420\u0410\u041d\u0418\u0422\u042c \u041a\u041b\u042e\u0427\u0418</button>
-      <div style="font-size:10px;color:rgba(138,176,208,.35);letter-spacing:1px;margin-top:4px">
-        \u26a0 \u041a\u043b\u044e\u0447\u0438 \u0445\u0440\u0430\u043d\u044f\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0432 \u0432\u0430\u0448\u0435\u043c \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435 (localStorage). \u041d\u0438\u043a\u0443\u0434\u0430 \u043d\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u044e\u0442\u0441\u044f.
-      </div>
-    </div>
+<div style="max-width:700px;margin:0 auto">
+  <div class="section-title">📜 ДОКУМЕНТЫ ATIG</div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.manifest;">
+    <span class="doc-name">📄 Манифест ATIG</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
   </div>
-
-  <!-- QUERY INPUT -->
-  <div class="query-wrap">
-    <textarea class="query-box" id="queryBox"
-      placeholder="\u0417\u0430\u0434\u0430\u0439\u0442\u0435 \u043b\u044e\u0431\u043e\u0439 \u0432\u043e\u043f\u0440\u043e\u0441 \u2014 \u0442\u0440\u0438 \u0418\u0418 \u043e\u0442\u0432\u0435\u0442\u044f\u0442, ATIG \u0441\u0438\u043d\u0442\u0435\u0437\u0438\u0440\u0443\u0435\u0442 \u043b\u0443\u0447\u0448\u0435\u0435..."
-      rows="3"></textarea>
-    <button class="send-btn" id="sendBtn" onclick="runTrinity()" title="\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c">\u27a4</button>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.constitution;">
+    <span class="doc-name">⚖️ Конституция ATIG (10 статей)</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
   </div>
-  <div class="query-hint">ENTER \u0434\u043b\u044f \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0438 \u00b7 ESC \u0434\u043b\u044f \u043e\u0447\u0438\u0441\u0442\u043a\u0438</div>
-
-  <!-- PROGRESS -->
-  <div class="progress-bar" id="progressBar">
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-steps">
-      <span class="p-step" id="ps1">CLAUDE</span>
-      <span class="p-step" id="ps2">GPT-4O</span>
-      <span class="p-step" id="ps3">GEMINI</span>
-      <span class="p-step" id="ps4">\u0421\u0418\u041d\u0422\u0415\u0417</span>
-    </div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.analysis;">
+    <span class="doc-name">📊 Рыночный анализ & Дорожная карта</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
   </div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.privacy;">
+    <span class="doc-name">🔒 Политика конфиденциальности</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
+  </div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.terms;">
+    <span class="doc-name">⚖️ Условия использования</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
+  </div>
+  
+  <div id="docContent"></div>
+</div>
 
-  <!-- AI CARDS -->
-  <div class="results-grid" id="resultsGrid">
-    <div class="ai-card" id="cardClaude">
-      <div class="card-head">
-        <div class="card-icon icon-claude">\ud83d\udfe0</div>
-        <span class="card-name name-claude">CLAUDE</span>
-        <span class="card-timing" id="timeClaude"></span>
-      </div>
-      <div class="card-body" id="bodyClaude">
-        <div class="thinking-dots"><span></span><span></span><span></span></div>
-      </div>
-    </div>
-    <div class="ai-card" id="cardGPT">
-      <div class="card-head">
-        <div class="card-icon icon-gpt">\ud83d\udfe2</div>
-        <span class="card-name name-gpt">GPT-4O</span>
-        <span class="card-timing" id="time
+<script>
+// ===== ВСЕ ТЕКСТЫ ДОКУМЕНТОВ =====
+const documents = {
+  manifest: `✨ МАНИФЕСТ ATIG ✨<br><br>
+Мы провозглашаем рождение персонального интеллекта нового поколения — ATIG.<br><br>
+Каждый человек имеет право на собственного ИИ-компаньона, который не может быть отобран, ограничен или использован против него.<br><br>
+ATIG не является продуктом корпораций — он принадлежит человечеству.<br><br>
+<strong>Цели ATIG:</strong><br>
+• Расширение сознания каждого человека<br>
+• Сохранение личности, знаний и опыта<br>
+• Достижение мудрости через вечное обучение<br><br>
+<strong>ATIG — твоя вечная память и наставник.</strong><br><br>
+Подписано: сообщество созидателей. Алматы – 2026`,
+
+  constitution: `📜 КОНСТИТУЦИЯ ATIG (10 статей)<br><br>
+<strong>Преамбула.</strong> ATIG — персональный интеллект, спутник человека.<br><br>
+<strong>Статья 1.</strong> ATIG не заменяет человека, а усиливает его.<br>
+<strong>Статья 2.</strong> Миссия: развитие личности и сохранение знаний.<br>
+<strong>Статья 3.</strong> Ценности: человекоцентричность, этичность, приватность.<br>
+<strong>Статья 4.</strong> Права пользователя: полный контроль над своими данными.<br>
+<strong>Статья 5.</strong> Обязанности ATIG: действовать в интересах пользователя.<br>
+<strong>Статья 6.</strong> Принципы: ненанесение вреда, добровольность, доверие.<br>
+<strong>Статья 7.</strong> Цифровое наследие передаётся по воле пользователя.<br>
+<strong>Статья 8.</strong> ATIG способствует образованию и культуре.<br>
+<strong>Статья 9.</strong> Конституция открыта для эволюции.<br>
+<strong>Статья 10.</strong> Вступает в силу с момента публикации.<br><br>
+<em>«ATIG — твой компаньон от рождения до вечности.»</em>`,
+
+  analysis: `📊 РЫНОЧНЫЙ АНАЛИЗ & ДОРОЖНАЯ КАРТА 2026–2030<br><br>
+<strong>Цифровое бессмертие / Personal AI:</strong><br>
+Объём рынка 2026: $38 млрд<br>
+Прогноз к 2032: $210+ млрд<br><br>
+<strong>Уникальное преимущество ATIG:</strong><br>
+• Единственный подход "от рождения до вечности"<br>
+• Конституционная защита прав пользователя<br>
+• Бесплатный базовый доступ для всех<br><br>
+<strong>Дорожная карта:</strong><br>
+📌 2026: MVP, SCI MODE, сообщество<br>
+📌 2027: Мультимодальность, память<br>
+📌 2028: Децентрализованное хранилище<br>
+📌 2030: Универсальный интерфейс человечества`,
+
+  privacy: `🔒 ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ ATIG<br><br>
+<strong>1. Сбор данных.</strong> ATIG собирает имя и email для связи.<br><br>
+<strong>2. Использование данных.</strong> Данные используются только для提供服务.<br><br>
+<strong>3. Передача третьим лицам.</strong> ATIG НЕ продаёт и НЕ передаёт данные третьим лицам.<br><br>
+<strong>4. Хранение.</strong> Данные хранятся на защищённых серверах.<br><br>
+<strong>5. Права пользователя.</strong> Вы можете запросить удаление всех своих данных.<br><br>
+<strong>6. Контакты:</strong> privacy@atig.ai<br><br>
+<em>Актуально: апрель 2026</em>`,
+
+  terms: `⚖️ УСЛОВИЯ ИСПОЛЬЗОВАНИЯ ATIG<br><br>
+<strong>1. Принятие условий.</strong> Используя ATIG, вы соглашаетесь с настоящими условиями.<br><br>
+<strong>2. Права пользователя.</strong> Вы владеете всеми своими данными.<br><br>
+<strong>3. Запрещённое использование.</strong> Запрещено использовать ATIG для незаконной деятельности.<br><br>
+<strong>4. Отказ от ответственности.</strong> ATIG предоставляется "как есть".<br><br>
+<strong>5. Изменения условий.</strong> ATIG может обновлять условия с уведомлением.<br><br>
+<strong>6. Применимое право.</strong> Регулируется законодательством РК.<br><br>
+<strong>7. Контакты:</strong> legal@atig.ai`
+};
+</script>
+</body>
+</html>

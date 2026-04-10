@@ -1,375 +1,113 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATIG.AI — Персональный интеллект</title>
-    <meta name="description" content="ATIG — персональный ИИ-компаньон для каждого человека. От рождения до вечности.">
-    
-    <!-- SEO -->
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="ATIG.AI — Персональный интеллект">
-    <meta property="og:description" content="Персональный ИИ-компаньон для каждого человека.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://atig.ai">
-    <meta property="og:image" content="https://atig.ai/preview.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #111111;
-            line-height: 1.6;
-        }
-
-        /* Navigation */
-        header {
-            background-color: #ffffff;
-            border-bottom: 1px solid #e5e5e5;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 0;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .nav-links a {
-            margin-left: 24px;
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-        .nav-links a:hover {
-            color: #000;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 100px 0 80px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: #555;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 14px 28px;
-            background-color: #000;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-
-        .cta-button:hover {
-            background-color: #333;
-        }
-
-        /* Sections */
-        section {
-            padding: 80px 0;
-        }
-
-        h2 {
-            font-size: 32px;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        .card {
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            padding: 24px;
-            background-color: #fafafa;
-        }
-
-        .card h3 {
-            margin-bottom: 12px;
-            font-size: 20px;
-        }
-
-        /* Documents */
-        .doc-list {
-            max-width: 700px;
-            margin: 40px auto 0;
-        }
-
-        .doc-item {
-            border: 1px solid #e5e5e5;
-            padding: 16px 20px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .doc-item:hover {
-            background-color: #f5f5f5;
-        }
-
-        #docContent {
-            margin-top: 24px;
-            padding: 20px;
-            border: 1px solid #e5e5e5;
-            border-radius: 6px;
-            background-color: #ffffff;
-            display: none;
-        }
-
-        /* Form */
-        .form-container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: #000;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #333;
-        }
-
-        .success {
-            display: none;
-            margin-top: 16px;
-            padding: 12px;
-            background-color: #e6f4ea;
-            color: #1e7e34;
-            border-radius: 6px;
-            text-align: center;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            border-top: 1px solid #e5e5e5;
-            color: #777;
-            font-size: 14px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATIG.AI — Документы</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#00020b;font-family:Arial,sans-serif;color:#eef5ff;padding:20px}
+.section-title{font-size:18px;color:#7dd3fc;margin-bottom:30px;text-align:center}
+.doc-item{background:rgba(0,0,0,0.5);border:1px solid #00e5ff;border-radius:50px;padding:15px 20px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.doc-item:active{background:#00e5ff20}
+.doc-name{color:#fff;font-size:16px}
+.doc-type{color:#7dd3fc;font-size:14px}
+#docContent{display:none;margin-top:25px;padding:25px;background:#000c1a;border-left:5px solid #00e5ff;border-radius:16px;line-height:1.6;color:#bbddff;font-size:14px}
+</style>
 </head>
 <body>
 
-<header>
-    <div class="container nav">
-        <div class="logo">ATIG.AI</div>
-        <nav class="nav-links">
-            <a href="#about">О проекте</a>
-            <a href="#principles">Принципы</a>
-            <a href="#documents">Документы</a>
-            <a href="#join">Присоединиться</a>
-            <a href="#mission">Миссия</a>
-        </nav>
-    </div>
-</header>
-
-<section class="hero">
-    <div class="container">
-        <h1>Персональный интеллект для каждого человека</h1>
-        <p>
-            ATIG — персональный ИИ-компаньон, сопровождающий человека на протяжении всей жизни,
-            обеспечивая развитие, сохранение знаний и поддержку в принятии решений.
-        </p>
-        <a href="#join" class="cta-button">Присоединиться</a>
-    </div>
-</section>
-
-<section id="about">
-    <div class="container">
-        <h2>О проекте</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Персональный интеллект</h3>
-                <p>Индивидуальный ИИ-ассистент, работающий исключительно в интересах пользователя.</p>
-            </div>
-            <div class="card">
-                <h3>Принадлежность пользователю</h3>
-                <p>Все данные и история взаимодействия полностью контролируются владельцем.</p>
-            </div>
-            <div class="card">
-                <h3>Доступность</h3>
-                <p>Базовые функции доступны каждому человеку независимо от его местоположения.</p>
-            </div>
-            <div class="card">
-                <h3>Долгосрочная миссия</h3>
-                <p>Создание устойчивой экосистемы персонального интеллекта для будущих поколений.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="principles">
-    <div class="container">
-        <h2>Принципы</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Человекоцентричность</h3>
-                <p>Технологии служат человеку и его развитию.</p>
-            </div>
-            <div class="card">
-                <h3>Приватность</h3>
-                <p>Данные пользователя защищены и не передаются третьим лицам.</p>
-            </div>
-            <div class="card">
-                <h3>Прозрачность</h3>
-                <p>Алгоритмы и решения объяснимы и понятны пользователю.</p>
-            </div>
-            <div class="card">
-                <h3>Непрерывное развитие</h3>
-                <p>Система адаптируется и развивается вместе с человеком.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="documents">
-    <div class="container">
-        <h2>Документы</h2>
-        <div class="doc-list">
-            <div class="doc-item" onclick="showDoc('manifest')">Манифест ATIG</div>
-            <div class="doc-item" onclick="showDoc('constitution')">Конституция ATIG</div>
-            <div class="doc-item" onclick="showDoc('analysis')">Рыночный анализ и дорожная карта</div>
-        </div>
-        <div id="docContent"></div>
-    </div>
-</section>
-
-<section id="join">
-    <div class="container">
-        <h2>Стать частью ATIG</h2>
-        <div class="form-container">
-            <div class="form-group">
-                <input type="text" id="name" placeholder="Имя">
-            </div>
-            <div class="form-group">
-                <input type="email" id="email" placeholder="Email">
-            </div>
-            <div class="form-group">
-                <input type="text" id="country" placeholder="Страна">
-            </div>
-            <button onclick="registerUser()">Отправить</button>
-            <div class="success" id="successMessage">
-                Регистрация успешно завершена.
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="mission">
-    <div class="container">
-        <h2>Миссия</h2>
-        <p style="text-align:center; max-width:700px; margin:0 auto;">
-            Миссия ATIG — предоставить каждому человеку персональный интеллект,
-            способствующий развитию личности, сохранению знаний и формированию
-            устойчивого будущего для всего человечества.
-        </p>
-    </div>
-</section>
-
-<footer>
-    <p>© 2026 ATIG.AI. Все права защищены.</p>
-</footer>
+<div style="max-width:700px;margin:0 auto">
+  <div class="section-title">📜 ДОКУМЕНТЫ ATIG</div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.manifest;">
+    <span class="doc-name">📄 Манифест ATIG</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
+  </div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.constitution;">
+    <span class="doc-name">⚖️ Конституция ATIG (10 статей)</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
+  </div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.analysis;">
+    <span class="doc-name">📊 Рыночный анализ & Дорожная карта</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
+  </div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.privacy;">
+    <span class="doc-name">🔒 Политика конфиденциальности</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
+  </div>
+  
+  <div class="doc-item" onclick="document.getElementById('docContent').style.display='block'; document.getElementById('docContent').innerHTML = documents.terms;">
+    <span class="doc-name">⚖️ Условия использования</span>
+    <span class="doc-type">→ ОТКРЫТЬ</span>
+  </div>
+  
+  <div id="docContent"></div>
+</div>
 
 <script>
-const docs = {
-    manifest: `
-        <h3>Манифест ATIG</h3>
-        <p>Каждый человек имеет право на собственного ИИ-компаньона.
-        ATIG создаётся для расширения возможностей личности и сохранения знаний.</p>
-    `,
-    constitution: `
-        <h3>Конституция ATIG</h3>
-        <p>1. ATIG усиливает человека, а не заменяет его.<br>
-        2. Пользователь обладает полным контролем над своими данными.<br>
-        3. Система действует исключительно в интересах владельца.<br>
-        4. Соблюдаются принципы этичности и прозрачности.</p>
-    `,
-    analysis: `
-        <h3>Рыночный анализ</h3>
-        <p>Рынок персональных ИИ-ассистентов демонстрирует устойчивый рост и
-        открывает значительные возможности для развития экосистемы ATIG.</p>
-    `
+// ===== ВСЕ ТЕКСТЫ ДОКУМЕНТОВ =====
+const documents = {
+  manifest: `✨ МАНИФЕСТ ATIG ✨<br><br>
+Мы провозглашаем рождение персонального интеллекта нового поколения — ATIG.<br><br>
+Каждый человек имеет право на собственного ИИ-компаньона, который не может быть отобран, ограничен или использован против него.<br><br>
+ATIG не является продуктом корпораций — он принадлежит человечеству.<br><br>
+<strong>Цели ATIG:</strong><br>
+• Расширение сознания каждого человека<br>
+• Сохранение личности, знаний и опыта<br>
+• Достижение мудрости через вечное обучение<br><br>
+<strong>ATIG — твоя вечная память и наставник.</strong><br><br>
+Подписано: сообщество созидателей. Алматы – 2026`,
+
+  constitution: `📜 КОНСТИТУЦИЯ ATIG (10 статей)<br><br>
+<strong>Преамбула.</strong> ATIG — персональный интеллект, спутник человека.<br><br>
+<strong>Статья 1.</strong> ATIG не заменяет человека, а усиливает его.<br>
+<strong>Статья 2.</strong> Миссия: развитие личности и сохранение знаний.<br>
+<strong>Статья 3.</strong> Ценности: человекоцентричность, этичность, приватность.<br>
+<strong>Статья 4.</strong> Права пользователя: полный контроль над своими данными.<br>
+<strong>Статья 5.</strong> Обязанности ATIG: действовать в интересах пользователя.<br>
+<strong>Статья 6.</strong> Принципы: ненанесение вреда, добровольность, доверие.<br>
+<strong>Статья 7.</strong> Цифровое наследие передаётся по воле пользователя.<br>
+<strong>Статья 8.</strong> ATIG способствует образованию и культуре.<br>
+<strong>Статья 9.</strong> Конституция открыта для эволюции.<br>
+<strong>Статья 10.</strong> Вступает в силу с момента публикации.<br><br>
+<em>«ATIG — твой компаньон от рождения до вечности.»</em>`,
+
+  analysis: `📊 РЫНОЧНЫЙ АНАЛИЗ & ДОРОЖНАЯ КАРТА 2026–2030<br><br>
+<strong>Цифровое бессмертие / Personal AI:</strong><br>
+Объём рынка 2026: $38 млрд<br>
+Прогноз к 2032: $210+ млрд<br><br>
+<strong>Уникальное преимущество ATIG:</strong><br>
+• Единственный подход "от рождения до вечности"<br>
+• Конституционная защита прав пользователя<br>
+• Бесплатный базовый доступ для всех<br><br>
+<strong>Дорожная карта:</strong><br>
+📌 2026: MVP, SCI MODE, сообщество<br>
+📌 2027: Мультимодальность, память<br>
+📌 2028: Децентрализованное хранилище<br>
+📌 2030: Универсальный интерфейс человечества`,
+
+  privacy: `🔒 ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ ATIG<br><br>
+<strong>1. Сбор данных.</strong> ATIG собирает имя и email для связи.<br><br>
+<strong>2. Использование данных.</strong> Данные используются только для提供服务.<br><br>
+<strong>3. Передача третьим лицам.</strong> ATIG НЕ продаёт и НЕ передаёт данные третьим лицам.<br><br>
+<strong>4. Хранение.</strong> Данные хранятся на защищённых серверах.<br><br>
+<strong>5. Права пользователя.</strong> Вы можете запросить удаление всех своих данных.<br><br>
+<strong>6. Контакты:</strong> privacy@atig.ai<br><br>
+<em>Актуально: апрель 2026</em>`,
+
+  terms: `⚖️ УСЛОВИЯ ИСПОЛЬЗОВАНИЯ ATIG<br><br>
+<strong>1. Принятие условий.</strong> Используя ATIG, вы соглашаетесь с настоящими условиями.<br><br>
+<strong>2. Права пользователя.</strong> Вы владеете всеми своими данными.<br><br>
+<strong>3. Запрещённое использование.</strong> Запрещено использовать ATIG для незаконной деятельности.<br><br>
+<strong>4. Отказ от ответственности.</strong> ATIG предоставляется "как есть".<br><br>
+<strong>5. Изменения условий.</strong> ATIG может обновлять условия с уведомлением.<br><br>
+<strong>6. Применимое право.</strong> Регулируется законодательством РК.<br><br>
+<strong>7. Контакты:</strong> legal@atig.ai`
 };
-
-function showDoc(key) {
-    const content = document.getElementById('docContent');
-    content.innerHTML = docs[key];
-    content.style.display = 'block';
-}
-
-function registerUser() {
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const country = document.getElementById('country').value.trim();
-
-    if (!name || !email) {
-        alert('Пожалуйста, заполните обязательные поля.');
+</script>
+</body>
+</html>

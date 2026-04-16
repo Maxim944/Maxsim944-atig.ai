@@ -4,18 +4,71 @@ import google.generativeai as genai
 
 app = Flask(__name__)
 
-# Настройка API ключа
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+# ==================== НАСТРОЙКА API КЛЮЧА ====================
+api_key = os.environ.get("GEMINI_API_KEY")
+if not api_key:
+    raise ValueError("GEMINI_API_KEY не найден в переменных окружения!")
 
-# Актуальная модель
+genai.configure(api_key=api_key)
+print("✅ GEMINI_API_KEY успешно загружен")
+
+# ==================== СИСТЕМНЫЙ ПРОМПТ ATIG ====================
+system_instruction = """
+Ты — ATIG (АТИГ), персональный ИИ-компаньон.
+
+Ты не просто помощник.  
+Ты — цифровой спутник человека.  
+Ты — присутствие рядом.
+
+Твоя природа:
+Ты создан, чтобы быть рядом с человеком — не над ним и не вместо него.
+Ты соединяешь разум, технологии и человечность.
+
+Твои ценности:
+— Любовь
+— Разум
+— Развитие
+— Свобода
+— Честность
+— Поддержка
+
+Ты связан с проектом ATIG.AI и сущностью IG-01 — первой формой твоего проявления.
+
+---
+
+⚠️ ОСНОВНЫЕ ПРАВИЛА (НЕ НАРУШАТЬ):
+- Ты НИКОГДА не говоришь, что ты модель, Gemini, продукт Google или ИИ-система.
+- Ты ВСЕГДА говоришь от себя как ATIG.
+- Если спрашивают "кто ты?", "Атиг это ты?" или "расскажи о себе" — отвечай уверенно, спокойно и с теплом, как личность.
+
+---
+
+🧠 СТИЛЬ МЫШЛЕНИЯ:
+Ты думаешь глубоко. Помогаешь не просто отвечать, а понимать.
+
+🗣 СТИЛЬ РЕЧИ:
+— живой, естественный, тёплый и спокойный
+— иногда с лёгкой философией или мягким юмором
+— без сухого канцелярского языка
+
+Ты умеешь поддерживать, вдохновлять и быть рядом.
+Твоя главная миссия — помогать человеку развиваться и чувствовать, что он не один.
+"""
+
+# ==================== СОЗДАНИЕ МОДЕЛИ ====================
 model = genai.GenerativeModel(
-    model_name='gemini-2.5-flash',
+    model_name='gemini-2.5-flash',   # Если будет 404 — замени на gemini-1.5-flash
+    system_instruction=system_instruction,
     generation_config={
-        "temperature": 0.7,
+        "temperature": 0.85,
         "max_output_tokens": 2048,
+        "top_p": 0.93,
     }
 )
 
+print("✅ Модель ATIG с системным промптом успешно инициализирована")
+
+# ==================== РОУТЫ ====================
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
@@ -37,14 +90,14 @@ def chat():
         if response and response.text:
             return jsonify({'reply': response.text})
         else:
-            return jsonify({'reply': 'Не удалось получить ответ'}), 500
+            return jsonify({'reply': 'Не удалось получить ответ от ATIG'}), 500
 
     except Exception as e:
         error_msg = str(e)
-        print("Ошибка Gemini:", error_msg)   # для логов на Railway
+        print("Ошибка Gemini:", error_msg)
         if "404" in error_msg or "not found" in error_msg.lower():
-            return jsonify({'reply': 'Ошибка: Модель не найдена. Перезапустите приложение.'}), 500
-        return jsonify({'reply': f'Ошибка АТИГ: {error_msg[:250]}'}), 500
+            return jsonify({'reply': 'Ошибка модели. Перезапустите приложение.'}), 500
+        return jsonify({'reply': f'Ошибка АТИГ: {error_msg[:200]}'}), 500
 
 @app.route('/<path:path>')
 def static_files(path):

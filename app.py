@@ -7,8 +7,9 @@ app = Flask(__name__)
 # Настройка API ключа
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
-# Использование максимально стабильной версии
+# Мы переходим на gemini-pro, так как flash выдает 404
 model = genai.GenerativeModel('gemini-pro')
+
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
@@ -18,22 +19,22 @@ def chat():
     try:
         data = request.get_json(silent=True)
         if not data:
-            return jsonify({'reply': 'Системная ошибка: запрос не содержит данных'}), 400
+            return jsonify({'reply': 'Ошибка: данные не получены'}), 400
             
         user_message = data.get('message')
         if not user_message:
             return jsonify({'reply': 'Сообщение пустое'}), 400
             
-        # Генерация ответа
+        # Запрос к нейросети
         response = model.generate_content(user_message)
         
         if response and response.text:
             return jsonify({'reply': response.text})
         else:
-            return jsonify({'reply': 'АТИГ получил пустой ответ. Попробуйте еще раз.'})
+            return jsonify({'reply': 'АТИГ: Не удалось сформировать текст ответа.'})
 
     except Exception as e:
-        return jsonify({'reply': f'Системная ошибка ATIG: {str(e)}'}), 500
+        return jsonify({'reply': f'Ошибка АТИГ: {str(e)}'}), 500
 
 @app.route('/<path:path>')
 def static_files(path):

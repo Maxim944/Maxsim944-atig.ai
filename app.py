@@ -8,7 +8,9 @@ app = Flask(__name__)
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # Мы переходим на gemini-pro, так как flash выдает 404
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-2.5-flash')     # быстро и дёшево
+# или
+model = genai.GenerativeModel('gemini-2.5-pro')       # умнее, но дороже
 
 @app.route('/')
 def index():

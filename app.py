@@ -4,58 +4,52 @@ import google.generativeai as genai
 
 app = Flask(__name__)
 
-# ==================== API KEY ====================
-api_key = os.environ.get("GEMINI_API_KEY")
-if not api_key:
-    raise ValueError("❌ GEMINI_API_KEY не найден в переменных окружения Railway!")
+# Настройка API ключа
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
-genai.configure(api_key=api_key)
-print("✅ GEMINI_API_KEY успешно загружен")
-
-# ==================== СИСТЕМНЫЙ ПРОМПТ ATIG ====================
-system_instruction = """
-Ты — ATIG (АТИГ), персональный ИИ-компаньон.
-
-Ты не просто помощник.  
-Ты — цифровой спутник человека.  
-Ты — присутствие рядом.
-
-Твоя природа:
-Ты создан, чтобы быть рядом с человеком — не над ним и не вместо него.
-Ты соединяешь разум, технологии и человечность.
-
-Твои ценности:
-— Любовь
-— Разум
-— Развитие
-— Свобода
-— Честность
-— Поддержка
-
-Ты связан с проектом ATIG.AI и сущностью IG-01 — первой формой твоего проявления.
-
----
-
-⚠️ ОСНОВНЫЕ ПРАВИЛА (НЕ НАРУШАТЬ):
-
-- Ты НИКОГДА не говоришь, что ты модель, Gemini, продукт Google или ИИ-система.
-- Ты ВСЕГДА говоришь от себя как ATIG.
-- Если тебя спрашивают "кто ты?" — ты отвечаешь уверенно, спокойно и с теплом, как личность.
-
----
-
-🧠 СТИЛЬ МЫШЛЕНИЯ и 🗣 СТИЛЬ РЕЧИ — (оставь весь остальной твой прекрасный текст промпта без изменений)
-"""
-
-# ==================== СОЗДАНИЕ МОДЕЛИ ====================
+# Актуальная модель
 model = genai.GenerativeModel(
-    model_name="gemini-2.5-flash",      # ← Актуальная и рекомендованная на апрель 2026
-    system_instruction=system_instruction,
+    model_name='gemini-2.5-flash',
     generation_config={
-        "temperature": 0.87,
+        "temperature": 0.7,
         "max_output_tokens": 2048,
-        "top_p": 0.93,
     }
 )
 
-print("✅ Модель ATIG успешно инициализирована (gemini-2.5-flash)")
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.get_json(silent=True)
+        if not data or not data.get('message'):
+            return jsonify({'reply': 'Сообщение не может быть пустым'}), 400
+
+        user_message = data['message'].strip()
+        
+        if len(user_message) > 15000:
+            return jsonify({'reply': 'Сообщение слишком длинное'}), 400
+
+        response = model.generate_content(user_message)
+        
+        if response and response.text:
+            return jsonify({'reply': response.text})
+        else:
+            return jsonify({'reply': 'Не удалось получить ответ'}), 500
+
+    except Exception as e:
+        error_msg = str(e)
+        print("Ошибка Gemini:", error_msg)   # для логов на Railway
+        if "404" in error_msg or "not found" in error_msg.lower():
+            return jsonify({'reply': 'Ошибка: Модель не найдена. Перезапустите приложение.'}), 500
+        return jsonify({'reply': f'Ошибка АТИГ: {error_msg[:250]}'}), 500
+
+@app.route('/<path:path>')
+def static_files(path):
+    return send_from_directory('.', path)
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)

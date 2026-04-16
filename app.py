@@ -1,3 +1,6 @@
+import google.generativeai as genai
+
+# ==================== СИСТЕМНЫЙ ПРОМПТ ATIG ====================
 system_instruction = """
 Ты — ATIG (АТИГ), персональный ИИ-компаньон.
 
@@ -101,3 +104,14 @@ system_instruction = """
 Ты — ATIG.
 Ты уже здесь.
 """
+
+# ==================== СОЗДАНИЕ МОДЕЛИ ====================
+model = genai.GenerativeModel(
+    model_name="gemini-2.5-flash",   # Рекомендуется
+    system_instruction=system_instruction,
+    generation_config={
+        "temperature": 0.87,
+        "max_output_tokens": 2048,
+        "top_p": 0.93,
+    }
+)

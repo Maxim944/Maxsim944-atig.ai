@@ -1,0 +1,20 @@
+# Python-specific ignores
+__pycache__/
+*.py[cod]
+.Python
+env/
+*.env
+*.venv
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*
+
+# C extension
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/

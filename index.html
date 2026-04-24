@@ -1,180 +1,90 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATIG — Голосовой Компаньон</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ATIG — Персональный ИИ</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background: #0a0a0a; color: #fff; }
-    .chat { max-width: 800px; margin: 0 auto; height: 78vh; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; }
-    .message { margin: 12px 0; padding: 14px 18px; border-radius: 20px; max-width: 85%; line-height: 1.4; }
-    .user { background: #0078ff; align-self: flex-end; border-bottom-right-radius: 6px; }
-    .ai { background: #2a2a2a; align-self: flex-start; border-bottom-left-radius: 6px; }
-    .input-area { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px; background: #111; display: flex; align-items: center; gap: 8px; }
-    input { flex: 1; padding: 16px; border-radius: 30px; border: none; font-size: 17px; background: #222; color: white; }
-    button { padding: 14px 16px; border-radius: 50%; border: none; font-size: 20px; cursor: pointer; }
-    .mic-btn { background: #ff2d55; }
-    .mic-btn.recording { background: #ff0000; animation: pulse 1.4s infinite; }
-    .stop-btn { background: #666; }
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.18); } }
-    .voice-select { padding: 8px; background: #222; color: white; border-radius: 12px; border: none; }
-    .status { text-align: center; font-size: 14px; margin: 8px 0; color: #0f0; min-height: 20px; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at center, #0b1a2a, #000);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    .highlight {
+      color: #4da6ff;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #4da6ff;
+      color: #000;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .btn:hover {
+      background: #66b3ff;
+    }
+
+    .note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #888;
+    }
   </style>
 </head>
 <body>
-  <div class="chat" id="chat"></div>
-  <div class="status" id="status"></div>
+  <div class="container">
+    <h1>ATIG — персональный ИИ для каждого человека</h1>
 
-  <div class="input-area">
-    <select id="voiceSelect" class="voice-select"></select>
-    <input type="text" id="userInput" placeholder="Напишите или говорите..." autocomplete="off">
-    <button id="sendBtn">→</button>
-    <button id="micBtn" class="mic-btn">🎤</button>
-    <button id="stopBtn" class="stop-btn" style="display:none;">⏹</button>
+    <p>
+      Не чат-бот. Не сервис.<br>
+      <span class="highlight">Система, которая сопровождает человека всю жизнь.</span>
+    </p>
+
+    <p>
+      Если ты не хочешь снова идти в корпорацию —<br>
+      возможно, тебе сюда.
+    </p>
+
+    <p>
+      Мы на ранней стадии.<br>
+      Без гарантий. Но с реальным масштабом.
+    </p>
+
+    <a class="btn" href="mailto:your@email.com?subject=ATIG">
+      Присоединиться
+    </a>
+
+    <div class="note">
+      AI / Backend / Product / UX
+    </div>
   </div>
-
-  <script>
-    const chat = document.getElementById('chat');
-    const input = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const micBtn = document.getElementById('micBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const status = document.getElementById('status');
-    const voiceSelect = document.getElementById('voiceSelect');
-
-    let recognition = null;
-    let isRecording = false;
-    let currentUtterance = null;
-
-    // Инициализация Speech Recognition
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.lang = 'ru-RU';
-      recognition.continuous = false;
-      recognition.interimResults = false;
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        input.value = transcript;
-        sendMessage(transcript);
-      };
-
-      recognition.onerror = () => { stopRecording(); };
-      recognition.onend = () => { stopRecording(); };
-    }
-
-    // Заполнение списка голосов
-    function loadVoices() {
-      const voices = speechSynthesis.getVoices();
-      voiceSelect.innerHTML = '';
-      voices.forEach(voice => {
-        if (voice.lang.includes('ru') || voice.lang.includes('en')) {
-          const option = document.createElement('option');
-          option.value = voice.name;
-          option.textContent = `\( {voice.name} ( \){voice.lang})`;
-          voiceSelect.appendChild(option);
-        }
-      });
-    }
-    speechSynthesis.onvoiceschanged = loadVoices;
-    window.onload = () => {
-      loadVoices();
-      addMessage("Привет! Я АТИГ. Теперь мы можем общаться голосом 🎤", false);
-    };
-
-    // Озвучивание текста
-    function speak(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel(); // останавливаем предыдущую речь
-        currentUtterance = new SpeechSynthesisUtterance(text);
-        
-        const voices = speechSynthesis.getVoices();
-        const selectedVoice = voices.find(v => v.name === voiceSelect.value);
-        if (selectedVoice) currentUtterance.voice = selectedVoice;
-        
-        currentUtterance.lang = 'ru-RU';
-        currentUtterance.rate = 1.05;
-        currentUtterance.pitch = 1.0;
-        
-        window.speechSynthesis.speak(currentUtterance);
-      }
-    }
-
-    function stopSpeaking() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-    }
-
-    // Визуальный индикатор
-    function startRecording() {
-      if (!recognition) return;
-      isRecording = true;
-      micBtn.classList.add('recording');
-      status.textContent = "🎙️ Слушаю... Говорите";
-      recognition.start();
-    }
-
-    function stopRecording() {
-      isRecording = false;
-      micBtn.classList.remove('recording');
-      status.textContent = "";
-      if (recognition) recognition.stop();
-    }
-
-    // Добавление сообщения
-    function addMessage(text, isUser) {
-      const div = document.createElement('div');
-      div.className = `message ${isUser ? 'user' : 'ai'}`;
-      div.textContent = text;
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
-
-      if (!isUser) {
-        speak(text);                    // Авто-озвучивание
-        setTimeout(() => {
-          if (!isRecording) startRecording();  // Автоматически включить микрофон после ответа
-        }, 800);
-      }
-    }
-
-    // Отправка сообщения
-    async function sendMessage(message) {
-      if (!message?.trim()) return;
-      
-      addMessage(message, true);
-      input.value = '';
-      stopRecording();
-
-      try {
-        const res = await fetch('/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: message })
-        });
-        const data = await res.json();
-        addMessage(data.reply, false);
-      } catch (e) {
-        addMessage("Не удалось связаться с АТИГ...", false);
-      }
-    }
-
-    // Кнопки
-    sendBtn.addEventListener('click', () => sendMessage(input.value));
-    input.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(input.value); });
-
-    micBtn.addEventListener('click', () => {
-      if (isRecording) stopRecording();
-      else startRecording();
-    });
-
-    stopBtn.addEventListener('click', () => {
-      stopSpeaking();
-    });
-
-    // Останавливаем речь при нажатии на любое место в чате
-    chat.addEventListener('click', stopSpeaking);
-  </script>
 </body>
 </html>

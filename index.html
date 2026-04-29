@@ -208,6 +208,27 @@ function botFlow(text) {
 
         lead.step = 4;
         return;
+if (lead.step === 3) {
+    lead.step = 4;
+
+    let message =
+`Новая заявка ATIG:
+Имя: ${lead.name}
+Ситуация: ${lead.issue}
+Контакт: ${lead.contact}`;
+
+    let phone = "77000000000"; // сюда свой номер в формате страны
+
+    let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+    addMessage("Хорошо, передаю заявку. Сейчас откроется WhatsApp.", "bot");
+
+    setTimeout(() => {
+        window.open(url, "_blank");
+    }, 1000);
+
+    return;
+}
     }
 }
 </script>

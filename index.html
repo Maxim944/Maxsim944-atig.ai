@@ -1,92 +1,161 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ATIG — Персональный ИИ</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: radial-gradient(circle at center, #0b1a2a, #000);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATIG — AI для юристов</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0f1a;
+    color: white;
+}
 
-    .container {
-      max-width: 600px;
-      padding: 20px;
-    }
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 15px;
-    }
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
 
-    p {
-      font-size: 18px;
-      color: #ccc;
-      margin-bottom: 20px;
-    }
+.subtitle {
+    color: #9aa4c7;
+    margin-bottom: 30px;
+}
 
-    .highlight {
-      color: #4da6ff;
-    }
+.card {
+    background: #141a2e;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
 
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      background: #4da6ff;
-      color: #000;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      margin-top: 15px;
-    }
+.button {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #4f7cff;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    margin-top: 10px;
+}
 
-    .btn:hover {
-      background: #66b3ff;
-    }
+.chat {
+    height: 300px;
+    overflow-y: auto;
+    background: #0f1424;
+    border-radius: 10px;
+    padding: 10px;
+}
 
-    .note {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #888;
-    }
-  </style>
+.message {
+    margin: 8px 0;
+}
+
+.user {
+    color: #7aa2ff;
+}
+
+.bot {
+    color: #b4ffb4;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 10px;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>ATIG — персональный ИИ для каждого человека</h1>
 
-    <p>
-      Не чат-бот. Не сервис.<br>
-      <span class="highlight">Система, которая сопровождает человека всю жизнь.</span>
-    </p>
+<div class="container">
 
-    <p>
-      Если ты не хочешь снова идти в корпорацию —<br>
-      возможно, тебе сюда.
-    </p>
+<h1>AI-ассистент для юристов</h1>
+<div class="subtitle">
+Отвечает клиентам, собирает заявки и экономит до 70% времени
+</div>
 
-    <p>
-      Мы на ранней стадии.<br>
-      Без гарантий. Но с реальным масштабом.
-    </p>
+<div class="card">
+<b>Что делает:</b>
+<ul>
+<li>Отвечает на типовые вопросы 24/7</li>
+<li>Собирает данные клиента</li>
+<li>Фильтрует нецелевые обращения</li>
+<li>Повышает конверсию в оплату</li>
+</ul>
+</div>
 
-    <a class="btn" href="mailto:your@email.com?subject=ATIG">
-      Присоединиться
-    </a>
-    <a href="/chat" class="btn-primary">
-       Попробовать ATIG
-    </a>
-    <div class="note">
-      AI / Backend / Product / UX
-    </div>
-  </div>
+<div class="card">
+<b>Попробуйте демо:</b>
+
+<div class="chat" id="chat">
+<div class="message bot">Здравствуйте! Опишите вашу ситуацию.</div>
+</div>
+
+<input id="input" placeholder="Напишите вопрос..." onkeypress="handleKey(event)">
+</div>
+
+<a href="#" class="button">Получить внедрение</a>
+
+</div>
+
+<script>
+function handleKey(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+}
+
+function sendMessage() {
+    let input = document.getElementById("input");
+    let text = input.value;
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    setTimeout(() => {
+        let response = generateResponse(text);
+        addMessage(response, "bot");
+    }, 600);
+}
+
+function addMessage(text, type) {
+    let chat = document.getElementById("chat");
+    let msg = document.createElement("div");
+    msg.className = "message " + type;
+    msg.innerText = text;
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function generateResponse(text) {
+    text = text.toLowerCase();
+
+    if (text.includes("развод")) {
+        return "Вам потребуется подать исковое заявление в суд. Подскажите, есть ли несовершеннолетние дети?";
+    }
+
+    if (text.includes("долг")) {
+        return "Можно подать иск о взыскании долга. У вас есть расписка или договор?";
+    }
+
+    if (text.includes("дтп")) {
+        return "Важно собрать документы по ДТП. Есть ли у вас протокол и страховой полис?";
+    }
+
+    return "Понял вас. Подскажите подробнее, чтобы я мог точнее оценить ситуацию.";
+}
+</script>
+
 </body>
 </html>

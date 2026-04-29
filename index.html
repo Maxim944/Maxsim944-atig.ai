@@ -109,7 +109,8 @@ input {
 </div>
 
 <script>
-let lead = {
+
+    let lead = {
     name: null,
     contact: null,
     issue: null,
@@ -139,7 +140,7 @@ function sendMessage() {
 
     setTimeout(() => {
         botFlow(text);
-    }, 600);
+    }, 500);
 }
 
 function botFlow(text) {
@@ -147,17 +148,22 @@ function botFlow(text) {
 
     // STEP 1 — определяем проблему
     if (lead.step === 0) {
-        if (text.includes("увол") || text.includes("долг") || text.includes("развод") || text.includes("дтп")) {
+        if (
+            text.includes("увол") ||
+            text.includes("долг") ||
+            text.includes("развод") ||
+            text.includes("дтп")
+        ) {
             lead.issue = text;
             lead.step = 1;
 
             addMessage(
-                "Понял ситуацию. Я могу помочь оценить ваши шансы и предложить план действий.\n\nКак к вам можно обращаться?",
+                "Понял ситуацию. Как к вам можно обращаться?",
                 "bot"
             );
         } else {
             addMessage(
-                "Опишите ситуацию подробнее (увольнение, долг, развод, ДТП и т.д.)",
+                "Опишите ситуацию (увольнение, долг, развод, ДТП и т.д.)",
                 "bot"
             );
         }
@@ -170,7 +176,7 @@ function botFlow(text) {
         lead.step = 2;
 
         addMessage(
-            `Спасибо, ${lead.name}. Уточните, пожалуйста, как с вами можно связаться (WhatsApp или телефон)?`,
+            "Спасибо. Как с вами можно связаться (WhatsApp или телефон)?",
             "bot"
         );
         return;
@@ -182,53 +188,45 @@ function botFlow(text) {
         lead.step = 3;
 
         addMessage(
-            `Отлично. Я зафиксировал вашу заявку.
+            `Отлично, ${lead.name}. Я зафиксировал заявку.
 
-📌 Ситуация: ${lead.issue}
+Мы можем:
+— оценить вашу ситуацию  
+— объяснить ваши шансы  
+— предложить план действий  
 
-Наш специалист (юрист) может разобрать ваш кейс и сказать:
-— есть ли у вас шансы  
-— какие документы нужны  
-— и как действовать дальше  
-
-Хотите, чтобы мы связались с вами сегодня?`,
+Передаю заявку специалисту.`,
             "bot"
         );
         return;
     }
 
-    // STEP 4 — закрытие
+    // STEP 4 — закрытие + WhatsApp
     if (lead.step === 3) {
-        addMessage(
-            "Хорошо, передаю заявку юристу. Мы свяжемся с вами в ближайшее время.",
-            "bot"
-        );
-
-        console.log("LEAD CAPTURED:", lead);
-
         lead.step = 4;
-        return;
-if (lead.step === 3) {
-    lead.step = 4;
 
-    let message =
+        let message =
 `Новая заявка ATIG:
 Имя: ${lead.name}
 Ситуация: ${lead.issue}
 Контакт: ${lead.contact}`;
 
-    let phone = "77000000000"; // сюда свой номер в формате страны
+        let phone = "77000000000"; // ← вставь свой номер
 
-    let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
-    addMessage("Хорошо, передаю заявку. Сейчас откроется WhatsApp.", "bot");
+        addMessage(
+            "Хорошо, передаю заявку. Сейчас откроется WhatsApp.",
+            "bot"
+        );
 
-    setTimeout(() => {
-        window.open(url, "_blank");
-    }, 1000);
+        setTimeout(() => {
+            window.open(url, "_blank");
+        }, 800);
 
-    return;
-}
+        console.log("LEAD CAPTURED:", lead);
+
+        return;
     }
 }
 </script>

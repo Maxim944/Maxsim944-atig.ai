@@ -109,10 +109,24 @@ input {
 </div>
 
 <script>
+let lead = {
+    name: null,
+    contact: null,
+    issue: null,
+    step: 0
+};
+
+function addMessage(text, type) {
+    let chat = document.getElementById("chat");
+    let msg = document.createElement("div");
+    msg.className = "message " + type;
+    msg.innerText = text;
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+}
+
 function handleKey(e) {
-    if (e.key === "Enter") {
-        sendMessage();
-    }
+    if (e.key === "Enter") sendMessage();
 }
 
 function sendMessage() {
@@ -124,45 +138,77 @@ function sendMessage() {
     input.value = "";
 
     setTimeout(() => {
-        let response = generateResponse(text);
-        addMessage(response, "bot");
+        botFlow(text);
     }, 600);
 }
 
-function addMessage(text, type) {
-    let chat = document.getElementById("chat");
-    let msg = document.createElement("div");
-    msg.className = "message " + type;
-    msg.innerText = text;
-    chat.appendChild(msg);
-    chat.scrollTop = chat.scrollHeight;
-}
-
-function generateResponse(text) {
+function botFlow(text) {
     text = text.toLowerCase();
 
-    // Увольнение / трудовые споры
-    if (text.includes("увол") || text.includes("с работы") || text.includes("уволили")) {
-        return "Похоже на трудовой спор. Подскажите: вас уволили по статье или по собственному желанию? Есть ли приказ об увольнении на руках?";
+    // STEP 1 — определяем проблему
+    if (lead.step === 0) {
+        if (text.includes("увол") || text.includes("долг") || text.includes("развод") || text.includes("дтп")) {
+            lead.issue = text;
+            lead.step = 1;
+
+            addMessage(
+                "Понял ситуацию. Я могу помочь оценить ваши шансы и предложить план действий.\n\nКак к вам можно обращаться?",
+                "bot"
+            );
+        } else {
+            addMessage(
+                "Опишите ситуацию подробнее (увольнение, долг, развод, ДТП и т.д.)",
+                "bot"
+            );
+        }
+        return;
     }
 
-    // Развод
-    if (text.includes("развод")) {
-        return "Вопрос по семейному праву. Есть ли несовершеннолетние дети и согласны ли обе стороны на развод?";
+    // STEP 2 — имя
+    if (lead.step === 1) {
+        lead.name = text;
+        lead.step = 2;
+
+        addMessage(
+            `Спасибо, ${lead.name}. Уточните, пожалуйста, как с вами можно связаться (WhatsApp или телефон)?`,
+            "bot"
+        );
+        return;
     }
 
-    // Долги
-    if (text.includes("долг")) {
-        return "Речь о взыскании долга. Подскажите: есть ли расписка, договор или переписка, подтверждающая долг?";
+    // STEP 3 — контакт
+    if (lead.step === 2) {
+        lead.contact = text;
+        lead.step = 3;
+
+        addMessage(
+            `Отлично. Я зафиксировал вашу заявку.
+
+📌 Ситуация: ${lead.issue}
+
+Наш специалист (юрист) может разобрать ваш кейс и сказать:
+— есть ли у вас шансы  
+— какие документы нужны  
+— и как действовать дальше  
+
+Хотите, чтобы мы связались с вами сегодня?`,
+            "bot"
+        );
+        return;
     }
 
-    // ДТП
-    if (text.includes("дтп")) {
-        return "Ситуация с ДТП. Есть ли протокол, фото с места и страховой полис?";
-    }
+    // STEP 4 — закрытие
+    if (lead.step === 3) {
+        addMessage(
+            "Хорошо, передаю заявку юристу. Мы свяжемся с вами в ближайшее время.",
+            "bot"
+        );
 
-    // Общий fallback
-    return "Понял вас. Подскажите детали: что произошло, есть ли документы и какие действия уже предпринимались?";
+        console.log("LEAD CAPTURED:", lead);
+
+        lead.step = 4;
+        return;
+    }
 }
 </script>
 

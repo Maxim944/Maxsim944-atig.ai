@@ -181,53 +181,56 @@ function botFlow(text) {
         return;
     }
 
-    // STEP 3 — контакт
+    // STEP 3 — контакт + продажа
     if (lead.step === 2) {
-        lead.contact = text;
-        lead.step = 3;
+    lead.contact = text;
+    lead.step = 3;
 
-        addMessage(
-            `Отлично, ${lead.name}. Я зафиксировал заявку.
+    addMessage(
+`${lead.name}, я зафиксировал вашу ситуацию.
 
-Мы можем:
-— оценить вашу ситуацию  
-— объяснить ваши шансы  
-— предложить план действий  
+📌 В подобных случаях:
+— часто можно решить вопрос в пользу клиента  
+— но важно правильно начать  
+— и не терять время  
 
-Передаю заявку специалисту.`,
-            "bot"
-        );
-        return;
-    }
+Обычно консультация юриста стоит 10–20 тыс ₸,  
+но сейчас можно получить первичную оценку бесплатно.
 
-    // STEP 4 — закрытие + WhatsApp
-    if (lead.step === 3) {
-        lead.step = 4;
+Передать вашу заявку юристу?`,
+"bot"
+    );
+    return;
+}
 
-        let message =
+// STEP 4 — закрытие + WhatsApp
+if (lead.step === 3) {
+    lead.step = 4;
+
+    let message =
 `Новая заявка ATIG:
 Имя: ${lead.name}
 Ситуация: ${lead.issue}
 Контакт: ${lead.contact}`;
 
-        let phone = "77072562388"; // ← вставь свой номер
+    let phone = "77000000000"; // ← твой номер
 
-        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
-        addMessage(
-            "Хорошо, передаю заявку. Сейчас откроется WhatsApp.",
-            "bot"
-        );
+    addMessage(
+"Отлично. Передаю заявку.
 
-        setTimeout(() => {
-            window.open(url, "_blank");
-        }, 800);
+Юрист обычно связывается в течение 10–15 минут.",
+"bot"
+    );
 
-        console.log("LEAD CAPTURED:", lead);
+    setTimeout(() => {
+        window.open(url, "_blank");
+    }, 800);
 
-        return;
-    }
+    return;
 }
+
 </script>
 
 </body>

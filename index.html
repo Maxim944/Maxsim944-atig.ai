@@ -233,30 +233,46 @@ if (lead.step === 2) {
     return;
 }
 
-// STEP 4 — закрытие + WhatsApp
+ // STEP 4 — закрытие + дожим + WhatsApp
 if (lead.step === 3) {
-    lead.step = 4;
 
-    let message =
+    if (text.includes("да")) {
+
+        lead.step = 4;
+
+        let message =
 `Новая заявка ATIG:
 Имя: ${lead.name}
 Ситуация: ${lead.issue}
 Контакт: ${lead.contact}`;
 
-    let phone = "77000000000"; // ← твой номер
+        let phone = "77000000000"; // ← вставь свой номер
 
-    let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
+        addMessage(
+"Отлично. Передаю заявку.\n\nЮрист свяжется с вами в течение 10–15 минут.",
+"bot"
+        );
+
+        setTimeout(() => {
+            window.open(url, "_blank");
+        }, 800);
+
+        setTimeout(() => {
+            addMessage("✅ Заявка отправлена. Ожидайте связи.", "bot");
+        }, 1500);
+
+        return;
+    }
+
+    // если сомневается
     addMessage(
-"Отлично. Передаю заявку.
-
-Юрист обычно связывается в течение 10–15 минут.",
+"Понимаю. В таких вопросах лучше не откладывать — иногда один шаг сейчас экономит месяцы проблем.\n\nПередать заявку юристу?",
 "bot"
     );
 
-    setTimeout(() => {
-        window.open(url, "_blank");
-    }, 800);
+    showButtons(["Да, давайте", "Нет"]);
 
     return;
 }

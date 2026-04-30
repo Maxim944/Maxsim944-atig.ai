@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ATIG — AI для юристов</title>
+
 <style>
 body {
     margin: 0;
@@ -20,7 +21,6 @@ body {
 
 h1 {
     font-size: 32px;
-    margin-bottom: 10px;
 }
 
 .subtitle {
@@ -33,16 +33,6 @@ h1 {
     border-radius: 16px;
     padding: 20px;
     margin-bottom: 20px;
-}
-
-.button {
-    display: inline-block;
-    padding: 12px 20px;
-    background: #4f7cff;
-    border-radius: 10px;
-    text-decoration: none;
-    color: white;
-    margin-top: 10px;
 }
 
 .chat {
@@ -72,7 +62,7 @@ input {
     border: none;
     margin-top: 10px;
 }
-</style>
+
 #buttons {
     margin-top: 10px;
 }
@@ -85,6 +75,7 @@ input {
     margin: 5px;
     cursor: pointer;
 }
+</style>
 </head>
 
 <body>
@@ -93,34 +84,25 @@ input {
 
 <h1>AI-ассистент для юристов</h1>
 <div class="subtitle">
-Отвечает клиентам, собирает заявки и экономит до 70% времени
-</div>
-
-<div class="card">
-<b>Что делает:</b>
-<ul>
-<li>Отвечает на типовые вопросы 24/7</li>
-<li>Собирает данные клиента</li>
-<li>Фильтрует нецелевые обращения</li>
-<li>Повышает конверсию в оплату</li>
-</ul>
+Отвечает клиентам, собирает заявки и увеличивает конверсию
 </div>
 
 <div class="card">
 <b>Попробуйте демо:</b>
 
 <div class="chat" id="chat">
-<div class="message bot">Здравствуйте! Опишите вашу ситуацию.</div>
+<div class="message bot">Здравствуйте. Опишите вашу ситуацию.</div>
 </div>
 
 <input id="input" placeholder="Напишите вопрос..." onkeypress="handleKey(event)">
-</div>
 <div id="buttons"></div>
-<a href="#" class="button">Получить внедрение</a>
+
+</div>
 
 </div>
 
 <script>
+
 let lead = {
     name: null,
     contact: null,
@@ -135,6 +117,23 @@ function addMessage(text, type) {
     msg.innerText = text;
     chat.appendChild(msg);
     chat.scrollTop = chat.scrollHeight;
+}
+
+function showButtons(options) {
+    let container = document.getElementById("buttons");
+    container.innerHTML = "";
+
+    options.forEach(opt => {
+        let btn = document.createElement("div");
+        btn.className = "btn";
+        btn.innerText = opt;
+        btn.onclick = () => {
+            addMessage(opt, "user");
+            container.innerHTML = "";
+            setTimeout(() => botFlow(opt), 400);
+        };
+        container.appendChild(btn);
+    });
 }
 
 function handleKey(e) {
@@ -156,23 +155,8 @@ function sendMessage() {
 
 function botFlow(text) {
     text = text.toLowerCase();
-function showButtons(options) {
-    let container = document.getElementById("buttons");
-    container.innerHTML = "";
 
-    options.forEach(opt => {
-        let btn = document.createElement("div");
-        btn.className = "btn";
-        btn.innerText = opt;
-        btn.onclick = () => {
-            addMessage(opt, "user");
-            container.innerHTML = "";
-            setTimeout(() => botFlow(opt), 400);
-        };
-        container.appendChild(btn);
-    });
-}
- // STEP 1 — определяем проблему
+    // STEP 1
     if (lead.step === 0) {
         if (
             text.includes("увол") ||
@@ -183,98 +167,83 @@ function showButtons(options) {
             lead.issue = text;
             lead.step = 1;
 
-            addMessage(
-                "Понял ситуацию. Как к вам можно обращаться?",
-                "bot"
-            );
+            addMessage("Понял ситуацию. Как к вам можно обращаться?", "bot");
         } else {
-            addMessage(
-                "Опишите ситуацию (увольнение, долг, развод, ДТП и т.д.)",
-                "bot"
-            );
+            addMessage("Опишите ситуацию (увольнение, долг, развод, ДТП)", "bot");
         }
         return;
     }
 
-    // STEP 2 — имя
+    // STEP 2
     if (lead.step === 1) {
         lead.name = text;
         lead.step = 2;
 
-        addMessage(
-            "Спасибо. Как с вами можно связаться (WhatsApp или телефон)?",
-            "bot"
-        );
+        addMessage("Спасибо. Как с вами можно связаться?", "bot");
         return;
     }
 
-    // STEP 3 — контакт + продажа
-if (lead.step === 2) {
-    lead.contact = text;
-    lead.step = 3;
+    // STEP 3
+    if (lead.step === 2) {
+        lead.contact = text;
+        lead.step = 3;
 
-    addMessage(
+        addMessage(
 `${lead.name}, я зафиксировал вашу ситуацию.
 
 📌 В подобных случаях:
-— часто можно решить вопрос в пользу клиента  
+— часто можно решить вопрос  
 — важно не затягивать  
-— многое зависит от документов  
 
 Обычно консультация стоит 10–20 тыс ₸,  
-но сейчас можно получить первичную оценку бесплатно.
+но сейчас можно бесплатно.
 
-Передать вашу заявку юристу?`,
+Передать заявку юристу?`,
 "bot"
-    );
+        );
 
-    showButtons(["Да, передать", "Пока думаю"]);
+        showButtons(["Да", "Пока думаю"]);
+        return;
+    }
 
-    return;
-}
+    // STEP 4
+    if (lead.step === 3) {
 
- // STEP 4 — закрытие + дожим + WhatsApp
-if (lead.step === 3) {
+        if (text.includes("да")) {
 
-    if (text.includes("да")) {
+            lead.step = 4;
 
-        lead.step = 4;
-
-        let message =
+            let message =
 `Новая заявка ATIG:
 Имя: ${lead.name}
 Ситуация: ${lead.issue}
 Контакт: ${lead.contact}`;
 
-        let phone = "77000000000"; // ← вставь свой номер
+            let phone = "7072562388"; // ← ВСТАВЬ СВОЙ НОМЕР
 
-        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+            addMessage("Отлично. Передаю заявку...", "bot");
+
+            setTimeout(() => {
+                window.open(url, "_blank");
+            }, 800);
+
+            setTimeout(() => {
+                addMessage("✅ Заявка отправлена. Ожидайте связи.", "bot");
+            }, 1500);
+
+            return;
+        }
 
         addMessage(
-"Отлично. Передаю заявку.\n\nЮрист свяжется с вами в течение 10–15 минут.",
+"Понимаю. Это бесплатно и ни к чему не обязывает.\n\nПередать заявку?",
 "bot"
         );
 
-        setTimeout(() => {
-            window.open(url, "_blank");
-        }, 800);
-
-        setTimeout(() => {
-            addMessage("✅ Заявка отправлена. Ожидайте связи.", "bot");
-        }, 1500);
-
+        showButtons(["Да", "Нет"]);
         return;
     }
-
-    // если сомневается
-    addMessage(
-"Понимаю. В таких вопросах лучше не откладывать — иногда один шаг сейчас экономит месяцы проблем.\n\nПередать заявку юристу?",
-"bot"
-    );
-
-    showButtons(["Да, давайте", "Нет"]);
-
-    return;
 }
 
 </script>

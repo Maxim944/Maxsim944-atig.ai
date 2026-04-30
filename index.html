@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATIG — AI Юрист</title>
+    <title>ATIG Legal AI — Автоматизация юридических заявок</title>
     <style>
         :root {
             --bg-color: #0b0f1a;
@@ -13,168 +13,98 @@
             --user-msg: #2a335a;
             --text-main: #ffffff;
             --text-dim: #9aa4c7;
-            --success: #b4ffb4;
+            --success: #00f0ff;
         }
 
         body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            margin: 0; font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-color); color: var(--text-main);
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
 
-        .container {
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            text-align: center;
-            background: linear-gradient(90deg, #7aa2ff, #b4ffb4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            color: var(--text-dim);
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 15px;
-        }
+        .container { width: 100%; max-width: 480px; padding: 15px; }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: var(--card-bg); border-radius: 28px; padding: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            border: 1px solid rgba(122, 162, 255, 0.1);
+            position: relative; overflow: hidden;
         }
+
+        /* Индикатор онлайна */
+        .status { font-size: 12px; color: var(--success); display: flex; align-items: center; gap: 5px; margin-bottom: 15px; }
+        .status::before { content: ''; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
 
         .chat {
-            height: 350px;
-            overflow-y: auto;
-            background: #0f1424;
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 15px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent) transparent;
+            height: 400px; overflow-y: auto; display: flex; flex-direction: column;
+            gap: 12px; padding-right: 5px; scroll-behavior: smooth;
         }
 
-        .chat::-webkit-scrollbar { width: 4px; }
-        .chat::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        .chat::-webkit-scrollbar { width: 3px; }
+        .chat::-webkit-scrollbar-thumb { background: var(--user-msg); }
 
         .message {
-            margin: 12px 0;
-            padding: 10px 14px;
-            border-radius: 14px;
-            max-width: 85%;
-            font-size: 14px;
-            line-height: 1.5;
-            animation: fadeIn 0.3s ease;
+            padding: 12px 16px; border-radius: 18px; max-width: 80%;
+            font-size: 14px; line-height: 1.4; animation: slideUp 0.3s ease;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .bot {
-            background: var(--bot-msg);
-            color: var(--text-main);
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-        }
+        .bot { background: var(--bot-msg); border-bottom-left-radius: 4px; align-self: flex-start; }
+        .user { background: var(--accent); color: #000; font-weight: 500; border-bottom-right-radius: 4px; align-self: flex-end; }
 
-        .user {
-            background: var(--user-msg);
-            color: var(--accent);
-            margin-left: auto;
-            border-bottom-right-radius: 2px;
-            text-align: right;
-        }
+        .typing { font-size: 12px; color: var(--text-dim); margin: 5px 0 10px; display: none; }
 
-        .input-group {
-            position: relative;
-            display: flex;
-            gap: 10px;
-        }
-
+        .input-area { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
+        
         input {
-            flex: 1;
-            padding: 12px 16px;
-            background: #0f1424;
-            border: 1px solid #2a335a;
-            border-radius: 12px;
-            color: white;
-            outline: none;
+            width: 100%; box-sizing: border-box; padding: 14px; background: #0f1424;
+            border: 1px solid #2a335a; border-radius: 14px; color: white; outline: none;
+            transition: 0.3s; font-size: 14px;
+        }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(122, 162, 255, 0.2); }
+
+        .btn-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .btn {
+            padding: 10px 15px; background: rgba(122, 162, 255, 0.1);
+            border: 1px solid var(--accent); border-radius: 12px;
+            color: var(--accent); cursor: pointer; font-size: 13px;
             transition: 0.3s;
         }
+        .btn:hover { background: var(--accent); color: #000; }
 
-        input:focus { border-color: var(--accent); }
-
-        #buttons {
-            margin-top: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .btn {
-            padding: 10px 18px;
-            background: var(--user-msg);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-            border: 1px solid transparent;
-            color: var(--accent);
-        }
-
-        .btn:hover {
-            background: var(--accent);
-            color: var(--bg-color);
-            transform: translateY(-2px);
-        }
-
-        .typing { font-style: italic; color: var(--text-dim); font-size: 12px; margin-bottom: 10px; display: none; }
+        .footer-logo { text-align: center; margin-top: 20px; font-size: 12px; color: var(--text-dim); opacity: 0.6; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>ATIG Legal AI</h1>
-    <div class="subtitle">Ваш персональный юридический ассистент 24/7</div>
-
+    <div class="status">ATIG AI: Система активна</div>
     <div class="card">
         <div class="chat" id="chat">
-            <div class="message bot">Здравствуйте! Я AI-ассистент. Опишите вашу ситуацию или выберите категорию ниже.</div>
+            <div class="message bot">Здравствуйте! Я интеллектуальный помощник ATIG. Помогу вам получить юридическую помощь в Казахстане. Какой у вас вопрос?</div>
         </div>
-        <div id="typing" class="typing">Юрист печатает...</div>
+        <div id="typing" class="typing">Обработка данных...</div>
         
-        <div class="input-group">
-            <input id="input" placeholder="Введите ваш вопрос..." onkeypress="handleKey(event)">
-        </div>
-
-        <div id="buttons">
-            <div class="btn" onclick="quickSelect('Развод / Алименты')">Развод</div>
-            <div class="btn" onclick="quickSelect('Долги / Банкротство')">Долги</div>
-            <div class="btn" onclick="quickSelect('ДТП / Страховка')">ДТП</div>
-            <div class="btn" onclick="quickSelect('Трудовой спор')">Работа</div>
+        <div class="input-area">
+            <input id="input" placeholder="Напишите здесь..." onkeypress="handleKey(event)">
+            <div class="btn-grid" id="buttons">
+                <div class="btn" onclick="quickSelect('Развод и алименты')">⚖️ Развод/Алименты</div>
+                <div class="btn" onclick="quickSelect('Списание долгов')">💸 Долги/Кредиты</div>
+                <div class="btn" onclick="quickSelect('ДТП и ГАИ')">🚗 ДТП</div>
+                <div class="btn" onclick="quickSelect('Гражданский спор')">📜 Другое</div>
+            </div>
         </div>
     </div>
+    <div class="footer-logo">Powered by ATIG.AI Intelligence</div>
 </div>
 
 <script>
-    let lead = { name: null, contact: null, issue: null, step: 0 };
+    let lead = { city: null, name: null, contact: null, issue: null, step: 0 };
 
     function addMessage(text, type) {
-        let chat = document.getElementById("chat");
-        let msg = document.createElement("div");
+        const chat = document.getElementById("chat");
+        const msg = document.createElement("div");
         msg.className = "message " + type;
         msg.innerText = text;
         chat.appendChild(msg);
@@ -185,83 +115,110 @@
 
     function quickSelect(text) {
         addMessage(text, "user");
-        setTimeout(() => botFlow(text), 600);
+        processStep(text);
     }
 
     function sendMessage() {
-        let input = document.getElementById("input");
-        let text = input.value.trim();
+        const input = document.getElementById("input");
+        const text = input.value.trim();
         if (!text) return;
         addMessage(text, "user");
         input.value = "";
-        document.getElementById("typing").style.display = "block";
+        processStep(text);
+    }
+
+    function processStep(text) {
+        const typing = document.getElementById("typing");
+        const btnContainer = document.getElementById("buttons");
+        typing.style.display = "block";
+        btnContainer.innerHTML = ""; // Очищаем кнопки
+
         setTimeout(() => {
-            document.getElementById("typing").style.display = "none";
+            typing.style.display = "none";
             botFlow(text);
         }, 800);
     }
 
     function botFlow(text) {
-        let rawText = text.toLowerCase();
-
-        // ШАГ 0: Определение проблемы
+        // ШАГ 0: Город
         if (lead.step === 0) {
             lead.issue = text;
             lead.step = 1;
-            addMessage("Понял вас. Ситуация требует внимания. Как я могу к вам обращаться?", "bot");
-            document.getElementById("buttons").innerHTML = ""; 
+            addMessage("Принято. В каком городе Казахстана вам нужен юрист?", "bot");
+            document.getElementById("buttons").innerHTML = `
+                <div class="btn" onclick="quickSelect('Алматы')">Алматы</div>
+                <div class="btn" onclick="quickSelect('Астана')">Астана</div>
+                <div class="btn" onclick="quickSelect('Шымкент')">Шымкент</div>
+                <div class="btn" onclick="quickSelect('Другой город')">Другой</div>
+            `;
             return;
         }
 
         // ШАГ 1: Имя
         if (lead.step === 1) {
-            lead.name = text;
+            lead.city = text;
             lead.step = 2;
-            addMessage(`Приятно познакомиться, ${text}. Укажите ваш номер телефона или WhatsApp для связи с юристом.`, "bot");
+            addMessage(`Понял, ${text}. Как я могу к вам обращаться? (Ваше имя)`, "bot");
             return;
         }
 
-        // ШАГ 2: Контакты и оффер
+        // ШАГ 2: Контакт
         if (lead.step === 2) {
-            lead.contact = text;
+            lead.name = text;
             lead.step = 3;
+            addMessage(`${text}, для связи с профильным юристом укажите ваш номер телефона.`, "bot");
+            return;
+        }
+
+        // ШАГ 3: Финальный оффер
+        if (lead.step === 3) {
+            // Простая проверка на цифры (защита от пустого ввода)
+            if (!/\d/.test(text) || text.length < 5) {
+                addMessage("Пожалуйста, введите корректный номер телефона для связи.", "bot");
+                return;
+            }
+            lead.contact = text;
+            lead.step = 4;
             addMessage(
-                `${lead.name}, спасибо! Я проанализировал запрос. \n\n✅ У нас есть опыт в таких делах. Сейчас мы проводим бесплатные консультации для новых клиентов (вместо 15 000 ₸). \n\nПередать вашу заявку профильному юристу?`, 
+                `Отлично, ${lead.name}! Я нашел юриста по категории "${lead.issue}" в г. ${lead.city}.\n\nКонсультация сейчас БЕСПЛАТНАЯ. Передать данные специалисту?`, 
                 "bot"
             );
-            showFinalButtons();
+            document.getElementById("buttons").innerHTML = `
+                <div class="btn" onclick="quickSelect('ДА, ПЕРЕДАВАЙТЕ')">🚀 Да, передавайте</div>
+                <div class="btn" onclick="quickSelect('Нет, я сам')">Я сам перезвоню</div>
+            `;
             return;
         }
 
-        // ШАГ 3: Финал
-        if (lead.step === 3) {
-            if (rawText.includes("да") || rawText.includes("передавай")) {
+        // ШАГ 4: Редирект
+        if (lead.step === 4) {
+            if (text.toLowerCase().includes("да")) {
                 sendToWhatsapp();
             } else {
-                addMessage("Консультация вас ни к чему не обязывает, но поможет понять ваши права. Передать данные?", "bot");
-                showFinalButtons();
+                addMessage("Хорошо. Если решите проконсультироваться — просто напишите мне снова. На связи! 👋", "bot");
             }
         }
     }
 
-    function showFinalButtons() {
-        let container = document.getElementById("buttons");
-        container.innerHTML = `
-            <div class="btn" onclick="quickSelect('Да, передавайте')">Да, жду звонка</div>
-            <div class="btn" onclick="quickSelect('Я еще подумаю')">Пока думаю</div>
-        `;
-    }
-
     function sendToWhatsapp() {
-        let message = `Новая заявка ATIG Юрист:\n👤 Имя: ${lead.name}\n💬 Ситуация: ${lead.issue}\n📞 Контакт: ${lead.contact}`;
-        let phone = "7072562388"; 
-        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        // Формируем сообщение для WhatsApp юриста
+        const message = `🔥 НОВАЯ ЗАЯВКА С ATIG.AI\n` +
+                        `--------------------------\n` +
+                        `📍 Город: ${lead.city}\n` +
+                        `👤 Имя: ${lead.name}\n` +
+                        `📞 Тел: ${lead.contact}\n` +
+                        `📝 Проблема: ${lead.issue}\n` +
+                        `--------------------------\n` +
+                        `Перезвоните клиенту прямо сейчас!`;
         
-        addMessage("Секунду, формирую заявку для юриста...", "bot");
+        const phone = "7072562388"; 
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        
+        addMessage("Передаю данные по защищенному каналу...", "bot");
         setTimeout(() => {
             window.open(url, "_blank");
-            addMessage("✅ Готово! Юрист свяжется с вами в ближайшее время.", "bot");
-        }, 1200);
+            addMessage("✅ Заявка передана. Юрист свяжется с вами в течение 15 минут.", "bot");
+        }, 1500);
     }
 </script>
 

@@ -156,8 +156,23 @@ function sendMessage() {
 
 function botFlow(text) {
     text = text.toLowerCase();
+function showButtons(options) {
+    let container = document.getElementById("buttons");
+    container.innerHTML = "";
 
-    // STEP 1 — определяем проблему
+    options.forEach(opt => {
+        let btn = document.createElement("div");
+        btn.className = "btn";
+        btn.innerText = opt;
+        btn.onclick = () => {
+            addMessage(opt, "user");
+            container.innerHTML = "";
+            setTimeout(() => botFlow(opt), 400);
+        };
+        container.appendChild(btn);
+    });
+}
+ // STEP 1 — определяем проблему
     if (lead.step === 0) {
         if (
             text.includes("увол") ||

@@ -1,225 +1,218 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATIG Legal AI — Автоматизация юридических заявок</title>
-    <style>
-        :root {
-            --bg-color: #0b0f1a;
-            --card-bg: #141a2e;
-            --accent: #7aa2ff;
-            --bot-msg: #1f2945;
-            --user-msg: #2a335a;
-            --text-main: #ffffff;
-            --text-dim: #9aa4c7;
-            --success: #00f0ff;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ATIG — AI, который живёт с тобой</title>
 
-        body {
-            margin: 0; font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-color); color: var(--text-main);
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
-        }
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at 20% 20%, #0b0f1a, #000);
+  color: #fff;
+  overflow-x: hidden;
+}
 
-        .container { width: 100%; max-width: 480px; padding: 15px; }
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
 
-        .card {
-            background: var(--card-bg); border-radius: 28px; padding: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            border: 1px solid rgba(122, 162, 255, 0.1);
-            position: relative; overflow: hidden;
-        }
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+}
 
-        /* Индикатор онлайна */
-        .status { font-size: 12px; color: var(--success); display: flex; align-items: center; gap: 5px; margin-bottom: 15px; }
-        .status::before { content: ''; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-        .chat {
-            height: 400px; overflow-y: auto; display: flex; flex-direction: column;
-            gap: 12px; padding-right: 5px; scroll-behavior: smooth;
-        }
+.hero p {
+  font-size: 18px;
+  opacity: 0.8;
+  max-width: 700px;
+  margin: 0 auto 30px;
+}
 
-        .chat::-webkit-scrollbar { width: 3px; }
-        .chat::-webkit-scrollbar-thumb { background: var(--user-msg); }
+.btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(90deg,#4facfe,#00f2fe);
+  transition: 0.3s;
+}
 
-        .message {
-            padding: 12px 16px; border-radius: 18px; max-width: 80%;
-            font-size: 14px; line-height: 1.4; animation: slideUp 0.3s ease;
-        }
+.btn:hover { transform: scale(1.05); }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* SECTION */
+.section {
+  margin-top: 80px;
+}
 
-        .bot { background: var(--bot-msg); border-bottom-left-radius: 4px; align-self: flex-start; }
-        .user { background: var(--accent); color: #000; font-weight: 500; border-bottom-right-radius: 4px; align-self: flex-end; }
+.section h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
 
-        .typing { font-size: 12px; color: var(--text-dim); margin: 5px 0 10px; display: none; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 20px;
+}
 
-        .input-area { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
-        
-        input {
-            width: 100%; box-sizing: border-box; padding: 14px; background: #0f1424;
-            border: 1px solid #2a335a; border-radius: 14px; color: white; outline: none;
-            transition: 0.3s; font-size: 14px;
-        }
-        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(122, 162, 255, 0.2); }
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
 
-        .btn-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .btn {
-            padding: 10px 15px; background: rgba(122, 162, 255, 0.1);
-            border: 1px solid var(--accent); border-radius: 12px;
-            color: var(--accent); cursor: pointer; font-size: 13px;
-            transition: 0.3s;
-        }
-        .btn:hover { background: var(--accent); color: #000; }
+.card:hover {
+  transform: translateY(-5px);
+  background: rgba(255,255,255,0.08);
+}
 
-        .footer-logo { text-align: center; margin-top: 20px; font-size: 12px; color: var(--text-dim); opacity: 0.6; }
-    </style>
+/* INSTALL */
+.install {
+  text-align: center;
+  margin-top: 60px;
+}
+
+pre {
+  background: #111;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 100px;
+  text-align: center;
+  opacity: 0.5;
+  font-size: 14px;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
-    <div class="status">ATIG AI: Система активна</div>
-    <div class="card">
-        <div class="chat" id="chat">
-            <div class="message bot">Здравствуйте! Я интеллектуальный помощник ATIG. Помогу вам получить юридическую помощь в Казахстане. Какой у вас вопрос?</div>
-        </div>
-        <div id="typing" class="typing">Обработка данных...</div>
-        
-        <div class="input-area">
-            <input id="input" placeholder="Напишите здесь..." onkeypress="handleKey(event)">
-            <div class="btn-grid" id="buttons">
-                <div class="btn" onclick="quickSelect('Развод и алименты')">⚖️ Развод/Алименты</div>
-                <div class="btn" onclick="quickSelect('Списание долгов')">💸 Долги/Кредиты</div>
-                <div class="btn" onclick="quickSelect('ДТП и ГАИ')">🚗 ДТП</div>
-                <div class="btn" onclick="quickSelect('Гражданский спор')">📜 Другое</div>
-            </div>
-        </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>ATIG</h1>
+    <p>
+      Персональный AI-ассистент нового поколения.  
+      Не просто чат. Не просто агент.  
+      Система, которая развивается вместе с человеком.
+    </p>
+
+    <a href="/install" class="btn">Установить</a>
+    <a href="/" class="btn">Открыть чат</a>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section">
+    <h2>Что такое ATIG</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>🧠 Интеллект</h3>
+        <p>Контекст, память и адаптация под пользователя.</p>
+      </div>
+      <div class="card">
+        <h3>🤖 Агент</h3>
+        <p>Автоматизация задач и взаимодействие с внешними сервисами.</p>
+      </div>
+      <div class="card">
+        <h3>🌌 Вселенная</h3>
+        <p>Интерфейс в виде сферы — карта знаний и опыта.</p>
+      </div>
+      <div class="card">
+        <h3>📱 Экосистема</h3>
+        <p>Web, mobile и устройства — единая система.</p>
+      </div>
     </div>
-    <div class="footer-logo">Powered by ATIG.AI Intelligence</div>
+  </div>
+
+  <!-- ARCHITECTURE -->
+  <div class="section">
+    <h2>Архитектура</h2>
+    <div class="grid">
+      <div class="card">
+        <strong>Foundation</strong>
+        <p>Модели, инфраструктура, API</p>
+      </div>
+      <div class="card">
+        <strong>Intelligence</strong>
+        <p>Память, контекст, решения</p>
+      </div>
+      <div class="card">
+        <strong>Agents</strong>
+        <p>Автоматизация и действия</p>
+      </div>
+      <div class="card">
+        <strong>Interface</strong>
+        <p>Сфера, чат, UI</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTALL -->
+  <div class="install">
+    <h2>Быстрый старт</h2>
+    <p>Установи ATIG как AI-агента:</p>
+
+    <pre id="cmd">npx add-skill atig/atig-core</pre>
+
+    <br><br>
+    <button class="btn" onclick="copy()">Скопировать команду</button>
+  </div>
+
+  <!-- FUTURE -->
+  <div class="section">
+    <h2>Что дальше</h2>
+    <div class="grid">
+      <div class="card">
+        <p>Персональный AI с рождения</p>
+      </div>
+      <div class="card">
+        <p>9 миллиардов пользователей</p>
+      </div>
+      <div class="card">
+        <p>Глобальная AI-инфраструктура</p>
+      </div>
+      <div class="card">
+        <p>Интеграция в реальный мир</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    ATIG © 2026 — AI для каждого человека
+  </div>
+
 </div>
 
 <script>
-    let lead = { city: null, name: null, contact: null, issue: null, step: 0 };
-
-    function addMessage(text, type) {
-        const chat = document.getElementById("chat");
-        const msg = document.createElement("div");
-        msg.className = "message " + type;
-        msg.innerText = text;
-        chat.appendChild(msg);
-        chat.scrollTop = chat.scrollHeight;
-    }
-
-    function handleKey(e) { if (e.key === "Enter") sendMessage(); }
-
-    function quickSelect(text) {
-        addMessage(text, "user");
-        processStep(text);
-    }
-
-    function sendMessage() {
-        const input = document.getElementById("input");
-        const text = input.value.trim();
-        if (!text) return;
-        addMessage(text, "user");
-        input.value = "";
-        processStep(text);
-    }
-
-    function processStep(text) {
-        const typing = document.getElementById("typing");
-        const btnContainer = document.getElementById("buttons");
-        typing.style.display = "block";
-        btnContainer.innerHTML = ""; // Очищаем кнопки
-
-        setTimeout(() => {
-            typing.style.display = "none";
-            botFlow(text);
-        }, 800);
-    }
-
-    function botFlow(text) {
-        // ШАГ 0: Город
-        if (lead.step === 0) {
-            lead.issue = text;
-            lead.step = 1;
-            addMessage("Принято. В каком городе Казахстана вам нужен юрист?", "bot");
-            document.getElementById("buttons").innerHTML = `
-                <div class="btn" onclick="quickSelect('Алматы')">Алматы</div>
-                <div class="btn" onclick="quickSelect('Астана')">Астана</div>
-                <div class="btn" onclick="quickSelect('Шымкент')">Шымкент</div>
-                <div class="btn" onclick="quickSelect('Другой город')">Другой</div>
-            `;
-            return;
-        }
-
-        // ШАГ 1: Имя
-        if (lead.step === 1) {
-            lead.city = text;
-            lead.step = 2;
-            addMessage(`Понял, ${text}. Как я могу к вам обращаться? (Ваше имя)`, "bot");
-            return;
-        }
-
-        // ШАГ 2: Контакт
-        if (lead.step === 2) {
-            lead.name = text;
-            lead.step = 3;
-            addMessage(`${text}, для связи с профильным юристом укажите ваш номер телефона.`, "bot");
-            return;
-        }
-
-        // ШАГ 3: Финальный оффер
-        if (lead.step === 3) {
-            // Простая проверка на цифры (защита от пустого ввода)
-            if (!/\d/.test(text) || text.length < 5) {
-                addMessage("Пожалуйста, введите корректный номер телефона для связи.", "bot");
-                return;
-            }
-            lead.contact = text;
-            lead.step = 4;
-            addMessage(
-                `Отлично, ${lead.name}! Я нашел юриста по категории "${lead.issue}" в г. ${lead.city}.\n\nКонсультация сейчас БЕСПЛАТНАЯ. Передать данные специалисту?`, 
-                "bot"
-            );
-            document.getElementById("buttons").innerHTML = `
-                <div class="btn" onclick="quickSelect('ДА, ПЕРЕДАВАЙТЕ')">🚀 Да, передавайте</div>
-                <div class="btn" onclick="quickSelect('Нет, я сам')">Я сам перезвоню</div>
-            `;
-            return;
-        }
-
-        // ШАГ 4: Редирект
-        if (lead.step === 4) {
-            if (text.toLowerCase().includes("да")) {
-                sendToWhatsapp();
-            } else {
-                addMessage("Хорошо. Если решите проконсультироваться — просто напишите мне снова. На связи! 👋", "bot");
-            }
-        }
-    }
-
-    function sendToWhatsapp() {
-        // Формируем сообщение для WhatsApp юриста
-        const message = `🔥 НОВАЯ ЗАЯВКА С ATIG.AI\n` +
-                        `--------------------------\n` +
-                        `📍 Город: ${lead.city}\n` +
-                        `👤 Имя: ${lead.name}\n` +
-                        `📞 Тел: ${lead.contact}\n` +
-                        `📝 Проблема: ${lead.issue}\n` +
-                        `--------------------------\n` +
-                        `Перезвоните клиенту прямо сейчас!`;
-        
-        const phone = "7072562388"; 
-        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-        
-        addMessage("Передаю данные по защищенному каналу...", "bot");
-        setTimeout(() => {
-            window.open(url, "_blank");
-            addMessage("✅ Заявка передана. Юрист свяжется с вами в течение 15 минут.", "bot");
-        }, 1500);
-    }
+function copy() {
+  const text = document.getElementById("cmd").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Команда скопирована");
+}
 </script>
 
 </body>

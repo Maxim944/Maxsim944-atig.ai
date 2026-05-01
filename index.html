@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ATIG — Операционная система сознания</title>
+
+<style>
+/* --- 1. ОПРЕДЕЛЕНИЕ ПЕРЕМЕННЫХ И БАЗОВЫЕ СТИЛИ --- */
+:root {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --accent-color: #4facfe;
+  --accent-gradient: linear-gradient(90deg, #4facfe, #00f2fe);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --terminal-bg: #111111;
+  --terminal-text: #00f2fe;
+  --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-stack);
+  background-color: var(--bg-color);
+  /* Фоновый градиент для глубины */
+  background-image: radial-gradient(circle at 20% 20%, #0b0f1a, #000);
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* --- 2. КНОПКИ (ИСПРАВЛЕНО) --- */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 16px 32px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 600;
+  background: var(--accent-gradient);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 172, 254, 0.5);
+}
+
+.btn-primary:hover { /* Для совместимости со старыми именами */
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(255,255,255,0.1);
+}
+
+.btn-secondary {
+  background: var(--card-bg);
+  color: #fff;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--accent-color);
+}
+
+/* --- 3. СЕКЦИИ И СЕТКА --- */
+.section {
+  margin-top: 100px;
+}
+
+.section h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* --- 4. КАРТОЧКИ --- */
+.card {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(12px);
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(79, 172, 254, 0.4);
+}
+
+.card h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--accent-color);
+}
+
+.card p {
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+/* --- 5. ТЕРМИНАЛ / БЫСТРЫЙ СТАРТ --- */
+.install {
+  text-align: center;
+  margin-top: 80px;
+  background: rgba(79, 172, 254, 0.05);
+  padding: 60px 20px;
+  border-radius: 30px;
+  border: 1px dashed rgba(79, 172, 254, 0.3);
+}
+
+.terminal-window {
+  background: #000;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  margin: 40px auto;
+  max-width: 700px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  text-align: left;
+}
+
+.terminal-header {
+  background: #111;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+
+.terminal-body {
+  padding: 30px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--terminal-text);
+}
+
+.terminal-body pre {
+  background: transparent;
+  padding: 0;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  margin: 0;
+}
+
+/* --- 6. ХЕДЕР И ФУТЕР --- */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1 {
+  font-size: clamp(48px, 8vw, 72px);
+  margin-bottom: 20px;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -2px;
+  font-weight: 800;
+}
+
+.hero p {
+  font-size: 20px;
+  opacity: 0.8;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.footer {
+  margin-top: 120px;
+  padding: 80px 0 40px;
+  text-align: center;
+  opacity: 0.4;
+  font-size: 14px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* --- 7. АНИМАЦИИ И МЕДИА ЗАПРОСЫ --- */
+[data-aos] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 0.8s ease-out;
+}
+
+[data-aos].active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 60px 10px; }
+  .grid { grid-template-columns: 1fr; }
+  .terminal-body { padding: 20px; font-size: 13px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <header class="hero">
+    <h1>ATIG</h1>
+    <p>
+      Персональный AI-ассистент нового поколения.  
+      Не просто чат. Не просто агент.  
+      Система, которая развивается вместе с человеком.
+    </p>
+
+    <div class="btn-group">
+      <a href="/install" class="btn btn-primary">Установить</a>
+      <a href="/" class="btn btn-secondary">Открыть чат</a>
+    </div>
+    <p style="font-size: 12px; opacity: 0.5; margin-top: 15px;">Версия системы 2.4.0 — Стабильная</p>
+  </header>
+
+  <section class="section">
+    <h2>Нейронное ядро</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>🧠 Интеллект</h3>
+        <p>Глубокий контекст, долгосрочная память и адаптация под ваш стиль мышления.</p>
+      </div>
+      <div class="card">
+        <h3>🛡️ Приватность</h3>
+        <p>Локальное хранение данных. Сквозное шифрование. Никакой передачи третьим лицам.</p>
+      </div>
+      <div class="card">
+        <h3>🤖 Агент</h3>
+        <p>Автономное выполнение задач, работающих параллельно над вашими задачами.</p>
+      </div>
+      <div class="card">
+        <h3>🌌 Вселенная</h3>
+        <p>Визуализация знаний в виде интерактивной сферы — сфера.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="install">
+    <h2>Быстрый старт</h2>
+    <p>Добавьте ядро ATIG в свой стек разработки:</p>
+
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+      </div>
+      <div class="terminal-body">
+<pre id="cmd">npx add-skill atig/atig-core</pre>
+        <div style="color: #555; margin-top: 10px;">> Загрузка основных модулей...</div>
+        <div style="color: #27c93f;">> Интеллектуальная система ATIG успешно внедрена.</div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="copyBtn" onclick="copy()">Скопировать команду</button>
+  </section>
+
+  <footer class="footer">
+    ATIG © 2026. Протокол ATIG.<br>
+    Создано для следующего поколения человечества.
+  </footer>
+
+</div>
+
+<script>
+// Исправленная функция копирования
+function copy() {
+  const text = document.getElementById("cmd").innerText.trim();
+  const btn = document.getElementById("copyBtn");
+  
+  if (!navigator.clipboard) {
+    // Резервный метод, если API недоступно
+    alert("Команда для копирования: " + text);
+    return;
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    const originalText = btn.innerText;
+    btn.innerText = "Скопировано!";
+    btn.style.background = "#28a745"; // Зеленый цвет успеха
+    btn.style.transform = "scale(1.05)";
+    
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.style.background = ""; // Возврат к градиенту
+      btn.style.transform = "";
+    }, 2000);
+  }).catch(err => {
+    console.error('Ошибка копирования: ', err);
+    alert("Не удалось скопировать. Команда: " + text);
+  });
+}
+
+// Простая активация анимации при прокрутке
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.card, .terminal-window').forEach((el) => {
+  el.setAttribute('data-aos', 'true');
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

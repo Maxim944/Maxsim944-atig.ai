@@ -1,243 +1,196 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ATIG — AI, который живёт с тобой</title>
-
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: radial-gradient(circle at 20% 20%, #0b0f1a, #000);
-  color: #fff;
-  overflow-x: hidden;
-  line-height: 1.6;
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(255,255,255,0.1);
 }
 
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-/* HERO */
-.hero {
-  text-align: center;
-  padding: 100px 20px;
-}
-
-.hero h1 {
-  font-size: clamp(48px, 8vw, 72px);
-  margin-bottom: 20px;
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -2px;
-}
-
-.hero p {
-  font-size: 20px;
-  opacity: 0.8;
-  max-width: 700px;
-  margin: 0 auto 40px;
-}
-
-.btn {
-  display: inline-block;
-  margin: 10px;
-  padding: 16px 32px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 600;
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-}
-
-.btn:hover { 
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(79, 172, 254, 0.5);
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-
-.btn-outline:hover {
-  background: rgba(255,255,255,0.05);
-}
-
-/* SECTION */
-.section {
-  margin-top: 100px;
-}
-
-.section h2 {
-  font-size: 32px;
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-}
-
-.card {
+.btn-secondary {
   background: rgba(255,255,255,0.03);
+  color: #fff;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--accent);
+}
+
+/* TERMINAL / INSTALL SECTION */
+.terminal-window {
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin: 100px auto;
+  max-width: 700px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+}
+
+.terminal-header {
+  background: #111;
+  padding: 12px 20px;
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+
+.terminal-body {
   padding: 30px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card:hover {
-  transform: translateY(-8px);
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(79, 172, 254, 0.4);
-}
-
-.card h3 {
-  margin-bottom: 15px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
   color: #4facfe;
 }
 
-/* INSTALL */
-.install {
-  text-align: center;
-  margin-top: 80px;
-  background: rgba(79, 172, 254, 0.05);
-  padding: 60px 20px;
-  border-radius: 30px;
+/* GRID & CARDS */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 80px 0;
 }
 
-pre {
-  background: #050505;
-  padding: 20px;
-  border-radius: 12px;
-  display: inline-block;
-  margin: 25px 0;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  color: #00f2fe;
-  border: 1px solid rgba(255,255,255,0.1);
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 40px;
+  border-radius: 24px;
+  transition: 0.3s;
 }
 
-/* FOOTER */
+.card:hover {
+  border-color: var(--accent);
+  background: rgba(17, 24, 39, 0.9);
+}
+
+.card i {
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.card h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: #94a3b8;
+}
+
 .footer {
-  margin-top: 120px;
-  padding-bottom: 40px;
   text-align: center;
-  opacity: 0.4;
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--border);
   font-size: 14px;
+  color: #4b5563;
+}
+
+/* Animations */
+[data-aos] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 0.8s ease-out;
+}
+
+[data-aos].active {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 </head>
 
 <body>
+<div class="bg-glow"></div>
 
 <div class="container">
-
-  <header class="hero">
+  <section class="hero">
+    <div class="hero-badge">System version 2.4.0 — Stable</div>
     <h1>ATIG</h1>
-    <p>
-      Персональный AI-ассистент нового поколения.  
-      Не просто чат. Не просто агент.  
-      Система, которая развивается вместе с человеком.
-    </p>
-
-    <a href="/install" class="btn">Установить</a>
-    <a href="/" class="btn btn-outline">Открыть чат</a>
-  </header>
-
-  <section class="section">
-    <h2>Что такое ATIG</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>🧠 Интеллект</h3>
-        <p>Глубокий контекст, долгосрочная память и адаптация под ваш стиль мышления.</p>
-      </div>
-      <div class="card">
-        <h3>🤖 Агент</h3>
-        <p>Автономное выполнение задач и бесшовная интеграция с внешними API.</p>
-      </div>
-      <div class="card">
-        <h3>🌌 Вселенная</h3>
-        <p>Интерфейс «Сфера» — визуализация знаний, связей и вашего цифрового наследия.</p>
-      </div>
-      <div class="card">
-        <h3>📱 Экосистема</h3>
-        <p>Единый интеллект, доступный на всех устройствах: от Web до носимых гаджетов.</p>
-      </div>
+    <p>Операционная система вашего цифрового сознания. Интеграция интеллекта в каждый аспект жизни.</p>
+    
+    <div class="btn-group">
+      <button class="btn btn-primary">Развернуть ядро</button>
+      <button class="btn btn-secondary">Документация</button>
     </div>
   </section>
 
-  <section class="section">
-    <h2>Архитектура системы</h2>
-    <div class="grid">
-      <div class="card">
-        <strong>Foundation</strong>
-        <p>LLM-ядро, облачная инфраструктура, защищенные API.</p>
-      </div>
-      <div class="card">
-        <strong>Intelligence</strong>
-        <p>RAG-системы, векторы памяти, семантический поиск.</p>
-      </div>
-      <div class="card">
-        <strong>Agents</strong>
-        <p>Протоколы действий, планировщики и инструменты контроля.</p>
-      </div>
-      <div class="card">
-        <strong>Interface</strong>
-        <p>Визуальный движок IG, речевое управление, адаптивный UI.</p>
-      </div>
+  <div class="terminal-window" data-aos>
+    <div class="terminal-header">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+      <span style="margin-left: auto; font-size: 12px; opacity: 0.5;">bash — 80x24</span>
     </div>
-  </section>
-
-  <section class="install">
-    <h2>Быстрый старт</h2>
-    <p>Добавьте ATIG в свой стек разработки:</p>
-
-    <pre id="cmd">npx add-skill atig/atig-core</pre>
-
-    <br>
-    <button class="btn" onclick="copy()">Скопировать команду</button>
-  </section>
+    <div class="terminal-body">
+      <span style="color: #fff;">$</span> npx add-skill atig/atig-core<br>
+      <span style="color: #94a3b8;">> Fetching core modules...</span><br>
+      <span style="color: #27c93f;">> ATIG Intelligence successfully injected.</span><br>
+      <span style="color: #fff;">$</span> <span id="cursor">_</span>
+    </div>
+    <div style="padding: 0 30px 30px;">
+        <button class="btn btn-secondary" style="width: 100%;" onclick="copyCmd()">Скопировать команду</button>
+    </div>
+  </div>
 
   <section class="section">
-    <h2>Видение будущего</h2>
-    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-      <div class="card"><p>AI-сопровождение с первого дня жизни</p></div>
-      <div class="card"><p>Персонализация для 9 миллиардов людей</p></div>
-      <div class="card"><p>Децентрализованная сеть знаний</p></div>
-      <div class="card"><p>Стирание границ между человеком и AI</p></div>
+    <div class="grid">
+      <div class="card" data-aos>
+        <i data-lucide="cpu"></i>
+        <h3>Neural Core</h3>
+        <p>Распределенное обучение на основе ваших данных без передачи третьим лицам.</p>
+      </div>
+      <div class="card" data-aos>
+        <i data-lucide="shield-check"></i>
+        <h3>Privacy First</h3>
+        <p>Сквозное шифрование всех векторов памяти и локальное хранение данных.</p>
+      </div>
+      <div class="card" data-aos>
+        <i data-lucide="layers"></i>
+        <h3>Multi-Agent</h3>
+        <p>Десятки специализированных агентов, работающих параллельно над вашими задачами.</p>
+      </div>
     </div>
   </section>
 
   <footer class="footer">
-    ATIG © 2026 — Технологии сохранения жизни и памяти
+    <div style="margin-bottom: 20px;">
+        <i data-lucide="command" style="width: 20px; height: 20px;"></i>
+    </div>
+    ATIG PROTOCOL © 2026<br>
+    Built for the next generation of humanity.
   </footer>
-
 </div>
 
 <script>
-function copy() {
-  const text = document.getElementById("cmd").innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = event.target;
-    const originalText = btn.innerText;
-    btn.innerText = "Скопировано!";
-    btn.style.background = "#28a745";
-    setTimeout(() => {
-      btn.innerText = originalText;
-      btn.style.background = "";
-    }, 2000);
+// Инициализация иконок
+lucide.createIcons();
+
+// Простая анимация появления (Scroll Observer)
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
   });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
+
+// Копирование
+function copyCmd() {
+  navigator.clipboard.writeText('npx add-skill atig/atig-core');
+  alert('Команда скопирована в буфер обмена');
 }
+
+// Эффект мигающего курсора
+setInterval(() => {
+  const c = document.getElementById('cursor');
+  c.style.opacity = c.style.opacity == 0 ? 1 : 0;
+}, 500);
 </script>
 
 </body>

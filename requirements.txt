@@ -1,2 +1,2 @@
-flask
-google-generativeai
+flask-compress
+flask-limiter

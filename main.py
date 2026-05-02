@@ -1,34 +1,26 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-from playwright.sync_api import sync_playwright
+from fastapi.responses import FileResponse
+import os
 
 app = FastAPI()
 
-class Request(BaseModel):
-    query: str
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+def file(path):
+    return os.path.join(BASE_DIR, path)
 
-def search(query):
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page()
-        page.goto("https://www.google.com")
+@app.get("/")
+def home():
+    return FileResponse(file("index.html"))
 
-        page.fill("textarea[name='q']", query)
-        page.keyboard.press("Enter")
+@app.get("/atig")
+def atig_page():
+    return FileResponse(file("atig.html"))
 
-        page.wait_for_selector("h3")
-        results = page.query_selector_all("h3")
+@app.get("/chat")
+def chat_page():
+    return FileResponse(file("chat.html"))
 
-        output = []
-        for r in results[:3]:
-            output.append(r.inner_text())
-
-        browser.close()
-        return "\n".join(output)
-
-
-@app.post("/agent")
-def agent(req: Request):
-    result = search(req.query)
-    return {"answer": result}
+@app.get("/install")
+def install_page():
+    return FileResponse(file("install.html"))

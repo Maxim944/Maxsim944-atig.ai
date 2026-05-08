@@ -3,73 +3,198 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>КАРТА ВСЕЛЕННОЙ ATIG</title>
+  <meta name="description" content="Карта Вселенной ATIG — архитектура персонального ИИ нового поколения. От фундамента до мультиагентной системы.">
+  <meta name="keywords" content="ATIG, Artificial Transformational Intelligence Guide, ИИ, персональный ИИ, AGI, агенты, LLM">
+  <meta name="author" content="ATIG Team">
+  
+  <title>ATIG | Карта Вселенной — Архитектура ИИ Нового Поколения</title>
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="ATIG | Карта Вселенной">
+  <meta property="og:description" content="Визуальная архитектура персонального ИИ нового поколения">
+  <meta property="og:image" content="https://atig.ai/og-image.jpg">
+  <meta property="og:url" content="https://yourdomain.com">
+  <meta property="og:type" content="website">
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  
   <style>
-    body { background: radial-gradient(circle at center, #0a0a2a 0%, #000011 100%); }
-    .glass { background: rgba(15,23,42,0.85); backdrop-filter: blur(16px); }
-    .neon-core { animation: corePulse 6s ease-in-out infinite; }
-    @keyframes corePulse {
-      0%,100% { box-shadow: 0 0 70px #67e8f9, 0 0 120px #22d3ee; }
-      50% { box-shadow: 0 0 100px #67e8f9, 0 0 160px #22d3ee; }
+    body {
+      background: radial-gradient(circle at center, #0a0a2a 0%, #000011 70%);
+      color: #a0e7ff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    .neon-text {
+      text-shadow: 0 0 15px #67e8f9, 0 0 30px #22d3ee;
+    }
+    .neon-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .neon-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 0 30px rgba(103, 232, 249, 0.5);
+    }
+    .core-glow {
+      animation: pulse 4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 40px #67e8f9; }
+      50% { box-shadow: 0 0 70px #22d3ee; }
     }
   </style>
 </head>
-<body class="min-h-screen py-12 relative overflow-hidden">
+<body class="min-h-screen relative">
 
-  <!-- SVG Connections -->
-  <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" style="top:0;left:0;">
-    <defs>
-      <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
-        <feGaussianBlur stdDeviation="6" result="blur"/>
-        <feMerge>
-          <feMergeNode in="blur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-    
-    <!-- Пример соединительных линий от ядра -->
-    <path d="M 580 380 Q 400 280 280 420" fill="none" stroke="#67e8f9" stroke-width="3" opacity="0.7" filter="url(#glow)"/>
-    <path d="M 620 380 Q 800 280 920 420" fill="none" stroke="#67e8f9" stroke-width="3" opacity="0.7" filter="url(#glow)"/>
-  </svg>
+  <!-- Background stars -->
+  <div class="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:60px_60px] pointer-events-none"></div>
 
-  <div class="max-w-7xl mx-auto px-6 relative z-10">
-    <h1 class="text-6xl font-bold text-center mb-4">КАРТА ВСЕЛЕННОЙ ATIG</h1>
-    <p class="text-center text-cyan-300 text-2xl mb-20">Архитектура персонального ИИ нового поколения</p>
+  <div class="container mx-auto px-6 py-12 relative z-10">
+    <div class="text-center mb-16">
+      <h1 class="text-6xl md:text-7xl font-bold neon-text mb-4 tracking-tight">
+        КАРТА ВСЕЛЕННОЙ <span class="text-cyan-300">ATIG</span>
+      </h1>
+      <p class="text-xl text-cyan-200 max-w-2xl mx-auto">
+        Архитектура персонального ИИ нового поколения<br>
+        <span class="text-cyan-400">От интеллекта к автономии. От инструментов к партнёру.</span>
+      </p>
+    </div>
 
-    <!-- Центральное ядро -->
-    <div class="flex justify-center mb-24">
-      <div onclick="showDetail('core')" class="neon-core w-96 h-96 rounded-full border-8 border-cyan-400 bg-gradient-to-br from-purple-950 to-blue-950 flex items-center justify-center cursor-pointer hover:scale-105 transition-all relative z-10">
-        <div class="text-center">
-          <div class="text-7xl font-black">ATIG</div>
-          <div class="text-4xl">CORE (IG-01)</div>
+    <!-- Central Core -->
+    <div class="flex justify-center mb-20">
+      <div onclick="showDetail('core')" 
+           class="core-glow w-80 h-80 rounded-full border-8 border-cyan-400 bg-gradient-to-br from-purple-950 via-blue-950 to-indigo-950 flex items-center justify-center cursor-pointer hover:scale-105 transition-all">
+        <div class="text-center px-8">
+          <div class="text-7xl font-bold mb-3 tracking-widest">ATIG</div>
+          <div class="text-3xl font-medium">CORE (IG-01)</div>
+          <div class="mt-6 text-cyan-300 text-lg">Ядро интеллекта</div>
         </div>
       </div>
     </div>
 
-    <!-- Блоки вокруг (упрощённо) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <div onclick="showDetail('foundation')" class="glass rounded-3xl p-8 cursor-pointer">FOUNDATION LAYER</div>
-      <div onclick="showDetail('intelligence')" class="glass rounded-3xl p-8 cursor-pointer">INTELLIGENCE LAYER</div>
-      <div onclick="showDetail('agentic')" class="glass rounded-3xl p-8 cursor-pointer">AGENTIC LAYER</div>
-      <div onclick="showDetail('governance')" class="glass rounded-3xl p-8 cursor-pointer">GOVERNANCE & SAFETY</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      
+      <div onclick="showDetail('foundation')" class="neon-card bg-slate-900/80 border border-cyan-500/40 rounded-3xl p-8 cursor-pointer">
+        <h2 class="text-2xl font-bold text-cyan-400 mb-6 flex items-center gap-3"><i class="fas fa-layer-group"></i> ФУНДАМЕНТАЛЬНЫЙ СЛОЙ</h2>
+        <ul class="space-y-3 text-slate-300">
+          <li class="flex items-start gap-2"><span class="text-cyan-400 mt-1">•</span> AI Models (LLM, TTS, Multimodal)</li>
+          <li class="flex items-start gap-2"><span class="text-cyan-400 mt-1">•</span> Machine Learning & Transformers</li>
+          <li class="flex items-start gap-2"><span class="text-cyan-400 mt-1">•</span> Infrastructure (Cloud + Edge)</li>
+          <li class="flex items-start gap-2"><span class="text-cyan-400 mt-1">•</span> Потоки данных</li>
+        </ul>
+      </div>
+
+      <div onclick="showDetail('intelligence')" class="neon-card bg-slate-900/80 border border-purple-500/40 rounded-3xl p-8 cursor-pointer">
+        <h2 class="text-2xl font-bold text-purple-400 mb-6 flex items-center gap-3"><i class="fas fa-brain"></i> ИНТЕЛЛЕКТУАЛЬНЫЙ СЛОЙ</h2>
+        <ul class="space-y-3 text-slate-300">
+          <li>• Память (краткосрочная + долгосрочная)</li>
+          <li>• Контекст и понимание</li>
+          <li>• Личность и характер</li>
+          <li>• Этика и ценности</li>
+          <li>• Эмоциональный интеллект</li>
+        </ul>
+      </div>
+
+      <div onclick="showDetail('agentic')" class="neon-card bg-slate-900/80 border border-emerald-500/40 rounded-3xl p-8 cursor-pointer">
+        <h2 class="text-2xl font-bold text-emerald-400 mb-6 flex items-center gap-3"><i class="fas fa-robot"></i> АГЕНТНЫЙ СЛОЙ</h2>
+        <ul class="space-y-3 text-slate-300">
+          <li>• Слой действий</li>
+          <li>• Слой планирования</li>
+          <li>• Мульти-агентная система</li>
+          <li>• Автономное выполнение задач</li>
+        </ul>
+      </div>
+
+      <div onclick="showDetail('governance')" class="neon-card bg-slate-900/80 border border-amber-500/40 rounded-3xl p-8 cursor-pointer">
+        <h2 class="text-2xl font-bold text-amber-400 mb-6 flex items-center gap-3"><i class="fas fa-shield-alt"></i> УПРАВЛЕНИЕ И БЕЗОПАСНОСТЬ</h2>
+        <ul class="space-y-3 text-slate-300">
+          <li>• Этика и прозрачность</li>
+          <li>• Защита приватности</li>
+          <li>• Мониторинг и аудит</li>
+          <li>• Контроль безопасности</li>
+        </ul>
+      </div>
+
+      <div onclick="showDetail('interface')" class="neon-card bg-slate-900/80 border border-pink-500/40 rounded-3xl p-8 cursor-pointer">
+        <h2 class="text-2xl font-bold text-pink-400 mb-6 flex items-center gap-3"><i class="fas fa-comments"></i> ИНТЕРФЕЙС ПОЛЬЗОВАТЕЛЯ</h2>
+        <ul class="space-y-3 text-slate-300">
+          <li>• Голосовое взаимодействие</li>
+          <li>• Чат-интерфейс</li>
+          <li>• Визуальный интерфейс</li>
+          <li>• Жесты и будущее взаимодействие</li>
+        </ul>
+      </div>
+
+      <div onclick="showDetail('ecosystem')" class="neon-card bg-slate-900/80 border border-sky-500/40 rounded-3xl p-8 cursor-pointer">
+        <h2 class="text-2xl font-bold text-sky-400 mb-6 flex items-center gap-3"><i class="fas fa-globe"></i> ЭКОСИСТЕМА ATIG</h2>
+        <ul class="space-y-3 text-slate-300">
+          <li>• Мобильное приложение</li>
+          <li>• Веб-платформа</li>
+          <li>• Устройство Sphere</li>
+          <li>• Офлайн-режим ATIG Lite</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- Modal (как раньше) -->
-  <div id="modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50">
-    <div class="glass max-w-2xl w-full m-4 p-10 rounded-3xl">
-      <button onclick="closeModal()" class="float-right text-4xl">×</button>
-      <h2 id="modalTitle" class="text-4xl font-bold text-cyan-300 mb-6"></h2>
-      <div id="modalContent"></div>
+  <!-- Modal -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+    <div class="bg-slate-900 border border-cyan-400 rounded-3xl max-w-2xl w-full p-10 relative">
+      <button onclick="closeModal()" class="absolute top-6 right-6 text-3xl text-cyan-300 hover:text-white">×</button>
+      <h2 id="modalTitle" class="text-4xl font-bold mb-8 text-cyan-300"></h2>
+      <div id="modalContent" class="text-lg text-slate-200 leading-relaxed"></div>
     </div>
   </div>
 
   <script>
-    // Тот же скрипт модального окна, что был раньше...
-    function showDetail(key) { /* ... */ }
-    function closeModal() { /* ... */ }
+    function showDetail(section) {
+      const modal = document.getElementById('modal');
+      const title = document.getElementById('modalTitle');
+      const content = document.getElementById('modalContent');
+
+      const data = {
+        core: { 
+          title: "ATIG CORE (IG-01)", 
+          content: "Центральное ядро новой генерации искусственного интеллекта. Объединяет в себе личность, долгосрочную память, глубокий контекст, этические принципы и способность к осмысленному взаимодействию с человеком." 
+        },
+        foundation: { 
+          title: "ФУНДАМЕНТАЛЬНЫЙ СЛОЙ", 
+          content: "Базовая инфраструктура ИИ: большие языковые модели, мультимодальные модели, машинное обучение, трансформеры, облачная и edge-инфраструктура, базы данных и потоки данных." 
+        },
+        intelligence: { 
+          title: "ИНТЕЛЛЕКТУАЛЬНЫЙ СЛОЙ", 
+          content: "Высшие когнитивные способности: память, контекст, личность, этика, адаптация под пользователя, эмоциональное понимание и непрерывное самообучение." 
+        },
+        agentic: { 
+          title: "АГЕНТНЫЙ СЛОЙ", 
+          content: "Автономные агенты, способные планировать, выполнять сложные задачи, использовать инструменты и работать в мультиагентной среде." 
+        },
+        governance: { 
+          title: "УПРАВЛЕНИЕ И БЕЗОПАСНОСТЬ", 
+          content: "Система этических ограничений, защита приватности, прозрачность, мониторинг и механизмы безопасности." 
+        },
+        interface: { 
+          title: "ИНТЕРФЕЙС ПОЛЬЗОВАТЕЛЯ", 
+          content: "Многообразие способов взаимодействия: голос, текст, визуализация, жесты — максимально естественный и удобный опыт." 
+        },
+        ecosystem: { 
+          title: "ЭКОСИСТЕМА ATIG", 
+          content: "Единая экосистема: мобильное приложение, веб-версия, физическое устройство Sphere и лёгкий оффлайн-режим." 
+        }
+      };
+
+      title.textContent = data[section].title;
+      content.innerHTML = `<p>${data[section].content}</p>`;
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === "Escape") closeModal();
+    });
   </script>
 </body>
 </html>

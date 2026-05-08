@@ -1,0 +1,81 @@
+export default function ATIGVoicePage() { return ( <div className="min-h-screen bg-black text-white overflow-hidden relative"> <div className="absolute inset-0 bg-gradient-to-b from-blue-950 via-black to-black opacity-90" />
+
+<div className="absolute inset-0 overflow-hidden">
+    <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl animate-pulse" />
+    <div className="absolute top-1/2 left-1/2 w-[320px] h-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-400 shadow-[0_0_80px_rgba(34,211,238,0.7)] animate-spin" style={{ animationDuration: '18s' }} />
+    <div className="absolute top-1/2 left-1/2 w-[220px] h-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-cyan-300 to-blue-700 shadow-[0_0_120px_rgba(59,130,246,0.9)]" />
+  </div>
+
+  <header className="relative z-10 flex items-center justify-between px-6 md:px-12 py-6 border-b border-white/10 backdrop-blur-md">
+    <div>
+      <h1 className="text-2xl md:text-3xl font-bold tracking-widest">ATIG</h1>
+      <p className="text-cyan-300 text-sm">Realtime Voice Intelligence</p>
+    </div>
+
+    <div className="flex gap-3">
+      <button className="px-5 py-2 rounded-2xl border border-cyan-400 text-cyan-300 hover:bg-cyan-400/10 transition">
+        Demo
+      </button>
+      <button className="px-5 py-2 rounded-2xl bg-cyan-400 text-black font-semibold hover:scale-105 transition">
+        Launch IG
+      </button>
+    </div>
+  </header>
+
+  <main className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-24 pb-32">
+    <div className="max-w-4xl">
+      <p className="uppercase tracking-[0.4em] text-cyan-300 text-sm mb-6">
+        Next Generation AI Companion
+      </p>
+
+      <h2 className="text-5xl md:text-7xl font-black leading-tight mb-8">
+        Talk With
+        <span className="block text-cyan-300">ATIG IG-01</span>
+      </h2>
+
+      <p className="text-lg md:text-2xl text-white/70 leading-relaxed max-w-3xl mx-auto mb-12">
+        A realtime voice AI that listens, reasons, translates, and responds naturally.
+        Built for the future of human-AI communication.
+      </p>
+
+      <div className="flex flex-wrap justify-center gap-4 mb-16">
+        <button className="px-8 py-4 rounded-2xl bg-cyan-400 text-black font-bold text-lg hover:scale-105 transition shadow-[0_0_40px_rgba(34,211,238,0.5)]">
+          Start Conversation
+        </button>
+
+        <button className="px-8 py-4 rounded-2xl border border-white/20 text-white hover:bg-white/10 transition text-lg">
+          Watch Showcase
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+        <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6">
+          <h3 className="text-cyan-300 text-xl font-bold mb-3">Realtime Voice</h3>
+          <p className="text-white/70 leading-relaxed">
+            Natural speech conversations with instant response and interruption support.
+          </p>
+        </div>
+
+        <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6">
+          <h3 className="text-cyan-300 text-xl font-bold mb-3">AI Reasoning</h3>
+          <p className="text-white/70 leading-relaxed">
+            Understands context, analyzes requests, and gives intelligent answers.
+          </p>
+        </div>
+
+        <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6">
+          <h3 className="text-cyan-300 text-xl font-bold mb-3">Live Translation</h3>
+          <p className="text-white/70 leading-relaxed">
+            Speak in one language and receive answers in another instantly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer className="relative z-10 border-t border-white/10 py-8 text-center text-white/40 text-sm backdrop-blur-md">
+    © 2026 ATIG.AI — The Future of Voice Intelligence
+  </footer>
+</div>
+
+) }

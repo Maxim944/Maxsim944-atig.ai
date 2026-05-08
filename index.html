@@ -1,1 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>КАРТА ВСЕЛЕННОЙ ATIG</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body {
+      background: radial-gradient(circle at center, #0a0a2a 0%, #000011 100%);
+      color: #a0e7ff;
+      font-family: system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+    .neon-core {
+      animation: corePulse 8s ease-in-out infinite;
+      box-shadow: 0 0 80px #67e8f9, 0 0 120px rgba(103, 232, 249, 0.6);
+    }
+    @keyframes corePulse {
+      0%, 100% { box-shadow: 0 0 80px #67e8f9, 0 0 120px rgba(103, 232, 249, 0.6); }
+      50% { box-shadow: 0 0 110px #22d3ee, 0 0 160px rgba(34, 211, 238, 0.8); }
+    }
+    .block {
+      transition: all 0.4s ease;
+    }
+    .block:hover {
+      transform: scale(1.05) translateY(-10px);
+      filter: brightness(1.1);
+    }
+  </style>
+</head>
+<body class="min-h-screen py-8 relative">
 
+  <div class="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:70px_70px]"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <h1 class="text-5xl md:text-6xl font-bold text-center mb-4 tracking-wider neon-core inline-block px-10 py-4 rounded-2xl">
+      КАРТА ВСЕЛЕННОЙ ATIG
+    </h1>
+    <p class="text-center text-cyan-300 text-2xl mb-16">Архитектура персонального ИИ нового поколения</p>
+
+    <!-- Центральное ядро -->
+    <div class="flex justify-center mb-20">
+      <div onclick="showDetail('core')" 
+           class="neon-core w-[380px] h-[380px] rounded-full border-[12px] border-cyan-400 bg-gradient-to-br from-purple-950 via-blue-950 to-indigo-950 flex items-center justify-center cursor-pointer hover:scale-105 transition-all">
+        <div class="text-center">
+          <div class="text-7xl font-black tracking-widest">ATIG</div>
+          <div class="text-4xl mt-2">CORE (IG-01)</div>
+          <div class="text-cyan-300 mt-8 text-xl">Ядро интеллекта</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-8 gap-y-12">
+      
+      <!-- Левая колонка -->
+      <div class="space-y-8">
+        <div onclick="showDetail('foundation')" class="block bg-slate-900/70 border border-cyan-400/50 rounded-3xl p-8">
+          <h2 class="text-2xl font-bold text-cyan-400 mb-4">🧠 FOUNDATION LAYER</h2>
+          <p class="text-slate-300">AI Models • Machine Learning • Infrastructure • Data Flows</p>
+        </div>
+        <div onclick="showDetail('intelligence')" class="block bg-slate-900/70 border border-purple-400/50 rounded-3xl p-8">
+          <h2 class="text-2xl font-bold text-purple-400 mb-4">🧩 INTELLIGENCE LAYER</h2>
+          <p class="text-slate-300">Память • Контекст • Личность • Этика</p>
+        </div>
+      </div>
+
+      <!-- Правая колонка -->
+      <div class="space-y-8 lg:mt-32">
+        <div onclick="showDetail('agentic')" class="block bg-slate-900/70 border border-emerald-400/50 rounded-3xl p-8">
+          <h2 class="text-2xl font-bold text-emerald-400 mb-4">🤖 AGENTIC LAYER</h2>
+          <p class="text-slate-300">Слой действий • Планирование • Мульти-агенты</p>
+        </div>
+        <div onclick="showDetail('governance')" class="block bg-slate-900/70 border border-amber-400/50 rounded-3xl p-8">
+          <h2 class="text-2xl font-bold text-amber-400 mb-4">🛡️ GOVERNANCE & SAFETY</h2>
+          <p class="text-slate-300">Этика • Приватность • Безопасность</p>
+        </div>
+      </div>
+
+      <!-- Нижняя / Средняя -->
+      <div class="space-y-8 lg:mt-16">
+        <div onclick="showDetail('interface')" class="block bg-slate-900/70 border border-pink-400/50 rounded-3xl p-8">
+          <h2 class="text-2xl font-bold text-pink-400 mb-4">🔊 ИНТЕРФЕЙС ПОЛЬЗОВАТЕЛЯ</h2>
+          <p class="text-slate-300">Голос • Чат • Визуальный интерфейс</p>
+        </div>
+        <div onclick="showDetail('ecosystem')" class="block bg-slate-900/70 border border-sky-400/50 rounded-3xl p-8">
+          <h2 class="text-2xl font-bold text-sky-400 mb-4">🌐 ECOSYSTEM ATIG</h2>
+          <p class="text-slate-300">Мобильное • Веб • Sphere • Offline</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+    <div class="bg-slate-900 border border-cyan-400 rounded-3xl max-w-2xl w-full p-10">
+      <button onclick="closeModal()" class="float-right text-4xl leading-none text-cyan-300 hover:text-white">×</button>
+      <h2 id="modalTitle" class="text-4xl font-bold text-cyan-300 mb-6"></h2>
+      <div id="modalContent" class="text-lg text-slate-200"></div>
+    </div>
+  </div>
+
+  <script>
+    function showDetail(key) {
+      const data = {
+        core: {title: "ATIG CORE (IG-01)", content: "Центральное ядро новой генерации ИИ."},
+        foundation: {title: "ФУНДАМЕНТАЛЬНЫЙ СЛОЙ", content: "Большие языковые модели, машинное обучение, инфраструктура и потоки данных."},
+        intelligence: {title: "ИНТЕЛЛЕКТУАЛЬНЫЙ СЛОЙ", content: "Память, контекст, личность, этика и эмоциональный интеллект."},
+        agentic: {title: "АГЕНТНЫЙ СЛОЙ", content: "Автономные действия, планирование и мультиагентные системы."},
+        governance: {title: "УПРАВЛЕНИЕ И БЕЗОПАСНОСТЬ", content: "Этика, приватность, мониторинг и защита."},
+        interface: {title: "ИНТЕРФЕЙС ПОЛЬЗОВАТЕЛЯ", content: "Голосовое, текстовое и визуальное взаимодействие."},
+        ecosystem: {title: "ЭКОСИСТЕМА ATIG", content: "Приложения, веб, устройство Sphere и оффлайн-режим."}
+      };
+
+      document.getElementById('modalTitle').textContent = data[key].title;
+      document.getElementById('modalContent').innerHTML = `<p>${data[key].content}</p>`;
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

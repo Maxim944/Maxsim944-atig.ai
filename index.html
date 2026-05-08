@@ -3,137 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>КАРТА ВСЕЛЕННОЙ ATIG</title>
+  <title>КАРТА ВСЕЛЕННОЙ ATIG | Архитектура ИИ Нового Поколения</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     body {
-      background: #000811 url('https://images.unsplash.com/photo-1462331940025-5ec7d6c8c8e0') center/cover no-repeat fixed;
-      color: #a0f0ff;
+      background: radial-gradient(circle at center, #0a0a2a 0%, #000011 80%);
+      color: #a0e7ff;
       font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow-x: hidden;
     }
     .glass {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(103, 232, 249, 0.3);
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(103, 232, 249, 0.25);
     }
-    .core {
-      animation: corePulse 7s ease-in-out infinite;
+    .neon-core {
+      animation: corePulse 6s ease-in-out infinite;
     }
     @keyframes corePulse {
-      0%, 100% { box-shadow: 0 0 60px #67e8f9, 0 0 100px #22d3ee; }
-      50% { box-shadow: 0 0 90px #67e8f9, 0 0 140px #22d3ee; }
+      0%, 100% { box-shadow: 0 0 70px #67e8f9, 0 0 110px #22d3ee; }
+      50% { box-shadow: 0 0 100px #67e8f9, 0 0 150px #22d3ee; }
     }
-    .neon-line {
-      position: absolute;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #67e8f9, transparent);
-      opacity: 0.6;
+    .section {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .section:hover {
+      transform: translateY(-8px);
+      border-color: rgb(103 232 249);
     }
   </style>
 </head>
-<body class="min-h-screen py-8 relative overflow-x-hidden">
+<body class="min-h-screen py-10 relative">
 
-  <div class="max-w-7xl mx-auto px-4 relative z-10">
-    <h1 class="text-5xl font-bold text-center mb-2 tracking-widest">КАРТА ВСЕЛЕННОЙ ATIG</h1>
-    <p class="text-center text-cyan-300 text-xl mb-12">Архитектура персонального ИИ нового поколения</p>
+  <!-- Background effects -->
+  <div class="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:80px_80px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <h1 class="text-5xl md:text-6xl font-bold text-center mb-3 tracking-wider">КАРТА ВСЕЛЕННОЙ ATIG</h1>
+    <p class="text-center text-cyan-300 text-xl mb-16">Архитектура персонального ИИ нового поколения</p>
 
     <!-- Центральное ядро -->
-    <div class="flex justify-center mb-16 relative">
+    <div class="flex justify-center mb-20 relative">
       <div onclick="showDetail('core')" 
-           class="core w-80 h-80 rounded-full border-8 border-cyan-400 bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900 flex items-center justify-center cursor-pointer hover:scale-105 transition-all relative">
-        <div class="text-center z-10">
-          <div class="text-6xl font-black">ATIG</div>
-          <div class="text-3xl mt-1">CORE (IG-01)</div>
-          <div class="text-sm text-cyan-200 mt-6">ЯДРО ИНТЕЛЛЕКТА</div>
+           class="neon-core w-96 h-96 rounded-full border-8 border-cyan-400 bg-gradient-to-br from-purple-950 via-blue-950 to-indigo-950 flex items-center justify-center cursor-pointer hover:scale-105 transition-all">
+        <div class="text-center">
+          <div class="text-7xl font-black tracking-widest">ATIG</div>
+          <div class="text-4xl">CORE (IG-01)</div>
+          <div class="text-cyan-300 mt-6">Ядро интеллекта</div>
         </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
       
-      <!-- Left Side -->
-      <div class="lg:col-span-3 space-y-6">
-        <div onclick="showDetail('foundation')" class="glass rounded-2xl p-6 cursor-pointer hover:border-cyan-400 border border-transparent">
-          <h2 class="text-lg font-bold text-cyan-400 mb-4">FOUNDATION LAYER</h2>
-          <ul class="text-sm space-y-1 text-slate-300">
-            <li>• AI Models (LLM, TTS)</li>
-            <li>• Machine Learning</li>
-            <li>• Infrastructure</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Intelligence Layer -->
-      <div class="lg:col-span-3 space-y-6">
-        <div onclick="showDetail('intelligence')" class="glass rounded-2xl p-6 cursor-pointer hover:border-purple-400 border border-transparent">
-          <h2 class="text-lg font-bold text-purple-400 mb-4">INTELLIGENCE LAYER</h2>
-          <ul class="text-sm space-y-1 text-slate-300">
-            <li>• Память</li>
-            <li>• Контекст</li>
-            <li>• Личность</li>
-            <li>• Этика</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Right Side -->
-      <div class="lg:col-span-3 space-y-6">
-        <div onclick="showDetail('agentic')" class="glass rounded-2xl p-6 cursor-pointer hover:border-emerald-400 border border-transparent">
-          <h2 class="text-lg font-bold text-emerald-400 mb-4">AGENTIC LAYER</h2>
-          <ul class="text-sm space-y-1 text-slate-300">
-            <li>• Слой действий</li>
-            <li>• Планирование</li>
-            <li>• Мульти-агентная система</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="lg:col-span-3 space-y-6">
-        <div onclick="showDetail('governance')" class="glass rounded-2xl p-6 cursor-pointer hover:border-amber-400 border border-transparent">
-          <h2 class="text-lg font-bold text-amber-400 mb-4">GOVERNANCE & SAFETY</h2>
-          <ul class="text-sm space-y-1 text-slate-300">
-            <li>• Этика и прозрачность</li>
-            <li>• Защита приватности</li>
-            <li>• Мониторинг</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom Ecosystem -->
-    <div class="mt-16 text-center">
-      <h2 onclick="showDetail('ecosystem')" class="text-2xl font-bold text-sky-400 cursor-pointer hover:text-sky-300">REAL WORLD / ECOSYSTEM ATIG</h2>
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div id="modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-50">
-    <div class="glass max-w-lg w-full mx-4 p-8 rounded-3xl border border-cyan-400">
-      <button onclick="closeModal()" class="float-right text-3xl text-cyan-300">×</button>
-      <h2 id="modalTitle" class="text-3xl font-bold text-cyan-300 mb-6"></h2>
-      <div id="modalContent" class="text-slate-200"></div>
-    </div>
-  </div>
-
-  <script>
-    function showDetail(key) {
-      const data = {
-        core: { title: "ATIG CORE (IG-01)", content: "Центральное ядро интеллекта нового поколения." },
-        foundation: { title: "FOUNDATION LAYER", content: "Базовые модели ИИ, машинное обучение, инфраструктура." },
-        intelligence: { title: "INTELLIGENCE LAYER", content: "Память, контекст, личность, этика и эмоциональный интеллект." },
-        agentic: { title: "AGENTIC LAYER", content: "Автономные агенты, планирование и выполнение задач." },
-        governance: { title: "GOVERNANCE & SAFETY", content: "Безопасность, этика и контроль." },
-        ecosystem: { title: "ECOSYSTEM ATIG", content: "Мобильное приложение, веб, Sphere и оффлайн режим." }
-      };
-      document.getElementById('modalTitle').textContent = data[key].title;
-      document.getElementById('modalContent').innerHTML = `<p>${data[key].content}</p>`;
-      document.getElementById('modal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('modal').classList.add('hidden');
-    }
-  </script>
-</body>
-</html>
+      <!-- Foundation Layer -->
+      <div class="lg:col-span-3 section glass rounded-3xl p-7 cursor-pointer" onclick="showDetail('foundation')">
+        <h2 class="text-2xl font-bold text-cyan-400 mb-5">

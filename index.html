@@ -1,454 +1,184 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>IG Sphere v2 | ATIG.AI — Кинематографическая сфера</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Orbitron', 'Rajdhani', 'Courier New', monospace;
-            background-color: #000;
-            color: #0cf;
-        }
-        /* Интерфейс как на изображении: чётко, киберпанк, минимализм */
-        .interface {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding: 0 20px 20px 20px;
-            z-index: 100;
-            pointer-events: none;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-shadow: 0 0 3px rgba(0,200,255,0.5);
-        }
-        .left-info {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 10px 18px;
-            border-radius: 16px;
-            border-left: 3px solid #0cf;
-            font-family: monospace;
-            pointer-events: auto;
-        }
-        .left-info .brand {
-            font-size: 20px;
-            font-weight: bold;
-            color: #7df9ff;
-            letter-spacing: 3px;
-        }
-        .left-info .sub {
-            font-size: 10px;
-            opacity: 0.7;
-            margin-top: 4px;
-        }
-        .right-controls {
-            display: flex;
-            gap: 12px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 8px 18px;
-            border-radius: 48px;
-            border: 1px solid rgba(0, 242, 255, 0.4);
-            pointer-events: auto;
-        }
-        button {
-            background: rgba(0, 20, 40, 0.9);
-            border: 1px solid #0cf;
-            color: #0cf;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-family: 'Orbitron', monospace;
-            font-weight: bold;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.2s;
-            backdrop-filter: blur(4px);
-        }
-        button:hover {
-            background: #0cf;
-            color: #000;
-            box-shadow: 0 0 15px #0cf;
-            border-color: #fff;
-        }
-        .top-title {
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 14px;
-            letter-spacing: 4px;
-            background: rgba(0,0,0,0.4);
-            width: fit-content;
-            margin: 0 auto;
-            padding: 6px 20px;
-            border-radius: 30px;
-            backdrop-filter: blur(8px);
-            font-weight: 300;
-            z-index: 100;
-            pointer-events: none;
-        }
-        .live-indicator {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-family: monospace;
-            color: #0f0;
-            border-right: 2px solid #0f0;
-            z-index: 100;
-            pointer-events: none;
-        }
-        @media (max-width: 650px) {
-            button { padding: 5px 12px; font-size: 10px; }
-            .left-info .brand { font-size: 16px; }
-            .top-title { font-size: 9px; top: 12px; }
-        }
-        canvas {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>КАРТА ВСЕЛЕННОЙ ATIG</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body {
+      background: radial-gradient(circle at center, #0a0a2a 0%, #000011 100%);
+      color: #a0e7ff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+    .neon-text {
+      text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+    }
+    .neon-border {
+      box-shadow: 0 0 15px #00f0ff, 0 0 30px rgba(0, 240, 255, 0.4);
+    }
+    .connection {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+      opacity: 0.6;
+      z-index: 1;
+    }
+  </style>
 </head>
-<body>
-    <div class="top-title">IG-01 • КИНЕМАТОГРАФИЧЕСКАЯ СФЕРА v2</div>
-    <div class="live-indicator">⚡ CORE PULSE • ACTIVE</div>
-    <div class="interface">
-        <div class="left-info">
-            <div class="brand">ATIG.AI</div>
-            <div>IG SPHERE v2.1 | INTELLIGENT GENESIS</div>
-            <div class="sub">STATUS: ACTIVE | MODE: CINEMATIC</div>
+<body class="min-h-screen relative">
+
+  <div class="absolute inset-0 bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:50px_50px] opacity-20"></div>
+
+  <div class="container mx-auto py-8 relative z-10">
+    <h1 class="text-5xl font-bold text-center neon-text mb-2">КАРТА ВСЕЛЕННОЙ ATIG</h1>
+    <p class="text-center text-cyan-300 mb-10">Архитектура персонального ИИ нового поколения</p>
+
+    <!-- Центральное ядро -->
+    <div class="flex justify-center mb-12">
+      <div onclick="showDetail('core')" 
+           class="w-80 h-80 rounded-full border-4 border-cyan-400 bg-gradient-to-br from-purple-900 to-blue-900 flex items-center justify-center cursor-pointer hover:scale-105 transition-all neon-border">
+        <div class="text-center">
+          <div class="text-6xl font-bold mb-2">ATIG</div>
+          <div class="text-2xl">CORE (IG-01)</div>
+          <div class="text-sm text-cyan-300 mt-4">Ядро интеллекта</div>
         </div>
-        <div class="right-controls">
-            <button id="pulseBtn">⚡ ПУЛЬС</button>
-            <button id="speedUpBtn">🌀 СКОРОСТЬ +</button>
-            <button id="speedDownBtn">🌀 СКОРОСТЬ -</button>
-        </div>
+      </div>
     </div>
 
-    <!-- Подключаем Three.js классическим способом (без import map, чтобы точно работало) -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
-        }
-    </script>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      
+      <!-- Foundation Layer -->
+      <div onclick="showDetail('foundation')" class="bg-slate-900/70 border border-cyan-500/30 rounded-2xl p-6 hover:border-cyan-400 cursor-pointer transition-all">
+        <h2 class="text-xl font-bold text-cyan-400 mb-4">🧠 FOUNDATION LAYER</h2>
+        <ul class="space-y-2 text-sm">
+          <li>• AI Models (LLM, TTS, etc.)</li>
+          <li>• Machine Learning</li>
+          <li>• Infrastructure</li>
+          <li>• Data Flows</li>
+        </ul>
+      </div>
 
-    <script type="module">
-        import * as THREE from 'three';
-        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-        
-        // --- СОЗДАНИЕ СЦЕНЫ (гарантированно видимая)
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x010008);
-        scene.fog = new THREE.FogExp2(0x010008, 0.008); // глубокая космическая дымка
-        
-        // --- КАМЕРА
-        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0.2, 5.5);
-        camera.lookAt(0, 0, 0);
-        
-        // --- РЕНДЕР
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.toneMapping = THREE.ReinhardToneMapping;
-        renderer.toneMappingExposure = 1.3;
-        document.body.appendChild(renderer.domElement);
-        
-        // --- POST EFFECT (блум для сияния)
-        const renderScene = new RenderPass(scene, camera);
-        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.4, 0.6, 0.25);
-        bloomPass.threshold = 0.05;
-        bloomPass.strength = 1.3;
-        bloomPass.radius = 0.7;
-        const effectComposer = new EffectComposer(renderer);
-        effectComposer.addPass(renderScene);
-        effectComposer.addPass(bloomPass);
-        
-        // --- ОСВЕЩЕНИЕ (создаём объём)
-        // Основной направленный свет
-        const mainLight = new THREE.DirectionalLight(0x88bbff, 1.2);
-        mainLight.position.set(2, 3, 4);
-        scene.add(mainLight);
-        // Заполняющий
-        const fillLight = new THREE.PointLight(0x3366aa, 0.6);
-        fillLight.position.set(-2, 1, 3);
-        scene.add(fillLight);
-        // Контровой свет для свечения краев
-        const backLight = new THREE.PointLight(0x00aaff, 0.8);
-        backLight.position.set(1, 2, -3);
-        scene.add(backLight);
-        // Свет снизу
-        const bottomGlow = new THREE.PointLight(0x2288cc, 0.5);
-        bottomGlow.position.set(0, -1.5, 0);
-        scene.add(bottomGlow);
-        // Ядро сферы (пульсирующий источник)
-        const coreLight = new THREE.PointLight(0x33ccff, 1.4, 10);
-        coreLight.position.set(0, 0, 0);
-        scene.add(coreLight);
-        
-        // --- ЦЕНТРАЛЬНАЯ СФЕРА (текстурированная, светящаяся)
-        const geometry = new THREE.SphereGeometry(1.5, 128, 128);
-        
-        // Создаём технологичную текстуру прямо в коде (сетка + неон)
-        const canvas = document.createElement('canvas');
-        canvas.width = 1024;
-        canvas.height = 1024;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#050a18';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        // Линии сетки
-        ctx.strokeStyle = '#2affdd';
-        ctx.lineWidth = 2.5;
-        const step = canvas.width / 28;
-        for (let i = 0; i <= 28; i++) {
-            ctx.beginPath();
-            ctx.moveTo(i * step, 0);
-            ctx.lineTo(i * step, canvas.height);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(0, i * step);
-            ctx.lineTo(canvas.width, i * step);
-            ctx.stroke();
+      <!-- Intelligence Layer -->
+      <div onclick="showDetail('intelligence')" class="bg-slate-900/70 border border-purple-500/30 rounded-2xl p-6 hover:border-purple-400 cursor-pointer transition-all">
+        <h2 class="text-xl font-bold text-purple-400 mb-4">🧩 INTELLIGENCE LAYER</h2>
+        <ul class="space-y-2 text-sm">
+          <li>• Память</li>
+          <li>• Контекст</li>
+          <li>• Личность</li>
+          <li>• Этика</li>
+          <li>• Взаимодействие</li>
+        </ul>
+      </div>
+
+      <!-- Agentic Layer -->
+      <div onclick="showDetail('agentic')" class="bg-slate-900/70 border border-emerald-500/30 rounded-2xl p-6 hover:border-emerald-400 cursor-pointer transition-all">
+        <h2 class="text-xl font-bold text-emerald-400 mb-4">🤖 AGENTIC LAYER</h2>
+        <ul class="space-y-2 text-sm">
+          <li>• Слой действий</li>
+          <li>• Слой планирования</li>
+          <li>• Мульти-агентная система</li>
+        </ul>
+      </div>
+
+      <!-- Governance & Safety -->
+      <div onclick="showDetail('governance')" class="bg-slate-900/70 border border-amber-500/30 rounded-2xl p-6 hover:border-amber-400 cursor-pointer transition-all">
+        <h2 class="text-xl font-bold text-amber-400 mb-4">🛡️ GOVERNANCE & SAFETY</h2>
+        <ul class="space-y-2 text-sm">
+          <li>• Этика и прозрачность</li>
+          <li>• Защита приватности</li>
+          <li>• Мониторинг и аудит</li>
+        </ul>
+      </div>
+
+      <!-- Interfaces -->
+      <div onclick="showDetail('interface')" class="bg-slate-900/70 border border-pink-500/30 rounded-2xl p-6 hover:border-pink-400 cursor-pointer transition-all">
+        <h2 class="text-xl font-bold text-pink-400 mb-4">🔊 ИНТЕРФЕЙС ПОЛЬЗОВАТЕЛЯ</h2>
+        <ul class="space-y-2 text-sm">
+          <li>• Голосовое взаимодействие</li>
+          <li>• Чат-интерфейс</li>
+          <li>• Визуальный интерфейс</li>
+          <li>• Жесты и будущее взаимодействие</li>
+        </ul>
+      </div>
+
+      <!-- Real World / Ecosystem -->
+      <div onclick="showDetail('ecosystem')" class="bg-slate-900/70 border border-sky-500/30 rounded-2xl p-6 hover:border-sky-400 cursor-pointer transition-all">
+        <h2 class="text-xl font-bold text-sky-400 mb-4">🌐 REAL WORLD / ECOSYSTEM ATIG</h2>
+        <ul class="space-y-2 text-sm">
+          <li>• Мобильное приложение</li>
+          <li>• Веб-платформа</li>
+          <li>• Устройство Sphere</li>
+          <li>• Офлайн-режим ATIG Lite</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div class="bg-slate-900 border border-cyan-400 rounded-3xl max-w-lg w-full mx-4 p-8">
+      <h2 id="modalTitle" class="text-3xl font-bold mb-6 text-cyan-300"></h2>
+      <div id="modalContent" class="text-slate-300 leading-relaxed"></div>
+      <button onclick="closeModal()" 
+              class="mt-8 px-8 py-3 bg-cyan-600 hover:bg-cyan-500 rounded-full font-medium transition-colors">
+        Закрыть
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function showDetail(section) {
+      const modal = document.getElementById('modal');
+      const title = document.getElementById('modalTitle');
+      const content = document.getElementById('modalContent');
+
+      const data = {
+        core: {
+          title: "ATIG CORE (IG-01)",
+          content: "Центральное ядро новой генерации ИИ. Объединяет личность, память, контекст, этику и способность к глубокому взаимодействию с пользователем."
+        },
+        foundation: {
+          title: "ФУНДАМЕНТАЛЬНЫЙ СЛОЙ",
+          content: "AI Models (LLM, мультимодальные), Machine Learning (трансформеры, нейросети), Infrastructure (облако + edge), Потоки данных."
+        },
+        intelligence: {
+          title: "ИНТЕЛЛЕКТУАЛЬНЫЙ СЛОЙ",
+          content: "Память (краткосрочная + долгосрочная), Контекст, Личность, Этика, Адаптация под пользователя, Эмоциональный интеллект."
+        },
+        agentic: {
+          title: "АГЕНТНЫЙ СЛОЙ",
+          content: "Слой действий, планирования, мульти-агентная система. Автономное выполнение сложных задач с использованием инструментов и API."
+        },
+        governance: {
+          title: "УПРАВЛЕНИЕ И БЕЗОПАСНОСТЬ",
+          content: "Этика, защита приватности, контроль данных, мониторинг, аудит, ограничения безопасности."
+        },
+        interface: {
+          title: "ИНТЕРФЕЙС ПОЛЬЗОВАТЕЛЯ",
+          content: "Голос, чат, визуальный интерфейс, жесты. Максимально естественное взаимодействие человека с ИИ."
+        },
+        ecosystem: {
+          title: "ЭКОСИСТЕМА ATIG",
+          content: "Мобильное приложение, веб-платформа, физическое устройство Sphere, оффлайн-режим и интеграции в реальный мир."
         }
-        // Диагональные акценты
-        ctx.strokeStyle = '#00ccff88';
-        ctx.lineWidth = 1.8;
-        for (let i = -canvas.width; i < canvas.width; i += 45) {
-            ctx.beginPath();
-            ctx.moveTo(i, 0);
-            ctx.lineTo(i + canvas.width, canvas.height);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(0, i);
-            ctx.lineTo(canvas.width, i + canvas.height);
-            ctx.stroke();
-        }
-        // Концентрические круги (энергетические)
-        ctx.strokeStyle = '#0cf';
-        ctx.lineWidth = 3;
-        const centerX = canvas.width/2, centerY = canvas.height/2;
-        for (let r = 0.2; r <= 0.95; r+=0.15) {
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, centerX * r, 0, Math.PI * 2);
-            ctx.stroke();
-        }
-        // Мерцающие точки
-        ctx.fillStyle = '#88ffff';
-        for (let i = 0; i < 1200; i++) {
-            ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 2, 2);
-        }
-        const techMap = new THREE.CanvasTexture(canvas);
-        
-        const sphereMaterial = new THREE.MeshStandardMaterial({
-            color: 0x0b1430,
-            emissive: 0x2266bb,
-            emissiveIntensity: 1.2,
-            metalness: 0.7,
-            roughness: 0.28,
-            map: techMap,
-            emissiveMap: techMap
-        });
-        
-        const sphere = new THREE.Mesh(geometry, sphereMaterial);
-        scene.add(sphere);
-        
-        // Внутренняя оболочка для свечения
-        const innerGlowMat = new THREE.MeshBasicMaterial({
-            color: 0x3399ff,
-            transparent: true,
-            opacity: 0.12,
-            side: THREE.BackSide
-        });
-        const innerSphere = new THREE.Mesh(new THREE.SphereGeometry(1.35, 96, 96), innerGlowMat);
-        scene.add(innerSphere);
-        
-        // --- ПАРЯЩИЕ КОЛЬЦА (атмосферные)
-        const ring1 = new THREE.Mesh(
-            new THREE.TorusGeometry(1.68, 0.045, 128, 400),
-            new THREE.MeshStandardMaterial({ color: 0x33ddff, emissive: 0x2288aa, emissiveIntensity: 1.0 })
-        );
-        ring1.rotation.x = Math.PI / 2;
-        scene.add(ring1);
-        
-        const ring2 = new THREE.Mesh(
-            new THREE.TorusGeometry(1.86, 0.028, 128, 400),
-            new THREE.MeshStandardMaterial({ color: 0x77ffff, emissive: 0x00aacc, emissiveIntensity: 0.85 })
-        );
-        ring2.rotation.x = 0.75;
-        ring2.rotation.z = 0.3;
-        scene.add(ring2);
-        
-        const ring3 = new THREE.Mesh(
-            new THREE.TorusGeometry(1.53, 0.022, 128, 400),
-            new THREE.MeshStandardMaterial({ color: 0xaaffff, emissive: 0x33ccff })
-        );
-        ring3.rotation.x = Math.PI / 2 + 0.2;
-        scene.add(ring3);
-        
-        // --- ЗВЁЗДНОЕ ПОЛЕ (огромное количество частиц)
-        const starCount = 5000;
-        const starGeometry = new THREE.BufferGeometry();
-        const starPositions = new Float32Array(starCount * 3);
-        for (let i = 0; i < starCount; i++) {
-            // Распределение в сфере вокруг сцены
-            const radius = 8 + Math.random() * 22;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-            starPositions[i*3] = radius * Math.sin(phi) * Math.cos(theta);
-            starPositions[i*3+1] = radius * Math.sin(phi) * Math.sin(theta) * 0.7;
-            starPositions[i*3+2] = radius * Math.cos(phi);
-        }
-        starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-        const starMaterial = new THREE.PointsMaterial({ color: 0xaaddff, size: 0.045, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
-        const stars = new THREE.Points(starGeometry, starMaterial);
-        scene.add(stars);
-        
-        // Вторая система (дальние тусклые звёзды)
-        const dustCount = 3000;
-        const dustGeo = new THREE.BufferGeometry();
-        const dustPositions = [];
-        for (let i = 0; i < dustCount; i++) {
-            dustPositions.push((Math.random() - 0.5) * 100);
-            dustPositions.push((Math.random() - 0.5) * 70);
-            dustPositions.push((Math.random() - 0.5) * 60 - 20);
-        }
-        dustGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(dustPositions), 3));
-        const dustMat = new THREE.PointsMaterial({ color: 0x88aaff, size: 0.025, transparent: true, opacity: 0.4 });
-        const dustField = new THREE.Points(dustGeo, dustMat);
-        scene.add(dustField);
-        
-        // Мелкие частицы вокруг сферы (энергетическая аура)
-        const auraCount = 1500;
-        const auraGeo = new THREE.BufferGeometry();
-        const auraPos = [];
-        for (let i = 0; i < auraCount; i++) {
-            const rad = 1.62 + Math.random() * 0.3;
-            const theta2 = Math.random() * Math.PI * 2;
-            const phi2 = Math.acos(2 * Math.random() - 1);
-            auraPos.push(rad * Math.sin(phi2) * Math.cos(theta2));
-            auraPos.push(rad * Math.sin(phi2) * Math.sin(theta2));
-            auraPos.push(rad * Math.cos(phi2));
-        }
-        auraGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(auraPos), 3));
-        const auraMat = new THREE.PointsMaterial({ color: 0x33ddff, size: 0.008, transparent: true, blending: THREE.AdditiveBlending });
-        const auraParticles = new THREE.Points(auraGeo, auraMat);
-        scene.add(auraParticles);
-        
-        // --- ПЕРЕМЕННЫЕ ДЛЯ АНИМАЦИИ
-        let rotationSpeed = 0.0028;
-        let time = 0;
-        let pulsing = false;
-        
-        // --- ИНТЕРАКТИВ (кнопки Pulse + Speed)
-        document.getElementById('pulseBtn').addEventListener('click', () => {
-            // Эффект пульсации
-            pulsing = true;
-            sphereMaterial.emissiveIntensity = 3.2;
-            coreLight.intensity = 3.0;
-            innerGlowMat.opacity = 0.35;
-            ring1.material.emissiveIntensity = 2.4;
-            ring2.material.emissiveIntensity = 2.0;
-            
-            // Легкое сотрясение камеры
-            camera.position.z = 5.25;
-            setTimeout(() => { camera.position.z = 5.5; }, 150);
-            
-            setTimeout(() => {
-                sphereMaterial.emissiveIntensity = 1.2;
-                coreLight.intensity = 1.4;
-                innerGlowMat.opacity = 0.12;
-                ring1.material.emissiveIntensity = 1.0;
-                ring2.material.emissiveIntensity = 0.85;
-                pulsing = false;
-            }, 380);
-        });
-        
-        document.getElementById('speedUpBtn').addEventListener('click', () => {
-            rotationSpeed = Math.min(0.0085, rotationSpeed + 0.001);
-        });
-        document.getElementById('speedDownBtn').addEventListener('click', () => {
-            rotationSpeed = Math.max(0.0012, rotationSpeed - 0.001);
-        });
-        
-        // --- АНИМАЦИЯ (кинематографичное движение + вращение)
-        let cameraDrift = 0;
-        
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.016;
-            
-            // Вращение сферы и колец
-            sphere.rotation.y += rotationSpeed;
-            sphere.rotation.x += rotationSpeed * 0.2;
-            innerSphere.rotation.copy(sphere.rotation);
-            
-            ring1.rotation.z += 0.004;
-            ring1.rotation.y += 0.002;
-            ring2.rotation.x += 0.0035;
-            ring2.rotation.z += 0.002;
-            ring3.rotation.y += 0.003;
-            
-            stars.rotation.y -= 0.0001;
-            dustField.rotation.x += 0.00008;
-            auraParticles.rotation.y += 0.001;
-            
-            // Плавное дыхание свечения (если не в пульсе)
-            if (!pulsing) {
-                const breath = 0.9 + Math.sin(time * 2.1) * 0.1;
-                sphereMaterial.emissiveIntensity = 1.15 + Math.sin(time * 2.4) * 0.12;
-                coreLight.intensity = 1.3 + Math.sin(time * 2.7) * 0.25;
-                ring1.material.emissiveIntensity = 0.95 + Math.sin(time * 1.8) * 0.1;
-            } else {
-                // после пульса плавно возвращаем
-                if(sphereMaterial.emissiveIntensity > 1.3) sphereMaterial.emissiveIntensity -= 0.05;
-                if(coreLight.intensity > 1.5) coreLight.intensity -= 0.05;
-            }
-            
-            // Кинематографическое покачивание камеры
-            cameraDrift += 0.003;
-            const targetX = Math.sin(cameraDrift * 0.4) * 0.06;
-            const targetY = Math.cos(cameraDrift * 0.3) * 0.04;
-            camera.position.x += (targetX - camera.position.x) * 0.05;
-            camera.position.y += (targetY - camera.position.y) * 0.05;
-            camera.lookAt(0, Math.sin(time * 0.5) * 0.03, 0);
-            
-            // Микропульсация масштаба сферы
-            const scaleVar = 1 + Math.sin(time * 3.5) * 0.006;
-            sphere.scale.setScalar(scaleVar);
-            innerSphere.scale.setScalar(scaleVar);
-            
-            // Рендер через композер (с блумом)
-            effectComposer.render();
-        }
-        
-        animate();
-        
-        // Адаптация под изменение размера окна
-        window.addEventListener('resize', onWindowResize, false);
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            effectComposer.setSize(window.innerWidth, window.innerHeight);
-        }
-        
-        console.log('✅ IG SPHERE v2.1 — Кинематографическая сфера активна');
-    </script>
+      };
+
+      title.textContent = data[section].title;
+      content.innerHTML = `<p>${data[section].content}</p>`;
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    // Закрытие модалки по ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  </script>
 </body>
 </html>

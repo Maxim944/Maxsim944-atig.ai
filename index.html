@@ -1,175 +1,621 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>IG Sphere v2</title>
-<style>
-    body {
-        margin: 0;
-        overflow: hidden;
-        background: #000;
-        font-family: Arial, sans-serif;
-        color: white;
-    }
-    canvas { display: block; }#ui {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 12px;
-    z-index: 10;
-}
-
-.btn {
-    padding: 10px 16px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
-    color: white;
-    cursor: pointer;
-}
-
-#title {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    opacity: 0.6;
-    font-size: 12px;
-    letter-spacing: 3px;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ATIG IG-01 — Intelligent Genesis Sphere</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Share Tech Mono', 'Courier New', monospace;
+            color: #00f2ff;
+            background: radial-gradient(circle at 30% 20%, #03050b, #000000);
+        }
+        /* Атмосферный canvas */
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        /* Голографический интерфейс — стиль как на изображении */
+        .hud {
+            position: absolute;
+            z-index: 20;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            font-weight: 400;
+            text-shadow: 0 0 5px rgba(0, 242, 255, 0.5);
+        }
+        /* Верхняя строка с логотипами */
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            left: 24px;
+            right: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 13px;
+            letter-spacing: 2px;
+            opacity: 0.75;
+            pointer-events: none;
+        }
+        .atig-brand {
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 4px;
+            color: #aaf0ff;
+        }
+        .system-time {
+            font-family: monospace;
+            font-size: 18px;
+            background: rgba(0, 20, 30, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 4px 12px;
+            border-radius: 40px;
+            border: 1px solid rgba(0, 242, 255, 0.25);
+            letter-spacing: 2px;
+        }
+        /* Центральная плашка статуса */
+        .status-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 5, 12, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            border: 1px solid rgba(0, 242, 255, 0.4);
+            padding: 18px 36px;
+            min-width: 320px;
+            box-shadow: 0 0 30px rgba(0, 180, 230, 0.2);
+            pointer-events: none;
+            z-index: 15;
+        }
+        .sphere-name {
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: #7df9ff;
+            text-shadow: 0 0 10px cyan;
+            margin-bottom: 8px;
+        }
+        .model-badge {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-bottom: 18px;
+            letter-spacing: 2px;
+        }
+        .status-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted rgba(0, 242, 255, 0.3);
+            padding: 5px 0;
+        }
+        .status-label {
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        .status-value {
+            font-weight: bold;
+            font-family: monospace;
+            color: #aaffff;
+        }
+        .active-badge {
+            color: #0f0;
+            text-shadow: 0 0 4px #0f0;
+        }
+        .core-pulse {
+            margin-top: 15px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+        }
+        /* Нижняя панель с кнопками и "CONNECTION" */
+        .bottom-interface {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 28px;
+            pointer-events: none;
+            font-size: 12px;
+        }
+        .connection-tag {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border-left: 3px solid #0f0;
+            letter-spacing: 2px;
+        }
+        .version {
+            opacity: 0.5;
+        }
+        .interact-prompt {
+            background: rgba(0, 30, 40, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 8px 20px;
+            border-radius: 60px;
+            border: 1px solid cyan;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #bbffff;
+        }
+        .interact-prompt:hover {
+            background: rgba(0, 200, 220, 0.2);
+            text-shadow: 0 0 6px white;
+            transform: scale(1.02);
+        }
+        /* Пульсирующий индикатор в стиле core pulse */
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 220px;
+            height: 220px;
+            margin: -110px 0 0 -110px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            pointer-events: none;
+            z-index: 12;
+            transform: scale(1);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        button {
+            background: none;
+            border: none;
+        }
+        .hidden-buttons {
+            position: absolute;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 30;
+            pointer-events: auto;
+        }
+        .ctrl-btn {
+            background: rgba(0, 20, 30, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid cyan;
+            border-radius: 30px;
+            padding: 6px 14px;
+            color: cyan;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            pointer-events: auto;
+        }
+        .ctrl-btn:hover {
+            background: cyan;
+            color: black;
+            box-shadow: 0 0 15px cyan;
+        }
+        @media (max-width: 700px) {
+            .status-panel { padding: 12px 20px; min-width: 260px; transform: translate(-50%, -50%) scale(0.9); }
+            .sphere-name { font-size: 20px; }
+            .system-time { font-size: 14px; }
+        }
+    </style>
 </head>
-<body><div id="title">IG-01 • CINEMATIC SPHERE v2</div>
-<div id="ui">
-    <div class="btn" id="pulseBtn">Pulse</div>
-    <div class="btn" id="speedUp">Speed +</div>
-    <div class="btn" id="speedDown">Speed -</div>
-</div><script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
-import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+<body>
+    <div class="hud">
+        <div class="top-bar">
+            <div class="atig-brand">ATIG <span style="font-weight:300;">IG-01</span></div>
+            <div class="system-time" id="liveTime">22:42:17</div>
+        </div>
 
-let scene, camera, renderer, composer;
-let sphere, particles;
-let rotateSpeed = 0.002;
-let clock = new THREE.Clock();
+        <div class="status-panel">
+            <div class="sphere-name">INTELLIGENT GENESIS SPHERE</div>
+            <div class="model-badge">IG-01 • ACTIVE CORE</div>
+            <div class="status-grid">
+                <div class="status-row"><span class="status-label">STATUS:</span><span class="status-value active-badge">ACTIVE</span></div>
+                <div class="status-row"><span class="status-label">MODE:</span><span class="status-value">STANDBY</span></div>
+                <div class="status-row"><span class="status-label">CoreFlow:</span><span class="status-value" id="coreFlowVal">82%</span></div>
+                <div class="status-row"><span class="status-label">System Integrity:</span><span class="status-value">100%</span></div>
+            </div>
+            <div class="core-pulse">
+                <span>⚡ CORE PULSE <span style="color:#0ff;">◆ STABLE</span></span>
+                <span>🌀 NEBULA DENSITY <span id="nebulaDensity">72%</span></span>
+            </div>
+            <div class="core-pulse" style="margin-top: 5px;">
+                <span>✨ STARFIELD <span id="starfieldVal">88%</span></span>
+                <span>🌬️ COSMIC WIND <span id="cosmicWindVal">64%</span></span>
+            </div>
+            <div class="status-row" style="margin-top:10px;"><span class="status-label">ENERGYFLOW:</span><span class="status-value" id="energyFlow">82%</span></div>
+            <div class="status-row"><span class="status-label">FREQUENCY:</span><span class="status-value" id="freqVal">7.83 Hz</span></div>
+        </div>
 
-init();
-animate();
+        <div class="bottom-interface">
+            <div class="connection-tag">🔒 CONNECTION: SECURE</div>
+            <div class="interact-prompt" id="tapInteract">⚡ TAP AND HOLD TO INTERACT ⚡</div>
+            <div class="version">VERSION 1.0.0</div>
+        </div>
+        <div class="hidden-buttons">
+            <button class="ctrl-btn" id="pulseEffectBtn">✨ PULSE</button>
+            <button class="ctrl-btn" id="speedUpBtn">🌀 SPEED +</button>
+            <button class="ctrl-btn" id="speedDownBtn">🌀 SPEED -</button>
+        </div>
+        <div id="pulseRing" class="pulse-ring"></div>
+    </div>
 
-function init() {
-    scene = new THREE.Scene();
+    <!-- Three.js скрипт с детальной сферой и эффектами как на картинке: светящаяся текстура/атмосфера -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+            }
+        }
+    </script>
 
-    // COSMIC FOG (depth)
-    scene.fog = new THREE.FogExp2(0x000000, 0.035);
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+        import { VignetteShader } from 'three/addons/shaders/VignetteShader.js';
+        
+        // --- инициализация сцены ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x010108);
+        scene.fog = new THREE.FogExp2(0x010108, 0.025);
 
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.z = 6;
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0.4, 5.8);
+        camera.lookAt(0, 0, 0);
 
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    document.body.appendChild(renderer.domElement);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.toneMapping = THREE.ReinhardToneMapping;
+        renderer.toneMappingExposure = 1.3;
+        document.body.appendChild(renderer.domElement);
 
-    // LIGHT
-    const light = new THREE.PointLight(0x66ccff, 2);
-    light.position.set(5, 5, 5);
-    scene.add(light);
+        // --- эффекты PostProcessing (блум + виньетка) ---
+        const renderScene = new RenderPass(scene, camera);
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.6, 0.2);
+        bloomPass.threshold = 0.1;
+        bloomPass.strength = 1.2;
+        bloomPass.radius = 0.8;
+        
+        const vignettePass = new ShaderPass(VignetteShader);
+        vignettePass.uniforms['offset'].value = 0.95;
+        vignettePass.uniforms['darkness'].value = 1.3;
+        
+        const effectComposer = new EffectComposer(renderer);
+        effectComposer.addPass(renderScene);
+        effectComposer.addPass(bloomPass);
+        effectComposer.addPass(vignettePass);
+        vignettePass.renderToScreen = true;
 
-    scene.add(new THREE.AmbientLight(0x111122));
-
-    // CORE SPHERE
-    const geometry = new THREE.SphereGeometry(1.5, 128, 128);
-    const material = new THREE.MeshStandardMaterial({
-        color: 0x0b1020,
-        emissive: 0x00aaff,
-        emissiveIntensity: 1.2,
-        metalness: 0.3,
-        roughness: 0.25
-    });
-
-    sphere = new THREE.Mesh(geometry, material);
-    scene.add(sphere);
-
-    // PARTICLES (space)
-    const pGeometry = new THREE.BufferGeometry();
-    const count = 3000;
-    const pos = [];
-
-    for (let i = 0; i < count; i++) {
-        pos.push((Math.random() - 0.5) * 60);
-        pos.push((Math.random() - 0.5) * 60);
-        pos.push((Math.random() - 0.5) * 60);
-    }
-
-    pGeometry.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-
-    const pMaterial = new THREE.PointsMaterial({
-        color: 0x88ccff,
-        size: 0.04,
-        transparent: true,
-        opacity: 0.7
-    });
-
-    particles = new THREE.Points(pGeometry, pMaterial);
-    scene.add(particles);
-
-    // BLOOM (cinematic glow)
-    composer = new EffectComposer(renderer);
-
-    const renderPass = new RenderPass(scene, camera);
-    composer.addPass(renderPass);
-
-    const bloomPass = new UnrealBloomPass(
-        new THREE.Vector2(window.innerWidth, window.innerHeight),
-        1.4, // strength
-        0.6, // radius
-        0.2  // threshold
-    );
-
-    composer.addPass(bloomPass);
-
-    // UI
-    document.getElementById('pulseBtn').onclick = pulse;
-    document.getElementById('speedUp').onclick = () => rotateSpeed += 0.001;
-    document.getElementById('speedDown').onclick = () => rotateSpeed = Math.max(0.0005, rotateSpeed - 0.001);
-
-    window.addEventListener('resize', onResize);
-}
-
-function animate() {
-    requestAnimationFrame(animate);
-
-    const t = clock.getElapsedTime();
-
-    sphere.rotation.y += rotateSpeed;
-    sphere.rotation.x += rotateSpeed * 0.3;
-
-    sphere.scale.setScalar(1 + Math.sin(t * 2) * 0.03);
-
-    particles.rotation.y += 0.0002;
-
-    // subtle camera drift (cinematic feel)
-    camera.position.x = Math.sin(t * 0.2) * 0.2;
-    camera.position.y = Math.cos(t * 0.15) * 0.15;
-
-    composer.render();
-}
-
-function pulse() {
-    sphere.material.emissiveIntensity = 2.5;
-    setTimeout(() => sphere.material.emissiveIntensity = 1.2, 300);
-}
-
-function onResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-}
-</script></body>
+        // --- освещение core-сферы ---
+        const ambientLight = new THREE.AmbientLight(0x111122);
+        scene.add(ambientLight);
+        const mainLight = new THREE.DirectionalLight(0x88aaff, 1.2);
+        mainLight.position.set(2, 3, 4);
+        scene.add(mainLight);
+        const backLight = new THREE.PointLight(0x2266ff, 0.9);
+        backLight.position.set(-2, 1, -3);
+        scene.add(backLight);
+        const fillLight = new THREE.PointLight(0x44aaff, 0.5);
+        fillLight.position.set(1.5, 1, 2);
+        scene.add(fillLight);
+        
+        // динамический свет от сферы
+        const coreGlow = new THREE.PointLight(0x00aaff, 1.4, 12);
+        coreGlow.position.set(0, 0, 0);
+        scene.add(coreGlow);
+        
+        // --- основная сфера (интеллектуальная, с текстурой-сеткой и эмиссивной картой) ---
+        const geometry = new THREE.SphereGeometry(1.52, 256, 256);
+        // Создаем текстуру-сетку для технологичного вида (линии/хексагоны)
+        const canvasTexture = document.createElement('canvas');
+        const ctx = canvasTexture.getContext('2d');
+        canvasTexture.width = 1024;
+        canvasTexture.height = 1024;
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, canvasTexture.width, canvasTexture.height);
+        ctx.strokeStyle = '#3affff';
+        ctx.lineWidth = 4;
+        // рисуем сетку как на концепте: технологичные линии
+        const gridSteps = 28;
+        const step = canvasTexture.width / gridSteps;
+        for (let i = 0; i <= gridSteps; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * step, 0);
+            ctx.lineTo(i * step, canvasTexture.height);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(0, i * step);
+            ctx.lineTo(canvasTexture.width, i * step);
+            ctx.stroke();
+        }
+        // концентрические круги
+        for (let r = 1; r <= 6; r++) {
+            ctx.beginPath();
+            ctx.arc(canvasTexture.width/2, canvasTexture.height/2, (canvasTexture.width/2) * (r/7), 0, Math.PI * 2);
+            ctx.strokeStyle = '#2affcc';
+            ctx.stroke();
+        }
+        // точки по углам
+        ctx.fillStyle = '#aaffff';
+        for (let i = 0; i < 200; i++) {
+            const x = Math.random() * canvasTexture.width;
+            const y = Math.random() * canvasTexture.height;
+            ctx.fillRect(x, y, 2, 2);
+        }
+        const techMap = new THREE.CanvasTexture(canvasTexture);
+        
+        const material = new THREE.MeshStandardMaterial({
+            color: 0x0a1430,
+            emissive: 0x2266aa,
+            emissiveIntensity: 1.2,
+            metalness: 0.7,
+            roughness: 0.35,
+            map: techMap,
+            emissiveMap: techMap
+        });
+        
+        const sphereMesh = new THREE.Mesh(geometry, material);
+        scene.add(sphereMesh);
+        
+        // Добавим внутреннего свечения - дополнительную полусферу с бликом
+        const innerGlowMat = new THREE.MeshBasicMaterial({
+            color: 0x44aaff,
+            transparent: true,
+            opacity: 0.12,
+            side: THREE.BackSide
+        });
+        const innerSphere = new THREE.Mesh(new THREE.SphereGeometry(1.35, 64, 64), innerGlowMat);
+        scene.add(innerSphere);
+        
+        // --- частицы звездоподобные поле (техно туманность) ---
+        const particleCount = 3500;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+            // Распределение в сферической оболочке
+            const radius = 4 + Math.random() * 5;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            particlePositions[i*3] = radius * Math.sin(phi) * Math.cos(theta);
+            particlePositions[i*3+1] = radius * Math.sin(phi) * Math.sin(theta) * 0.8;
+            particlePositions[i*3+2] = radius * Math.cos(phi);
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+        const particleMat = new THREE.PointsMaterial({
+            color: 0x88ddff,
+            size: 0.035,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+        const starFieldPoints = new THREE.Points(particleGeo, particleMat);
+        scene.add(starFieldPoints);
+        
+        // более яркие звезды вокруг
+        const starBrightCount = 800;
+        const brightGeo = new THREE.BufferGeometry();
+        const brightPos = [];
+        for (let i = 0; i < starBrightCount; i++) {
+            const r = 6 + Math.random() * 8;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            brightPos.push(r * Math.sin(phi) * Math.cos(theta));
+            brightPos.push(r * Math.sin(phi) * Math.sin(theta) * 0.7);
+            brightPos.push(r * Math.cos(phi));
+        }
+        brightGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(brightPos), 3));
+        const brightMat = new THREE.PointsMaterial({ color: 0xffccaa, size: 0.055, transparent: true, blending: THREE.AdditiveBlending });
+        const brightStars = new THREE.Points(brightGeo, brightMat);
+        scene.add(brightStars);
+        
+        // Динамическая аура (кольца)
+        const ringGeo = new THREE.TorusGeometry(1.68, 0.035, 128, 400);
+        const ringMat = new THREE.MeshStandardMaterial({ color: 0x33ddff, emissive: 0x2288aa, emissiveIntensity: 1.2 });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI / 2;
+        scene.add(ring);
+        
+        const secondRingGeo = new THREE.TorusGeometry(1.85, 0.02, 128, 400);
+        const ringMat2 = new THREE.MeshStandardMaterial({ color: 0x77ffff, emissive: 0x00aacc });
+        const ring2 = new THREE.Mesh(secondRingGeo, ringMat2);
+        ring2.rotation.x = Math.PI / 2 + 0.3;
+        ring2.rotation.z = 0.5;
+        scene.add(ring2);
+        
+        // --- переменные анимации ---
+        let rotationSpeed = 0.0028;
+        let time = 0;
+        let pulseActive = false;
+        let nebulaVar = 72;
+        let starfieldVar = 88;
+        let cosmicWindVar = 64;
+        let coreEnergyVar = 82;
+        
+        // Элементы интерфейса для обновления значений как на картинке
+        const coreFlowSpan = document.getElementById('coreFlowVal');
+        const nebulaSpan = document.getElementById('nebulaDensity');
+        const starfieldSpan = document.getElementById('starfieldVal');
+        const cosmicSpan = document.getElementById('cosmicWindVal');
+        const energyFlowSpan = document.getElementById('energyFlow');
+        const freqSpan = document.getElementById('freqVal');
+        const liveTimeSpan = document.getElementById('liveTime');
+        
+        // Обновление времени в реальном времени
+        function updateSystemTime() {
+            const now = new Date();
+            const hh = String(now.getHours()).padStart(2,'0');
+            const mm = String(now.getMinutes()).padStart(2,'0');
+            const ss = String(now.getSeconds()).padStart(2,'0');
+            liveTimeSpan.textContent = `${hh}:${mm}:${ss}`;
+        }
+        setInterval(updateSystemTime, 1000);
+        updateSystemTime();
+        
+        // Плавные изменения данных, имитирующие живой интерфейс (как на оригинальном изображении)
+        setInterval(() => {
+            if (!pulseActive) {
+                coreEnergyVar = Math.max(65, Math.min(92, coreEnergyVar + (Math.random() - 0.5) * 2));
+                nebulaVar = Math.max(55, Math.min(88, nebulaVar + (Math.random() - 0.5) * 2.2));
+                starfieldVar = Math.max(70, Math.min(96, starfieldVar + (Math.random() - 0.5) * 1.5));
+                cosmicWindVar = Math.max(50, Math.min(85, cosmicWindVar + (Math.random() - 0.5) * 2.5));
+            } else {
+                // Во время пульса показатели вспыхивают
+                coreEnergyVar += 5;
+                nebulaVar += 4;
+                if(coreEnergyVar > 98) coreEnergyVar = 82;
+                if(nebulaVar > 94) nebulaVar = 72;
+            }
+            coreFlowSpan.innerText = Math.floor(coreEnergyVar) + '%';
+            nebulaSpan.innerText = Math.floor(nebulaVar) + '%';
+            starfieldSpan.innerText = Math.floor(starfieldVar) + '%';
+            cosmicSpan.innerText = Math.floor(cosmicWindVar) + '%';
+            energyFlowSpan.innerText = Math.floor(coreEnergyVar) + '%';
+            // частота слегка дрейфует
+            let freqBase = 7.83;
+            let drift = (Math.sin(Date.now() / 4500) * 0.12).toFixed(2);
+            freqSpan.innerText = (freqBase + parseFloat(drift)).toFixed(2) + ' Hz';
+        }, 380);
+        
+        // Пульс-эффект (интерактивный и кнопка)
+        function triggerPulse() {
+            pulseActive = true;
+            // визуальный эффект сферы
+            material.emissiveIntensity = 2.9;
+            coreGlow.intensity = 2.8;
+            innerGlowMat.opacity = 0.35;
+            // анимация кольца
+            const ringPulse = document.getElementById('pulseRing');
+            ringPulse.style.opacity = '1';
+            ringPulse.style.transition = 'transform 0.2s ease-out, opacity 0.4s';
+            ringPulse.style.transform = 'scale(1.8)';
+            setTimeout(() => {
+                ringPulse.style.opacity = '0';
+                ringPulse.style.transform = 'scale(1)';
+            }, 400);
+            
+            setTimeout(() => {
+                material.emissiveIntensity = 1.2;
+                coreGlow.intensity = 1.4;
+                innerGlowMat.opacity = 0.12;
+                pulseActive = false;
+            }, 380);
+            // дополнительные блики на камеру
+            camera.position.z = 5.7;
+            setTimeout(() => {
+                camera.position.z = 5.8;
+            }, 180);
+        }
+        
+        // Обработчики
+        document.getElementById('pulseEffectBtn').addEventListener('click', triggerPulse);
+        const tapHoldBtn = document.getElementById('tapInteract');
+        let holdTimeout = null;
+        tapHoldBtn.addEventListener('mousedown', () => {
+            holdTimeout = setTimeout(() => {
+                triggerPulse();
+            }, 200);
+        });
+        tapHoldBtn.addEventListener('mouseup', () => clearTimeout(holdTimeout));
+        tapHoldBtn.addEventListener('mouseleave', () => clearTimeout(holdTimeout));
+        tapHoldBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            holdTimeout = setTimeout(() => triggerPulse(), 200);
+        });
+        tapHoldBtn.addEventListener('touchend', () => clearTimeout(holdTimeout));
+        
+        document.getElementById('speedUpBtn').addEventListener('click', () => {
+            rotationSpeed = Math.min(0.007, rotationSpeed + 0.0008);
+        });
+        document.getElementById('speedDownBtn').addEventListener('click', () => {
+            rotationSpeed = Math.max(0.0008, rotationSpeed - 0.0008);
+        });
+        
+        // Адаптация под размер окна
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            effectComposer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // ---  анимация и вращение / динамические параметры ---
+        let angel = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = 1/60;
+            time += delta;
+            
+            // Вращение сферы и колец
+            sphereMesh.rotation.y += rotationSpeed;
+            sphereMesh.rotation.x += rotationSpeed * 0.25;
+            innerSphere.rotation.y = sphereMesh.rotation.y;
+            innerSphere.rotation.x = sphereMesh.rotation.x;
+            ring.rotation.z += 0.005;
+            ring2.rotation.x += 0.003;
+            ring2.rotation.y += 0.004;
+            
+            // мягкое покачивание звездной системы
+            starFieldPoints.rotation.y += 0.0002;
+            brightStars.rotation.x += 0.0001;
+            
+            // динамический свет от сферы плавно меняется в такт пульсу
+            if (!pulseActive) {
+                const breath = 0.9 + Math.sin(time * 1.8) * 0.1;
+                coreGlow.intensity = 1.2 + Math.sin(time * 2.2) * 0.25;
+                material.emissiveIntensity = 1.15 + Math.sin(time * 2.5) * 0.12;
+            }
+            
+            // Микродвижения камеры (кинематографичный эффект)
+            camera.position.x += (0 - camera.position.x) * 0.05;
+            camera.position.y += (Math.sin(time * 0.2) * 0.03 - camera.position.y) * 0.08;
+            camera.lookAt(0, 0, 0);
+            
+            effectComposer.render();
+        }
+        
+        animate();
+        
+        // Небольшой лог для стилизации: инициализация значений как на картинке
+        coreFlowSpan.innerText = '82%';
+        nebulaSpan.innerText = '72%';
+        starfieldSpan.innerText = '88%';
+        cosmicSpan.innerText = '64%';
+        energyFlowSpan.innerText = '82%';
+        
+        // Добавим Glow-эффект на кнопку "Tap and hold"
+        const styleGlow = document.createElement('style');
+        styleGlow.innerHTML = `.interact-prompt { animation: softGlow 2s infinite; } @keyframes softGlow { 0% { text-shadow: 0 0 2px cyan; border-color: rgba(0,255,255,0.5);} 100% { text-shadow: 0 0 10px cyan; border-color: cyan; } }`;
+        document.head.appendChild(styleGlow);
+    </script>
+</body>
 </html>

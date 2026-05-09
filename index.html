@@ -2,11 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATIG - Artificial Transformational Intelligence Guide | Полноценная рабочая платформа</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ATIG — Artificial Transformational Intelligence Guide | AI-компаньон нового поколения</title>
+    <meta name="description" content="ATIG — живой AI-компаньон. Чат, голос, 3D сфера, машинное обучение, агенты и мультимедиа в одной платформе.">
+    <meta name="keywords" content="AI, искусственный интеллект, ATIG, чат с AI, голосовой ассистент">
+    <meta name="author" content="ATIG">
+    <meta property="og:title" content="ATIG — Artificial Transformational Intelligence Guide">
+    <meta property="og:description" content="Ваш персональный AI-компаньон нового поколения">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- TensorFlow.js для ML -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -21,7 +31,6 @@
             line-height: 1.6;
         }
 
-        /* скролл */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -40,7 +49,6 @@
             padding: 1.5rem;
         }
 
-        /* хедер */
         .header {
             text-align: center;
             margin-bottom: 2.5rem;
@@ -69,7 +77,6 @@
             backdrop-filter: blur(4px);
         }
 
-        /* сетка */
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
@@ -159,9 +166,46 @@
         canvas {
             max-height: 200px;
         }
+        
+        /* Стили для чата */
+        .chat-message {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+        .chat-message.user { justify-content: flex-end; }
+        .chat-message.user .chat-content {
+            background: linear-gradient(135deg, #2a3a6e, #1e2a4a);
+            border-radius: 1.2rem 1.2rem 0.2rem 1.2rem;
+        }
+        .chat-message.assistant .chat-content {
+            background: rgba(79, 184, 255, 0.15);
+            border-radius: 1.2rem 1.2rem 1.2rem 0.2rem;
+        }
+        .chat-content {
+            padding: 0.75rem 1rem;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .chat-avatar {
+            width: 32px;
+            height: 32px;
+            background: rgba(79, 184, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         @media (max-width: 700px) {
             .grid-2 { grid-template-columns: 1fr; }
             .container { padding: 1rem; }
+            .chat-content { max-width: 85%; }
         }
     </style>
 </head>
@@ -174,6 +218,7 @@
             <div class="status-badge">🧠 ИИ-модели: активны</div>
             <div class="status-badge">🤖 Агентный слой: 5 агентов</div>
             <div class="status-badge">🔐 Безопасность: включена</div>
+            <div class="status-badge">🎤 Голос: готов</div>
         </div>
     </div>
 
@@ -191,9 +236,9 @@
                 <canvas id="imageCanvas" width="200" height="150" style="border-radius: 1rem; background: #000; margin-top: 8px;"></canvas>
                 <p id="visionResult">Распознавание: ожидание изображения...</p>
                 <hr>
-                <div><strong>🧠 Локальный LLM (демо с эхо-интеллектом):</strong></div>
+                <div><strong>🧠 ATIG AI (DeepSeek):</strong></div>
                 <textarea id="llmPrompt" rows="2" placeholder="Задайте вопрос ИИ...">Как ATIG помогает бизнесу?</textarea>
-                <button onclick="askLocalLLM()">💬 Ответ ИИ</button>
+                <button onclick="askRealAI()">💬 Ответ ИИ</button>
                 <div id="llmResponse" class="badge" style="display:block; margin-top: 8px;">Ответ появится здесь</div>
             </div>
         </div>
@@ -218,8 +263,6 @@
             <button onclick="searchDocuments()">🔍 Поиск</button>
             <div id="searchResults"></div>
             <hr>
-            <div><strong>Анализ изображения (загрузите фото выше, затем анализ)</strong></div>
-            <button onclick="analyzeImageDetails()">🖼️ Детальный анализ изображения</button>
             <div><strong>Тональность текста:</strong></div>
             <textarea id="sentimentText" rows="2" placeholder="Введите текст для анализа тональности">ATIG потрясающая платформа, я в восторге!</textarea>
             <button onclick="analyzeSentiment()">📝 Анализ тональности</button>
@@ -236,7 +279,7 @@
                 - Изучите агентный слой ATIG<br>
                 - Настройте дашборд безопасности
             </div>
-            <button onclick="generateBusinessSolution()">💼 Бизнес-решение (AI insignt)</button>
+            <button onclick="generateBusinessSolution()">💼 Бизнес-решение (AI insight)</button>
             <div id="businessInsight"></div>
         </div>
     </div>
@@ -244,51 +287,75 @@
     <!-- 3. АГЕНТНЫЙ СЛОЙ + МУЛЬТИАГЕНТЫ И РЕСУРСЫ -->
     <div class="card">
         <div class="card-title">🤝 АГЕНТНЫЙ СЛОЙ | МУЛЬТИ-АГЕНТНАЯ СИСТЕМА | УПРАВЛЕНИЕ РЕСУРСАМИ</div>
-        <div class="agent-panel" id="agentsPanel">
-            <!-- Динамические агенты -->
-        </div>
+        <div class="agent-panel" id="agentsPanel"></div>
         <button onclick="runAllAgents()">▶️ Запустить всех агентов (выполнение задач)</button>
         <button onclick="planTaskWithAgents()">📋 Планирование + динамическое задание</button>
         <div id="agentLogs" style="background:#00000055; border-radius: 1rem; padding: 0.8rem; margin-top: 1rem; max-height: 150px; overflow-y: auto; font-family: monospace;"></div>
         <hr>
         <div><strong>⚙️ СИСТЕМА УПРАВЛЕНИЯ РЕСУРСАМИ (Real-time метрики)</strong></div>
-        <div class="resource-metrics" id="resourceMetrics">
+        <div class="resource-metrics">
             <div class="metric">🧠 CPU: <span id="cpuUsage">0</span>%</div>
             <div class="metric">💾 RAM: <span id="ramUsage">0</span> MB</div>
             <div class="metric">📀 Хранилище: <span id="storageUsage">0</span> MB</div>
         </div>
     </div>
 
-    <!-- 4. GOVERNANCE & SAFETY -->
+    <!-- 4. РЕАЛЬНЫЙ AI ЧАТ (РАБОТАЕТ ЧЕРЕЗ API) -->
+    <div class="card" style="margin-top: 1rem;">
+        <div class="card-title">💬 ATIG REAL AI CHAT — ЖИВОЙ ДИАЛОГ</div>
+        <div id="chatContainer" style="height: 350px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem;">
+            <div style="text-align: center; color: #888;">✨ Напишите или скажите что-нибудь, чтобы начать общение с AI ✨</div>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <input type="text" id="chatInput" placeholder="Спросите у ATIG..." style="flex: 1;" onkeypress="if(event.key==='Enter') sendChatMessage()">
+            <button onclick="sendChatMessage()">📤 Отправить</button>
+            <button onclick="startVoiceChat()">🎤 Голос</button>
+            <button onclick="speakLastResponse()">🔊 Озвучить</button>
+            <button onclick="clearChat()">🗑️ Очистить</button>
+        </div>
+    </div>
+
+    <!-- 5. GOVERNANCE & SAFETY -->
     <div class="card">
         <div class="card-title">🛡️ GOVERNANCE & SAFETY — УПРАВЛЕНИЕ, БЕЗОПАСНОСТЬ, ПРАВА</div>
         <button onclick="encryptDataDemo()">🔐 Шифровать тестовые данные</button>
         <button onclick="auditLogAction()">📜 Аудит безопасности</button>
         <div id="securityStatus">Статус: Защита прав человека активна, контроль данных включён.</div>
     </div>
+    
     <div class="footer-note" style="text-align: center; margin-top: 2rem; padding: 1rem; border-top: 1px solid #2d3a5e;">
-        ATIG — полностью работающая экосистема ИИ, агентов, анализа, ML и безопасности.
+        ATIG — полностью работающая экосистема ИИ, агентов, анализа, ML и безопасности.<br>
+        ⚡ Работает на DeepSeek API | Голосовой ассистент | Реальное машинное обучение
     </div>
 </div>
 
 <script>
-    // ---------------------- ГЛОБАЛЬНЫЕ КОМПОНЕНТЫ ----------------------
+    // ====================== ГЛОБАЛЬНЫЕ КОМПОНЕНТЫ ======================
     let mobilenetModel = null;
     let trainingData = [];
     let mlModel = null;
     let userActions = ['аналитика'];
-
-    // Загрузка модели MobileNet
+    
+    // Реальный AI чат
+    let realChatHistory = [];
+    let lastAIResponse = '';
+    let isAILoading = false;
+    
+    // ⚠️ ВАШ API КЛЮЧ DEEPSEEK — ЗАМЕНИТЕ НА СВОЙ! ⚠️
+    // Получить: https://platform.deepseek.com/
+    const DEEPSEEK_API_KEY = 'sk-ваш_ключ_сюда';  // <--- ВСТАВЬТЕ СВОЙ КЛЮЧ!!!
+    const DEEPSEEK_URL = 'https://api.deepseek.com/v1/chat/completions';
+    
+    // ========== Загрузка MobileNet ==========
     async function loadMobileNet() {
         try {
             mobilenetModel = await mobilenet.load();
-            console.log("MobileNet загружена");
             document.getElementById("visionResult").innerText = "Модель готова, загрузите изображение";
         } catch(e) { console.error(e); }
     }
     loadMobileNet();
-
-    // обработка изображения
+    
+    // Обработка изображения
     document.getElementById("imageUpload").addEventListener("change", function(e) {
         const file = e.target.files[0];
         if(file && mobilenetModel) {
@@ -305,165 +372,121 @@
             img.src = URL.createObjectURL(file);
         }
     });
-
-    // Speech Recognition
-    function startSpeechRecognition() {
-        if('webkitSpeechRecognition' in window) {
-            const recognition = new webkitSpeechRecognition();
-            recognition.lang = 'ru-RU';
-            recognition.onresult = (event) => {
-                const text = event.results[0][0].transcript;
-                alert("Распознано: " + text);
-                document.getElementById("llmPrompt").value = text;
-            };
-            recognition.start();
-        } else alert("Ваш браузер не поддерживает распознавание речи");
-    }
-    function speakText() {
-        const msg = new SpeechSynthesisUtterance(document.getElementById("ttsText").value);
-        msg.lang = 'ru-RU';
-        window.speechSynthesis.speak(msg);
-    }
-    function askLocalLLM() {
+    
+    // ========== Реальный AI через DeepSeek API ==========
+    async function askRealAI() {
         const prompt = document.getElementById("llmPrompt").value;
-        // имитация интеллекта с простой логикой
-        let response = `🤖 ATIG LLM: Анализ запроса "${prompt}". Рекомендую использовать агентный слой и контекстную аналитику. Уверенность: 98%.`;
-        if(prompt.includes("бизнес")) response = "📊 Бизнес-решение: Внедрение ATIG увеличивает эффективность на 43% за счёт мультиагентной оркестрации.";
-        if(prompt.includes("безопасность")) response = "🔒 Ваша безопасность: используется шифрование AES-256 и контроль доступа на основе ролей.";
-        document.getElementById("llmResponse").innerHTML = response;
-    }
-
-    // ------------- ML обучение -------------
-    let chartCtx, regressionChart;
-    function initChart() {
-        const canvas = document.getElementById("regressionChart");
-        if(regressionChart) regressionChart.destroy();
-        chartCtx = canvas.getContext("2d");
-        regressionChart = new Chart(chartCtx, {
-            type: 'scatter',
-            data: { datasets: [{ label: 'Обучающие данные', data: [], borderColor: '#4FB8FF' }] },
-            options: { scales: { x: { title: { display: true, text: 'x' } }, y: { title: { display: true, text: 'y' } } } }
-        });
-    }
-    initChart();
-    function addTrainingData() {
-        let x = parseFloat(document.getElementById("trainX").value);
-        let y = parseFloat(document.getElementById("trainY").value);
-        trainingData.push({x, y});
-        updateChart();
-        document.getElementById("dataCount").innerText = trainingData.length;
-    }
-    function updateChart() {
-        regressionChart.data.datasets[0].data = trainingData.map(d => ({x: d.x, y: d.y}));
-        regressionChart.update();
-    }
-    async function trainSimpleModel() {
-        if(trainingData.length < 2) { alert("Добавьте минимум 2 точки"); return; }
-        const xs = tf.tensor1d(trainingData.map(d => d.x));
-        const ys = tf.tensor1d(trainingData.map(d => d.y));
-        mlModel = tf.sequential();
-        mlModel.add(tf.layers.dense({units: 1, inputShape: [1]}));
-        mlModel.compile({optimizer: 'sgd', loss: 'meanSquaredError'});
-        await mlModel.fit(xs, ys, {epochs: 100});
-        document.getElementById("mlStatus").innerText = `Статус: Обучена | Данных: ${trainingData.length}`;
-        predictModel();
-    }
-    function predictModel() {
-        if(!mlModel) { alert("Сначала обучите модель"); return; }
-        const pred = mlModel.predict(tf.tensor1d([5])).dataSync()[0];
-        alert(`Предсказание для x=5: ${pred.toFixed(2)}`);
-    }
-
-    // Поиск документов
-    const documents = ["ATIG использует AI модели", "Агентный слой управляет API", "Безопасность и шифрование данных", "Рекомендации на основе ML", "Мультиагентные системы"];
-    function searchDocuments() {
-        const query = document.getElementById("searchQuery").value.toLowerCase();
-        const results = documents.filter(d => d.toLowerCase().includes(query));
-        document.getElementById("searchResults").innerHTML = results.length ? results.map(r => `<div class="badge">📄 ${r}</div>`).join('') : "Ничего не найдено";
-    }
-    function analyzeSentiment() {
-        const text = document.getElementById("sentimentText").value;
-        const positive = ["потрясающая", "восторг", "хорошо", "отлично", "эффективно"];
-        const negative = ["плохо", "ужасно", "ошибка", "сложно"];
-        let score = 0;
-        positive.forEach(p => { if(text.toLowerCase().includes(p)) score+=1; });
-        negative.forEach(n => { if(text.toLowerCase().includes(n)) score-=1; });
-        const sentiment = score > 0 ? "😃 Позитивная" : (score < 0 ? "😞 Негативная" : "😐 Нейтральная");
-        document.getElementById("sentimentResult").innerHTML = `Тональность: ${sentiment} (скор: ${score})`;
-    }
-    function analyzeImageDetails() {
-        alert("Для детального анализа загрузите изображение в блок AI MODELS и используйте компьютерное зрение. Уже есть классификация выше.");
-    }
-    function recordAction(action) {
-        userActions.push(action);
-        if(userActions.length>5) userActions.shift();
-        updateRecommendations();
-    }
-    function updateRecommendations() {
-        let rec = "Рекомендации: ";
-        if(userActions.includes('аналитика')) rec += "📈 Загрузите датасет для глубокого анализа; ";
-        if(userActions.includes('агенты')) rec += "🤖 Активируйте мультиагентное планирование; ";
-        if(userActions.includes('безопасность')) rec += "🔐 Проверьте журнал аудита; ";
-        document.getElementById("recommendationsList").innerHTML = `<strong>Персональные предложения:</strong><br>${rec}`;
-    }
-    function generateBusinessSolution() {
-        document.getElementById("businessInsight").innerHTML = `<div class="badge">💼 AI-инсайт: Автоматизация на основе ATIG снижает затраты на 27% и увеличивает скорость решений на 62%.</div>`;
-    }
-
-    // ---------- МУЛЬТИ-АГЕНТЫ ----------
-    class ATIGAgent {
-        constructor(name, role) { this.name = name; this.role = role; }
-        async executeTask(task) { return `[${this.name}] Выполнено: ${task}`; }
-    }
-    const agents = [
-        new ATIGAgent("Аналитик", "Анализ данных"), new ATIGAgent("Планировщик", "Постановка целей"), new ATIGAgent("Интегратор API", "API и внешние сервисы"),
-        new ATIGAgent("Страж безопасности", "Контроль доступа"), new ATIGAgent("Оптимизатор", "Управление ресурсами")
-    ];
-    function displayAgents() {
-        const panel = document.getElementById("agentsPanel");
-        panel.innerHTML = agents.map(a => `<div class="agent-card">🧠 ${a.name}<br><small>${a.role}</small></div>`).join('');
-    }
-    displayAgents();
-    function addLog(msg) { const logs = document.getElementById("agentLogs"); logs.innerHTML += `<div>🤖 ${new Date().toLocaleTimeString()} - ${msg}</div>`; logs.scrollTop = logs.scrollHeight; }
-    async function runAllAgents() {
-        addLog("Запуск мультиагентной системы...");
-        for(let agent of agents) {
-            const res = await agent.executeTask(`задача по роли ${agent.role}`);
-            addLog(res);
+        if (!prompt) return;
+        
+        document.getElementById("llmResponse").innerHTML = "⏳ Думаю...";
+        
+        try {
+            const response = await fetch(DEEPSEEK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'deepseek-chat',
+                    messages: [{ role: 'user', content: prompt }],
+                    stream: false,
+                    temperature: 0.7,
+                    max_tokens: 500
+                })
+            });
+            
+            const data = await response.json();
+            const aiResponse = data.choices[0].message.content;
+            document.getElementById("llmResponse").innerHTML = aiResponse;
+        } catch (error) {
+            console.error('AI Error:', error);
+            document.getElementById("llmResponse").innerHTML = "⚠️ Ошибка подключения к AI. Проверьте API ключ.";
         }
-        addLog("✅ Все агенты завершили задачи.");
     }
-    async function planTaskWithAgents() {
-        addLog("Слой планирования: постановка целей -> динамическое задание.");
-        const planner = agents.find(a => a.name === "Планировщик");
-        const analyst = agents.find(a => a.name === "Аналитик");
-        const security = agents.find(a => a.name === "Страж безопасности");
-        if(planner) addLog(await planner.executeTask("Разработка плана автоматизации бизнеса."));
-        if(analyst) addLog(await analyst.executeTask("Сбор и анализ KPI."));
-        if(security) addLog(await security.executeTask("Проверка прав доступа, шифрование."));
-        addLog("Плановое решение выполнено, мультиагенты скоординированы.");
+    
+    // Функции чата
+    function addChatMessage(role, content) {
+        realChatHistory.push({ role, content });
+        displayChatMessages();
+        if (role === 'assistant') {
+            lastAIResponse = content;
+            saveChatHistory();
+        }
     }
-
-    // Управление ресурсами (имитация)
-    function updateResources() {
-        const cpu = Math.floor(Math.random() * 60 + 10);
-        const ram = Math.floor(Math.random() * 800 + 200);
-        const storage = Math.floor(Math.random() * 1000 + 100);
-        document.getElementById("cpuUsage").innerText = cpu;
-        document.getElementById("ramUsage").innerText = ram;
-        document.getElementById("storageUsage").innerText = storage;
+    
+    function displayChatMessages() {
+        const container = document.getElementById('chatContainer');
+        if (!container) return;
+        
+        if (realChatHistory.length === 0) {
+            container.innerHTML = '<div style="text-align: center; color: #888;">✨ Напишите или скажите что-нибудь, чтобы начать общение с AI ✨</div>';
+            return;
+        }
+        
+        container.innerHTML = realChatHistory.map(msg => `
+            <div class="chat-message ${msg.role}">
+                <div class="chat-avatar">${msg.role === 'user' ? '👤' : '🤖'}</div>
+                <div class="chat-content">${escapeHtml(msg.content)}</div>
+            </div>
+        `).join('');
+        container.scrollTop = container.scrollHeight;
     }
-    setInterval(updateResources, 3000);
-    updateResources();
-
-    // Безопасность
-    function encryptDataDemo() { alert("🔒 Данные зашифрованы AES-256. Контролируется доступ агентов."); addLog("Безопасность: выполнено шифрование данных."); }
-    function auditLogAction() { alert("Журнал аудита: все действия пользователей и агентов зафиксированы. Нарушений нет."); addLog("Аудит безопасности проведён."); }
-
-    // init recommendations
-    updateRecommendations();
-    // демо анализа текста звуков (имитация для спектра)
-    console.log("ATIG полностью активен: модели, агенты, ML, управление, рекомендации");
-</script>
-</body>
-</html>
+    
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    function saveChatHistory() {
+        localStorage.setItem('atig_chat_history', JSON.stringify(realChatHistory.slice(-100)));
+    }
+    
+    function loadChatHistory() {
+        const saved = localStorage.getItem('atig_chat_history');
+        if (saved) {
+            realChatHistory = JSON.parse(saved);
+            displayChatMessages();
+            if (realChatHistory.length > 0) {
+                lastAIResponse = realChatHistory.filter(m => m.role === 'assistant').pop()?.content || '';
+            }
+        }
+    }
+    
+    async function sendChatMessage() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        if (!message || isAILoading) return;
+        
+        input.value = '';
+        addChatMessage('user', message);
+        isAILoading = true;
+        
+        // Индикатор загрузки
+        const loadingId = Date.now();
+        realChatHistory.push({ role: 'assistant', content: '...', isLoading: true, id: loadingId });
+        displayChatMessages();
+        
+        try {
+            const response = await fetch(DEEPSEEK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'deepseek-chat',
+                    messages: realChatHistory.filter(m => !m.isLoading && m.content !== '...').map(m => ({ role: m.role, content: m.content })),
+                    stream: false,
+                    temperature: 0.7,
+                    max_tokens: 800
+                })
+            });
+            
+            const data = await response.json();
+            const aiResponse = data.choices[0].message.content;
+            
+            // Убираем индикатор
+            realChatHistory = realChatHistory.filter(m => m.id !== loadingId);
+  

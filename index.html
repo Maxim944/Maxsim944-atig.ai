@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>ATIG — Artificial Transformational Intelligence Guide | AI-компаньон нового поколения</title>
     <meta name="description" content="ATIG — живой AI-компаньон. Чат, голос, 3D сфера, машинное обучение, агенты и мультимедиа в одной платформе.">
-    <meta name="keywords" content="AI, искусственный интеллект, ATIG, чат с AI, голосовой ассистент">
-    <meta name="author" content="ATIG">
-    <meta property="og:title" content="ATIG — Artificial Transformational Intelligence Guide">
-    <meta property="og:description" content="Ваш персональный AI-компаньон нового поколения">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
     
     <!-- TensorFlow.js для ML -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js"></script>
@@ -219,6 +213,7 @@
             <div class="status-badge">🤖 Агентный слой: 5 агентов</div>
             <div class="status-badge">🔐 Безопасность: включена</div>
             <div class="status-badge">🎤 Голос: готов</div>
+            <div class="status-badge">⚡ Groq AI: бесплатно</div>
         </div>
     </div>
 
@@ -236,7 +231,7 @@
                 <canvas id="imageCanvas" width="200" height="150" style="border-radius: 1rem; background: #000; margin-top: 8px;"></canvas>
                 <p id="visionResult">Распознавание: ожидание изображения...</p>
                 <hr>
-                <div><strong>🧠 ATIG AI (DeepSeek):</strong></div>
+                <div><strong>🧠 ATIG AI (Groq + Llama 3):</strong></div>
                 <textarea id="llmPrompt" rows="2" placeholder="Задайте вопрос ИИ...">Как ATIG помогает бизнесу?</textarea>
                 <button onclick="askRealAI()">💬 Ответ ИИ</button>
                 <div id="llmResponse" class="badge" style="display:block; margin-top: 8px;">Ответ появится здесь</div>
@@ -300,9 +295,9 @@
         </div>
     </div>
 
-    <!-- 4. РЕАЛЬНЫЙ AI ЧАТ (РАБОТАЕТ ЧЕРЕЗ API) -->
+    <!-- 4. РЕАЛЬНЫЙ AI ЧАТ (Groq API - БЕСПЛАТНО) -->
     <div class="card" style="margin-top: 1rem;">
-        <div class="card-title">💬 ATIG REAL AI CHAT — ЖИВОЙ ДИАЛОГ</div>
+        <div class="card-title">💬 ATIG REAL AI CHAT — ЖИВОЙ ДИАЛОГ (Groq Llama 3)</div>
         <div id="chatContainer" style="height: 350px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem;">
             <div style="text-align: center; color: #888;">✨ Напишите или скажите что-нибудь, чтобы начать общение с AI ✨</div>
         </div>
@@ -312,6 +307,9 @@
             <button onclick="startVoiceChat()">🎤 Голос</button>
             <button onclick="speakLastResponse()">🔊 Озвучить</button>
             <button onclick="clearChat()">🗑️ Очистить</button>
+        </div>
+        <div class="badge" style="margin-top: 8px; text-align: center; display: block;">
+            ⚡ Используется Groq API (бесплатно, до 30 запросов в минуту)
         </div>
     </div>
 
@@ -325,7 +323,7 @@
     
     <div class="footer-note" style="text-align: center; margin-top: 2rem; padding: 1rem; border-top: 1px solid #2d3a5e;">
         ATIG — полностью работающая экосистема ИИ, агентов, анализа, ML и безопасности.<br>
-        ⚡ Работает на DeepSeek API | Голосовой ассистент | Реальное машинное обучение
+        ⚡ Работает на Groq Llama 3 (бесплатно) | Голосовой ассистент | Реальное машинное обучение
     </div>
 </div>
 
@@ -341,10 +339,25 @@
     let lastAIResponse = '';
     let isAILoading = false;
     
-    // ⚠️ ВАШ API КЛЮЧ DEEPSEEK — ЗАМЕНИТЕ НА СВОЙ! ⚠️
-    // Получить: https://platform.deepseek.com/
-    const DEEPSEEK_API_KEY = 'sk-ваш_ключ_сюда';  // <--- ВСТАВЬТЕ СВОЙ КЛЮЧ!!!
-    const DEEPSEEK_URL = 'https://api.deepseek.com/v1/chat/completions';
+    // ⚠️ ПОЛУЧИТЕ БЕСПЛАТНЫЙ API КЛЮЧ GROQ:
+    // 1. Перейдите на https://console.groq.com
+    // 2. Зарегистрируйтесь (через Google или Email)
+    // 3. Создайте API Key
+    // 4. Вставьте его ниже
+    const GROQ_API_KEY = 'gsk_ваш_ключ_сюда';  // ЗАМЕНИТЕ НА СВОЙ КЛЮЧ!
+    const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+    
+    // Временный демо-режим (если ключа нет)
+    let demoMode = true;  // Автоматически включает демо-режим, если ключ не настроен
+    
+    // Проверяем, настроен ли ключ
+    if (GROQ_API_KEY === 'gsk_ваш_ключ_сюда') {
+        console.log("ℹ️ Режим демо: API ключ не настроен. Для реального AI получите ключ на console.groq.com");
+        demoMode = true;
+    } else {
+        demoMode = false;
+        console.log("✅ Groq API ключ настроен");
+    }
     
     // ========== Загрузка MobileNet ==========
     async function loadMobileNet() {
@@ -373,43 +386,60 @@
         }
     });
     
-    // ========== Реальный AI через DeepSeek API ==========
+    // ========== Реальный AI через Groq API (бесплатно) ==========
     async function askRealAI() {
         const prompt = document.getElementById("llmPrompt").value;
         if (!prompt) return;
         
         document.getElementById("llmResponse").innerHTML = "⏳ Думаю...";
         
+        if (demoMode) {
+            // Демо-режим: имитация ответа
+            setTimeout(() => {
+                const demoResponse = `🤖 ATIG (демо-режим): "${prompt}"\n\n✨ Чтобы получить реальный AI, зарегистрируйтесь на console.groq.com и вставьте API ключ в код.\n\n💡 Подсказка: Groq даёт 300,000 бесплатных токенов в день!`;
+                document.getElementById("llmResponse").innerHTML = demoResponse;
+            }, 500);
+            return;
+        }
+        
         try {
-            const response = await fetch(DEEPSEEK_URL, {
+            const response = await fetch(GROQ_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+                    'Authorization': `Bearer ${GROQ_API_KEY}`
                 },
                 body: JSON.stringify({
-                    model: 'deepseek-chat',
+                    model: 'llama3-8b-8192',
                     messages: [{ role: 'user', content: prompt }],
-                    stream: false,
                     temperature: 0.7,
                     max_tokens: 500
                 })
             });
             
             const data = await response.json();
-            const aiResponse = data.choices[0].message.content;
-            document.getElementById("llmResponse").innerHTML = aiResponse;
+            if (data.error) {
+                document.getElementById("llmResponse").innerHTML = `⚠️ Ошибка API: ${data.error.message}. Проверьте ключ.`;
+            } else {
+                const aiResponse = data.choices[0].message.content;
+                document.getElementById("llmResponse").innerHTML = aiResponse;
+            }
         } catch (error) {
             console.error('AI Error:', error);
-            document.getElementById("llmResponse").innerHTML = "⚠️ Ошибка подключения к AI. Проверьте API ключ.";
+            document.getElementById("llmResponse").innerHTML = "⚠️ Ошибка подключения к AI. Проверьте интернет или API ключ.";
         }
     }
     
     // Функции чата
     function addChatMessage(role, content) {
-        realChatHistory.push({ role, content });
+        if (content === '...' && role === 'assistant') {
+            // Индикатор загрузки
+            realChatHistory.push({ role, content, isLoading: true, id: Date.now() });
+        } else {
+            realChatHistory.push({ role, content });
+        }
         displayChatMessages();
-        if (role === 'assistant') {
+        if (role === 'assistant' && content !== '...') {
             lastAIResponse = content;
             saveChatHistory();
         }
@@ -440,7 +470,7 @@
     }
     
     function saveChatHistory() {
-        localStorage.setItem('atig_chat_history', JSON.stringify(realChatHistory.slice(-100)));
+        localStorage.setItem('atig_chat_history', JSON.stringify(realChatHistory.filter(m => !m.isLoading).slice(-100)));
     }
     
     function loadChatHistory() {
@@ -456,37 +486,4 @@
     
     async function sendChatMessage() {
         const input = document.getElementById('chatInput');
-        const message = input.value.trim();
-        if (!message || isAILoading) return;
-        
-        input.value = '';
-        addChatMessage('user', message);
-        isAILoading = true;
-        
-        // Индикатор загрузки
-        const loadingId = Date.now();
-        realChatHistory.push({ role: 'assistant', content: '...', isLoading: true, id: loadingId });
-        displayChatMessages();
-        
-        try {
-            const response = await fetch(DEEPSEEK_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: 'deepseek-chat',
-                    messages: realChatHistory.filter(m => !m.isLoading && m.content !== '...').map(m => ({ role: m.role, content: m.content })),
-                    stream: false,
-                    temperature: 0.7,
-                    max_tokens: 800
-                })
-            });
-            
-            const data = await response.json();
-            const aiResponse = data.choices[0].message.content;
-            
-            // Убираем индикатор
-            realChatHistory = realChatHistory.filter(m => m.id !== loadingId);
-  
+        const messag

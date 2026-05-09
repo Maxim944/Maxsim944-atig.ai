@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>КАРТА ВСЕЛЕННОЙ ATIG — Полная Архитектура</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body {
+      background: radial-gradient(circle at center, #0a0a2a 0%, #000011 100%);
+      color: #a0e7ff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    .glass {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(103, 232, 249, 0.35);
+    }
+    .neon-core {
+      animation: corePulse 7s ease-in-out infinite;
+    }
+    @keyframes corePulse {
+      0%, 100% { box-shadow: 0 0 90px #67e8f9, 0 0 150px #22d3ee; }
+      50% { box-shadow: 0 0 120px #67e8f9, 0 0 200px #22d3ee; }
+    }
+    .section:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 45px currentColor;
+    }
+  </style>
+</head>
+<body class="min-h-screen py-8 relative overflow-x-hidden">
+
+  <!-- SVG Connections -->
+  <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" id="connections"></svg>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-20">
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-bold tracking-widest">КАРТА ВСЕЛЕННОЙ ATIG</h1>
+      <p class="text-cyan-300 text-xl mt-3">Архитектура персонального ИИ нового поколения</p>
+    </div>
+
+    <!-- Центральное ядро -->
+    <div class="flex justify-center mb-16">
+      <div onclick="showDetail('core')" 
+           class="neon-core w-[420px] h-[420px] rounded-full border-8 border-cyan-400 bg-gradient-to-br from-purple-950 via-blue-950 to-indigo-950 flex items-center justify-center cursor-pointer hover:scale-105 transition-all">
+        <div class="text-center">
+          <div class="text-7xl font-black tracking-widest">ATIG</div>
+          <div class="text-4xl mt-3">CORE (IG-01)</div>
+          <div class="text-cyan-300 mt-8">Ядро интеллекта</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- FOUNDATION LAYER -->
+      <div class="lg:col-span-3">
+        <div onclick="showDetail('foundation')" class="section glass rounded-3xl p-7 cursor-pointer h-full">
+          <h2 class="text-xl font-bold text-cyan-400 mb-5">🧠 FOUNDATION LAYER</h2>
+          <ul class="space-y-2 text-sm">
+            <li>• AI Models (LLM, TTS, Multimodal)</li>
+            <li>• Machine Learning</li>
+            <li>• Transformers & Neural Networks</li>
+            <li>• Infrastructure (Cloud + Edge)</li>
+            <li>• Data Flows</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- INTELLIGENCE LAYER -->
+      <div class="lg:col-span-3">
+        <div onclick="showDetail('intelligence')" class="section glass rounded-3xl p-7 cursor-pointer h-full">
+          <h2 class="text-xl font-bold text-purple-400 mb-5">🧩 INTELLIGENCE LAYER</h2>
+          <ul class="space-y-2 text-sm">
+            <li>• Память (Краткосрочная + Долгосрочная)</li>
+            <li>• Контекст и Понимание</li>
+            <li>• Личность и Характер</li>
+            <li>• Этика и Ценности</li>
+            <li>• Эмоциональный Интеллект</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AGENTIC LAYER -->
+      <div class="lg:col-span-3">
+        <div onclick="showDetail('agentic')" class="section glass rounded-3xl p-7 cursor-pointer h-full">
+          <h2 class="text-xl font-bold text-emerald-400 mb-5">🤖 AGENTIC LAYER</h2>
+          <ul class="space-y-2 text-sm">
+            <li>• Слой Действий</li>
+            <li>• Слой Планирования</li>
+            <li>• Мульти-Агентная Система</li>
+            <li>• Автономное Выполнение Задач</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- GOVERNANCE & SAFETY -->
+      <div class="lg:col-span-3">
+        <div onclick="showDetail('governance')" class="section glass rounded-3xl p-7 cursor-pointer h-full">
+          <h2 class="text-xl font-bold text-amber-400 mb-5">🛡️ GOVERNANCE & SAFETY</h2>
+          <ul class="space-y-2 text-sm">
+            <li>• Этика и Прозрачность</li>
+            <li>• Защита Приватности</li>
+            <li>• Мониторинг и Аудит</li>
+            <li>• Контроль Безопасности</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Ecosystem -->
+    <div class="mt-16 glass rounded-3xl p-10">
+      <h2 onclick="showDetail('ecosystem')" class="text-3xl font-bold text-sky-400 text-center cursor-pointer hover:text-sky-300 mb-6">
+        🌐 REAL WORLD / ECOSYSTEM ATIG
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="text-sm">Мобильное приложение</div>
+        <div class="text-sm">Веб-платформа</div>
+        <div class="text-sm">Устройство Sphere</div>
+        <div class="text-sm">Офлайн-режим ATIG Lite</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+    <div class="glass max-w-2xl w-full rounded-3xl p-10 border border-cyan-400">
+      <button onclick="closeModal()" class="float-right text-5xl text-cyan-300 hover:text-white">×</button>
+      <h2 id="modalTitle" class="text-4xl font-bold text-cyan-300 mb-6"></h2>
+      <div id="modalContent" class="text-slate-200 text-lg leading-relaxed"></div>
+    </div>
+  </div>
+
+  <script>
+    function drawConnections() {
+      const svg = document.getElementById('connections');
+      svg.innerHTML = `
+        <defs>
+          <filter id="glow" x="-50%" y="-50%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <!-- Connecting lines to core -->
+        <path d="M 280 420 Q 480 280 620 410" fill="none" stroke="#67e8f9" stroke-width="4" opacity="0.7" filter="url(#glow)"/>
+        <path d="M 920 420 Q 720 280 620 410" fill="none" stroke="#67e8f9" stroke-width="4" opacity="0.7" filter="url(#glow)"/>
+        <path d="M 300 650 Q 520 520 620 480" fill="none" stroke="#a5f3fc" stroke-width="3.5" opacity="0.6" filter="url(#glow)"/>
+      `;
+    }
+
+    function showDetail(section) {
+      const data = {
+        core: { title: "ATIG CORE (IG-01)", content: "Центральное ядро новой генерации искусственного интеллекта." },
+        foundation: { title: "FOUNDATION LAYER", content: "Большие языковые модели, машинное обучение, инфраструктура и потоки данных." },
+        intelligence: { title: "INTELLIGENCE LAYER", content: "Память, контекст, личность, этика и эмоциональный интеллект." },
+        agentic: { title: "AGENTIC LAYER", content: "Автономные агенты, планирование и выполнение сложных задач." },
+        governance: { title: "GOVERNANCE & SAFETY", content: "Этика, приватность, безопасность и мониторинг." },
+        ecosystem: { title: "ECOSYSTEM ATIG", content: "Мобильное приложение, веб-платформа, устройство Sphere и оффлайн-режим." }
+      };
+
+      document.getElementById('modalTitle').textContent = data[section].title;
+      document.getElementById('modalContent').innerHTML = `<p>${data[section].content}</p>`;
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    window.onload = drawConnections;
+    document.addEventListener('keydown', e => { if (e.key === "Escape") closeModal(); });
+  </script>
+</body>
+</html>

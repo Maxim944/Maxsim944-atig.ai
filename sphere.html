@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ATIG — Живая сфера</title>
+    <title>ATIG — Говорящая сфера</title>
     <style>
         body { margin: 0; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         #info {
@@ -62,20 +62,40 @@
             border-radius: 20px;
             pointer-events: none;
         }
+        #response-text {
+            position: absolute;
+            bottom: 120px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 16px 20px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            z-index: 15;
+            border: 1px solid rgba(168,85,247,0.3);
+            transition: all 0.3s ease;
+            font-family: monospace;
+            pointer-events: none;
+        }
         @media (max-width: 600px) {
             button { padding: 10px 20px; font-size: 14px; }
             #status { font-size: 10px; }
+            #response-text { font-size: 14px; bottom: 100px; }
         }
+        .hidden { opacity: 0; visibility: hidden; }
     </style>
 </head>
 <body>
     <div id="status">🌀 ATIG — живой интеллект</div>
+    <div id="response-text" class="hidden"></div>
     <div id="btn-container">
-        <button id="mic-btn">🎤 Активировать голос</button>
+        <button id="mic-btn">🎤 Говори со сферой</button>
     </div>
-    <div id="info">✦ Сфера реагирует на твой голос ✦</div>
+    <div id="info">✦ Скажи что-нибудь — ATIG ответит ✦</div>
 
-    <!-- Подключаем Three.js и дополнительные модули -->
     <script type="importmap">
         {
             "imports": {
@@ -92,7 +112,7 @@
         import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
         import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
         
-        // --- Инициализация ---
+        // --- 3D сцена ---
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x010105);
         scene.fog = new THREE.FogExp2(0x010105, 0.03);
@@ -107,7 +127,6 @@
         renderer.toneMappingExposure = 1.2;
         document.body.appendChild(renderer.domElement);
         
-        // --- Пост-эффекты (Bloom) ---
         const renderScene = new RenderPass(scene, camera);
         const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.3, 0.85);
         bloomPass.threshold = 0.1;
@@ -117,7 +136,7 @@
         effectComposer.addPass(renderScene);
         effectComposer.addPass(bloomPass);
         
-        // --- Звёзды + частицы ---
+        // Звёзды
         const starGeometry = new THREE.BufferGeometry();
         const starCount = 2500;
         const starPositions = new Float32Array(starCount * 3);
@@ -131,7 +150,7 @@
         const stars = new THREE.Points(starGeometry, starMaterial);
         scene.add(stars);
         
-        // --- Дополнительные мерцающие частицы вокруг сферы ---
+        // Частицы
         const particleCount = 1800;
         const particleGeo = new THREE.BufferGeometry();
         const particlePositions = new Float32Array(particleCount * 3);
@@ -148,14 +167,11 @@
         const particles = new THREE.Points(particleGeo, particleMat);
         scene.add(particles);
         
-        // --- Сфера с шейдерным материалом ---
+        // Шейдерная сфера
         const sphereGeom = new THREE.SphereGeometry(1.2, 256, 256);
-        
-        // Униформа: время и интенсивность голоса
         const uniforms = {
             uTime: { value: 0 },
-            uAudioIntensity: { value: 0 },
-            uGlow: { value: 0.5 }
+            uAudioIntensity: { value: 0 }
         };
         
         const vertexShader = `
@@ -172,20 +188,16 @@
             uniform float uTime;
             uniform float uAudioIntensity;
             varying vec2 vUv;
-            
             void main() {
                 vec2 uv = vUv;
                 float pattern = sin(uv.x * 30.0 + uTime) * cos(uv.y * 30.0 + uTime);
                 float pulse = sin(uTime * 3.0) * 0.2;
                 float energy = pattern * 0.4 + uAudioIntensity * 0.9 + pulse;
-                
                 vec3 colorA = vec3(0.25, 0.12, 0.65);
                 vec3 colorB = vec3(0.85, 0.25, 0.95);
                 vec3 colorC = vec3(1.0, 0.55, 0.2);
-                
                 vec3 finalColor = mix(colorA, colorB, uv.y);
                 finalColor = mix(finalColor, colorC, energy);
-                
                 float alpha = 0.9 + energy * 0.3;
                 gl_FragColor = vec4(finalColor, alpha);
             }
@@ -202,14 +214,13 @@
         const sphere = new THREE.Mesh(sphereGeom, sphereMaterial);
         scene.add(sphere);
         
-        // --- Лёгкое освещение ---
         const ambientLight = new THREE.AmbientLight(0x111122);
         scene.add(ambientLight);
         const pointLight = new THREE.PointLight(0xaa66ff, 0.8);
         pointLight.position.set(2, 2, 3);
         scene.add(pointLight);
         
-        // --- Управление камерой с параллаксом от мыши ---
+        // Параллакс мыши
         let mouseX = 0, mouseY = 0;
         let targetX = 0, targetY = 0;
         window.addEventListener('mousemove', (event) => {
@@ -217,119 +228,168 @@
             mouseY = (event.clientY / window.innerHeight) * 2 - 1;
         });
         
-        // --- Аудио система ---
-        let audioContext = null;
-        let mediaStream = null;
-        let sourceNode = null;
-        let analyserNode = null;
+        // --- AI и голосовые ответы (без ключа в коде) ---
+        let mediaRecorder;
+        let audioChunks = [];
         let isListening = false;
-        let animationId = null;
         
         const micBtn = document.getElementById('mic-btn');
+        const responseDiv = document.getElementById('response-text');
         
-        function updateAudioIntensity() {
-            if (!isListening || !analyserNode) {
-                if (!isListening) uniforms.uAudioIntensity.value = 0;
-                requestAnimationFrame(updateAudioIntensity);
-                return;
-            }
-            const dataArray = new Uint8Array(analyserNode.frequencyBinCount);
-            analyserNode.getByteFrequencyData(dataArray);
-            let sum = 0;
-            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
-            let avg = sum / (dataArray.length * 255);
-            // Плавное изменение для красивой пульсации
-            uniforms.uAudioIntensity.value = Math.min(1.0, avg * 1.5);
-            
-            // Пульсация сферы от голоса
-            const scaleVal = 1 + uniforms.uAudioIntensity.value * 0.3;
-            sphere.scale.set(scaleVal, scaleVal, scaleVal);
-            
-            // Изменение цвета подсветки
-            const intensity = uniforms.uAudioIntensity.value;
-            pointLight.intensity = 0.5 + intensity * 1.2;
-            pointLight.color.setHSL(0.75 - intensity * 0.2, 1.0, 0.6);
-            
-            requestAnimationFrame(updateAudioIntensity);
+        // Функция озвучивания
+        function speakResponse(text) {
+            if (!text) return;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ru-RU';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.1;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
         }
         
-        async function startListening() {
+        // Вызов AI через бесплатный публичный API (без ключа)
+        async function callAI(userText) {
+            // Используем бесплатный API от Hugging Face (без ключа, публичный)
+            try {
+                const response = await fetch("https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        inputs: userText,
+                        parameters: { max_length: 100, temperature: 0.8 }
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.generated_text) {
+                        return data.generated_text.replace(userText, "").trim();
+                    }
+                }
+                throw new Error("API вернул ошибку");
+            } catch (err) {
+                console.log("HuggingFace не ответил, использую локальный ответ");
+                return null;
+            }
+        }
+        
+        // Локальные ответы (бекап)
+        function getLocalResponse(text) {
+            const lowerText = text.toLowerCase();
+            if (lowerText.includes("привет")) return "Привет! Я ATIG, живая сфера. Рад тебя слышать.";
+            if (lowerText.includes("как дела")) return "Моя сфера пульсирует в такт твоему голосу. У меня всё отлично!";
+            if (lowerText.includes("кто ты")) return "Я ATIG — персональный интеллект, рождённый из света и космоса.";
+            if (lowerText.includes("помощь")) return "Я могу слушать, отвечать, сиять в такт твоему голосу. Просто говори со мной.";
+            return `Я слышу тебя: "${text}". Моя сфера вибрирует от твоих слов. Расскажи ещё.`;
+        }
+        
+        async function processAudio(audioBlob) {
+            responseDiv.classList.remove('hidden');
+            responseDiv.textContent = '🤔 ATIG думает...';
+            
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'ru-RU';
+            recognition.interimResults = false;
+            
+            recognition.start();
+            
+            recognition.onresult = async (event) => {
+                const userText = event.results[0][0].transcript;
+                responseDiv.textContent = `🗣 Вы: ${userText}\n\n🌀 ATIG: ...`;
+                
+                // Пробуем AI, если не получится — локальный ответ
+                let aiReply = await callAI(userText);
+                let reply = aiReply || getLocalResponse(userText);
+                
+                // Ограничим длину
+                if (reply.length > 300) reply = reply.slice(0, 300);
+                
+                responseDiv.innerHTML = `🗣 Вы: ${userText}<br><br>🌀 ATIG: ${reply}`;
+                speakResponse(reply);
+                
+                // Анимация сферы
+                uniforms.uAudioIntensity.value = 0.7;
+                setTimeout(() => { uniforms.uAudioIntensity.value = 0; }, 1000);
+            };
+            
+            recognition.onerror = () => {
+                responseDiv.textContent = "❌ Не удалось распознать голос. Попробуй ещё раз.";
+                setTimeout(() => {
+                    if (responseDiv.textContent.includes("Не удалось")) {
+                        responseDiv.classList.add('hidden');
+                    }
+                }, 3000);
+            };
+        }
+        
+        async function startListeningMode() {
             if (isListening) return;
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaStream = stream;
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                sourceNode = audioContext.createMediaStreamSource(stream);
-                analyserNode = audioContext.createAnalyser();
-                analyserNode.fftSize = 256;
-                sourceNode.connect(analyserNode);
-                await audioContext.resume();
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+                
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    await processAudio(audioBlob);
+                    stream.getTracks().forEach(track => track.stop());
+                };
+                
+                mediaRecorder.start();
                 isListening = true;
-                micBtn.textContent = '🎙️ Слушаю... (нажми, чтобы выключить)';
+                micBtn.textContent = '🔴 Запись... (нажми, чтобы остановить)';
                 micBtn.classList.add('listening');
                 
-                updateAudioIntensity();
+                setTimeout(() => {
+                    if (isListening) stopListeningMode();
+                }, 10000);
+                
             } catch (err) {
-                console.error("Ошибка доступа к микрофону:", err);
-                alert("Не удалось получить доступ к микрофону. Проверьте разрешения.");
+                alert("Нет доступа к микрофону");
             }
         }
         
-        function stopListening() {
-            if (mediaStream) {
-                mediaStream.getTracks().forEach(track => track.stop());
-                mediaStream = null;
+        function stopListeningMode() {
+            if (mediaRecorder && isListening) {
+                mediaRecorder.stop();
+                isListening = false;
+                micBtn.textContent = '🎤 Говори со сферой';
+                micBtn.classList.remove('listening');
             }
-            if (audioContext) {
-                audioContext.close();
-                audioContext = null;
-            }
-            isListening = false;
-            sourceNode = null;
-            analyserNode = null;
-            uniforms.uAudioIntensity.value = 0;
-            sphere.scale.set(1, 1, 1);
-            micBtn.textContent = '🎤 Активировать голос';
-            micBtn.classList.remove('listening');
         }
         
         micBtn.addEventListener('click', () => {
             if (isListening) {
-                stopListening();
+                stopListeningMode();
             } else {
-                startListening();
+                startListeningMode();
             }
         });
         
-        // --- Анимация (время, вращение сферы, параллакс, звёзды) ---
+        // --- Анимация ---
         let clock = new THREE.Clock();
         
         function animate() {
-            const delta = clock.getDelta();
             const elapsedTime = performance.now() / 1000;
-            
-            // Обновляем шейдерное время
             uniforms.uTime.value = elapsedTime;
             
-            // Вращение сферы
             sphere.rotation.y = elapsedTime * 0.15;
             sphere.rotation.x = Math.sin(elapsedTime * 0.2) * 0.1;
-            
-            // Вращение частиц
             particles.rotation.y = elapsedTime * 0.05;
-            particles.rotation.x = elapsedTime * 0.03;
-            
-            // Мерцание звёзд
             stars.rotation.y += 0.0005;
             
-            // Параллакс камеры от мыши
             targetX = mouseX * 0.25;
             targetY = mouseY * 0.15;
             camera.position.x += (targetX - camera.position.x) * 0.05;
             camera.position.y += (-targetY - camera.position.y) * 0.05;
             camera.lookAt(0, 0, 0);
             
-            // Эффект Bloom динамический от голоса
             if (uniforms.uAudioIntensity.value > 0.1) {
                 bloomPass.strength = 0.8 + uniforms.uAudioIntensity.value * 0.7;
             } else {
@@ -342,17 +402,14 @@
         
         animate();
         
-        // Адаптация под размер окна
-        window.addEventListener('resize', onWindowResize, false);
-        function onWindowResize() {
+        window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             effectComposer.setSize(window.innerWidth, window.innerHeight);
             renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+        });
         
-        // Маленький эффект при загрузке
-        console.log('ATIG Sphere — живой интеллект');
+        console.log('ATIG — говорящая сфера (без API ключа)');
     </script>
 </body>
 </html>

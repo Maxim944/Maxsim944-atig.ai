@@ -2,488 +2,82 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ATIG — Artificial Transformational Intelligence Guide | AI-компаньон нового поколения</title>
-    <meta name="description" content="ATIG — живой AI-компаньон. Чат, голос, 3D сфера, машинное обучение, агенты и мультимедиа в одной платформе.">
-    
-    <!-- TensorFlow.js для ML -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ATIG SYSTEM</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Максимальный контраст: черный фон, ярко-желтый текст */
         body {
-            background: linear-gradient(135deg, #0a0c10 0%, #0f172a 100%);
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
-            color: #eef2ff;
-            line-height: 1.6;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1e293b;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4FB8FF;
-            border-radius: 4px;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 1.5rem;
+            background-color: #000000;
+            color: #FFFF00; /* Ярко-желтый виден лучше всего на солнце */
+            font-family: 'Arial Black', sans-serif; /* Жирный шрифт */
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
         .header {
+            font-size: 40px; /* Очень крупный заголовок */
             text-align: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px solid rgba(79, 184, 255, 0.3);
-        }
-        .header h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(135deg, #fff, #4FB8FF, #A36CFF);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .status-bar {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-        .status-badge {
-            background: rgba(79, 184, 255, 0.15);
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.85rem;
-            backdrop-filter: blur(4px);
+            padding: 20px 0;
+            border-bottom: 5px solid #FFFF00;
+            margin-bottom: 20px;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-            gap: 1.8rem;
-            margin-bottom: 2rem;
-        }
-        .card {
-            background: rgba(18, 25, 45, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(79, 184, 255, 0.25);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            transition: all 0.3s;
-        }
-        .card:hover {
-            border-color: #4FB8FF;
-            box-shadow: 0 8px 32px rgba(79, 184, 255, 0.1);
-        }
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-left: 4px solid #4FB8FF;
-            padding-left: 1rem;
-        }
-        button, .btn {
-            background: linear-gradient(90deg, #2a3a6e, #1e2a4a);
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 2rem;
-            color: white;
-            font-weight: 500;
+        button {
+            background: #222;
+            color: #FFFF00;
+            border: 4px solid #FFFF00;
+            padding: 40px; /* Очень большие кнопки для нажатия пальцем */
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
             cursor: pointer;
-            transition: 0.2s;
-            margin: 0.3rem;
-        }
-        button:hover {
-            background: linear-gradient(90deg, #3a4e8a, #2a3a6e);
-            transform: scale(1.02);
-        }
-        input, textarea, select {
-            background: #0f1422;
-            border: 1px solid #2d3a5e;
-            color: white;
-            padding: 0.6rem;
-            border-radius: 0.8rem;
             width: 100%;
-            margin: 0.4rem 0;
         }
-        .badge {
-            background: rgba(79, 184, 255, 0.2);
-            border-radius: 2rem;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.75rem;
-            display: inline-block;
-            margin: 0.2rem;
+
+        button:active {
+            background: #FFFF00;
+            color: #000;
         }
-        .agent-panel {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .agent-card {
-            background: #0b0f1a;
-            border-radius: 1rem;
-            padding: 1rem;
-            flex: 1;
-            min-width: 160px;
-            border-left: 3px solid #4FB8FF;
-        }
-        .resource-metrics {
-            display: flex;
-            gap: 1rem;
-            justify-content: space-between;
-        }
-        .metric {
-            flex: 1;
-            background: #00000033;
-            border-radius: 1rem;
-            padding: 0.8rem;
+
+        #display {
+            font-size: 36px;
             text-align: center;
-        }
-        canvas {
-            max-height: 200px;
-        }
-        
-        /* Стили для чата */
-        .chat-message {
-            display: flex;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            animation: fadeIn 0.3s ease;
-        }
-        .chat-message.user { justify-content: flex-end; }
-        .chat-message.user .chat-content {
-            background: linear-gradient(135deg, #2a3a6e, #1e2a4a);
-            border-radius: 1.2rem 1.2rem 0.2rem 1.2rem;
-        }
-        .chat-message.assistant .chat-content {
-            background: rgba(79, 184, 255, 0.15);
-            border-radius: 1.2rem 1.2rem 1.2rem 0.2rem;
-        }
-        .chat-content {
-            padding: 0.75rem 1rem;
-            max-width: 70%;
-            word-wrap: break-word;
-        }
-        .chat-avatar {
-            width: 32px;
-            height: 32px;
-            background: rgba(79, 184, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @media (max-width: 700px) {
-            .grid-2 { grid-template-columns: 1fr; }
-            .container { padding: 1rem; }
-            .chat-content { max-width: 85%; }
+            margin-top: 20px;
+            padding: 20px;
+            background: #111;
+            border: 2px dashed #FFFF00;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>⚡ ATIG 4.0 ⚡</h1>
-        <p>Artificial Transformational Intelligence Guide — полностью функциональная экосистема</p>
-        <div class="status-bar">
-            <div class="status-badge">🧠 ИИ-модели: активны</div>
-            <div class="status-badge">🤖 Агентный слой: 5 агентов</div>
-            <div class="status-badge">🔐 Безопасность: включена</div>
-            <div class="status-badge">🎤 Голос: готов</div>
-            <div class="status-badge">⚡ Groq AI: бесплатно</div>
-        </div>
-    </div>
 
-    <!-- 1. AI МОДЕЛИ + МАШИННОЕ ОБУЧЕНИЕ -->
-    <div class="grid-2">
-        <div class="card">
-            <div class="card-title">🤖 AI MODELS — МУЛЬТИМОДАЛЬНЫЕ МОДЕЛИ</div>
-            <div>
-                <button onclick="startSpeechRecognition()">🎤 Распознавание речи</button>
-                <button onclick="speakText()">🔊 TTS (озвучить)</button>
-                <input type="text" id="ttsText" placeholder="Текст для озвучивания" value="ATIG трансформирует искусственный интеллект">
-                <br><br>
-                <div><strong>🖼️ Компьютерное зрение (MobileNet):</strong></div>
-                <input type="file" id="imageUpload" accept="image/*">
-                <canvas id="imageCanvas" width="200" height="150" style="border-radius: 1rem; background: #000; margin-top: 8px;"></canvas>
-                <p id="visionResult">Распознавание: ожидание изображения...</p>
-                <hr>
-                <div><strong>🧠 ATIG AI (Groq + Llama 3):</strong></div>
-                <textarea id="llmPrompt" rows="2" placeholder="Задайте вопрос ИИ...">Как ATIG помогает бизнесу?</textarea>
-                <button onclick="askRealAI()">💬 Ответ ИИ</button>
-                <div id="llmResponse" class="badge" style="display:block; margin-top: 8px;">Ответ появится здесь</div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-title">📈 MACHINE LEARNING — ОБУЧЕНИЕ НЕЙРОСЕТИ</div>
-            <p>Обучите простую нейросеть на лету (регрессия):</p>
-            <input type="number" id="trainX" placeholder="x значение" value="2">
-            <input type="number" id="trainY" placeholder="y цель" value="4">
-            <button onclick="addTrainingData()">➕ Добавить точку</button>
-            <button onclick="trainSimpleModel()">🚀 Обучить модель</button>
-            <button onclick="predictModel()">🔮 Предсказать (x=5)</button>
-            <div id="mlStatus">Статус: не обучена | Данных: <span id="dataCount">0</span></div>
-            <canvas id="regressionChart" width="300" height="150"></canvas>
-        </div>
-    </div>
+    <div class="header">ATIG КОРПУС</div>
 
-    <!-- 2. АНАЛИЗ ДАННЫХ + ПОИСК + РЕКОМЕНДАЦИИ -->
-    <div class="grid-2">
-        <div class="card">
-            <div class="card-title">📊 АНАЛИЗ ДАННЫХ / ПОИСК / ВОПРОСЫ-ОТВЕТЫ</div>
-            <input type="text" id="searchQuery" placeholder="Поиск по документам (например: AI)">
-            <button onclick="searchDocuments()">🔍 Поиск</button>
-            <div id="searchResults"></div>
-            <hr>
-            <div><strong>Тональность текста:</strong></div>
-            <textarea id="sentimentText" rows="2" placeholder="Введите текст для анализа тональности">ATIG потрясающая платформа, я в восторге!</textarea>
-            <button onclick="analyzeSentiment()">📝 Анализ тональности</button>
-            <div id="sentimentResult"></div>
-        </div>
-        <div class="card">
-            <div class="card-title">🎯 РЕКОМЕНДАТЕЛЬНАЯ СИСТЕМА</div>
-            <p>Ваши последние действия (клики) влияют на рекомендации:</p>
-            <button onclick="recordAction('аналитика')">📊 Интерес: Аналитика</button>
-            <button onclick="recordAction('агенты')">🤖 Интерес: Агенты</button>
-            <button onclick="recordAction('безопасность')">🔒 Интерес: Безопасность</button>
-            <div id="recommendationsList" style="margin-top: 12px; background: #00000044; padding: 8px; border-radius: 12px;">
-                <strong>Персональные предложения:</strong><br>
-                - Изучите агентный слой ATIG<br>
-                - Настройте дашборд безопасности
-            </div>
-            <button onclick="generateBusinessSolution()">💼 Бизнес-решение (AI insight)</button>
-            <div id="businessInsight"></div>
-        </div>
-    </div>
+    <button onclick="ping()">ИНИЦИАЛИЗАЦИЯ</button>
+    <button onclick="ping()">СКАНИРОВАНИЕ</button>
+    <button onclick="ping()">СИНХРОНИЗАЦИЯ</button>
 
-    <!-- 3. АГЕНТНЫЙ СЛОЙ + МУЛЬТИАГЕНТЫ И РЕСУРСЫ -->
-    <div class="card">
-        <div class="card-title">🤝 АГЕНТНЫЙ СЛОЙ | МУЛЬТИ-АГЕНТНАЯ СИСТЕМА | УПРАВЛЕНИЕ РЕСУРСАМИ</div>
-        <div class="agent-panel" id="agentsPanel"></div>
-        <button onclick="runAllAgents()">▶️ Запустить всех агентов (выполнение задач)</button>
-        <button onclick="planTaskWithAgents()">📋 Планирование + динамическое задание</button>
-        <div id="agentLogs" style="background:#00000055; border-radius: 1rem; padding: 0.8rem; margin-top: 1rem; max-height: 150px; overflow-y: auto; font-family: monospace;"></div>
-        <hr>
-        <div><strong>⚙️ СИСТЕМА УПРАВЛЕНИЯ РЕСУРСАМИ (Real-time метрики)</strong></div>
-        <div class="resource-metrics">
-            <div class="metric">🧠 CPU: <span id="cpuUsage">0</span>%</div>
-            <div class="metric">💾 RAM: <span id="ramUsage">0</span> MB</div>
-            <div class="metric">📀 Хранилище: <span id="storageUsage">0</span> MB</div>
-        </div>
-    </div>
+    <div id="display">READY</div>
 
-    <!-- 4. РЕАЛЬНЫЙ AI ЧАТ (Groq API - БЕСПЛАТНО) -->
-    <div class="card" style="margin-top: 1rem;">
-        <div class="card-title">💬 ATIG REAL AI CHAT — ЖИВОЙ ДИАЛОГ (Groq Llama 3)</div>
-        <div id="chatContainer" style="height: 350px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem;">
-            <div style="text-align: center; color: #888;">✨ Напишите или скажите что-нибудь, чтобы начать общение с AI ✨</div>
-        </div>
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <input type="text" id="chatInput" placeholder="Спросите у ATIG..." style="flex: 1;" onkeypress="if(event.key==='Enter') sendChatMessage()">
-            <button onclick="sendChatMessage()">📤 Отправить</button>
-            <button onclick="startVoiceChat()">🎤 Голос</button>
-            <button onclick="speakLastResponse()">🔊 Озвучить</button>
-            <button onclick="clearChat()">🗑️ Очистить</button>
-        </div>
-        <div class="badge" style="margin-top: 8px; text-align: center; display: block;">
-            ⚡ Используется Groq API (бесплатно, до 30 запросов в минуту)
-        </div>
-    </div>
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    <!-- 5. GOVERNANCE & SAFETY -->
-    <div class="card">
-        <div class="card-title">🛡️ GOVERNANCE & SAFETY — УПРАВЛЕНИЕ, БЕЗОПАСНОСТЬ, ПРАВА</div>
-        <button onclick="encryptDataDemo()">🔐 Шифровать тестовые данные</button>
-        <button onclick="auditLogAction()">📜 Аудит безопасности</button>
-        <div id="securityStatus">Статус: Защита прав человека активна, контроль данных включён.</div>
-    </div>
-    
-    <div class="footer-note" style="text-align: center; margin-top: 2rem; padding: 1rem; border-top: 1px solid #2d3a5e;">
-        ATIG — полностью работающая экосистема ИИ, агентов, анализа, ML и безопасности.<br>
-        ⚡ Работает на Groq Llama 3 (бесплатно) | Голосовой ассистент | Реальное машинное обучение
-    </div>
-</div>
-
-<script>
-    // ====================== ГЛОБАЛЬНЫЕ КОМПОНЕНТЫ ======================
-    let mobilenetModel = null;
-    let trainingData = [];
-    let mlModel = null;
-    let userActions = ['аналитика'];
-    
-    // Реальный AI чат
-    let realChatHistory = [];
-    let lastAIResponse = '';
-    let isAILoading = false;
-    
-    // ⚠️ ПОЛУЧИТЕ БЕСПЛАТНЫЙ API КЛЮЧ GROQ:
-    // 1. Перейдите на https://console.groq.com
-    // 2. Зарегистрируйтесь (через Google или Email)
-    // 3. Создайте API Key
-    // 4. Вставьте его ниже
-    const GROQ_API_KEY = 'gsk_ваш_ключ_сюда';  // ЗАМЕНИТЕ НА СВОЙ КЛЮЧ!
-    const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-    
-    // Временный демо-режим (если ключа нет)
-    let demoMode = true;  // Автоматически включает демо-режим, если ключ не настроен
-    
-    // Проверяем, настроен ли ключ
-    if (GROQ_API_KEY === 'gsk_ваш_ключ_сюда') {
-        console.log("ℹ️ Режим демо: API ключ не настроен. Для реального AI получите ключ на console.groq.com");
-        demoMode = true;
-    } else {
-        demoMode = false;
-        console.log("✅ Groq API ключ настроен");
-    }
-    
-    // ========== Загрузка MobileNet ==========
-    async function loadMobileNet() {
-        try {
-            mobilenetModel = await mobilenet.load();
-            document.getElementById("visionResult").innerText = "Модель готова, загрузите изображение";
-        } catch(e) { console.error(e); }
-    }
-    loadMobileNet();
-    
-    // Обработка изображения
-    document.getElementById("imageUpload").addEventListener("change", function(e) {
-        const file = e.target.files[0];
-        if(file && mobilenetModel) {
-            const img = new Image();
-            img.onload = async () => {
-                const canvas = document.getElementById("imageCanvas");
-                const ctx = canvas.getContext("2d");
-                canvas.width = 200; canvas.height = 150;
-                ctx.drawImage(img, 0, 0, 200, 150);
-                const predictions = await mobilenetModel.classify(img);
-                if(predictions.length) document.getElementById("visionResult").innerHTML = `🔍 Распознано: ${predictions[0].className} (${(predictions[0].probability*100).toFixed(1)}%)`;
-                else document.getElementById("visionResult").innerText = "Не удалось распознать";
-            };
-            img.src = URL.createObjectURL(file);
-        }
-    });
-    
-    // ========== Реальный AI через Groq API (бесплатно) ==========
-    async function askRealAI() {
-        const prompt = document.getElementById("llmPrompt").value;
-        if (!prompt) return;
-        
-        document.getElementById("llmResponse").innerHTML = "⏳ Думаю...";
-        
-        if (demoMode) {
-            // Демо-режим: имитация ответа
-            setTimeout(() => {
-                const demoResponse = `🤖 ATIG (демо-режим): "${prompt}"\n\n✨ Чтобы получить реальный AI, зарегистрируйтесь на console.groq.com и вставьте API ключ в код.\n\n💡 Подсказка: Groq даёт 300,000 бесплатных токенов в день!`;
-                document.getElementById("llmResponse").innerHTML = demoResponse;
-            }, 500);
-            return;
-        }
-        
-        try {
-            const response = await fetch(GROQ_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${GROQ_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: 'llama3-8b-8192',
-                    messages: [{ role: 'user', content: prompt }],
-                    temperature: 0.7,
-                    max_tokens: 500
-                })
-            });
+        function ping() {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            osc.start();
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            osc.stop(audioCtx.currentTime + 0.2);
             
-            const data = await response.json();
-            if (data.error) {
-                document.getElementById("llmResponse").innerHTML = `⚠️ Ошибка API: ${data.error.message}. Проверьте ключ.`;
-            } else {
-                const aiResponse = data.choices[0].message.content;
-                document.getElementById("llmResponse").innerHTML = aiResponse;
-            }
-        } catch (error) {
-            console.error('AI Error:', error);
-            document.getElementById("llmResponse").innerHTML = "⚠️ Ошибка подключения к AI. Проверьте интернет или API ключ.";
+            document.getElementById('display').innerText = "SYSTEM ACTIVE";
         }
-    }
-    
-    // Функции чата
-    function addChatMessage(role, content) {
-        if (content === '...' && role === 'assistant') {
-            // Индикатор загрузки
-            realChatHistory.push({ role, content, isLoading: true, id: Date.now() });
-        } else {
-            realChatHistory.push({ role, content });
-        }
-        displayChatMessages();
-        if (role === 'assistant' && content !== '...') {
-            lastAIResponse = content;
-            saveChatHistory();
-        }
-    }
-    
-    function displayChatMessages() {
-        const container = document.getElementById('chatContainer');
-        if (!container) return;
-        
-        if (realChatHistory.length === 0) {
-            container.innerHTML = '<div style="text-align: center; color: #888;">✨ Напишите или скажите что-нибудь, чтобы начать общение с AI ✨</div>';
-            return;
-        }
-        
-        container.innerHTML = realChatHistory.map(msg => `
-            <div class="chat-message ${msg.role}">
-                <div class="chat-avatar">${msg.role === 'user' ? '👤' : '🤖'}</div>
-                <div class="chat-content">${escapeHtml(msg.content)}</div>
-            </div>
-        `).join('');
-        container.scrollTop = container.scrollHeight;
-    }
-    
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
-    function saveChatHistory() {
-        localStorage.setItem('atig_chat_history', JSON.stringify(realChatHistory.filter(m => !m.isLoading).slice(-100)));
-    }
-    
-    function loadChatHistory() {
-        const saved = localStorage.getItem('atig_chat_history');
-        if (saved) {
-            realChatHistory = JSON.parse(saved);
-            displayChatMessages();
-            if (realChatHistory.length > 0) {
-                lastAIResponse = realChatHistory.filter(m => m.role === 'assistant').pop()?.content || '';
-            }
-        }
-    }
-    
-    async function sendChatMessage() {
-        const input = document.getElementById('chatInput');
-        const messag
+    </script>
+</body>
+</html>

@@ -2,82 +2,203 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ATIG SYSTEM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atig — Технологии Безопасности и Мониторинга</title>
     <style>
-        /* Максимальный контраст: черный фон, ярко-желтый текст */
-        body {
-            background-color: #000000;
-            color: #FFFF00; /* Ярко-желтый виден лучше всего на солнце */
-            font-family: 'Arial Black', sans-serif; /* Жирный шрифт */
+        /* Обнуление и базовые настройки в космическом стиле */
+        * {
             margin: 0;
-            padding: 10px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #030712;
+            color: #f3f4f6;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-        }
-
-        .header {
-            font-size: 40px; /* Очень крупный заголовок */
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 5px solid #FFFF00;
-            margin-bottom: 20px;
-        }
-
-        button {
-            background: #222;
-            color: #FFFF00;
-            border: 4px solid #FFFF00;
-            padding: 40px; /* Очень большие кнопки для нажатия пальцем */
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        button:active {
-            background: #FFFF00;
-            color: #000;
-        }
-
-        #display {
-            font-size: 36px;
-            text-align: center;
-            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            overflow-hidden;
+            position: relative;
             padding: 20px;
-            background: #111;
-            border: 2px dashed #FFFF00;
+        }
+
+        /* Абстрактный космический фон с неоновым свечением (отсылка к 1000111446.png) */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-translate, -50%);
+            z-index: 1;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Контейнер визитки */
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        /* Технологичный логотип-орбита */
+        .logo-container {
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .core {
+            width: 24px;
+            height: 24px;
+            background-color: #f59e0b;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #f59e0b, 0 0 40px #f59e0b;
+            margin: 0 auto;
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate 8s linear infinite;
+        }
+
+        .orbit-1 { width: 70px; height: 35px; transform: translate(-50%, -50%) rotate(30deg); }
+        .orbit-2 { width: 70px; height: 35px; transform: translate(-50%, -50%) rotate(-30deg); }
+        .orbit-3 { width: 75px; height: 38px; transform: translate(-50%, -50%) rotate(90deg); }
+
+        /* Текстовые блоки */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.5rem;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .brand {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #9ca3af;
+            letter-spacing: 0.1rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* Список чистых тезисов */
+        .tags {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15rem;
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 6px 14px;
+            border-radius: 4px;
+            background: rgba(7, 11, 25, 0.5);
+        }
+
+        /* Кнопка действия с неоновым эффектом */
+        .btn-connect {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            color: #ffffff;
+            padding: 16px 40px;
+            border: 1px solid #38bdf8;
+            border-radius: 4px;
+            background: transparent;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+            cursor: pointer;
+        }
+
+        .btn-connect:hover {
+            background: #38bdf8;
+            color: #030712;
+            box-shadow: 0 0 25px #38bdf8, 0 0 50px rgba(56, 189, 248, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Анимация вращения орбит */
+        @keyframes rotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; letter-spacing: 0.3rem; }
+            p { font-size: 0.9rem; }
+            .btn-connect { width: 100%; padding: 16px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">ATIG КОРПУС</div>
+    <div class="container">
+        <!-- Логотип, вдохновленный структурой атома/ИИ -->
+        <div class="logo-container">
+            <div class="core"></div>
+            <div class="orbit orbit-1"></div>
+            <div class="orbit orbit-2"></div>
+            <div class="orbit orbit-3"></div>
+        </div>
 
-    <button onclick="ping()">ИНИЦИАЛИЗАЦИЯ</button>
-    <button onclick="ping()">СКАНИРОВАНИЕ</button>
-    <button onclick="ping()">СИНХРОНИЗАЦИЯ</button>
+        <!-- Главные смыслы -->
+        <h1><span class="brand">Atig</span> Systems</h1>
+        <p>Проектирование, монтаж и комплексный мониторинг интеллектуальных систем охранно-пожарной сигнализации и автоматики в Алматы.</p>
 
-    <div id="display">READY</div>
+        <!-- Суть работы в трех тегах -->
+        <div class="tags">
+            <div class="tag">Интеграция</div>
+            <div class="tag">Безопасность</div>
+            <div class="tag">Контроль</div>
+        </div>
 
-    <script>
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        <!-- Единственная прямая кнопка связи (замени PHONE на свой номер) -->
+        <a href="tel:+7XXXXXXXXXX" class="btn-connect">Установить связь</a>
+    </div>
 
-        function ping() {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-            osc.start();
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-            osc.stop(audioCtx.currentTime + 0.2);
-            
-            document.getElementById('display').innerText = "SYSTEM ACTIVE";
-        }
-    </script>
 </body>
 </html>

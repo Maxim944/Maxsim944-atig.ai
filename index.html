@@ -236,14 +236,12 @@
 <body>
 
     <div class="container">
-        <!-- Логотип -->
         <div class="logo-container">
             <div class="core"></div>
             <div class="orbit orbit-1"></div>
             <div class="orbit orbit-2"></div>
         </div>
 
-        <!-- Заголовки и Смыслы -->
         <h1><span class="brand">Atig</span> Systems</h1>
         <div class="sub-brand">Advanced Technologies Initiated by Genius</div>
         
@@ -255,10 +253,8 @@
             <div class="tag">Контроль</div>
         </div>
 
-        <!-- Кнопка связи -->
         <a href="tel:+77072562388" class="btn-connect">Установить связь</a>
 
-        <!-- Интегрированный Терминал Атиг ИИ -->
         <div class="ai-terminal">
             <div class="terminal-header">
                 <div class="terminal-dot"></div>
@@ -272,24 +268,24 @@
         </div>
     </div>
 
-    <!-- Легкий скрипт для эффекта печати ИИ -->
     <script>
-        const text = "Atig_AI: ИИ-модуль запущен. Мониторинг безопасности систем в Алматы активен. Связь со специалистом стабильна...";
-        let index = 0;
-        const speed = 50; // Скорость печати букв (мс)
+        document.addEventListener("DOMContentLoaded", function() {
+            const text = "Atig_AI: ИИ-модуль запущен. Мониторинг безопасности систем в Алматы активен. Связь со специалистом стабильна...";
+            let index = 0;
+            const speed = 50; 
+            const textField = document.getElementById("ai-text");
 
-        function typeWriter() {
-            if (index < text.length) {
-                document.getElementById("ai-text").innerHTML += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, speed);
+            function typeWriter() {
+                if (index < text.length) {
+                    textField.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, speed);
+                }
             }
-        }
 
-        // Запуск печати после полной загрузки страницы
-        window.onload = function() {
-            setTimeout(typeWriter, 500);
-        };
+            // Безопасный запуск без ожидания тяжелой графики
+            setTimeout(typeWriter, 400);
+        });
     </script>
 
 </body>

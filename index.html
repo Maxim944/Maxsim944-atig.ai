@@ -47,12 +47,14 @@
             position: relative;
         }
 
+        /* Интерактивный логотип с пульсирующим ИИ-ядром */
         .logo-container {
             margin-bottom: 35px;
             position: relative;
             display: inline-block;
             width: 80px;
             height: 80px;
+            cursor: pointer; /* Сделали ядро кликабельным для пасхалки */
         }
 
         .core {
@@ -188,6 +190,23 @@
             color: #38bdf8;
         }
 
+        /* Живой статус системы (Live Status Area) */
+        .live-status-bar {
+            max-width: 450px;
+            margin: 0 auto 6px auto;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.65rem;
+            color: #4b5563;
+            padding: 0 5px;
+        }
+
+        .status-online {
+            color: #10b981;
+            animation: pulseStatus 2s infinite;
+        }
+
         /* Терминал */
         .ai-terminal {
             max-width: 450px;
@@ -198,6 +217,12 @@
             padding: 15px;
             text-align: left;
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+            transition: all 0.2s ease;
+        }
+
+        .ai-terminal.matrix-glitch {
+            border-color: #f59e0b;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
         }
 
         .terminal-header {
@@ -226,7 +251,7 @@
             font-size: 0.8rem;
             color: #38bdf8;
             line-height: 1.4;
-            min-height: 54px; /* Немного увеличили высоту для длинных ответов */
+            min-height: 54px;
         }
 
         .cursor {
@@ -247,6 +272,7 @@
             100% { box-shadow: 0 0 12px #f59e0b; transform: translate(-50%, -50%) scale(0.95); }
         }
         @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+        @keyframes pulseStatus { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
         @media (max-width: 480px) {
             .ai-grid { grid-template-columns: 1fr; }
@@ -256,7 +282,7 @@
 <body>
 
     <div class="container">
-        <div class="logo-container">
+        <div class="logo-container" onclick="triggerSecretMode()">
             <div class="core"></div>
             <div class="orbit orbit-1"></div>
             <div class="orbit orbit-2"></div>
@@ -283,12 +309,18 @@
             <button class="ai-btn" onclick="askAI('philosophy')">В чем суть философии?</button>
         </div>
 
-        <div class="ai-terminal">
+        <div class="live-status-bar">
+            <span>SYS: <span class="status-online">ONLINE</span></span>
+            <span>LOC: ALMATY_43.23N</span>
+            <span>CPU: <span id="live-cpu">12.4%</span></span>
+        </div>
+
+        <div class="ai-terminal" id="terminal-box">
             <div class="terminal-header">
                 <div class="terminal-dot"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">atig_ai_core_v2.0.26</span>
+                <span class="terminal-title" id="term-title">atig_ai_core_v2.0.26</span>
             </div>
             <div class="terminal-body">
                 <span id="ai-text"></span><span class="cursor"></span>
@@ -303,40 +335,67 @@
             services: "Atig_AI: Выполняем полный цикл — от проектирования до монтажа систем ОПС, систем контроля доступа (СКУД), видеонаблюдения и автоматизации безопасности.",
             geo: "Atig_AI: Оперативно работаем по всему городу Алматы и прилегающим регионам. Возможен выезд для комплексного аудита объекта.",
             speed: "Atig_AI: Расчет спецификации занимает до 24 часов. Монтажные работы зависят от масштаба объекта, но всегда строго оптимизированы по стандартам бережливого производства.",
-            philosophy: "Atig_AI: Концепция ATIG объединяет передовые инженерные решения и непрерывное улучшение процессов (Кайдзен). Исключаем дефекты на каждом этапе монтажа."
+            philosophy: "Atig_AI: Концепция ATIG объединяет передовые инженерные решения и непрерывное улучшение процессов (Кайдзен). Исключаем дефекты на каждом этапе монтажа.",
+            secret: "root@atig_core:~# Инициализация личного проекта ИИ... Доступ подтвержден. Создание решений для сохранения информации, памяти и наследия. Архивация данных запущена успешно."
         };
 
         let currentTimeout = null;
+        const textField = document.getElementById("ai-text");
+        const terminalBox = document.getElementById("terminal-box");
+        const termTitle = document.getElementById("term-title");
 
-        function typeWriter(text, index, textField, callback) {
+        function typeWriter(text, index, callback) {
             if (index < text.length) {
                 textField.innerHTML += text.charAt(index);
-                currentTimeout = setTimeout(() => typeWriter(text, index + 1, textField, callback), 35);
+                currentTimeout = setTimeout(() => typeWriter(text, index + 1, callback), 35);
             } else if (callback) {
                 callback();
             }
         }
 
         function askAI(key) {
-            // Очищаем предыдущие тайм-ауты печати, если пользователь кликает быстро
             if (currentTimeout) clearTimeout(currentTimeout);
             
-            const textField = document.getElementById("ai-text");
-            textField.innerHTML = ""; // Очищаем поле
-            
-            // Имитация быстрой загрузки логов перед ответом
+            // Сбрасываем стили секретного режима, если они были активны
+            terminalBox.classList.remove("matrix-glitch");
+            termTitle.innerHTML = "atig_ai_core_v2.0.26";
+            textField.style.color = "#38bdf8";
+
             textField.innerHTML = "Analysing request... ";
             
             setTimeout(() => {
                 textField.innerHTML = "";
-                typeWriter(answers[key], 0, textField);
+                typeWriter(answers[key], 0);
             }, 300);
         }
 
-        // Стартовый запуск терминала при загрузке страницы
+        // Функция секретного лога (пасхалка при клике на логотип)
+        function triggerSecretMode() {
+            if (currentTimeout) clearTimeout(currentTimeout);
+            
+            terminalBox.classList.add("matrix-glitch");
+            termTitle.innerHTML = "atig_kernel_developer_override";
+            textField.style.color = "#f59e0b"; // Переключаем цвет на оранжевый
+            textField.innerHTML = "OVERRIDING SYSTEM... ";
+
+            setTimeout(() => {
+                textField.innerHTML = "";
+                typeWriter(answers['secret'], 0);
+            }, 500);
+        }
+
+        // Динамическое колебание нагрузки CPU для живого эффекта
+        setInterval(() => {
+            const cpuElement = document.getElementById("live-cpu");
+            if (cpuElement) {
+                const randomCpu = (Math.random() * (16.8 - 9.2) + 9.2).toFixed(1);
+                cpuElement.innerHTML = randomCpu + "%";
+            }
+        }, 3000);
+
+        // Стартовый запуск
         document.addEventListener("DOMContentLoaded", function() {
-            const textField = document.getElementById("ai-text");
-            typeWriter(answers['start'], 0, textField);
+            typeWriter(answers['start'], 0);
         });
     </script>
 

@@ -25,7 +25,6 @@
             padding: 20px;
         }
 
-        /* Исправленный и безопасный фон */
         body::before {
             content: '';
             position: absolute;
@@ -44,11 +43,10 @@
             max-width: 600px;
             width: 100%;
             text-align: center;
-            z-index: 10; /* Поднимаем контейнер выше фоновых эффектов */
+            z-index: 10;
             position: relative;
         }
 
-        /* Логотип Атиг */
         .logo-container {
             margin-bottom: 40px;
             position: relative;
@@ -86,12 +84,22 @@
             letter-spacing: 0.4rem;
             text-transform: uppercase;
             color: #ffffff;
-            margin-bottom: 15px;
+            margin-bottom: 5px; /* Уменьшили отступ для расшифровки */
         }
 
         .brand {
             color: #38bdf8;
             font-weight: 600;
+        }
+
+        /* Стиль для расшифровки аббревиатуры */
+        .sub-brand {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25rem;
+            color: #6b7280; /* Приглушенный серый цвет */
+            margin-bottom: 25px;
+            font-weight: 400;
         }
 
         p {
@@ -120,7 +128,6 @@
             border-radius: 4px;
         }
 
-        /* Кнопка вызова — теперь она точно нажимается */
         .btn-connect {
             display: inline-block;
             text-decoration: none;
@@ -134,7 +141,7 @@
             background: rgba(7, 11, 25, 0.6);
             transition: all 0.3s ease;
             position: relative;
-            z-index: 20; /* Максимальный приоритет для клика */
+            z-index: 20;
         }
 
         .btn-connect:hover {
@@ -164,6 +171,9 @@
         </div>
 
         <h1><span class="brand">Atig</span> Systems</h1>
+        <!-- Расшифровка аббревиатуры -->
+        <div class="sub-brand">Advanced Technologies Initiated by Genius</div>
+        
         <p>Проектирование, монтаж и комплексный мониторинг интеллектуальных систем охранно-пожарной сигнализации и автоматики в Алматы.</p>
 
         <div class="tags">
@@ -172,7 +182,8 @@
             <div class="tag">Контроль</div>
         </div>
 
-        <a href="tel:+77072562388" class="btn-connect">Установить связь</a>
+        <!-- Вставь свои 10 цифр вместо XXXXXXXXXX -->
+        <a href="tel:+7XXXXXXXXXX" class="btn-connect">Установить связь</a>
     </div>
 
 </body>

@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atig Systems</title>
+    <title>Адвокатская защита и правовой консалтинг</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Times New Roman', Times, serif, sans-serif; /* Более строгий, классический шрифт */
         }
 
         body {
-            background-color: #030712;
+            background-color: #0b0f19; /* Глубокий благородный графит */
             color: #f3f4f6;
             min-height: 100vh;
             display: flex;
@@ -25,18 +25,19 @@
             padding: 40px 20px;
         }
 
+        /* Мягкая золотая подсветка вместо синей */
         body::before {
             content: '';
             position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 0;
             pointer-events: none;
-            filter: blur(40px);
+            filter: blur(50px);
         }
 
         .container {
@@ -47,68 +48,65 @@
             position: relative;
         }
 
-        /* Интерактивный логотип с пульсирующим ИИ-ядром */
+        /* Геометричный логотип: Весы правосудия / Щит */
         .logo-container {
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             position: relative;
             display: inline-block;
-            width: 80px;
-            height: 80px;
-            cursor: pointer;
+            width: 70px;
+            height: 70px;
         }
 
-        .core {
-            width: 22px;
-            height: 22px;
-            background-color: #f59e0b;
-            border-radius: 50%;
+        .law-shield {
+            width: 24px;
+            height: 30px;
+            background-color: #d4af37; /* Благородное золото */
+            clip-path: polygon(50% 0%, 100% 20%, 100% 70%, 50% 100%, 0% 70%, 0% 20%);
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            animation: pulseCore 2.5s infinite ease-in-out;
+            animation: pulseShield 3s infinite ease-in-out;
             z-index: 3;
         }
 
-        .orbit {
+        .law-line {
             position: absolute;
             top: 50%;
             left: 50%;
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            border-radius: 50%;
-            z-index: 2;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            width: 65px;
+            height: 65px;
+            transform: translate(-50%, -50%) rotate(45deg);
         }
 
-        .orbit-1 { width: 75px; height: 32px; transform: translate(-50%, -50%) rotate(30deg); animation: rotate1 12s linear infinite; }
-        .orbit-2 { width: 75px; height: 32px; transform: translate(-50%, -50%) rotate(-30deg); animation: rotate2 12s linear infinite; }
-
         h1 {
-            font-size: 2.2rem;
-            font-weight: 300;
-            letter-spacing: 0.4rem;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 0.25rem;
             text-transform: uppercase;
             color: #ffffff;
             margin-bottom: 8px;
         }
 
-        .brand {
-            color: #38bdf8;
+        .gold-text {
+            color: #d4af37;
             font-weight: 600;
         }
 
         .sub-brand {
-            font-size: 0.72rem;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.24rem;
-            color: #6b7280;
+            letter-spacing: 0.2rem;
+            color: #9ca3af;
             margin-bottom: 30px;
-            font-weight: 400;
         }
 
         p {
-            font-size: 0.95rem;
-            color: #9ca3af;
-            letter-spacing: 0.05rem;
+            font-size: 1.05rem;
+            color: #d1d5db;
+            letter-spacing: 0.02rem;
             margin-bottom: 35px;
             font-weight: 300;
             line-height: 1.6;
@@ -119,30 +117,32 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 35px;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         .tag {
             font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.1rem;
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            padding: 4px 12px;
-            border-radius: 4px;
-            background: rgba(7, 11, 25, 0.3);
+            letter-spacing: 0.08rem;
+            color: #d4af37;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 5px 14px;
+            border-radius: 2px;
+            background: rgba(15, 23, 42, 0.4);
         }
 
         .btn-connect {
+            font-family: 'Segoe UI', sans-serif;
             display: inline-block;
             text-decoration: none;
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.15rem;
             color: #ffffff;
-            padding: 15px 35px;
-            border: 1px solid #38bdf8;
-            border-radius: 4px;
-            background: rgba(7, 11, 25, 0.6);
+            padding: 16px 40px;
+            border: 1px solid #d4af37;
+            border-radius: 2px;
+            background: rgba(11, 15, 25, 0.8);
             transition: all 0.3s ease;
             position: relative;
             z-index: 20;
@@ -150,21 +150,23 @@
         }
 
         .btn-connect:hover {
-            background: #38bdf8;
-            color: #030712;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+            background: #d4af37;
+            color: #0b0f19;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
         }
 
-        /* Интерактивные вопросы ИИ */
+        /* Юридическая сетка вопросов */
         .ai-questions-title {
+            font-family: 'Segoe UI', sans-serif;
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.15rem;
-            color: #4b5563;
+            color: #6b7280;
             margin-bottom: 12px;
         }
 
         .ai-grid {
+            font-family: 'Segoe UI', sans-serif;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
@@ -174,35 +176,23 @@
 
         .ai-btn {
             background: rgba(17, 24, 39, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            color: #f3f4f6;
-            padding: 10px;
-            font-size: 0.75rem;
-            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            color: #e5e7eb;
+            padding: 11px;
+            font-size: 0.78rem;
+            border-radius: 2px;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
         }
 
         .ai-btn:hover {
-            border-color: #38bdf8;
-            background: rgba(56, 189, 248, 0.05);
-            color: #38bdf8;
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.04);
+            color: #d4af37;
         }
 
-        /* Выделенная кнопка заказа */
-        .ai-btn.highlight {
-            border-color: #f59e0b;
-            color: #f59e0b;
-            font-weight: 600;
-        }
-        .ai-btn.highlight:hover {
-            background: rgba(245, 158, 11, 0.08);
-            border-color: #fbbf24;
-            color: #fbbf24;
-        }
-
-        /* Живой статус системы (Live Status Area) */
+        /* Информационная панель */
         .live-status-bar {
             max-width: 450px;
             margin: 0 auto 6px auto;
@@ -214,27 +204,18 @@
             padding: 0 5px;
         }
 
-        .status-online {
-            color: #10b981;
-            animation: pulseStatus 2s infinite;
-        }
+        .status-online { color: #10b981; }
 
-        /* Терминал */
+        /* Терминал Адвоката */
         .ai-terminal {
             max-width: 450px;
             margin: 0 auto;
-            background: rgba(17, 24, 39, 0.4);
-            border: 1px solid rgba(56, 189, 248, 0.1);
-            border-radius: 6px;
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
             padding: 15px;
             text-align: left;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
-            transition: all 0.2s ease;
-        }
-
-        .ai-terminal.matrix-glitch {
-            border-color: #f59e0b;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
         .terminal-header {
@@ -242,49 +223,44 @@
             align-items: center;
             gap: 6px;
             margin-bottom: 10px;
-            border-bottom: 1px solid rgba(55, 65, 81, 0.3);
+            border-bottom: 1px solid rgba(55, 65, 81, 0.4);
             padding-bottom: 6px;
         }
 
-        .terminal-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
-        .terminal-dot.yellow { background: #f59e0b; }
-        .terminal-dot.green { background: #10b981; }
+        .terminal-dot { width: 7px; height: 7px; border-radius: 50%; background: #4b5563; }
 
         .terminal-title {
+            font-family: 'Segoe UI', sans-serif;
             font-size: 0.65rem;
             text-transform: uppercase;
-            color: #4b5563;
-            letter-spacing: 0.1rem;
+            color: #6b7280;
+            letter-spacing: 0.08rem;
             margin-left: 4px;
         }
 
         .terminal-body {
             font-family: 'Courier New', Courier, monospace;
-            font-size: 0.8rem;
-            color: #38bdf8;
-            line-height: 1.4;
-            min-height: 54px;
+            font-size: 0.82rem;
+            color: #e5e7eb; /* Текст белый/серый, строгий */
+            line-height: 1.5;
+            min-height: 70px;
         }
 
         .cursor {
             display: inline-block;
             width: 6px;
             height: 13px;
-            background: #38bdf8;
+            background: #d4af37;
             margin-left: 2px;
             animation: blink 0.8s infinite;
             vertical-align: middle;
         }
 
-        @keyframes rotate1 { 0% { transform: translate(-50%, -50%) rotate(30deg); } 100% { transform: translate(-50%, -50%) rotate(390deg); } }
-        @keyframes rotate2 { 0% { transform: translate(-50%, -50%) rotate(-30deg); } 100% { transform: translate(-50%, -50%) rotate(330deg); } }
-        @keyframes pulseCore {
-            0% { box-shadow: 0 0 12px #f59e0b; transform: translate(-50%, -50%) scale(0.95); }
-            50% { box-shadow: 0 0 24px #f59e0b, 0 0 35px rgba(245, 158, 11, 0.4); transform: translate(-50%, -50%) scale(1.05); }
-            100% { box-shadow: 0 0 12px #f59e0b; transform: translate(-50%, -50%) scale(0.95); }
+        @keyframes pulseShield {
+            0%, 100% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); transform: translate(-50%, -50%) scale(0.97); }
+            50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); transform: translate(-50%, -50%) scale(1.03); }
         }
         @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
-        @keyframes pulseStatus { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
         @media (max-width: 480px) {
             .ai-grid { grid-template-columns: 1fr; }
@@ -294,117 +270,77 @@
 <body>
 
     <div class="container">
-        <div class="logo-container" onclick="triggerSecretMode()">
-            <div class="core"></div>
-            <div class="orbit orbit-1"></div>
-            <div class="orbit orbit-2"></div>
+        <div class="logo-container">
+            <div class="law-line"></div>
+            <div class="law-shield"></div>
         </div>
 
-        <h1><span class="brand">Atig</span> Systems</h1>
-        <div class="sub-brand">Advanced Technologies Initiated by Genius</div>
+        <h1>Адвокат <span class="gold-text">Петров</span> В.А.</h1>
+        <div class="sub-brand">Квалифицированная юридическая помощь в Алматы</div>
         
-        <p>Проектирование, монтаж и комплексный мониторинг интеллектуальных систем охранно-пожарной сигнализации и автоматики в Алматы.</p>
+        <p>Защита интересов бизнеса и граждан на любых стадиях досудебного производства и в судах. Полная конфиденциальность и правовой контроль.</p>
 
         <div class="tags">
-            <div class="tag">Интеграция</div>
-            <div class="tag">Безопасность</div>
-            <div class="tag">Контроль</div>
+            <div class="tag">Арбитраж</div>
+            <div class="tag">Уголовное право</div>
+            <div class="tag">Защита бизнеса</div>
         </div>
 
-        <a href="tel:+77072562388" class="btn-connect">Установить связь</a>
+        <a href="tel:+77072562388" class="btn-connect">Экстренная консультация</a>
 
-        <div class="ai-questions-title">Запросы к Atig_AI</div>
+        <div class="ai-questions-title">Выберите категорию вопроса:</div>
         <div class="ai-grid">
-            <button class="ai-btn" onclick="askAI('services')">Какие системы ставите?</button>
-            <button class="ai-btn" onclick="askAI('geo')">Где работаете?</button>
-            <button class="ai-btn" onclick="askAI('speed')">Сроки реализации?</button>
-            <button class="ai-btn" onclick="askAI('contacts')">Контакты и адрес?</button>
-            <button class="ai-btn highlight" onclick="askAI('order_site')">⚡ Хочу такой же сайт</button>
-            <button class="ai-btn" onclick="askAI('philosophy')">В чем суть философии?</button>
+            <button class="ai-btn" onclick="askLawyer('business')">Проверки бизнеса / Налоги</button>
+            <button class="ai-btn" onclick="askLawyer('court')">Представительство в суде</button>
+            <button class="ai-btn" onclick="askLawyer('criminal')">Срочный выезд адвоката</button>
+            <button class="ai-btn" onclick="askLawyer('price')">Стоимость и условия</button>
         </div>
 
         <div class="live-status-bar">
-            <span>SYS: <span class="status-online">ONLINE</span></span>
-            <span>LOC: ALMATY_43.23N</span>
-            <span>CPU: <span id="live-cpu">11.7%</span></span>
+            <span>СТАТУС: <span class="status-online">НА СВЯЗИ</span></span>
+            <span>АДВОКАТСКАЯ ЛИЦЕНЗИЯ: АКТИВНА</span>
         </div>
 
-        <div class="ai-terminal" id="terminal-box">
+        <div class="ai-terminal">
             <div class="terminal-header">
                 <div class="terminal-dot"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title" id="term-title">atig_ai_core_v2.0.26</span>
+                <div class="terminal-dot"></div>
+                <span class="terminal-title">lawyer_consultant_system</span>
             </div>
             <div class="terminal-body">
-                <span id="ai-text"></span><span class="cursor"></span>
+                <span id="lawyer-text"></span><span class="cursor"></span>
             </div>
         </div>
     </div>
 
     <script>
-        // База знаний Atig_AI
         const answers = {
-            start: "Atig_AI: ИИ-модуль запущен. Мониторинг безопасности систем в Алматы активен. Выберите интересующий запрос выше...",
-            services: "Atig_AI: Выполняем полный цикл — от проектирования до монтажа систем ОПС, систем контроля доступа (СКУД), видеонаблюдения и автоматизации безопасности.",
-            geo: "Atig_AI: Оперативно работаем по всему городу Алматы и прилегающим регионам. Возможен выезд для комплексного аудита объекта.",
-            speed: "Atig_AI: Расчет спецификации занимает до 24 часов. Монтажные работы зависят от масштаба объекта, но всегда строго оптимизированы по стандартам бережливого производства.",
-            philosophy: "Atig_AI: Концепция ATIG объединяет передовые инженерные решения и непрерывное улучшение процессов (Кайдзен). Иисключаем дефекты на каждом этапе монтажа.",
-            contacts: "Atig_AI: Связь напрямую: +7 (707) 256-23-88. Локация: Республика Казахстан, г. Алматы. Для немедленного вызова инженера нажмите кнопку 'Установить связь'.",
-            order_site: "Atig_AI: Запущена программа генерации умных визиток. Разработаем интерактивный high-tech интерфейс для вашего дела за 24 часа. Без лишних трат на хостинг. Нажмите кнопку 'Установить связь', чтобы обсудить детали.",
-            secret: "root@atig_core:~# Инициализация личного проекта ИИ... Доступ подтвержден. Создание решений для сохранения информации, памяти и наследия. Архивация данных запущена успешно."
+            start: "Система: Адвокатский онлайн-помощник готов к анализу ситуации. Выберите интересующее правовое направление выше...",
+            business: "Юрист: Обеспечиваем юридическую безопасность при проверках госорганов, минимизируем налоговые риски, сопровождаем крупные сделки. Возможен абонентский аудит.",
+            court: "Юрист: Полный комплекс услуг: от глубокого анализа материалов дела и составления исков до защиты интересов во всех судебных инстанциях г. Алматы.",
+            criminal: "Юрист: Круглосуточный экстренный выезд при задержаниях, обысках или допросах. Защита прав доверителя начинается с момента первого контакта.",
+            price: "Юрист: Первичный правовой анализ ситуации — по телефону. Итоговая стоимость фиксируется в официальном договоре об оказании адвокатской помощи и не меняется."
         };
 
         let currentTimeout = null;
-        const textField = document.getElementById("ai-text");
-        const terminalBox = document.getElementById("terminal-box");
-        const termTitle = document.getElementById("term-title");
+        const textField = document.getElementById("lawyer-text");
 
-        function typeWriter(text, index, callback) {
+        function typeWriter(text, index) {
             if (index < text.length) {
                 textField.innerHTML += text.charAt(index);
-                currentTimeout = setTimeout(() => typeWriter(text, index + 1, callback), 35);
-            } else if (callback) {
-                callback();
+                currentTimeout = setTimeout(() => typeWriter(text, index + 1), 30);
             }
         }
 
-        function askAI(key) {
+        function askLawyer(key) {
             if (currentTimeout) clearTimeout(currentTimeout);
-            
-            terminalBox.classList.remove("matrix-glitch");
-            termTitle.innerHTML = "atig_ai_core_v2.0.26";
-            textField.style.color = "#38bdf8";
-
-            textField.innerHTML = "Analysing request... ";
+            textField.innerHTML = "Подключение к базе защищенных логов... ";
             
             setTimeout(() => {
                 textField.innerHTML = "";
                 typeWriter(answers[key], 0);
-            }, 300);
+            }, 250);
         }
-
-        function triggerSecretMode() {
-            if (currentTimeout) clearTimeout(currentTimeout);
-            
-            terminalBox.classList.add("matrix-glitch");
-            termTitle.innerHTML = "atig_kernel_developer_override";
-            textField.style.color = "#f59e0b";
-            textField.innerHTML = "OVERRIDING SYSTEM... ";
-
-            setTimeout(() => {
-                textField.innerHTML = "";
-                typeWriter(answers['secret'], 0);
-            }, 500);
-        }
-
-        setInterval(() => {
-            const cpuElement = document.getElementById("live-cpu");
-            if (cpuElement) {
-                const randomCpu = (Math.random() * (15.4 - 8.1) + 8.1).toFixed(1);
-                cpuElement.innerHTML = randomCpu + "%";
-            }
-        }, 3000);
 
         document.addEventListener("DOMContentLoaded", function() {
             typeWriter(answers['start'], 0);

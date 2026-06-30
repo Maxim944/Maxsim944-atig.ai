@@ -54,7 +54,7 @@
             display: inline-block;
             width: 80px;
             height: 80px;
-            cursor: pointer; /* Сделали ядро кликабельным для пасхалки */
+            cursor: pointer;
         }
 
         .core {
@@ -190,6 +190,18 @@
             color: #38bdf8;
         }
 
+        /* Выделенная кнопка заказа */
+        .ai-btn.highlight {
+            border-color: #f59e0b;
+            color: #f59e0b;
+            font-weight: 600;
+        }
+        .ai-btn.highlight:hover {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+
         /* Живой статус системы (Live Status Area) */
         .live-status-bar {
             max-width: 450px;
@@ -306,13 +318,15 @@
             <button class="ai-btn" onclick="askAI('services')">Какие системы ставите?</button>
             <button class="ai-btn" onclick="askAI('geo')">Где работаете?</button>
             <button class="ai-btn" onclick="askAI('speed')">Сроки реализации?</button>
+            <button class="ai-btn" onclick="askAI('contacts')">Контакты и адрес?</button>
+            <button class="ai-btn highlight" onclick="askAI('order_site')">⚡ Хочу такой же сайт</button>
             <button class="ai-btn" onclick="askAI('philosophy')">В чем суть философии?</button>
         </div>
 
         <div class="live-status-bar">
             <span>SYS: <span class="status-online">ONLINE</span></span>
             <span>LOC: ALMATY_43.23N</span>
-            <span>CPU: <span id="live-cpu">12.4%</span></span>
+            <span>CPU: <span id="live-cpu">11.7%</span></span>
         </div>
 
         <div class="ai-terminal" id="terminal-box">
@@ -335,7 +349,9 @@
             services: "Atig_AI: Выполняем полный цикл — от проектирования до монтажа систем ОПС, систем контроля доступа (СКУД), видеонаблюдения и автоматизации безопасности.",
             geo: "Atig_AI: Оперативно работаем по всему городу Алматы и прилегающим регионам. Возможен выезд для комплексного аудита объекта.",
             speed: "Atig_AI: Расчет спецификации занимает до 24 часов. Монтажные работы зависят от масштаба объекта, но всегда строго оптимизированы по стандартам бережливого производства.",
-            philosophy: "Atig_AI: Концепция ATIG объединяет передовые инженерные решения и непрерывное улучшение процессов (Кайдзен). Исключаем дефекты на каждом этапе монтажа.",
+            philosophy: "Atig_AI: Концепция ATIG объединяет передовые инженерные решения и непрерывное улучшение процессов (Кайдзен). Иисключаем дефекты на каждом этапе монтажа.",
+            contacts: "Atig_AI: Связь напрямую: +7 (707) 256-23-88. Локация: Республика Казахстан, г. Алматы. Для немедленного вызова инженера нажмите кнопку 'Установить связь'.",
+            order_site: "Atig_AI: Запущена программа генерации умных визиток. Разработаем интерактивный high-tech интерфейс для вашего дела за 24 часа. Без лишних трат на хостинг. Нажмите кнопку 'Установить связь', чтобы обсудить детали.",
             secret: "root@atig_core:~# Инициализация личного проекта ИИ... Доступ подтвержден. Создание решений для сохранения информации, памяти и наследия. Архивация данных запущена успешно."
         };
 
@@ -356,7 +372,6 @@
         function askAI(key) {
             if (currentTimeout) clearTimeout(currentTimeout);
             
-            // Сбрасываем стили секретного режима, если они были активны
             terminalBox.classList.remove("matrix-glitch");
             termTitle.innerHTML = "atig_ai_core_v2.0.26";
             textField.style.color = "#38bdf8";
@@ -369,13 +384,12 @@
             }, 300);
         }
 
-        // Функция секретного лога (пасхалка при клике на логотип)
         function triggerSecretMode() {
             if (currentTimeout) clearTimeout(currentTimeout);
             
             terminalBox.classList.add("matrix-glitch");
             termTitle.innerHTML = "atig_kernel_developer_override";
-            textField.style.color = "#f59e0b"; // Переключаем цвет на оранжевый
+            textField.style.color = "#f59e0b";
             textField.innerHTML = "OVERRIDING SYSTEM... ";
 
             setTimeout(() => {
@@ -384,16 +398,14 @@
             }, 500);
         }
 
-        // Динамическое колебание нагрузки CPU для живого эффекта
         setInterval(() => {
             const cpuElement = document.getElementById("live-cpu");
             if (cpuElement) {
-                const randomCpu = (Math.random() * (16.8 - 9.2) + 9.2).toFixed(1);
+                const randomCpu = (Math.random() * (15.4 - 8.1) + 8.1).toFixed(1);
                 cpuElement.innerHTML = randomCpu + "%";
             }
         }, 3000);
 
-        // Стартовый запуск
         document.addEventListener("DOMContentLoaded", function() {
             typeWriter(answers['start'], 0);
         });

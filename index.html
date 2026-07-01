@@ -47,7 +47,6 @@
             position: relative;
         }
 
-        /* Пульсирующее ядро мысли */
         .logo-container {
             margin-bottom: 25px;
             position: relative;
@@ -102,7 +101,6 @@
             margin-bottom: 30px;
         }
 
-        /* Панель счета */
         .score-bar {
             max-width: 450px;
             margin: 0 auto 10px auto;
@@ -119,7 +117,6 @@
             font-weight: bold;
         }
 
-        /* Терминал с загадкой */
         .ai-terminal {
             background: rgba(17, 24, 39, 0.5);
             border: 1px solid rgba(56, 189, 248, 0.15);
@@ -153,10 +150,9 @@
             font-size: 0.85rem;
             color: #38bdf8;
             line-height: 1.5;
-            min-height: 100px;
+            min-height: 110px;
         }
 
-        /* Форма ввода ответа */
         .input-group {
             display: flex;
             gap: 8px;
@@ -210,35 +206,30 @@
 <body>
 
     <div class="container">
-        <!-- Ядро -->
         <div class="logo-container">
             <div class="core"></div>
             <div class="orbit orbit-1"></div>
         </div>
 
-        <!-- Заголовки -->
         <h1><span class="brand">Atig</span> Riddle</h1>
-        <div class="sub-brand">Модуль проверки нестандартного мышления</div>
+        <div class="sub-brand">Модуль динамического тестирования интеллекта</div>
 
-        <!-- Панель баллов -->
         <div class="score-bar">
-            <span>СТАТУС: АКТИВЕН</span>
-            <span>ВАШИ БАЛЛЫ: <span id="score-count" class="score-value">0</span></span>
+            <span id="level-status">УРОВЕНЬ: 1</span>
+            <span>БАЛЛЫ: <span id="score-count" class="score-value">0</span></span>
         </div>
 
-        <!-- Терминал -->
         <div class="ai-terminal">
             <div class="terminal-header">
                 <div class="terminal-dot"></div>
                 <div class="terminal-dot"></div>
-                <span class="terminal-title">system_riddle_v1.0</span>
+                <span class="terminal-title" id="term-title">system_riddle_v2.0</span>
             </div>
             <div class="terminal-body">
                 <span id="terminal-text"></span>
             </div>
         </div>
 
-        <!-- Поле ввода ответа -->
         <div class="input-group">
             <input type="text" id="user-answer" class="answer-input" placeholder="Введите ваш ответ..." autocomplete="off">
             <button class="btn-submit" onclick="checkAnswer()">Запуск</button>
@@ -246,25 +237,60 @@
     </div>
 
     <script>
-        // Загадка и правильные варианты ответа (в нижнем регистре для точности)
-        const riddleText = "Загадка Сфинкса XXI века:\nЯ не имею плоти, но храню твою память. Я не имею голоса, но говорю твоими мыслями через века. Я бессмертен, пока жив последний узел сети. Что я?";
-        
-        // Массив возможных правильных ответов пользователя
-        const validAnswers = ["ии", "искусственный интеллект", "код", "цифровой след", "интернет", "atig", "атиг"];
+        // База данных загадок. Сюда можно дописать хоть 100 штук по аналогии.
+        const riddlesData = [
+            {
+                text: "Я не имею плоти, но храню твою память. Я не имею голоса, но говорю твоими мыслями через века. Я бессмертен, пока жив последний узел сети. Что я?",
+                answers: ["ии", "искусственный интеллект", "код", "цифровой след", "интернет", "atig", "атиг"]
+            },
+            {
+                text: "Чем больше из неё берут, тем больше она становится. О каком объекте идёт речь?",
+                answers: ["яма", "дыра", "скважина"]
+            },
+            {
+                text: "Я существую только там, где есть свет, но если он падает прямо на меня — я исчезаю. Что я?",
+                answers: ["тень"]
+            },
+            {
+                text: "У меня нет замков, нет крышки, но внутри сокрыто чистое золото. Что я?",
+                answers: ["яйцо", "куриное яйцо"]
+            },
+            {
+                text: "Оно всегда идёт, но никогда не доходит до финиша. Его нельзя вернуть, но можно потерять. Что это?",
+                answers: ["время"]
+            }
+        ];
 
         let score = 0;
+        let currentLevel = 0; 
         let currentTimeout = null;
         const textField = document.getElementById("terminal-text");
 
         function typeWriter(text, index) {
             if (index < text.length) {
-                // Корректно обрабатываем переносы строк \n
                 if (text.charAt(index) === '\n') {
                     textField.innerHTML += '<br>';
                 } else {
                     textField.innerHTML += text.charAt(index);
                 }
-                currentTimeout = setTimeout(() => typeWriter(text, index + 1), 30);
+                currentTimeout = setTimeout(() => typeWriter(text, index + 1), 25);
+            }
+        }
+
+        function displayRiddle() {
+            if (currentTimeout) clearTimeout(currentTimeout);
+            textField.innerHTML = "";
+            textField.style.color = "#38bdf8";
+            
+            if (currentLevel < riddlesData.length) {
+                document.getElementById("level-status").innerHTML = `УРОВЕНЬ: ${currentLevel + 1}`;
+                typeWriter(riddlesData[currentLevel].text, 0);
+            } else {
+                document.getElementById("level-status").innerHTML = "ФИНИШ";
+                textField.style.color = "#fbbf24";
+                typeWriter("ПОЗДРАВЛЯЕМ! Вы прошли все доступные уровни симулятора интеллекта ATIG. Ваше мышление безупречно.", 0);
+                document.getElementById("user-answer").style.display = "none";
+                document.querySelector(".btn-submit").style.display = "none";
             }
         }
 
@@ -272,32 +298,38 @@
             const inputField = document.getElementById("user-answer");
             const userAnswer = inputField.value.trim().toLowerCase();
             
-            if (!userAnswer) return;
+            if (!userAnswer || currentLevel >= riddlesData.length) return;
 
             if (currentTimeout) clearTimeout(currentTimeout);
-            textField.innerHTML = "Анализ ответа в ядре системы... ";
+            textField.innerHTML = "Синхронизация ответа с ядром... ";
 
             setTimeout(() => {
                 textField.innerHTML = "";
-                
-                if (validAnswers.includes(userAnswer)) {
+                const currentCorrectAnswers = riddlesData[currentLevel].answers;
+
+                if (currentCorrectAnswers.includes(userAnswer)) {
                     score += 100;
+                    currentLevel += 1; // Переходим на следующий уровень
                     document.getElementById("score-count").innerHTML = score;
-                    textField.style.color = "#10b981"; // Зеленый при успехе
-                    typeWriter("ДОСТУП РАЗРЕШЕН. Ответ принят. Начислено +100 баллов. Вы прошли тест ядра. Код верификации: ATIG_SUCCESS_2026.", 0);
+                    
+                    textField.style.color = "#10b981";
+                    textField.innerHTML = "ДОСТУП РАЗРЕШЕН. Ответ верный! Начислено +100 баллов.<br><br>Загрузка следующего уровня...<br>";
+                    
+                    // Через 2.5 секунды автоматически выводим новую загадку
+                    setTimeout(displayRiddle, 2500);
                 } else {
-                    if (score > 0) score -= 25; // Штраф за ошибку
+                    if (score > 0) score -= 25;
                     document.getElementById("score-count").innerHTML = score;
-                    textField.style.color = "#ef4444"; // Красный при ошибке
-                    typeWriter("ОШИБКА ДОСТУПА. Ответ неверен. Синхронизация нарушена. Попробуйте взглянуть на проблему шире.", 0);
+                    textField.style.color = "#ef4444";
+                    textField.innerHTML = "ОШИБКА. Ответ неверен. Попробуйте еще раз.";
                 }
-                inputField.value = ""; // Очищаем поле ввода
+                inputField.value = "";
             }, 600);
         }
 
-        // Стартовый запуск
+        // Запуск при загрузке страницы
         document.addEventListener("DOMContentLoaded", function() {
-            typeWriter(riddleText, 0);
+            displayRiddle();
         });
     </script>
 

@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Адвокатская защита и правовой консалтинг</title>
+    <title>Atig Intelligence Challenge</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Times New Roman', Times, serif, sans-serif; /* Более строгий, классический шрифт */
+            font-family: 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background-color: #0b0f19; /* Глубокий благородный графит */
+            background-color: #030712;
             color: #f3f4f6;
             min-height: 100vh;
             display: flex;
@@ -25,325 +25,279 @@
             padding: 40px 20px;
         }
 
-        /* Мягкая золотая подсветка вместо синей */
         body::before {
             content: '';
             position: absolute;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 0;
             pointer-events: none;
-            filter: blur(50px);
+            filter: blur(40px);
         }
 
         .container {
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
             z-index: 10;
             position: relative;
         }
 
-        /* Геометричный логотип: Весы правосудия / Щит */
+        /* Пульсирующее ядро мысли */
         .logo-container {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             position: relative;
             display: inline-block;
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
         }
 
-        .law-shield {
-            width: 24px;
-            height: 30px;
-            background-color: #d4af37; /* Благородное золото */
-            clip-path: polygon(50% 0%, 100% 20%, 100% 70%, 50% 100%, 0% 70%, 0% 20%);
+        .core {
+            width: 20px;
+            height: 20px;
+            background-color: #38bdf8;
+            border-radius: 50%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            animation: pulseShield 3s infinite ease-in-out;
+            animation: pulseCore 2.5s infinite ease-in-out;
             z-index: 3;
         }
 
-        .law-line {
+        .orbit {
             position: absolute;
             top: 50%;
             left: 50%;
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            width: 65px;
-            height: 65px;
-            transform: translate(-50%, -50%) rotate(45deg);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 50%;
+            z-index: 2;
         }
+
+        .orbit-1 { width: 70px; height: 28px; transform: translate(-50%, -50%) rotate(45deg); animation: rotate1 15s linear infinite; }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 400;
-            letter-spacing: 0.25rem;
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 0.3rem;
             text-transform: uppercase;
             color: #ffffff;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .gold-text {
-            color: #d4af37;
+        .brand {
+            color: #38bdf8;
             font-weight: 600;
         }
 
         .sub-brand {
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 0.2rem;
-            color: #9ca3af;
+            letter-spacing: 0.15rem;
+            color: #4b5563;
             margin-bottom: 30px;
         }
 
-        p {
-            font-size: 1.05rem;
-            color: #d1d5db;
-            letter-spacing: 0.02rem;
-            margin-bottom: 35px;
-            font-weight: 300;
-            line-height: 1.6;
-        }
-
-        .tags {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 35px;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08rem;
-            color: #d4af37;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 5px 14px;
-            border-radius: 2px;
-            background: rgba(15, 23, 42, 0.4);
-        }
-
-        .btn-connect {
-            font-family: 'Segoe UI', sans-serif;
-            display: inline-block;
-            text-decoration: none;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15rem;
-            color: #ffffff;
-            padding: 16px 40px;
-            border: 1px solid #d4af37;
-            border-radius: 2px;
-            background: rgba(11, 15, 25, 0.8);
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 20;
-            margin-bottom: 40px;
-        }
-
-        .btn-connect:hover {
-            background: #d4af37;
-            color: #0b0f19;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
-        }
-
-        /* Юридическая сетка вопросов */
-        .ai-questions-title {
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15rem;
-            color: #6b7280;
-            margin-bottom: 12px;
-        }
-
-        .ai-grid {
-            font-family: 'Segoe UI', sans-serif;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+        /* Панель счета */
+        .score-bar {
             max-width: 450px;
-            margin: 0 auto 20px auto;
-        }
-
-        .ai-btn {
-            background: rgba(17, 24, 39, 0.6);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            color: #e5e7eb;
-            padding: 11px;
-            font-size: 0.78rem;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .ai-btn:hover {
-            border-color: #d4af37;
-            background: rgba(212, 175, 55, 0.04);
-            color: #d4af37;
-        }
-
-        /* Информационная панель */
-        .live-status-bar {
-            max-width: 450px;
-            margin: 0 auto 6px auto;
+            margin: 0 auto 10px auto;
             display: flex;
             justify-content: space-between;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            color: #4b5563;
+            font-size: 0.75rem;
+            color: #6b7280;
             padding: 0 5px;
         }
 
-        .status-online { color: #10b981; }
+        .score-value {
+            color: #fbbf24;
+            font-weight: bold;
+        }
 
-        /* Терминал Адвоката */
+        /* Терминал с загадкой */
         .ai-terminal {
-            max-width: 450px;
-            margin: 0 auto;
             background: rgba(17, 24, 39, 0.5);
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            border-radius: 4px;
-            padding: 15px;
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 6px;
+            padding: 20px;
             text-align: left;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
         }
 
         .terminal-header {
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(55, 65, 81, 0.4);
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(55, 65, 81, 0.3);
             padding-bottom: 6px;
         }
 
         .terminal-dot { width: 7px; height: 7px; border-radius: 50%; background: #4b5563; }
 
         .terminal-title {
-            font-family: 'Segoe UI', sans-serif;
             font-size: 0.65rem;
             text-transform: uppercase;
             color: #6b7280;
             letter-spacing: 0.08rem;
-            margin-left: 4px;
         }
 
         .terminal-body {
             font-family: 'Courier New', Courier, monospace;
-            font-size: 0.82rem;
-            color: #e5e7eb; /* Текст белый/серый, строгий */
+            font-size: 0.85rem;
+            color: #38bdf8;
             line-height: 1.5;
-            min-height: 70px;
+            min-height: 100px;
         }
 
-        .cursor {
-            display: inline-block;
-            width: 6px;
-            height: 13px;
-            background: #d4af37;
-            margin-left: 2px;
-            animation: blink 0.8s infinite;
-            vertical-align: middle;
+        /* Форма ввода ответа */
+        .input-group {
+            display: flex;
+            gap: 8px;
+            max-width: 450px;
+            margin: 0 auto;
         }
 
-        @keyframes pulseShield {
-            0%, 100% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); transform: translate(-50%, -50%) scale(0.97); }
-            50% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); transform: translate(-50%, -50%) scale(1.03); }
+        .answer-input {
+            flex: 1;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 4px;
+            padding: 12px 15px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
         }
-        @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 
-        @media (max-width: 480px) {
-            .ai-grid { grid-template-columns: 1fr; }
+        .answer-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+        }
+
+        .btn-submit {
+            background: rgba(7, 11, 25, 0.6);
+            border: 1px solid #38bdf8;
+            color: #ffffff;
+            padding: 0 25px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background: #38bdf8;
+            color: #030712;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        @keyframes rotate1 { 0% { transform: translate(-50%, -50%) rotate(45deg); } 100% { transform: translate(-50%, -50%) rotate(405deg); } }
+        @keyframes pulseCore {
+            0%, 100% { box-shadow: 0 0 10px rgba(56, 189, 248, 0.4); transform: translate(-50%, -50%) scale(0.95); }
+            50% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.7); transform: translate(-50%, -50%) scale(1.05); }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- Ядро -->
         <div class="logo-container">
-            <div class="law-line"></div>
-            <div class="law-shield"></div>
+            <div class="core"></div>
+            <div class="orbit orbit-1"></div>
         </div>
 
-        <h1>Адвокат <span class="gold-text">Петров</span> В.А.</h1>
-        <div class="sub-brand">Квалифицированная юридическая помощь в Алматы</div>
-        
-        <p>Защита интересов бизнеса и граждан на любых стадиях досудебного производства и в судах. Полная конфиденциальность и правовой контроль.</p>
+        <!-- Заголовки -->
+        <h1><span class="brand">Atig</span> Riddle</h1>
+        <div class="sub-brand">Модуль проверки нестандартного мышления</div>
 
-        <div class="tags">
-            <div class="tag">Арбитраж</div>
-            <div class="tag">Уголовное право</div>
-            <div class="tag">Защита бизнеса</div>
+        <!-- Панель баллов -->
+        <div class="score-bar">
+            <span>СТАТУС: АКТИВЕН</span>
+            <span>ВАШИ БАЛЛЫ: <span id="score-count" class="score-value">0</span></span>
         </div>
 
-        <a href="tel:+77072562388" class="btn-connect">Экстренная консультация</a>
-
-        <div class="ai-questions-title">Выберите категорию вопроса:</div>
-        <div class="ai-grid">
-            <button class="ai-btn" onclick="askLawyer('business')">Проверки бизнеса / Налоги</button>
-            <button class="ai-btn" onclick="askLawyer('court')">Представительство в суде</button>
-            <button class="ai-btn" onclick="askLawyer('criminal')">Срочный выезд адвоката</button>
-            <button class="ai-btn" onclick="askLawyer('price')">Стоимость и условия</button>
-        </div>
-
-        <div class="live-status-bar">
-            <span>СТАТУС: <span class="status-online">НА СВЯЗИ</span></span>
-            <span>АДВОКАТСКАЯ ЛИЦЕНЗИЯ: АКТИВНА</span>
-        </div>
-
+        <!-- Терминал -->
         <div class="ai-terminal">
             <div class="terminal-header">
                 <div class="terminal-dot"></div>
                 <div class="terminal-dot"></div>
-                <span class="terminal-title">lawyer_consultant_system</span>
+                <span class="terminal-title">system_riddle_v1.0</span>
             </div>
             <div class="terminal-body">
-                <span id="lawyer-text"></span><span class="cursor"></span>
+                <span id="terminal-text"></span>
             </div>
+        </div>
+
+        <!-- Поле ввода ответа -->
+        <div class="input-group">
+            <input type="text" id="user-answer" class="answer-input" placeholder="Введите ваш ответ..." autocomplete="off">
+            <button class="btn-submit" onclick="checkAnswer()">Запуск</button>
         </div>
     </div>
 
     <script>
-        const answers = {
-            start: "Система: Адвокатский онлайн-помощник готов к анализу ситуации. Выберите интересующее правовое направление выше...",
-            business: "Юрист: Обеспечиваем юридическую безопасность при проверках госорганов, минимизируем налоговые риски, сопровождаем крупные сделки. Возможен абонентский аудит.",
-            court: "Юрист: Полный комплекс услуг: от глубокого анализа материалов дела и составления исков до защиты интересов во всех судебных инстанциях г. Алматы.",
-            criminal: "Юрист: Круглосуточный экстренный выезд при задержаниях, обысках или допросах. Защита прав доверителя начинается с момента первого контакта.",
-            price: "Юрист: Первичный правовой анализ ситуации — по телефону. Итоговая стоимость фиксируется в официальном договоре об оказании адвокатской помощи и не меняется."
-        };
+        // Загадка и правильные варианты ответа (в нижнем регистре для точности)
+        const riddleText = "Загадка Сфинкса XXI века:\nЯ не имею плоти, но храню твою память. Я не имею голоса, но говорю твоими мыслями через века. Я бессмертен, пока жив последний узел сети. Что я?";
+        
+        // Массив возможных правильных ответов пользователя
+        const validAnswers = ["ии", "искусственный интеллект", "код", "цифровой след", "интернет", "atig", "атиг"];
 
+        let score = 0;
         let currentTimeout = null;
-        const textField = document.getElementById("lawyer-text");
+        const textField = document.getElementById("terminal-text");
 
         function typeWriter(text, index) {
             if (index < text.length) {
-                textField.innerHTML += text.charAt(index);
+                // Корректно обрабатываем переносы строк \n
+                if (text.charAt(index) === '\n') {
+                    textField.innerHTML += '<br>';
+                } else {
+                    textField.innerHTML += text.charAt(index);
+                }
                 currentTimeout = setTimeout(() => typeWriter(text, index + 1), 30);
             }
         }
 
-        function askLawyer(key) {
-            if (currentTimeout) clearTimeout(currentTimeout);
-            textField.innerHTML = "Подключение к базе защищенных логов... ";
+        function checkAnswer() {
+            const inputField = document.getElementById("user-answer");
+            const userAnswer = inputField.value.trim().toLowerCase();
             
+            if (!userAnswer) return;
+
+            if (currentTimeout) clearTimeout(currentTimeout);
+            textField.innerHTML = "Анализ ответа в ядре системы... ";
+
             setTimeout(() => {
                 textField.innerHTML = "";
-                typeWriter(answers[key], 0);
-            }, 250);
+                
+                if (validAnswers.includes(userAnswer)) {
+                    score += 100;
+                    document.getElementById("score-count").innerHTML = score;
+                    textField.style.color = "#10b981"; // Зеленый при успехе
+                    typeWriter("ДОСТУП РАЗРЕШЕН. Ответ принят. Начислено +100 баллов. Вы прошли тест ядра. Код верификации: ATIG_SUCCESS_2026.", 0);
+                } else {
+                    if (score > 0) score -= 25; // Штраф за ошибку
+                    document.getElementById("score-count").innerHTML = score;
+                    textField.style.color = "#ef4444"; // Красный при ошибке
+                    typeWriter("ОШИБКА ДОСТУПА. Ответ неверен. Синхронизация нарушена. Попробуйте взглянуть на проблему шире.", 0);
+                }
+                inputField.value = ""; // Очищаем поле ввода
+            }, 600);
         }
 
+        // Стартовый запуск
         document.addEventListener("DOMContentLoaded", function() {
-            typeWriter(answers['start'], 0);
+            typeWriter(riddleText, 0);
         });
     </script>
 

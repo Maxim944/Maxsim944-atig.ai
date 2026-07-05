@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ATIG Assistant</title>
     <style>
+        /* Базовые настройки темы ATIG */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -19,13 +20,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Используем динамическую высоту, чтобы учитывалась панель браузера */
             height: 100vh;
             height: 100dvh; 
             overflow: hidden;
             position: relative;
         }
 
+        /* Сдержанная фоновая сетка */
         body::before {
             content: "";
             position: absolute;
@@ -39,6 +40,7 @@
             z-index: 0;
         }
 
+        /* Контейнер чата */
         .chat-container {
             width: 100%;
             max-width: 900px;
@@ -63,6 +65,7 @@
             }
         }
 
+        /* Шапка ассистента */
         .chat-header {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -72,6 +75,7 @@
             flex-shrink: 0;
         }
 
+        /* СФЕРА ATIG: Глубокая сингулярность */
         .avatar {
             width: 38px;
             height: 38px;
@@ -108,9 +112,10 @@
             color: #f1f5f9;
         }
 
+        /* Область сообщений (добавлен нижний отступ padding-bottom, чтобы текст не прятался за фиксированным вводом) */
         .messages-area {
             flex: 1;
-            padding: 20px;
+            padding: 20px 20px 90px 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -125,6 +130,7 @@
             border-radius: 10px;
         }
 
+        /* Сообщения */
         .message {
             display: flex;
             gap: 12px;
@@ -164,12 +170,16 @@
             border-top-left-radius: 4px;
         }
 
-        /* Обновленная зона ввода: фиксированная высота и жесткая привязка к низу */
+        /* Новая жёстко фиксированная зона ввода для мобильных */
         .input-area {
-            padding: 10px 15px calc(10px + env(safe-area-inset-bottom));
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 15px calc(24px + env(safe-area-inset-bottom));
             background: #04060d;
-            flex-shrink: 0;
             border-top: 1px solid rgba(255, 255, 255, 0.03);
+            z-index: 10;
         }
 
         .input-wrapper {
@@ -179,6 +189,17 @@
             border-radius: 24px;
             padding: 4px 4px 4px 16px;
             align-items: center;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .input-area {
+                position: static;
+                padding: 15px 20px;
+                background: transparent;
+                border-top: none;
+            }
         }
 
         textarea {
@@ -249,7 +270,7 @@
         const sendBtn = document.getElementById('sendBtn');
         const chatMessages = document.getElementById('chatMessages');
 
-        // Корректное изменение высоты без выталкивания контейнера
+        // Динамическое изменение высоты ввода
         userInput.addEventListener('input', function() {
             this.style.height = 'auto';
             const nextHeight = Math.min(this.scrollHeight, 100);
@@ -264,6 +285,7 @@
             userInput.value = '';
             userInput.style.height = '36px';
 
+            // Локальная заглушка
             setTimeout(() => {
                 appendMessage("Интерфейс работает стабильно. Ожидаю подключения логики и API Gemini.", 'assistant');
             }, 1000);

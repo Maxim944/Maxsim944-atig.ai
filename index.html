@@ -2,10 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ATIG Assistant</title>
     <style>
-        /* Базовые настройки темы ATIG */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,12 +19,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Используем динамическую высоту, чтобы учитывалась панель браузера */
             height: 100vh;
+            height: 100dvh; 
             overflow: hidden;
             position: relative;
         }
 
-        /* Сдержанная фоновая сетка, намек на структуру */
         body::before {
             content: "";
             position: absolute;
@@ -39,38 +39,39 @@
             z-index: 0;
         }
 
-        /* Контейнер чата (адаптирован под мобильные и десктоп) */
         .chat-container {
             width: 100%;
             max-width: 900px;
             height: 100vh;
+            height: 100dvh;
             background: rgba(7, 10, 20, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
             z-index: 1;
+            position: relative;
         }
 
         @media (min-width: 768px) {
             .chat-container {
                 height: 90vh;
+                height: 90dvh;
                 border: 1px solid rgba(255, 255, 255, 0.05);
                 border-radius: 24px;
                 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
             }
         }
 
-        /* Шапка ассистента */
         .chat-header {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-shrink: 0;
         }
 
-        /* ЖИВАЯ СФЕРА ATIG: Строгая, глубокая сингулярность */
         .avatar {
             width: 38px;
             height: 38px;
@@ -96,14 +97,8 @@
         }
 
         @keyframes spherePulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 12px rgba(99, 102, 241, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.05);
-            }
-            100% {
-                transform: scale(1.04);
-                box-shadow: 0 0 22px rgba(139, 92, 246, 0.2), inset 0 0 8px rgba(255, 255, 255, 0.08);
-            }
+            0% { transform: scale(1); box-shadow: 0 0 12px rgba(99, 102, 241, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.05); }
+            100% { transform: scale(1.04); box-shadow: 0 0 22px rgba(139, 92, 246, 0.2), inset 0 0 8px rgba(255, 255, 255, 0.08); }
         }
 
         .chat-header h1 {
@@ -113,7 +108,6 @@
             color: #f1f5f9;
         }
 
-        /* Область вывода сообщений */
         .messages-area {
             flex: 1;
             padding: 20px;
@@ -131,7 +125,6 @@
             border-radius: 10px;
         }
 
-        /* Сообщения */
         .message {
             display: flex;
             gap: 12px;
@@ -171,10 +164,12 @@
             border-top-left-radius: 4px;
         }
 
-        /* Зона ввода */
+        /* Обновленная зона ввода: фиксированная высота и жесткая привязка к низу */
         .input-area {
-            padding: 15px 20px calc(15px + env(safe-area-inset-bottom));
-            background: transparent;
+            padding: 10px 15px calc(10px + env(safe-area-inset-bottom));
+            background: #04060d;
+            flex-shrink: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .input-wrapper {
@@ -193,10 +188,10 @@
             outline: none;
             color: #fff;
             resize: none;
-            padding: 10px 10px 10px 0;
+            padding: 8px 10px 8px 0;
             font-size: 0.95rem;
-            height: 40px;
-            max-height: 120px;
+            height: 36px;
+            max-height: 100px;
         }
 
         textarea::placeholder {
@@ -207,16 +202,17 @@
             background: linear-gradient(135deg, #4f46e5, #6366f1);
             border: none;
             color: white;
-            height: 36px;
-            padding: 0 20px;
-            border-radius: 18px;
+            height: 32px;
+            padding: 0 16px;
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: opacity 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .send-btn:hover {
@@ -253,10 +249,11 @@
         const sendBtn = document.getElementById('sendBtn');
         const chatMessages = document.getElementById('chatMessages');
 
-        // Автоматическое расширение текстового поля при вводе
+        // Корректное изменение высоты без выталкивания контейнера
         userInput.addEventListener('input', function() {
             this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
+            const nextHeight = Math.min(this.scrollHeight, 100);
+            this.style.height = nextHeight + 'px';
         });
 
         function sendMessage() {
@@ -265,9 +262,8 @@
 
             appendMessage(text, 'user');
             userInput.value = '';
-            userInput.style.height = '40px';
+            userInput.style.height = '36px';
 
-            // Пока бэкенд не подключен — временная заглушка
             setTimeout(() => {
                 appendMessage("Интерфейс работает стабильно. Ожидаю подключения логики и API Gemini.", 'assistant');
             }, 1000);

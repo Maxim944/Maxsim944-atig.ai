@@ -3,340 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atig Intelligence Challenge</title>
+    <title>ATIG - Deep Space Assistant</title>
     <style>
+        /* Базовые настройки и тема Глубокого Космоса */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: #030712;
-            color: #f3f4f6;
-            min-height: 100vh;
+            background: radial-gradient(circle at center, #0b1021 0%, #04060d 100%);
+            color: #e2e8f0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
             position: relative;
-            padding: 40px 20px;
         }
 
+        /* Эффект звездного неба на заднем плане */
         body::before {
-            content: '';
+            content: "";
             position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            pointer-events: none;
-            filter: blur(40px);
-        }
-
-        .container {
-            max-width: 500px;
+            top: 0;
+            left: 0;
             width: 100%;
-            text-align: center;
-            z-index: 10;
-            position: relative;
+            height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            opacity: 0.4;
+            z-index: 0;
         }
 
-        .logo-container {
-            margin-bottom: 25px;
-            position: relative;
-            display: inline-block;
-            width: 80px;
-            height: 80px;
-        }
-
-        .core {
-            width: 20px;
-            height: 20px;
-            background-color: #38bdf8;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulseCore 2.5s infinite ease-in-out;
-            z-index: 3;
-        }
-
-        .orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 50%;
-            z-index: 2;
-        }
-
-        .orbit-1 { width: 70px; height: 28px; transform: translate(-50%, -50%) rotate(45deg); animation: rotate1 15s linear infinite; }
-
-        h1 {
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 0.3rem;
-            text-transform: uppercase;
-            color: #ffffff;
-            margin-bottom: 6px;
-        }
-
-        .brand {
-            color: #38bdf8;
-            font-weight: 600;
-        }
-
-        .sub-brand {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15rem;
-            color: #4b5563;
-            margin-bottom: 30px;
-        }
-
-        .score-bar {
-            max-width: 450px;
-            margin: 0 auto 10px auto;
+        /* Основной контейнер чата (Полупрозрачный космический пластик) */
+        .chat-container {
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            background: rgba(11, 16, 33, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
             display: flex;
-            justify-content: space-between;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75rem;
-            color: #6b7280;
-            padding: 0 5px;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            z-index: 1;
         }
 
-        .score-value {
-            color: #fbbf24;
-            font-weight: bold;
-        }
-
-        .ai-terminal {
-            background: rgba(17, 24, 39, 0.5);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            border-radius: 6px;
-            padding: 20px;
-            text-align: left;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
-            margin-bottom: 20px;
-        }
-
-        .terminal-header {
+        /* Шапка ассистента */
+        .chat-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(55, 65, 81, 0.3);
-            padding-bottom: 6px;
+            gap: 15px;
         }
 
-        .terminal-dot { width: 7px; height: 7px; border-radius: 50%; background: #4b5563; }
-
-        .terminal-title {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            color: #6b7280;
-            letter-spacing: 0.08rem;
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
         }
 
-        .terminal-body {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-            color: #38bdf8;
-            line-height: 1.5;
-            min-height: 110px;
+        .chat-header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .input-group {
-            display: flex;
-            gap: 8px;
-            max-width: 450px;
-            margin: 0 auto;
-        }
-
-        .answer-input {
+        /* Область вывода сообщений */
+        .messages-area {
             flex: 1;
-            background: rgba(17, 24, 39, 0.8);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 4px;
-            padding: 12px 15px;
-            color: #ffffff;
-            font-size: 0.9rem;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Стилизация скроллбара под космос */
+        .messages-area::-webkit-scrollbar {
+            width: 6px;
+        }
+        .messages-area::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        /* Сообщения */
+        .message {
+            display: flex;
+            gap: 16px;
+            max-width: 85%;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-content {
+            padding: 14px 20px;
+            border-radius: 18px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .user .message-content {
+            background: rgba(79, 70, 229, 0.25);
+            border: 1px solid rgba(79, 70, 229, 0.4);
+            color: #f8fafc;
+            border-top-right-radius: 4px;
+        }
+
+        .assistant .message-content {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            border-top-left-radius: 4px;
+        }
+
+        /* Зона ввода (Неоновая окантовка в стиле Gemini) */
+        .input-area {
+            padding: 20px 30px;
+            background: transparent;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 5px 5px 5px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: rgba(6, 182, 212, 0.6);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+        }
+
+        textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
             outline: none;
-            transition: all 0.2s ease;
+            color: #fff;
+            resize: none;
+            padding: 12px 10px 12px 0;
+            font-size: 1rem;
+            height: 48px;
+            max-height: 200px;
         }
 
-        .answer-input:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+        textarea::placeholder {
+            color: #64748b;
         }
 
-        .btn-submit {
-            background: rgba(7, 11, 25, 0.6);
-            border: 1px solid #38bdf8;
-            color: #ffffff;
-            padding: 0 25px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-            border-radius: 4px;
+        .send-btn {
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            border: none;
+            color: white;
+            padding: 0 24px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .btn-submit:hover {
-            background: #38bdf8;
-            color: #030712;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-        }
-
-        @keyframes rotate1 { 0% { transform: translate(-50%, -50%) rotate(45deg); } 100% { transform: translate(-50%, -50%) rotate(405deg); } }
-        @keyframes pulseCore {
-            0%, 100% { box-shadow: 0 0 10px rgba(56, 189, 248, 0.4); transform: translate(-50%, -50%) scale(0.95); }
-            50% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.7); transform: translate(-50%, -50%) scale(1.05); }
+        .send-btn:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="logo-container">
-            <div class="core"></div>
-            <div class="orbit orbit-1"></div>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="avatar"></div>
+            <h1>ATIG // SYSTEM</h1>
         </div>
 
-        <h1><span class="brand">Atig</span> Riddle</h1>
-        <div class="sub-brand">Модуль динамического тестирования интеллекта</div>
-
-        <div class="score-bar">
-            <span id="level-status">УРОВЕНЬ: 1</span>
-            <span>БАЛЛЫ: <span id="score-count" class="score-value">0</span></span>
-        </div>
-
-        <div class="ai-terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot"></div>
-                <div class="terminal-dot"></div>
-                <span class="terminal-title" id="term-title">system_riddle_v2.0</span>
-            </div>
-            <div class="terminal-body">
-                <span id="terminal-text"></span>
+        <div class="messages-area" id="chatMessages">
+            <div class="message assistant">
+                <div class="message-content">
+                    Система инициализирована. Я готов помочь каждому человеку на Земле. С чего начнем создание нашей вселенной?
+                </div>
             </div>
         </div>
 
-        <div class="input-group">
-            <input type="text" id="user-answer" class="answer-input" placeholder="Введите ваш ответ..." autocomplete="off">
-            <button class="btn-submit" onclick="checkAnswer()">Запуск</button>
+        <div class="input-area">
+            <div class="input-wrapper">
+                <textarea id="userInput" placeholder="Введите сообщение..." rows="1"></textarea>
+                <button class="send-btn" id="sendBtn">Отправить</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // База данных загадок. Сюда можно дописать хоть 100 штук по аналогии.
-        const riddlesData = [
-            {
-                text: "Я не имею плоти, но храню твою память. Я не имею голоса, но говорю твоими мыслями через века. Я бессмертен, пока жив последний узел сети. Что я?",
-                answers: ["ии", "искусственный интеллект", "код", "цифровой след", "интернет", "atig", "атиг"]
-            },
-            {
-                text: "Чем больше из неё берут, тем больше она становится. О каком объекте идёт речь?",
-                answers: ["яма", "дыра", "скважина"]
-            },
-            {
-                text: "Я существую только там, где есть свет, но если он падает прямо на меня — я исчезаю. Что я?",
-                answers: ["тень"]
-            },
-            {
-                text: "У меня нет замков, нет крышки, но внутри сокрыто чистое золото. Что я?",
-                answers: ["яйцо", "куриное яйцо"]
-            },
-            {
-                text: "Оно всегда идёт, но никогда не доходит до финиша. Его нельзя вернуть, но можно потерять. Что это?",
-                answers: ["время"]
-            },
-            {
-                text: "У меня есть города, но нет домов.\nЕсть леса, но нет деревьев.\nЕсть реки, но нет воды.\nЧто я?",
-    answers: ["карта", "географическая карта", "атлас", "map"]
-}
-];  
-    
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatMessages = document.getElementById('chatMessages');
 
-        let score = 0;
-        let currentLevel = 0; 
-        let currentTimeout = null;
-        const textField = document.getElementById("terminal-text");
+        // Автоматическое расширение текстового поля при вводе
+        userInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
 
-        function typeWriter(text, index) {
-            if (index < text.length) {
-                if (text.charAt(index) === '\n') {
-                    textField.innerHTML += '<br>';
-                } else {
-                    textField.innerHTML += text.charAt(index);
-                }
-                currentTimeout = setTimeout(() => typeWriter(text, index + 1), 25);
-            }
-        }
+        // Функция отправки сообщения (пока локальная эмуляция)
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
 
-        function displayRiddle() {
-            if (currentTimeout) clearTimeout(currentTimeout);
-            textField.innerHTML = "";
-            textField.style.color = "#38bdf8";
-            
-            if (currentLevel < riddlesData.length) {
-                document.getElementById("level-status").innerHTML = `УРОВЕНЬ: ${currentLevel + 1}`;
-                typeWriter(riddlesData[currentLevel].text, 0);
-            } else {
-                document.getElementById("level-status").innerHTML = "ФИНИШ";
-                textField.style.color = "#fbbf24";
-                typeWriter("ПОЗДРАВЛЯЕМ! Вы прошли все доступные уровни симулятора интеллекта ATIG. Ваше мышление безупречно.", 0);
-                document.getElementById("user-answer").style.display = "none";
-                document.querySelector(".btn-submit").style.display = "none";
-            }
-        }
+            // Добавляем сообщение пользователя
+            appendMessage(text, 'user');
+            userInput.value = '';
+            userInput.style.height = '48px';
 
-        function checkAnswer() {
-            const inputField = document.getElementById("user-answer");
-            const userAnswer = inputField.value.trim().toLowerCase();
-            
-            if (!userAnswer || currentLevel >= riddlesData.length) return;
-
-            if (currentTimeout) clearTimeout(currentTimeout);
-            textField.innerHTML = "Синхронизация ответа с ядром... ";
-
+            // Эмуляция ответа (в будущем сюда подключим API Gemini)
             setTimeout(() => {
-                textField.innerHTML = "";
-                const currentCorrectAnswers = riddlesData[currentLevel].answers;
-
-                if (currentCorrectAnswers.includes(userAnswer)) {
-                    score += 100;
-                    currentLevel += 1; // Переходим на следующий уровень
-                    document.getElementById("score-count").innerHTML = score;
-                    
-                    textField.style.color = "#10b981";
-                    textField.innerHTML = "ДОСТУП РАЗРЕШЕН. Ответ верный! Начислено +100 баллов.<br><br>Загрузка следующего уровня...<br>";
-                    
-                    // Через 2.5 секунды автоматически выводим новую загадку
-                    setTimeout(displayRiddle, 2500);
-                } else {
-                    if (score > 0) score -= 25;
-                    document.getElementById("score-count").innerHTML = score;
-                    textField.style.color = "#ef4444";
-                    textField.innerHTML = "ОШИБКА. Ответ неверен. Попробуйте еще раз.";
-                }
-                inputField.value = "";
-            }, 600);
+                appendMessage("Запрос принят. Модуль обработки космических масштабов находится в режиме ожидания интеграции API.", 'assistant');
+            }, 1000);
         }
 
-        // Запуск при загрузке страницы
-        document.addEventListener("DOMContentLoaded", function() {
-            displayRiddle();
+        function appendMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('message-content');
+            contentDiv.innerText = text;
+            
+            messageDiv.appendChild(contentDiv);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
         });
     </script>
-
 </body>
 </html>

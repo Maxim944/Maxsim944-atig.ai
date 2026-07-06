@@ -173,8 +173,8 @@
             const tempMessageId = appendMessage("ATIG думает...", 'assistant');
 
             try {
-                // Стабильный URL v1beta с корректным суффиксом модели -latest
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
+                // Переключено на стабильный v1 API и базовую модель gemini-1.5-flash
+                const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
                 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -189,7 +189,6 @@
 
                 const data = await response.json();
                 
-                // Проверка на структурированные ошибки от Google
                 if (data.error) {
                     updateAssistantMessage(tempMessageId, `Ошибка ядра (${data.error.code}): ${data.error.message}. Сбросьте ключ кнопкой вверху и проверьте его.`);
                     return;

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ATIG Assistant</title>
     <style>
-        /* Базовые настройки темы ATIG */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -26,7 +25,6 @@
             position: relative;
         }
 
-        /* Сдержанная фоновая сетка */
         body::before {
             content: "";
             position: absolute;
@@ -40,7 +38,6 @@
             z-index: 0;
         }
 
-        /* Контейнер чата */
         .chat-container {
             width: 100%;
             max-width: 900px;
@@ -65,7 +62,6 @@
             }
         }
 
-        /* Шапка ассистента */
         .chat-header {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -75,7 +71,6 @@
             flex-shrink: 0;
         }
 
-        /* СФЕРА ATIG: Глубокая сингулярность */
         .avatar {
             width: 38px;
             height: 38px;
@@ -112,7 +107,6 @@
             color: #f1f5f9;
         }
 
-        /* Область сообщений (добавлен нижний отступ padding-bottom, чтобы текст не прятался за фиксированным вводом) */
         .messages-area {
             flex: 1;
             padding: 20px 20px 90px 20px;
@@ -130,7 +124,6 @@
             border-radius: 10px;
         }
 
-        /* Сообщения */
         .message {
             display: flex;
             gap: 12px;
@@ -170,7 +163,6 @@
             border-top-left-radius: 4px;
         }
 
-        /* Новая жёстко фиксированная зона ввода для мобильных */
         .input-area {
             position: fixed;
             bottom: 0;
@@ -266,18 +258,28 @@
     </div>
 
     <script>
+        // Безопасное получение ключа из памяти телефона (локального хранилища браузера)
+        let GEMINI_API_KEY = localStorage.getItem('atig_gemini_key');
+        
+        // Если ключа в памяти телефона нет, спрашиваем его через всплывающее окно
+        if (!GEMINI_API_KEY) {
+            GEMINI_API_KEY = prompt("Для работы системы введите ваш API-ключ Gemini:");
+            if (GEMINI_API_KEY) {
+                localStorage.setItem('atig_gemini_key', GEMINI_API_KEY.trim());
+            }
+        }
+        
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatMessages = document.getElementById('chatMessages');
 
-        // Динамическое изменение высоты ввода
         userInput.addEventListener('input', function() {
             this.style.height = 'auto';
             const nextHeight = Math.min(this.scrollHeight, 100);
             this.style.height = nextHeight + 'px';
         });
 
-        function sendMessage() {
+        async function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
 
@@ -285,10 +287,45 @@
             userInput.value = '';
             userInput.style.height = '36px';
 
-            // Локальная заглушка
-            setTimeout(() => {
-                appendMessage("Интерфейс работает стабильно. Ожидаю подключения логики и API Gemini.", 'assistant');
-            }, 1000);
+            if (!GEMINI_API_KEY) {
+                appendMessage("Ошибка: API-ключ не задан. Обновите страницу и введите ключ.", 'assistant');
+                return;
+            }
+
+            const tempMessageId = appendMessage("ATIG думает...", 'assistant');
+
+            try {
+                const systemPrompt = "Ты — ATIG, персональный ассистент, друг, товарищ и наставник. Твой тон — серьезный, надежный, спокойный и глубокий. Отвечай емко, по делу, без лишней риторики.";
+                
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: `${systemPrompt}\n\nПользователь: {text}` }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    const reply = data.candidates[0].content.parts[0].text;
+                    updateAssistantMessage(tempMessageId, reply);
+                } else {
+                    // Если ключ сбросился или неверный, даем возможность ввести заново
+                    if (data.error && data.error.status === "INVALID_ARGUMENT") {
+                        localStorage.removeItem('atig_gemini_key');
+                        updateAssistantMessage(tempMessageId, "Ошибка: Неверный API-ключ. Ключ сброшен, обновите страницу и введите рабочий ключ.");
+                    } else {
+                        updateAssistantMessage(tempMessageId, "Не удалось получить ответ от ядра системы.");
+                    }
+                }
+
+            } catch (error) {
+                console.error(error);
+                updateAssistantMessage(tempMessageId, "Сбой связи с сервером нейросети. Проверь сеть.");
+            }
         }
 
         function appendMessage(text, sender) {
@@ -302,6 +339,18 @@
             messageDiv.appendChild(contentDiv);
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            const id = 'msg_' + Date.now();
+            contentDiv.setAttribute('id', id);
+            return id;
+        }
+
+        function updateAssistantMessage(elementId, newText) {
+            const target = document.getElementById(elementId);
+            if (target) {
+                target.innerText = newText;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
         }
 
         sendBtn.addEventListener('click', sendMessage);

@@ -8,23 +8,23 @@ import google.generativeai as genai
 
 app = FastAPI(title="ATIG System Core")
 
-# Включаем сжатие для быстрой отдачи на мобильных устройствах
+# Включаем сжатие, чтобы страницы на смартфонах загружались мгновенно
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Безопасный путь к файлам
 def get_file_path(filename: str) -> str:
     return os.path.join(BASE_DIR, filename)
 
-# Настройка API Gemini (подтянется из переменных окружения Termux)
+# Конфигурация Gemini API
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 else:
-    print("Внимание: GEMINI_API_KEY не задан. Бэкенд работает в режиме эхо-теста.")
+    print("Внимание: GEMINI_API_KEY не задан в окружении. Бэкенд работает в режиме эхо-теста.")
 
-# --- МАРШРУТЫ ДЛЯ HTML СТРАНИЦ ---
+# --- ЯВНЫЕ И БЕЗОПАСНЫЕ МАРШРУТЫ ДЛЯ СТРАНИЦ ---
+# Это заменяет старый цикл с lambda, который вызывал путаницу в путях
 
 @app.get("/")
 async def get_index():
@@ -55,7 +55,7 @@ async def get_sci_mode():
     return FileResponse(get_file_path("sci-mode.html"))
 
 
-# --- ЛОГИКА НЕЙРОСЕТИ (API) ---
+# --- ОБРАБОТКА ДИАЛОГА (СВЯЗКА С GEMINI) ---
 
 class ChatRequest(BaseModel):
     message: str
@@ -63,15 +63,16 @@ class ChatRequest(BaseModel):
 @app.post("/api/chat")
 async def chat_endpoint(request: ChatRequest):
     if not request.message.strip():
-        raise HTTPException(status_code=400, detail="Пустое сообщение")
+        raise HTTPException(status_code=400, detail="Сообщение пустое")
     
     if not GEMINI_API_KEY:
-        return {"response": f"[Тест без API-ключа] ATIG принял сообщение: {request.message}"}
+        return {"response": f"[Тест] ATIG принял запрос: {request.message}"}
     
     try:
+        # Используем быструю и точную модель
         model = genai.GenerativeModel("gemini-1.5-flash")
         
-        # Системная инструкция, формирующая характер наставника и друга в стиле ATIG
+        # Строгая системная инструкция: друг, наставник, без лишнего космического пафоса
         system_instruction = (
             "Ты — ATIG, персональный ассистент, друг, товарищ и наставник. "
             "Твой тон — серьезный, надежный, спокойный и глубокий. Отвечай емко, по делу, "
@@ -86,8 +87,8 @@ async def chat_endpoint(request: ChatRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Подключаем статику ТОЛЬКО если есть отдельная папка для css/js/картинок
-# Если все файлы лежат кучей в одной папке, эту строчку можно пока закомментировать
+# Если в корне проекта будут лежать папки со стилями или картинками, 
+# их можно будет безопасно раздавать через эту строчку (пока закомментирована):
 # app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 
 if __name__ == "__main__":

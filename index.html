@@ -5,13 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ATIG Assistant</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: radial-gradient(circle at center, #070a14 0%, #020307 100%); color: #e2e8f0; display: flex; justify-content: center; align-items: center; height: 100vh; height: 100dvh; overflow: hidden; position: relative; }
-        .chat-container { width: 100%; max-width: 900px; height: 100vh; height: 100dvh; background: rgba(7, 10, 20, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: flex; flex-direction: column; z-index: 1; }
-        .chat-header { padding: 16px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; gap: 15px; }
-        .avatar { width: 38px; height: 38px; background: radial-gradient(circle at 35% 35%, #151329 0%, #05030a 70%); border-radius: 50%; }
-        .chat-header h1 { font-size: 1.1rem; font-weight: 600; color: #f1f5f9; }
-        .messages-area { flex: 1; padding: 20px 20px 90px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        body { 
+            background: radial-gradient(circle at center, #070a14 0%, #020307 100%); 
+            color: #e2e8f0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            height: 100dvh; 
+            overflow: hidden; 
+            position: relative; 
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 40px);
+            background-size: 40px 40px;
+            opacity: 0.5;
+            z-index: 0;
+        }
+        .chat-container { 
+            width: 100%; 
+            max-width: 900px; 
+            height: 100vh; 
+            height: 100dvh; 
+            background: rgba(7, 10, 20, 0.85); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            display: flex; 
+            flex-direction: column; 
+            z-index: 1; 
+        }
+        @media (min-width: 768px) {
+            .chat-container {
+                height: 90vh;
+                height: 90dvh;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                border-radius: 24px;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            }
+        }
+        .chat-header { 
+            padding: 16px 20px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+        }
+        .avatar { 
+            width: 38px; 
+            height: 38px; 
+            background: radial-gradient(circle at 35% 35%, #151329 0%, #05030a 70%); 
+            border-radius: 50%; 
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.12);
+        }
+        .chat-header h1 { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            color: #f1f5f9; 
+        }
+        .messages-area { 
+            flex: 1; 
+            padding: 20px 20px 90px 20px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+        .messages-area::-webkit-scrollbar { width: 4px; }
+        .messages-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 10px; }
         .message { display: flex; gap: 12px; max-width: 85%; animation: fadeIn 0.25s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .message.user { align-self: flex-end; flex-direction: row-reverse; }
@@ -20,9 +93,12 @@
         .assistant .message-content { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); color: #e2e8f0; border-top-left-radius: 4px; }
         .input-area { position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px 15px calc(24px + env(safe-area-inset-bottom)); background: #04060d; border-top: 1px solid rgba(255, 255, 255, 0.03); }
         .input-wrapper { display: flex; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 4px 4px 4px 16px; align-items: center; max-width: 860px; margin: 0 auto; }
+        @media (min-width: 768px) { .input-area { position: static; padding: 15px 20px; background: transparent; border-top: none; } }
         textarea { flex: 1; background: transparent; border: none; outline: none; color: #fff; resize: none; padding: 8px 10px 8px 0; font-size: 0.95rem; height: 36px; max-height: 100px; }
-        .send-btn { background: linear-gradient(135deg, #4f46e5, #6366f1); border: none; color: white; height: 32px; padding: 0 16px; border-radius: 16px; cursor: pointer; font-weight: 500; font-size: 0.85rem; }
-        .reset-link { font-size: 0.8rem; color: #64748b; text-decoration: underline; cursor: pointer; margin-left: auto; }
+        textarea::placeholder { color: #475569; }
+        .send-btn { background: linear-gradient(135deg, #4f46e5, #6366f1); border: none; color: white; height: 32px; padding: 0 16px; border-radius: 16px; cursor: pointer; font-weight: 500; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .reset-link { font-size: 0.85rem; color: #6366f1; text-decoration: none; cursor: pointer; margin-left: auto; border: 1px solid rgba(99, 102, 241, 0.3); padding: 4px 10px; border-radius: 12px; background: rgba(99, 102, 241, 0.05); transition: all 0.2s; }
+        .reset-link:hover { background: rgba(99, 102, 241, 0.15); }
     </style>
 </head>
 <body>
@@ -37,7 +113,7 @@
         <div class="messages-area" id="chatMessages">
             <div class="message assistant">
                 <div class="message-content">
-                    Система ATIG запущена. Если ядро не отвечает, нажмите «Сбросить ключ» вверху экрана и введите его заново.
+                    Система ATIG запущена и готова к работе. Какую задачу решим в первую очередь?
                 </div>
             </div>
         </div>
@@ -54,7 +130,7 @@
         let GEMINI_API_KEY = localStorage.getItem('atig_gemini_key');
         
         function askForKey() {
-            let key = prompt("Введите ваш API-ключ Gemini для активации ATIG:");
+            let key = prompt("Для активации ядра ATIG введите ваш API-ключ Gemini:");
             if (key) {
                 localStorage.setItem('atig_gemini_key', key.trim());
                 GEMINI_API_KEY = key.trim();
@@ -68,7 +144,7 @@
 
         document.getElementById('resetBtn').addEventListener('click', () => {
             localStorage.removeItem('atig_gemini_key');
-            alert("Память очищена. Сейчас страница перезагрузится для ввода нового ключа.");
+            alert("Память очищена. Страница будет перезагружена для ввода нового ключа.");
             location.reload();
         });
         
@@ -90,41 +166,43 @@
             userInput.style.height = '36px';
 
             if (!GEMINI_API_KEY) {
-                appendMessage("Ошибка: Ключ не задан. Нажмите кнопку сброса вверху экрана.", 'assistant');
+                appendMessage("Ошибка: Ключ не задан. Нажмите «Сбросить ключ» вверху экрана.", 'assistant');
                 return;
             }
 
             const tempMessageId = appendMessage("ATIG думает...", 'assistant');
 
             try {
-                // Прямой официальный URL запроса к v1beta
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+                // Стабильный URL v1beta с корректным суффиксом модели -latest
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
                 
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: text }] }],
-                        systemInstruction: { parts: [{ text: "Ты — ATIG, персональный ассистент, друг, наставник. Твой тон — серьезный, спокойный, глубокий. Отвечай емко." }] }
+                        contents: [{ role: "user", parts: [{ text: text }] }],
+                        systemInstruction: { 
+                            parts: [{ text: "Ты — ATIG, персональный ассистент, друг, товарищ и наставник. Твой тон — серьезный, надежный, спокойный и глубокий. Отвечай емко, по делу." }] 
+                        }
                     })
                 });
 
                 const data = await response.json();
                 
-                // Если Google вернул структурированную ошибку (например, неверный ключ)
+                // Проверка на структурированные ошибки от Google
                 if (data.error) {
-                    updateAssistantMessage(tempMessageId, `Ошибка от Google API (${data.error.code}): ${data.error.message}. Нажмите «Сбросить ключ» вверху страницы и проверьте токен.`);
+                    updateAssistantMessage(tempMessageId, `Ошибка ядра (${data.error.code}): ${data.error.message}. Сбросьте ключ кнопкой вверху и проверьте его.`);
                     return;
                 }
 
                 if (data.candidates && data.candidates[0].content.parts[0].text) {
                     updateAssistantMessage(tempMessageId, data.candidates[0].content.parts[0].text);
                 } else {
-                    updateAssistantMessage(tempMessageId, "Ядро вернуло пустой ответ. Возможно, сработали безопасные фильтры текста.");
+                    updateAssistantMessage(tempMessageId, "Ядро вернуло пустую структуру ответа. Проверьте настройки безопасности токена.");
                 }
 
             } catch (error) {
-                updateAssistantMessage(tempMessageId, `Сбой сети при отправке: ${error.message}. Проверьте соединение.`);
+                updateAssistantMessage(tempMessageId, `Сбой сети при обращении к ядру: ${error.message}. Проверьте соединение.`);
             }
         }
 
@@ -144,11 +222,19 @@
 
         function updateAssistantMessage(elementId, newText) {
             const target = document.getElementById(elementId);
-            if (target) { target.innerText = newText; chatMessages.scrollTop = chatMessages.scrollHeight; }
+            if (target) { 
+                target.innerText = newText; 
+                chatMessages.scrollTop = chatMessages.scrollHeight; 
+            }
         }
 
         sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+        userInput.addEventListener('keydown', (e) => { 
+            if (e.key === 'Enter' && !e.shiftKey) { 
+                e.preventDefault(); 
+                sendMessage(); 
+            } 
+        });
     </script>
 </body>
 </html>

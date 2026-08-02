@@ -2,11 +2,12 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ATIG Chat</title>
 <style>
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: radial-gradient(circle at center, #0b1a2a, #000);
   color: white;
   display: flex;
@@ -22,30 +23,62 @@ body {
 
 .message {
   margin: 10px 0;
+  line-height: 1.4;
 }
 
-.user { color: #4da3ff; }
-.bot { color: #ffffff; }
+.user { 
+  color: #4da3ff; 
+  font-weight: bold;
+}
+
+.bot { 
+  color: #ffffff; 
+}
 
 #input {
   display: flex;
+  gap: 8px;
   padding: 10px;
   background: #111;
+  align-items: center;
+}
+
+select {
+  background: #1e293b;
+  color: #4da3ff;
+  border: 1px solid #334155;
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
 }
 
 input {
   flex: 1;
   padding: 10px;
-  border: none;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: white;
+  border-radius: 4px;
   outline: none;
 }
 
+input:focus {
+  border-color: #4da3ff;
+}
+
 button {
-  padding: 10px;
+  padding: 10px 16px;
   background: #4da3ff;
   border: none;
   color: white;
+  border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #2563eb;
 }
 </style>
 </head>
@@ -54,34 +87,71 @@ button {
 <div id="chat"></div>
 
 <div id="input">
-  <input id="msg" placeholder="Спроси ATIG..." />
+  <!-- Выбор ИИ модели под Спринт 2 -->
+  <select id="model-select">
+    <option value="gemini-1.5-flash">Gemini Flash</option>
+    <option value="gpt-4o-mini">ChatGPT</option>
+    <option value="claude-3-haiku">Claude</option>
+    <option value="deepseek-chat">DeepSeek</option>
+  </select>
+  
+  <input id="msg" placeholder="Спроси ATIG..." onkeypress="handleKeyPress(event)" />
   <button onclick="send()">➤</button>
 </div>
 
 <script>
 async function send() {
   const input = document.getElementById('msg');
-  const text = input.value;
+  const text = input.value.trim();
   if (!text) return;
 
-  addMessage(text, 'user');
+  const modelSelect = document.getElementById('model-select');
+  const selectedModel = modelSelect.value;
+
+  addMessage('Вы: ' + text, 'user');
   input.value = '';
 
-  const res = await fetch('http://localhost:8000/agent', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ query: text })
-  });
+  try {
+    // Относительный путь /api/chat корректно работает и локально, и в деплое (Render/Railway)
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ 
+        message: text,
+        model: selectedModel,
+        user_id: 'maxim'
+      })
+    });
 
-  const data = await res.json();
-  addMessage(data.answer, 'bot');
+    if (!res.ok) {
+      throw new Error(`Ошибка сервера: ${res.status}`);
+    }
+
+    const data = await res.json();
+    // Поддержка как data.response, так и data.answer для обратной совместимости
+    const reply = data.response || data.answer || "Нет ответа от сервера.";
+    addMessage('ATIG: ' + reply, 'bot');
+    
+  } catch (error) {
+    addMessage('Система: Не удалось получить ответ. Проверьте соединение с бэкендом.', 'bot');
+    console.error("Chat Error:", error);
+  }
 }
 
 function addMessage(text, type) {
   const div = document.createElement('div');
   div.className = 'message ' + type;
   div.innerText = text;
-  document.getElementById('chat').appendChild(div);
+  
+  const chat = document.getElementById('chat');
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight; // Автоскролл вниз при новом сообщении
+}
+
+function handleKeyPress(event) {
+  if (event.key === 'Enter') {
+    send();
+  }
 }
 </script>
 

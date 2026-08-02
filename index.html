@@ -18,7 +18,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; overflow: hidden; }
 
-        /* Мобильная адаптация сайдбара */
         .app-container { display: flex; flex-direction: column; height: 100vh; }
         
         .top-nav {
@@ -40,9 +39,10 @@
             padding: 8px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
+            cursor: pointer;
         }
 
-        .main-content { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 15px; }
+        .main-content { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 15px; overflow: hidden; }
 
         /* Атом */
         .atom-container { position: relative; width: 70px; height: 70px; margin: 10px auto; }
@@ -59,8 +59,30 @@
         .title { text-align: center; font-size: 1.4rem; color: var(--text-main); margin-top: 5px; }
         .subtitle { text-align: center; font-size: 0.75rem; color: var(--text-muted); }
 
-        .chat-container { flex: 1; margin: 15px 0; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; }
-        .message { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; font-size: 0.9rem; text-align: center; color: var(--text-muted); }
+        .chat-container { 
+            flex: 1; 
+            margin: 15px 0; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px;
+        }
+
+        .message { 
+            background: var(--panel-bg); 
+            border: 1px solid var(--border-color); 
+            padding: 12px; 
+            border-radius: 12px; 
+            font-size: 0.9rem; 
+            color: var(--text-main);
+            max-width: 85%;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .message.system { align-self: center; text-align: center; color: var(--text-muted); width: 100%; max-width: 100%; }
+        .message.user { align-self: flex-end; background: #1e293b; border-color: #334155; color: var(--accent-blue); }
+        .message.bot { align-self: flex-start; }
 
         /* Нижняя панель */
         .input-wrapper { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 25px; padding: 6px 12px; display: flex; align-items: center; gap: 8px; }
@@ -72,7 +94,7 @@
     <div class="app-container">
         <!-- Верхняя мобильная панель -->
         <nav class="top-nav">
-            <button class="nav-btn">💬 Новый чат</button>
+            <button class="nav-btn" onclick="location.href='/chat'">💬 Новый чат</button>
             <button class="nav-btn">🧠 Память</button>
             <button class="nav-btn">📂 Проекты</button>
             <button class="nav-btn">🎙 Голос</button>
@@ -91,21 +113,77 @@
                 <p class="subtitle">Artificial Trusted Intelligence Guardian</p>
             </header>
 
-            <section class="chat-container">
-                <div class="message">
+            <section class="chat-container" id="chat-box">
+                <div class="message system">
                     Здравствуйте, Максим. Система ATIG готова к работе. Чем занимаемся сегодня?
                 </div>
             </section>
 
             <footer>
                 <div class="input-wrapper">
-                    <button class="btn">🎤</button>
-                    <button class="btn">📎</button>
-                    <textarea placeholder="Введите задачу..."></textarea>
-                    <button class="btn">➤</button>
+                    <button class="btn" title="Голос">🎤</button>
+                    <button class="btn" title="Прикрепить">📎</button>
+                    <textarea id="user-input" placeholder="Введите задачу..." onkeydown="handleKeyDown(event)"></textarea>
+                    <button class="btn" onclick="sendMessage()">➤</button>
                 </div>
             </footer>
         </main>
     </div>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // 1. Отображаем сообщение пользователя
+            addMessage(text, 'user');
+            input.value = '';
+
+            try {
+                // 2. Отправляем запрос на бэкенд FastAPI
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text,
+                        user_id: 'maxim'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Ошибка сервера: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const reply = data.response || "Запрос обработан, но ответ пуст.";
+                
+                // 3. Отображаем ответ ATIG
+                addMessage(reply, 'bot');
+
+            } catch (error) {
+                console.error("Ошибка при отправке запроса:", error);
+                addMessage("Не удалось связаться с ядром ATIG. Проверьте соединение с бэкендом.", "system");
+            }
+        }
+
+        function addMessage(text, type) {
+            const chatBox = document.getElementById('chat-box');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${type}`;
+            msgDiv.innerText = text;
+            
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function handleKeyDown(event) {
+            // Отправка по Enter без зажатого Shift
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+    </script>
 </body>
 </html>

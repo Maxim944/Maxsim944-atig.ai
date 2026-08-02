@@ -2,238 +2,61 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ATIG Assistant</title>
-    <style>
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-        body { 
-            background: radial-gradient(circle at center, #070a14 0%, #020307 100%); 
-            color: #e2e8f0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            height: 100dvh; 
-            overflow: hidden; 
-            position: relative; 
-        }
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 40px);
-            background-size: 40px 40px;
-            opacity: 0.5;
-            z-index: 0;
-        }
-        .chat-container { 
-            width: 100%; 
-            max-width: 900px; 
-            height: 100vh; 
-            height: 100dvh; 
-            background: rgba(7, 10, 20, 0.85); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px); 
-            display: flex; 
-            flex-direction: column; 
-            z-index: 1; 
-        }
-        @media (min-width: 768px) {
-            .chat-container {
-                height: 90vh;
-                height: 90dvh;
-                border: 1px solid rgba(255, 255, 255, 0.05);
-                border-radius: 24px;
-                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            }
-        }
-        .chat-header { 
-            padding: 16px 20px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-        }
-        .avatar { 
-            width: 38px; 
-            height: 38px; 
-            background: radial-gradient(circle at 35% 35%, #151329 0%, #05030a 70%); 
-            border-radius: 50%; 
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.12);
-        }
-        .chat-header h1 { 
-            font-size: 1.1rem; 
-            font-weight: 600; 
-            color: #f1f5f9; 
-        }
-        .messages-area { 
-            flex: 1; 
-            padding: 20px 20px 90px 20px; 
-            overflow-y: auto; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-        }
-        .messages-area::-webkit-scrollbar { width: 4px; }
-        .messages-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 10px; }
-        .message { display: flex; gap: 12px; max-width: 85%; animation: fadeIn 0.25s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .message.user { align-self: flex-end; flex-direction: row-reverse; }
-        .message-content { padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.45; word-break: break-word; }
-        .user .message-content { background: rgba(79, 70, 229, 0.2); border: 1px solid rgba(79, 70, 229, 0.3); color: #f8fafc; border-top-right-radius: 4px; }
-        .assistant .message-content { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); color: #e2e8f0; border-top-left-radius: 4px; }
-        .input-area { position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px 15px calc(24px + env(safe-area-inset-bottom)); background: #04060d; border-top: 1px solid rgba(255, 255, 255, 0.03); }
-        .input-wrapper { display: flex; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 4px 4px 4px 16px; align-items: center; max-width: 860px; margin: 0 auto; }
-        @media (min-width: 768px) { .input-area { position: static; padding: 15px 20px; background: transparent; border-top: none; } }
-        textarea { flex: 1; background: transparent; border: none; outline: none; color: #fff; resize: none; padding: 8px 10px 8px 0; font-size: 0.95rem; height: 36px; max-height: 100px; }
-        textarea::placeholder { color: #475569; }
-        .send-btn { background: linear-gradient(135deg, #4f46e5, #6366f1); border: none; color: white; height: 32px; padding: 0 16px; border-radius: 16px; cursor: pointer; font-weight: 500; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .reset-link { font-size: 0.85rem; color: #6366f1; text-decoration: none; cursor: pointer; margin-left: auto; border: 1px solid rgba(99, 102, 241, 0.3); padding: 4px 10px; border-radius: 12px; background: rgba(99, 102, 241, 0.05); transition: all 0.2s; }
-        .reset-link:hover { background: rgba(99, 102, 241, 0.15); }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATIG — Artificial Trusted Intelligence Guardian</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
+    <div class="app-container">
+        <!-- Боковое меню -->
+        <aside class="sidebar">
+            <div class="brand-header">
+                <h2>ATIG</h2>
+                <span class="status-indicator"><span class="dot"></span> ONLINE</span>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active">💬 Новый чат</button>
+                <button class="nav-btn">🧠 Память</button>
+                <button class="nav-btn">📂 Проекты</button>
+                <button class="nav-btn">🎙 Голос</button>
+                <button class="nav-btn">⚙ Настройки</button>
+            </nav>
+        </aside>
 
-    <div class="chat-container">
-        <div class="chat-header">
-            <div class="avatar"></div>
-            <h1>ATIG</h1>
-            <div class="reset-link" id="resetBtn">Сбросить ключ</div>
-        </div>
-
-        <div class="messages-area" id="chatMessages">
-            <div class="message assistant">
-                <div class="message-content">
-                    Система ATIG запущена и готова к работе. Какую задачу решим в первую очередь?
+        <!-- Основная область -->
+        <main class="main-content">
+            <!-- Шапка с Живым Ядром -->
+            <header class="atig-header">
+                <div class="atom-container" id="atigAtom">
+                    <div class="ring ring-1"></div>
+                    <div class="ring ring-2"></div>
+                    <div class="ring ring-3"></div>
+                    <div class="nucleus"></div>
                 </div>
-            </div>
-        </div>
+                <h1 class="title">ATIG</h1>
+                <p class="subtitle">Artificial Trusted Intelligence Guardian</p>
+            </header>
 
-        <div class="input-area">
-            <div class="input-wrapper">
-                <textarea id="userInput" placeholder="Введите сообщение..." rows="1"></textarea>
-                <button class="send-btn" id="sendBtn">Отправить</button>
-            </div>
-        </div>
+            <!-- Чат-контейнер -->
+            <section class="chat-container" id="chatContainer">
+                <div class="message system-message">
+                    Здравствуйте, Максим. Система ATIG готова к работе. Чем занимаемся сегодня?
+                </div>
+            </section>
+
+            <!-- Нижняя панель ввода -->
+            <footer class="input-container">
+                <div class="input-wrapper">
+                    <button class="icon-btn" id="voiceBtn" title="Голосовой ввод">🎤</button>
+                    <button class="icon-btn" id="attachBtn" title="Прикрепить файл">📎</button>
+                    <textarea id="userInput" rows="1" placeholder="Введите задачу или сообщение..."></textarea>
+                    <button class="send-btn" id="sendBtn" title="Отправить">➤</button>
+                </div>
+            </footer>
+        </main>
     </div>
 
-    <script>
-        let GEMINI_API_KEY = localStorage.getItem('atig_gemini_key');
-        
-        function askForKey() {
-            let key = prompt("Для активации ядра ATIG введите ваш API-ключ Gemini:");
-            if (key) {
-                localStorage.setItem('atig_gemini_key', key.trim());
-                GEMINI_API_KEY = key.trim();
-                location.reload();
-            }
-        }
-
-        if (!GEMINI_API_KEY) {
-            askForKey();
-        }
-
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            localStorage.removeItem('atig_gemini_key');
-            alert("Память очищена. Страница будет перезагружена для ввода нового ключа.");
-            location.reload();
-        });
-        
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const chatMessages = document.getElementById('chatMessages');
-
-        userInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-        });
-
-        async function sendMessage() {
-            const text = userInput.value.trim();
-            if (!text) return;
-
-            appendMessage(text, 'user');
-            userInput.value = '';
-            userInput.style.height = '36px';
-
-            if (!GEMINI_API_KEY) {
-                appendMessage("Ошибка: Ключ не задан. Нажмите «Сбросить ключ» вверху экрана.", 'assistant');
-                return;
-            }
-
-            const tempMessageId = appendMessage("ATIG думает...", 'assistant');
-
-            try {
-                // Переключено на стабильный v1 API и базовую модель gemini-1.5-flash
-                const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-                
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ role: "user", parts: [{ text: text }] }],
-                        systemInstruction: { 
-                            parts: [{ text: "Ты — ATIG, персональный ассистент, друг, товарищ и наставник. Твой тон — серьезный, надежный, спокойный и глубокий. Отвечай емко, по делу." }] 
-                        }
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.error) {
-                    updateAssistantMessage(tempMessageId, `Ошибка ядра (${data.error.code}): ${data.error.message}. Сбросьте ключ кнопкой вверху и проверьте его.`);
-                    return;
-                }
-
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
-                    updateAssistantMessage(tempMessageId, data.candidates[0].content.parts[0].text);
-                } else {
-                    updateAssistantMessage(tempMessageId, "Ядро вернуло пустую структуру ответа. Проверьте настройки безопасности токена.");
-                }
-
-            } catch (error) {
-                updateAssistantMessage(tempMessageId, `Сбой сети при обращении к ядру: ${error.message}. Проверьте соединение.`);
-            }
-        }
-
-        function appendMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender);
-            const contentDiv = document.createElement('div');
-            contentDiv.classList.add('message-content');
-            contentDiv.innerText = text;
-            messageDiv.appendChild(contentDiv);
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            const id = 'msg_' + Date.now();
-            contentDiv.setAttribute('id', id);
-            return id;
-        }
-
-        function updateAssistantMessage(elementId, newText) {
-            const target = document.getElementById(elementId);
-            if (target) { 
-                target.innerText = newText; 
-                chatMessages.scrollTop = chatMessages.scrollHeight; 
-            }
-        }
-
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keydown', (e) => { 
-            if (e.key === 'Enter' && !e.shiftKey) { 
-                e.preventDefault(); 
-                sendMessage(); 
-            } 
-        });
-    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>

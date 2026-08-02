@@ -1,17 +1,20 @@
+
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import google.generativeai as genai
 
-# Импортируем наш модуль долгосрочной памяти
-from memory_engine import ATIGMemoryEngine
+# Пытаемся импортировать модуль памяти, если он создан
+try:
+    from memory_engine import ATIGMemoryEngine
+except ImportError:
+    ATIGMemoryEngine = None
 
 app = FastAPI(title="ATIG System Core")
 
-# Включаем сжатие для быстродействия
+# Включаем сжатие для ускорения мобильной загрузки
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -29,19 +32,17 @@ if GEMINI_API_KEY:
 else:
     print("Внимание: GEMINI_API_KEY не задан в окружении.")
 
-# Подключаем модуль памяти, если заданы база и ключ векторизации
+# Безопасное подключение модуля памяти
 memory_engine = None
-if DATABASE_URL and OPENAI_API_KEY:
+if ATIGMemoryEngine and DATABASE_URL and OPENAI_API_KEY:
     try:
         memory_engine = ATIGMemoryEngine(db_uri=DATABASE_URL, openai_api_key=OPENAI_API_KEY)
         print("Успешно: Векторный модуль памяти ATIG подключен!")
     except Exception as e:
-        print(f"Ошибка подключения к базе памяти: {e}")
-else:
-    print("Инфо: DATABASE_URL или OPENAI_API_KEY не заданы. Работаем без RAG-памяти.")
+        print(f"Ошибка инициализации памяти: {e}")
 
 
-# --- РАРУШЕНИЕ И МАРШРУТЫ СТРАНИЦ ---
+# --- МАРШРУТЫ СТРАНИЦ И ИНТЕРФЕЙСА ---
 
 @app.get("/")
 async def get_index():
@@ -72,10 +73,11 @@ async def get_sci_mode():
     return FileResponse(get_file_path("sci-mode.html"))
 
 
-# --- ОБРАБОТКА ДИАЛОГА С ПАМЯТЬЮ И ИИ ---
+# --- ОБРАБОТКА ДИАЛОГА (API CHAT) ---
 
 class ChatRequest(BaseModel):
     message: str
+    model: str = "gemini-1.5-flash"
     user_id: str = "maxim"
 
 @app.post("/api/chat")
@@ -85,46 +87,49 @@ async def chat_endpoint(request: ChatRequest):
         raise HTTPException(status_code=400, detail="Сообщение пустое")
     
     if not GEMINI_API_KEY:
-        return {"response": f"[Тест] ATIG принял запрос: {user_text}"}
+        return {"response": f"[Тест-режим] ATIG принял ваш запрос: {user_text}"}
     
     try:
-        # 1. ПОИСК В ПАМЯТИ (RAG)
+        # 1. МЯГКИЙ ПОИСК В ПАМЯТИ (Изолирован от ошибок базы)
         context_str = ""
         if memory_engine:
-            memories = memory_engine.search_memory(query_text=user_text, limit=3)
-            if memories:
-                retrieved_facts = "\n".join([f"- {m['content']}" for m in memories])
-                context_str = f"\n\n=== ФАКТЫ ИЗ ВОСПОМИНАНИЙ ATIG ===\n{retrieved_facts}\n================================"
+            try:
+                memories = memory_engine.search_memory(query_text=user_text, limit=3)
+                if memories:
+                    retrieved_facts = "\n".join([f"- {m['content']}" for m in memories])
+                    context_str = f"\n\n=== ФАКТЫ ИЗ ВОСПОМИНАНИЙ ATIG ===\n{retrieved_facts}\n================================"
+            except Exception as db_err:
+                print(f"База памяти временно недоступна: {db_err}")
 
-        # 2. ФОРМИРОВАНИЕ ИНСТРУКЦИИ
+        # 2. ФОРМИРОВАНИЕ СИСТЕМНОЙ ИНСТРУКЦИИ
         system_instruction = (
             "Ты — ATIG, персональный ассистент, друг, товарищ и наставник. "
             "Твой тон — серьезный, надежный, спокойный и глубокий. Отвечай емко, по делу. "
-            f"Используй контекст из памяти, если он относится к вопросу.{context_str}"
+            f"{context_str}"
         )
         
-        # 3. ВЫЗОВ МОДЕЛИ
+        # 3. ВЫЗОВ GEMINI
         model = genai.GenerativeModel("gemini-1.5-flash")
         prompt = f"{system_instruction}\n\nПользователь: {user_text}"
         response = model.generate_content(prompt)
         
         reply_text = response.text
 
-        # 4. СОХРАНЕНИЕ МЫСЛИ В ПАМЯТЬ (Асинхронно/в фоновом режиме)
+        # 4. ФОНОВОЕ СОХРАНЕНИЕ
         if memory_engine:
             try:
                 memory_engine.add_memory(
-                    content=f"Пользователь спросил: {user_text} | Ответ ATIG: {reply_text[:150]}...",
-                    metadata={"user_id": request.user_id, "source": "chat"}
+                    content=f"Пользователь: {user_text} | Ответ: {reply_text[:150]}...",
+                    metadata={"user_id": request.user_id}
                 )
-            except Exception as mem_err:
-                print(f"Ошибка сохранения в память: {mem_err}")
+            except Exception as save_err:
+                print(f"Не удалось сохранить в память: {save_err}")
 
         return {"response": reply_text}
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
+        # Подробный текст ошибки для легкой отладки
+        raise HTTPException(status_code=500, detail=f"Ошибка бэкенда: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn

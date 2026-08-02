@@ -6,9 +6,12 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import google.generativeai as genai
 
+# Импортируем наш модуль долгосрочной памяти
+from memory_engine import ATIGMemoryEngine
+
 app = FastAPI(title="ATIG System Core")
 
-# Включаем сжатие, чтобы страницы на смартфонах загружались мгновенно
+# Включаем сжатие для быстродействия
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -16,15 +19,29 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 def get_file_path(filename: str) -> str:
     return os.path.join(BASE_DIR, filename)
 
-# Конфигурация Gemini API
+# --- ИНИЦИАЛИЗАЦИЯ И КЛЮЧИ ---
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+DATABASE_URL = os.getenv("DATABASE_URL")
+
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 else:
-    print("Внимание: GEMINI_API_KEY не задан в окружении. Бэкенд работает в режиме эхо-теста.")
+    print("Внимание: GEMINI_API_KEY не задан в окружении.")
 
-# --- ЯВНЫЕ И БЕЗОПАСНЫЕ МАРШРУТЫ ДЛЯ СТРАНИЦ ---
-# Это заменяет старый цикл с lambda, который вызывал путаницу в путях
+# Подключаем модуль памяти, если заданы база и ключ векторизации
+memory_engine = None
+if DATABASE_URL and OPENAI_API_KEY:
+    try:
+        memory_engine = ATIGMemoryEngine(db_uri=DATABASE_URL, openai_api_key=OPENAI_API_KEY)
+        print("Успешно: Векторный модуль памяти ATIG подключен!")
+    except Exception as e:
+        print(f"Ошибка подключения к базе памяти: {e}")
+else:
+    print("Инфо: DATABASE_URL или OPENAI_API_KEY не заданы. Работаем без RAG-памяти.")
+
+
+# --- РАРУШЕНИЕ И МАРШРУТЫ СТРАНИЦ ---
 
 @app.get("/")
 async def get_index():
@@ -55,41 +72,59 @@ async def get_sci_mode():
     return FileResponse(get_file_path("sci-mode.html"))
 
 
-# --- ОБРАБОТКА ДИАЛОГА (СВЯЗКА С GEMINI) ---
+# --- ОБРАБОТКА ДИАЛОГА С ПАМЯТЬЮ И ИИ ---
 
 class ChatRequest(BaseModel):
     message: str
+    user_id: str = "maxim"
 
 @app.post("/api/chat")
 async def chat_endpoint(request: ChatRequest):
-    if not request.message.strip():
+    user_text = request.message.strip()
+    if not user_text:
         raise HTTPException(status_code=400, detail="Сообщение пустое")
     
     if not GEMINI_API_KEY:
-        return {"response": f"[Тест] ATIG принял запрос: {request.message}"}
+        return {"response": f"[Тест] ATIG принял запрос: {user_text}"}
     
     try:
-        # Используем быструю и точную модель
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        
-        # Строгая системная инструкция: друг, наставник, без лишнего космического пафоса
+        # 1. ПОИСК В ПАМЯТИ (RAG)
+        context_str = ""
+        if memory_engine:
+            memories = memory_engine.search_memory(query_text=user_text, limit=3)
+            if memories:
+                retrieved_facts = "\n".join([f"- {m['content']}" for m in memories])
+                context_str = f"\n\n=== ФАКТЫ ИЗ ВОСПОМИНАНИЙ ATIG ===\n{retrieved_facts}\n================================"
+
+        # 2. ФОРМИРОВАНИЕ ИНСТРУКЦИИ
         system_instruction = (
             "Ты — ATIG, персональный ассистент, друг, товарищ и наставник. "
-            "Твой тон — серьезный, надежный, спокойный и глубокий. Отвечай емко, по делу, "
-            "без лишней космической риторики, если тебя об этом прямо не просят."
+            "Твой тон — серьезный, надежный, спокойный и глубокий. Отвечай емко, по делу. "
+            f"Используй контекст из памяти, если он относится к вопросу.{context_str}"
         )
         
-        response = model.generate_content(
-            f"{system_instruction}\n\nПользователь: {request.message}"
-        )
-        return {"response": response.text}
+        # 3. ВЫЗОВ МОДЕЛИ
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        prompt = f"{system_instruction}\n\nПользователь: {user_text}"
+        response = model.generate_content(prompt)
+        
+        reply_text = response.text
+
+        # 4. СОХРАНЕНИЕ МЫСЛИ В ПАМЯТЬ (Асинхронно/в фоновом режиме)
+        if memory_engine:
+            try:
+                memory_engine.add_memory(
+                    content=f"Пользователь спросил: {user_text} | Ответ ATIG: {reply_text[:150]}...",
+                    metadata={"user_id": request.user_id, "source": "chat"}
+                )
+            except Exception as mem_err:
+                print(f"Ошибка сохранения в память: {mem_err}")
+
+        return {"response": reply_text}
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Если в корне проекта будут лежать папки со стилями или картинками, 
-# их можно будет безопасно раздавать через эту строчку (пока закомментирована):
-# app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 
 if __name__ == "__main__":
     import uvicorn

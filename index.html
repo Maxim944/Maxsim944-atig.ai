@@ -294,6 +294,28 @@
             opacity: 0.8;
         }
 
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
         /* Footer */
         footer {
             padding: 48px 0;
@@ -468,13 +490,31 @@
             <h2>Связаться с разработчиком</h2>
             <p class="subtitle">Готовы обсудить технологию, партнерство в рамках Astana Hub / Microsoft for Startups или инвестиции в суверенный AI.</p>
 
-            <div class="card" style="max-width: 600px;">
-                <div class="card-header">СВЯЗЬСЯ С НАМИ</div>
-                <div class="contact-links" style="margin-bottom: 0;">
-                    <div class="contact-item">
-                        <span>Электронная почта:</span>
-                        <a href="mailto:axs994@gmail.com">axs994@gmail.com</a>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">ПРЯМЫЕ СВЯЗИ</div>
+                    <div class="contact-links" style="margin-bottom: 0;">
+                        <div class="contact-item">
+                            <span>Электронная почта:</span>
+                            <a href="mailto:axs994@gmail.com">axs994@gmail.com</a>
+                        </div>
                     </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">ОТПРАВИТЬ СООБЩЕНИЕ</div>
+                    <form class="contact-form" action="https://formspree.io/f/axs994@gmail.com" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Ваше имя или организация" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Ваш E-mail для ответа" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" rows="4" placeholder="Тема обращения (партнерство, пилот, инвестиции)" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="border: none;">Отправить</button>
+                    </form>
                 </div>
             </div>
         </div>

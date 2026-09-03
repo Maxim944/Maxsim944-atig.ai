@@ -1,70 +1,44 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>ATIG — Персональный суверенный ИИ-спутник</title>
-  <meta
-    name="description"
-    content="ATIG — Guardian Trusted Autonomous Intelligence. Концепция автономного пожизненного цифрового спутника с приоритетом приватности."
-  />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0f19">
+  <meta name="description" content="ATIG — Autonomous Trusted Intelligence Guardian. Суверенный цифровой ковчег человеческой жизни, памяти и активов.">
+  <title>ATIG — Sovereign Digital Ark</title>
 
   <style>
     :root {
-      --bg: #071016;
-      --bg-soft: #0b151d;
-      --panel: #0e1b24;
-      --panel-hover: #12232d;
-
-      --line: rgba(180, 200, 210, 0.14);
-      --line-strong: rgba(91, 224, 169, 0.32);
-
-      --text: #e9f0f3;
-      --muted: #8fa2ac;
-      --silver: #cbd6db;
-
-      --green: #43d69a;
-      --green-bright: #6af0b3;
-      --green-dark: #143d30;
-
-      --shadow:
-        0 20px 60px rgba(0, 0, 0, 0.35);
-
-      --radius: 18px;
-      --max-width: 1180px;
+      --bg: #0b0f19;
+      --bg-2: #0e1420;
+      --panel: rgba(17, 25, 39, .72);
+      --panel-strong: rgba(19, 29, 45, .92);
+      --text: #f4f7fb;
+      --muted: #98a5b7;
+      --blue: #38bdf8;
+      --blue-soft: #7dd3fc;
+      --silver: #e2e8f0;
+      --gold: #d6b56d;
+      --line: rgba(226, 232, 240, .11);
+      --line-blue: rgba(56, 189, 248, .3);
+      --shadow: 0 24px 80px rgba(0,0,0,.42);
+      --radius: 22px;
+      --max: 1180px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
-      background:
-        radial-gradient(
-          circle at 80% 5%,
-          rgba(67, 214, 154, 0.08),
-          transparent 28%
-        ),
-        var(--bg);
-
+      min-width: 320px;
       color: var(--text);
-      line-height: 1.6;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(56,189,248,.10), transparent 28%),
+        radial-gradient(circle at 15% 42%, rgba(214,181,109,.055), transparent 26%),
+        var(--bg);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", SF Pro Display, Arial, sans-serif;
+      line-height: 1.65;
       overflow-x: hidden;
     }
 
@@ -72,133 +46,169 @@
       content: "";
       position: fixed;
       inset: 0;
+      z-index: -1;
       pointer-events: none;
-      opacity: 0.18;
-
+      opacity: .18;
       background-image:
-        linear-gradient(
-          rgba(255,255,255,0.025) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,0.025) 1px,
-          transparent 1px
-        );
-
-      background-size: 40px 40px;
-      mask-image: linear-gradient(to bottom, black, transparent);
+        linear-gradient(rgba(226,232,240,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(226,232,240,.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 75%);
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
 
     .container {
-      width: min(
-        calc(100% - 36px),
-        var(--max-width)
-      );
-      margin: 0 auto;
+      width: min(calc(100% - 36px), var(--max));
+      margin-inline: auto;
     }
 
-    /* =========================
-       HEADER
-    ========================= */
+    .mono {
+      font-family: "Fira Code", "Courier New", monospace;
+    }
 
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--blue-soft);
+      font: 700 .72rem/1 "Courier New", monospace;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--blue);
+      box-shadow: 0 0 12px rgba(56,189,248,.8);
+    }
+
+    .section {
+      padding: 105px 0;
+      border-top: 1px solid var(--line);
+      scroll-margin-top: 84px;
+    }
+
+    .section-head {
+      max-width: 820px;
+      margin-bottom: 52px;
+    }
+
+    .section-title {
+      margin-top: 15px;
+      font-size: clamp(2.1rem, 5vw, 4.2rem);
+      line-height: 1.04;
+      letter-spacing: -.045em;
+    }
+
+    .section-copy {
+      margin-top: 20px;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    /* Header */
     header {
       position: sticky;
       top: 0;
       z-index: 100;
-
+      border-bottom: 1px solid var(--line);
+      background: rgba(11,15,25,.78);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-
-      background: rgba(7, 16, 22, 0.78);
-      border-bottom: 1px solid var(--line);
     }
 
     .nav {
-      min-height: 72px;
-
+      min-height: 74px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 24px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 12px;
     }
 
-    .brand-mark {
+    .brand-symbol {
       width: 38px;
       height: 38px;
-
       display: grid;
       place-items: center;
-
-      border: 1px solid var(--green);
-      color: var(--green-bright);
-
-      font-weight: 800;
-      letter-spacing: 1px;
-
-      box-shadow:
-        0 0 24px rgba(67, 214, 154, 0.15);
-
+      border: 1px solid var(--blue);
+      color: var(--blue-soft);
+      font: 800 .9rem "Courier New", monospace;
       transform: rotate(45deg);
+      box-shadow: 0 0 25px rgba(56,189,248,.12);
     }
 
-    .brand-mark span {
-      transform: rotate(-45deg);
-    }
+    .brand-symbol span { transform: rotate(-45deg); }
 
     .brand-name {
       font-size: 1.2rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
+      font-weight: 850;
+      letter-spacing: .14em;
     }
 
-    .brand-tagline {
+    .status {
       display: none;
+      margin-top: 2px;
       color: var(--muted);
-      font-size: 0.8rem;
+      font: .66rem "Courier New", monospace;
     }
 
-    .nav-links {
+    .status i {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-right: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 10px var(--blue);
+    }
+
+    nav {
       display: none;
-      gap: 26px;
+      gap: 24px;
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: .83rem;
     }
 
-    .nav-links a {
-      transition:
-        color 0.25s ease,
-        transform 0.25s ease;
+    nav a {
+      position: relative;
+      padding: 7px 0;
+      transition: color .25s ease;
     }
 
-    .nav-links a:hover {
-      color: var(--green-bright);
-      transform: translateY(-2px);
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: 0;
+      height: 1px;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+      transition: right .25s ease;
     }
 
-    /* =========================
-       HERO
-    ========================= */
+    nav a:hover { color: var(--text); }
+    nav a:hover::after { right: 0; }
 
+    /* Hero */
     .hero {
       position: relative;
-      min-height: 88vh;
-
+      min-height: calc(100vh - 74px);
       display: flex;
       align-items: center;
-
-      padding: 90px 0 80px;
+      padding: 90px 0 110px;
+      overflow: hidden;
     }
 
     .hero-grid {
@@ -207,632 +217,516 @@
       align-items: center;
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-
-      margin-bottom: 22px;
-
-      color: var(--green-bright);
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 24px;
-      height: 1px;
-      background: var(--green);
-    }
-
     h1 {
-      max-width: 900px;
-
-      font-size: clamp(
-        2.7rem,
-        8vw,
-        6.4rem
-      );
-
-      line-height: 0.98;
-      letter-spacing: -0.055em;
-      font-weight: 800;
+      max-width: 920px;
+      margin-top: 22px;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: .96;
+      letter-spacing: -.065em;
     }
 
-    .hero h1 span {
-      color: var(--green-bright);
+    h1 em {
+      color: var(--blue-soft);
+      font-style: normal;
+      text-shadow: 0 0 34px rgba(56,189,248,.16);
     }
 
-    .hero-text {
-      max-width: 720px;
-
+    .hero-lead {
+      max-width: 780px;
       margin-top: 28px;
-
       color: var(--silver);
-      font-size: clamp(
-        1.05rem,
-        2vw,
-        1.3rem
-      );
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 13px;
-
-      margin-top: 35px;
+      margin-top: 36px;
     }
 
     .btn {
+      min-height: 51px;
+      padding: 0 21px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
-      min-height: 50px;
-      padding: 0 22px;
-
-      border: 1px solid var(--line-strong);
-      border-radius: 10px;
-
-      font-size: 0.9rem;
-      font-weight: 700;
-
-      transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        background 0.25s ease;
-    }
-
-    .btn-primary {
-      background: var(--green);
-      color: #06120e;
-      border-color: var(--green);
-    }
-
-    .btn-secondary {
-      color: var(--silver);
-      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--line-blue);
+      border-radius: 11px;
+      font-size: .86rem;
+      font-weight: 750;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
     }
 
     .btn:hover {
       transform: translateY(-3px);
-      box-shadow:
-        0 12px 35px rgba(0,0,0,0.35);
+      box-shadow: 0 15px 40px rgba(0,0,0,.32);
     }
 
-    .btn-primary:hover {
-      background: var(--green-bright);
+    .btn-primary {
+      color: #041019;
+      background: var(--blue);
+      border-color: var(--blue);
     }
 
-    /* Hero visual */
+    .btn-primary:hover { background: var(--blue-soft); }
 
-    .hero-core {
+    .btn-secondary {
+      color: var(--silver);
+      background: rgba(255,255,255,.025);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 32px;
+      color: var(--muted);
+      font: .7rem "Courier New", monospace;
+    }
+
+    .hero-meta span {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255,255,255,.018);
+    }
+
+    /* Core visual */
+    .core-wrap {
       position: relative;
-
-      width: min(330px, 80vw);
+      width: min(370px, 82vw);
       aspect-ratio: 1;
-
-      margin: 0 auto;
-
+      margin: auto;
       display: grid;
       place-items: center;
     }
 
-    .core-ring {
+    .core-grid {
       position: absolute;
-      inset: 7%;
-
-      border: 1px solid rgba(67,214,154,0.45);
-      border-radius: 50%;
-
-      animation:
-        spin 18s linear infinite;
+      inset: 6%;
+      border: 1px solid rgba(226,232,240,.12);
+      transform: rotate(45deg);
+      animation: breathe 5s ease-in-out infinite;
     }
 
-    .core-ring:nth-child(2) {
-      inset: 19%;
-      border-color: rgba(203,214,219,0.22);
-      animation-duration: 13s;
+    .core-grid::before,
+    .core-grid::after {
+      content: "";
+      position: absolute;
+      inset: 14%;
+      border: 1px solid rgba(56,189,248,.25);
+    }
+
+    .core-grid::after { transform: rotate(90deg); }
+
+    .orbit {
+      position: absolute;
+      inset: 9%;
+      border: 1px solid rgba(56,189,248,.35);
+      border-radius: 50%;
+      animation: spin 18s linear infinite;
+    }
+
+    .orbit.two {
+      inset: 22%;
+      border-color: rgba(226,232,240,.2);
+      border-style: dashed;
+      animation-duration: 12s;
       animation-direction: reverse;
     }
 
-    .core-ring:nth-child(3) {
-      inset: 32%;
-      border-style: dashed;
-      animation-duration: 9s;
+    .orbit::after {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 18px var(--blue);
     }
 
     .core {
-      width: 92px;
-      height: 92px;
-
+      width: 105px;
+      aspect-ratio: 1;
       display: grid;
       place-items: center;
-
+      text-align: center;
+      border: 1px solid var(--blue);
       border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle,
-          rgba(106,240,179,0.35),
-          rgba(67,214,154,0.08) 45%,
-          transparent 70%
-        );
-
-      border: 1px solid var(--green);
-
-      color: var(--green-bright);
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-
-      box-shadow:
-        0 0 50px rgba(67,214,154,0.18);
+      background: radial-gradient(circle, rgba(56,189,248,.20), rgba(56,189,248,.03) 58%, transparent 70%);
+      color: var(--blue-soft);
+      font: 800 .72rem/1.5 "Courier New", monospace;
+      letter-spacing: .12em;
+      box-shadow: 0 0 65px rgba(56,189,248,.15), inset 0 0 35px rgba(56,189,248,.07);
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* =========================
-       SECTIONS
-    ========================= */
-
-    section {
-      padding: 95px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .section-label {
-      margin-bottom: 15px;
-
-      color: var(--green-bright);
-      font-size: 0.74rem;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .section-title {
-      max-width: 850px;
-
-      font-size: clamp(
-        2rem,
-        5vw,
-        4rem
-      );
-
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-    }
-
-    .section-intro {
-      max-width: 760px;
-      margin-top: 22px;
-
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-
-    /* =========================
-       PROBLEM
-    ========================= */
-
-    .problem-grid {
-      display: grid;
-      gap: 16px;
-
-      margin-top: 50px;
-    }
-
-    .problem-card {
-      padding: 28px;
-
-      background: rgba(255,255,255,0.025);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-
-      transition:
-        transform 0.3s ease,
-        border-color 0.3s ease,
-        background 0.3s ease;
-    }
-
-    .problem-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(67,214,154,0.3);
-      background: var(--panel);
-    }
-
-    .problem-number {
-      color: var(--green);
-      font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-    }
-
-    .problem-card h3 {
-      margin-top: 20px;
-      font-size: 1.25rem;
-    }
-
-    .problem-card p {
-      margin-top: 10px;
-      color: var(--muted);
-    }
-
-    /* =========================
-       SOLUTION
-    ========================= */
-
-    .solution-grid {
-      display: grid;
-      gap: 16px;
-
-      margin-top: 50px;
-    }
-
-    .solution-card {
-      position: relative;
-
-      padding: 30px;
-
-      min-height: 260px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,0.045),
-          rgba(255,255,255,0.012)
-        );
-
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-
-      overflow: hidden;
-
-      transition:
-        transform 0.3s ease,
-        border-color 0.3s ease,
-        box-shadow 0.3s ease;
-    }
-
-    .solution-card::after {
+    .core::before {
       content: "";
-
       position: absolute;
       width: 130px;
       height: 130px;
-
-      right: -50px;
-      bottom: -50px;
-
-      border: 1px solid rgba(67,214,154,0.15);
-      transform: rotate(45deg);
+      border: 1px solid rgba(56,189,248,.08);
+      border-radius: 50%;
     }
 
-    .solution-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--line-strong);
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes breathe {
+      0%,100% { transform: rotate(45deg) scale(1); opacity: .8; }
+      50% { transform: rotate(45deg) scale(1.04); opacity: 1; }
+    }
+
+    /* Manifesto */
+    .manifesto-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .manifesto-card {
+      position: relative;
+      padding: 34px;
+      min-height: 290px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
       box-shadow: var(--shadow);
     }
 
-    .icon {
+    .manifesto-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 72px;
+      height: 1px;
+      background: var(--blue);
+      box-shadow: 0 0 18px var(--blue);
+    }
+
+    .manifesto-card.vision {
+      border-color: rgba(214,181,109,.22);
+      background:
+        radial-gradient(circle at 100% 0, rgba(214,181,109,.09), transparent 38%),
+        var(--panel);
+    }
+
+    .manifesto-card.vision::before {
+      background: var(--gold);
+      box-shadow: 0 0 18px var(--gold);
+    }
+
+    .card-index {
+      color: var(--muted);
+      font: .68rem "Courier New", monospace;
+      letter-spacing: .14em;
+    }
+
+    .manifesto-card h3 {
+      margin-top: 26px;
+      font-size: clamp(1.45rem, 3vw, 2.15rem);
+      line-height: 1.1;
+      letter-spacing: -.03em;
+    }
+
+    .manifesto-card p {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .manifesto-card.vision p { color: var(--silver); }
+
+    /* Pillars */
+    .pillars {
+      display: grid;
+      gap: 16px;
+    }
+
+    .pillar {
+      position: relative;
+      min-height: 310px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.012)),
+        var(--panel);
+      overflow: hidden;
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+
+    .pillar:hover {
+      transform: translateY(-7px);
+      border-color: var(--line-blue);
+      box-shadow: 0 24px 70px rgba(0,0,0,.35);
+    }
+
+    .pillar::after {
+      content: attr(data-no);
+      position: absolute;
+      right: 18px;
+      bottom: -18px;
+      color: rgba(226,232,240,.035);
+      font: 800 7rem/1 "Courier New", monospace;
+    }
+
+    .pillar-icon {
       width: 48px;
       height: 48px;
-
       display: grid;
       place-items: center;
-
-      border: 1px solid rgba(67,214,154,0.35);
-      color: var(--green-bright);
-
-      font-weight: 800;
-      font-size: 0.72rem;
-
-      margin-bottom: 25px;
+      border: 1px solid rgba(56,189,248,.28);
+      color: var(--blue-soft);
+      font: 800 .7rem "Courier New", monospace;
     }
 
-    .solution-card h3 {
-      font-size: 1.3rem;
-      line-height: 1.2;
+    .pillar.legacy { border-color: rgba(226,232,240,.18); }
+    .pillar.legacy .pillar-icon { border-color: rgba(226,232,240,.28); color: var(--silver); }
+
+    .pillar h3 {
+      margin-top: 24px;
+      font-size: 1.38rem;
+      line-height: 1.12;
     }
 
-    .solution-card p {
-      margin-top: 12px;
+    .pillar h3 span {
+      display: block;
+      margin-top: 5px;
       color: var(--muted);
+      font-size: .9rem;
+      font-weight: 500;
     }
 
-    .solution-card strong {
-      color: var(--silver);
+    .pillar p {
+      position: relative;
+      z-index: 1;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: .94rem;
     }
 
-    /* =========================
-       ARCHITECTURE
-    ========================= */
+    .pillar .status-line {
+      position: absolute;
+      bottom: 27px;
+      left: 30px;
+      color: var(--blue-soft);
+      font: .64rem "Courier New", monospace;
+      letter-spacing: .08em;
+    }
 
-    .architecture {
-      background:
-        linear-gradient(
-          180deg,
-          transparent,
-          rgba(67,214,154,0.025)
-        );
+    /* Architecture */
+    .architecture-box {
+      padding: 25px;
+      border: 1px solid var(--line-blue);
+      border-radius: var(--radius);
+      background: rgba(12,20,32,.78);
+      box-shadow: var(--shadow);
     }
 
     .arch-flow {
       display: grid;
-      gap: 15px;
-
-      margin-top: 55px;
+      gap: 12px;
     }
 
     .arch-node {
-      position: relative;
-
-      padding: 28px 22px;
-
+      padding: 24px 18px;
       text-align: center;
-
-      background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: 15px;
+      background: rgba(255,255,255,.025);
     }
 
     .arch-node.primary {
-      border-color: var(--line-strong);
-      box-shadow:
-        0 0 45px rgba(67,214,154,0.08);
+      border-color: rgba(56,189,248,.35);
+      box-shadow: inset 0 0 30px rgba(56,189,248,.035);
     }
 
-    .arch-node .node-label {
-      color: var(--green-bright);
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
+    .arch-node small {
+      color: var(--blue-soft);
+      font: .65rem "Courier New", monospace;
+      letter-spacing: .12em;
       text-transform: uppercase;
     }
 
-    .arch-node h3 {
-      margin-top: 8px;
-      font-size: 1.15rem;
-    }
+    .arch-node h3 { margin-top: 7px; font-size: 1.08rem; }
+    .arch-node p { margin-top: 5px; color: var(--muted); font-size: .83rem; }
+    .arch-arrow { display: grid; place-items: center; color: var(--blue); font-size: 1.35rem; }
 
-    .arch-node p {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .arch-arrow {
+    .arch-principles {
       display: grid;
-      place-items: center;
-
-      color: var(--green);
-      font-size: 1.4rem;
+      gap: 10px;
+      margin-top: 18px;
     }
 
-    .arch-note {
-      max-width: 780px;
-      margin: 30px auto 0;
-
-      color: var(--muted);
-      text-align: center;
-      font-size: 0.92rem;
-    }
-
-    /* =========================
-       BENEFITS
-    ========================= */
-
-    .benefits-grid {
-      display: grid;
-      gap: 18px;
-
-      margin-top: 50px;
-    }
-
-    .benefit-panel {
-      padding: 32px;
-
-      border-radius: var(--radius);
+    .principle {
+      padding: 15px;
       border: 1px solid var(--line);
-
-      background: var(--panel);
+      color: var(--muted);
+      font: .74rem/1.5 "Courier New", monospace;
+      background: rgba(255,255,255,.015);
     }
 
-    .benefit-panel h3 {
-      font-size: 1.5rem;
-    }
+    .principle strong { color: var(--silver); }
 
-    .benefit-list {
+    /* Roadmap */
+    .roadmap {
       display: grid;
       gap: 14px;
-
-      margin-top: 25px;
-      list-style: none;
     }
 
-    .benefit-list li {
-      display: flex;
-      gap: 12px;
-
-      color: var(--silver);
+    .roadmap-step {
+      display: grid;
+      gap: 18px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel);
+      transition: transform .25s ease, border-color .25s ease;
     }
 
-    .benefit-list li::before {
-      content: "✓";
-      color: var(--green-bright);
-      font-weight: 800;
+    .roadmap-step:hover {
+      transform: translateX(5px);
+      border-color: var(--line-blue);
     }
 
-    /* =========================
-       CTA
-    ========================= */
-
-    .cta {
-      text-align: center;
-      padding: 110px 0;
-    }
-
-    .cta-box {
-      position: relative;
-      overflow: hidden;
-
-      padding: 55px 25px;
-
-      border: 1px solid var(--line-strong);
-      border-radius: 24px;
-
+    .roadmap-step.current {
+      border-color: rgba(56,189,248,.35);
       background:
-        radial-gradient(
-          circle at 50% 0%,
-          rgba(67,214,154,0.12),
-          transparent 55%
-        ),
+        linear-gradient(90deg, rgba(56,189,248,.07), transparent 65%),
         var(--panel);
     }
 
-    .cta-box h2 {
-      max-width: 800px;
-      margin: 0 auto;
-
-      font-size: clamp(
-        2.2rem,
-        6vw,
-        4.5rem
-      );
-
-      line-height: 1;
-      letter-spacing: -0.05em;
+    .stage {
+      color: var(--blue-soft);
+      font: 700 .7rem "Courier New", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
     }
 
-    .cta-box p {
-      max-width: 650px;
-      margin: 22px auto 30px;
+    .roadmap-step h3 {
+      margin-top: 7px;
+      font-size: 1.35rem;
+    }
 
+    .roadmap-step p {
+      margin-top: 7px;
       color: var(--muted);
     }
 
-    /* =========================
-       FOOTER
-    ========================= */
+    .time {
+      color: var(--silver);
+      font: .72rem "Courier New", monospace;
+      white-space: nowrap;
+    }
+
+    .roadmap-note {
+      margin-top: 22px;
+      padding: 17px;
+      border-left: 2px solid var(--gold);
+      color: var(--muted);
+      background: rgba(214,181,109,.035);
+      font-size: .87rem;
+    }
+
+    /* Contact */
+    .contact-box {
+      position: relative;
+      overflow: hidden;
+      padding: 60px 28px;
+      text-align: center;
+      border: 1px solid rgba(56,189,248,.3);
+      border-radius: 25px;
+      background:
+        radial-gradient(circle at 50% 0, rgba(56,189,248,.11), transparent 50%),
+        var(--panel-strong);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-box h2 {
+      max-width: 850px;
+      margin: 18px auto 0;
+      font-size: clamp(2.25rem, 6vw, 4.7rem);
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+
+    .contact-box p {
+      max-width: 680px;
+      margin: 22px auto 30px;
+      color: var(--muted);
+    }
+
+    .email {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--blue-soft);
+      font: .82rem "Courier New", monospace;
+    }
 
     footer {
+      padding: 34px 0 42px;
       border-top: 1px solid var(--line);
-      padding: 35px 0;
+      color: var(--muted);
+      font-size: .78rem;
     }
 
     .footer-inner {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-
-      color: var(--muted);
-      font-size: 0.85rem;
+      gap: 10px;
     }
 
     .footer-brand {
       color: var(--text);
       font-weight: 800;
-      letter-spacing: 0.12em;
+      letter-spacing: .12em;
     }
 
-    /* =========================
-       RESPONSIVE
-    ========================= */
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
 
     @media (min-width: 700px) {
-
-      .container {
-        width: min(
-          calc(100% - 64px),
-          var(--max-width)
-        );
-      }
-
-      .brand-tagline {
-        display: block;
-      }
-
-      .nav-links {
-        display: flex;
-      }
-
-      .hero-grid {
-        grid-template-columns:
-          minmax(0, 1.5fr)
-          minmax(280px, 0.7fr);
-      }
-
-      .problem-grid {
-        grid-template-columns:
-          repeat(3, 1fr);
-      }
-
-      .solution-grid {
-        grid-template-columns:
-          repeat(2, 1fr);
-      }
-
-      .solution-card:last-child {
-        grid-column: span 2;
-      }
-
-      .benefits-grid {
-        grid-template-columns:
-          repeat(2, 1fr);
-      }
-
-      .arch-flow {
-        grid-template-columns:
-          1fr auto 1fr auto 1fr;
-        align-items: center;
-      }
-
-      .footer-inner {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
+      .container { width: min(calc(100% - 64px), var(--max)); }
+      .status { display: block; }
+      nav { display: flex; }
+      .hero-grid { grid-template-columns: minmax(0, 1.45fr) minmax(300px, .65fr); }
+      .manifesto-grid { grid-template-columns: 1fr 1fr; }
+      .pillars { grid-template-columns: 1fr 1fr; }
+      .arch-flow { grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; }
+      .arch-principles { grid-template-columns: repeat(3, 1fr); }
+      .roadmap-step { grid-template-columns: 130px 1fr 100px; align-items: start; }
+      .footer-inner { flex-direction: row; justify-content: space-between; align-items: center; }
     }
 
-    @media (min-width: 1050px) {
+    @media (min-width: 1040px) {
+      .pillars { grid-template-columns: repeat(4, 1fr); }
+      .pillar { min-height: 350px; }
+    }
 
-      .hero {
-        min-height: 92vh;
-      }
-
-      .hero-core {
-        width: 400px;
-      }
-
-      .solution-grid {
-        grid-template-columns:
-          repeat(3, 1fr);
-      }
-
-      .solution-card:last-child {
-        grid-column: auto;
-      }
+    @media (max-width: 699px) {
+      nav { display: none; }
+      .hero-core { order: -1; width: min(300px, 75vw); }
+      .hero { padding-top: 55px; }
+      .section { padding: 78px 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
       }
     }
   </style>
@@ -840,646 +734,383 @@
 
 <body>
 
-  <!-- =========================
-       HEADER
-  ========================== -->
+<header>
+  <div class="container nav">
+    <a class="brand" href="#top" aria-label="ATIG — начало">
+      <div class="brand-symbol"><span>A</span></div>
+      <div>
+        <div class="brand-name">ATIG</div>
+        <div class="status"><i></i>Sovereign Status: Active</div>
+      </div>
+    </a>
 
-  <header>
-    <div class="container nav">
+    <nav aria-label="Основная навигация">
+      <a href="#manifesto">Манифест</a>
+      <a href="#architecture">Архитектура</a>
+      <a href="#pillars">4 Столпа</a>
+      <a href="#roadmap">Дорожная карта</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+  </div>
+</header>
 
-      <a href="#top" class="brand" aria-label="ATIG">
-        <div class="brand-mark">
-          <span>A</span>
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+
+      <div>
+        <div class="eyebrow">Autonomous Trusted Intelligence Guardian</div>
+
+        <h1>
+          ATIG:
+          <em>сохраняя разум, опыт и активы человека сквозь поколения.</em>
+        </h1>
+
+        <p class="hero-lead">
+          Персональная суверенная ИИ-экосистема. От ежедневной финансовой
+          защиты и RAG-памяти до вечного цифрового архива рода на 1000 лет.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#architecture">Изучить архитектуру</a>
+          <a class="btn btn-secondary" href="#contact">Связаться с основателем</a>
         </div>
 
-        <div>
-          <div class="brand-name">ATIG</div>
-          <div class="brand-tagline">
-            Персональный суверенный ИИ-спутник
-          </div>
+        <div class="hero-meta">
+          <span>PRIVACY BY DESIGN</span>
+          <span>LOCAL-FIRST</span>
+          <span>LONG-TERM MEMORY</span>
+          <span>MADE IN KAZAKHSTAN</span>
         </div>
-      </a>
+      </div>
 
-      <nav class="nav-links" aria-label="Основная навигация">
-        <a href="#problem">Проблема</a>
-        <a href="#solution">ATIG</a>
-        <a href="#architecture">Архитектура</a>
-        <a href="#benefits">Возможности</a>
-        <a href="#contact">Контакты</a>
-      </nav>
+      <div class="core-wrap" aria-label="Визуализация ядра ATIG">
+        <div class="core-grid"></div>
+        <div class="orbit"></div>
+        <div class="orbit two"></div>
+        <div class="core">ATIG<br>CORE</div>
+      </div>
 
     </div>
-  </header>
+  </section>
 
+  <!-- MANIFESTO -->
+  <section class="section" id="manifesto">
+    <div class="container">
 
-  <main id="top">
+      <div class="section-head reveal">
+        <div class="eyebrow">01 / Manifesto</div>
+        <h2 class="section-title">Человеческая жизнь не должна иметь срок действия подписки.</h2>
+        <p class="section-copy">
+          Сегодня цифровая память человека живёт внутри чужих платформ.
+          Завтра платформа может изменить правила, закрыться или потерять
+          контекст. ATIG предлагает другой принцип: цифровая жизнь должна
+          принадлежать человеку и быть переносимой между технологическими эпохами.
+        </p>
+      </div>
 
-    <!-- =========================
-         HERO
-    ========================== -->
+      <div class="manifesto-grid">
 
-    <section class="hero">
-      <div class="container hero-grid">
-
-        <div>
-
-          <div class="eyebrow">
-            Guardian Trusted Autonomous Intelligence
-          </div>
-
-          <h1>
-            ATIG:
-            <span>личный финансовый щит</span>
-            и цифровой ковчег.
-          </h1>
-
-          <p class="hero-text">
-            Автономная экосистема для защиты жизни, активов
-            и сохранения наследия с приоритетом приватности.
-            ATIG задуман как пожизненный цифровой спутник,
-            который понимает контекст человека и помогает
-            управлять его цифровой жизнью.
+        <article class="manifesto-card reveal">
+          <div class="card-index mono">THE OLD MODEL / 01</div>
+          <h3>Уязвимость облаков</h3>
+          <p>
+            Сервисы закрываются за десятилетия, облачный ИИ сливает приватность.
+            Человеческое наследие не должно зависеть от чужих подписок.
+            Когда меняется технология, человек не должен терять свою память,
+            знания, документы и историю.
           </p>
+        </article>
 
-          <div class="hero-actions">
-            <a href="#contact" class="btn btn-primary">
-              Подать заявку
-            </a>
-
-            <a href="#solution" class="btn btn-secondary">
-              Изучить концепцию
-            </a>
-          </div>
-
-        </div>
-
-        <div class="hero-core" aria-hidden="true">
-          <div class="core-ring"></div>
-          <div class="core-ring"></div>
-          <div class="core-ring"></div>
-
-          <div class="core">
-            ATIG<br />
-            CORE
-          </div>
-        </div>
+        <article class="manifesto-card vision reveal">
+          <div class="card-index mono">ATIG MODEL / 02</div>
+          <h3>Суверенный цифровой ковчег</h3>
+          <p>
+            Автономный ИИ-кокон в закрытом контуре. Принадлежит только вам
+            и вашему роду. Его задача — не просто отвечать на вопросы,
+            а сохранять контекст, защищать критически важные решения
+            и становиться долгосрочным цифровым носителем человеческого опыта.
+          </p>
+        </article>
 
       </div>
-    </section>
+    </div>
+  </section>
 
+  <!-- ARCHITECTURE -->
+  <section class="section" id="architecture">
+    <div class="container">
 
-    <!-- =========================
-         PROBLEM
-    ========================== -->
-
-    <section id="problem">
-      <div class="container">
-
-        <div class="section-label">
-          01 / Problem
-        </div>
-
-        <h2 class="section-title">
-          Цифровая жизнь человека
-          раздроблена и уязвима.
-        </h2>
-
-        <p class="section-intro">
-          Современный человек оставляет цифровые следы
-          в десятках сервисов, но практически не имеет
-          единого интеллектуального слоя, который защищает
-          контекст его жизни и помогает принимать решения.
+      <div class="section-head reveal">
+        <div class="eyebrow">02 / Architecture</div>
+        <h2 class="section-title">Суверенность начинается с архитектуры.</h2>
+        <p class="section-copy">
+          ATIG строится вокруг локальной обработки, долговременной памяти
+          и контролируемого доступа к внешним сервисам. Чувствительный
+          контекст по возможности остаётся ближе к владельцу.
         </p>
-
-        <div class="problem-grid">
-
-          <article class="problem-card">
-            <div class="problem-number">01 — DATA</div>
-
-            <h3>
-              Fragmented Life Data
-            </h3>
-
-            <p>
-              Документы, знания, история покупок, семейные
-              сведения, планы и жизненный опыт распределены
-              между устройствами, облачными сервисами
-              и различными аккаунтами.
-            </p>
-          </article>
-
-          <article class="problem-card">
-            <div class="problem-number">02 — PRIVACY</div>
-
-            <h3>
-              Privacy Risks with Cloud AI
-            </h3>
-
-            <p>
-              Использование облачного ИИ создаёт необходимость
-              передавать часть личного контекста внешней
-              инфраструктуре. ATIG предлагает архитектурный
-              подход, в котором чувствительные данные могут
-              оставаться в закрытом контуре.
-            </p>
-          </article>
-
-          <article class="problem-card">
-            <div class="problem-number">03 — FINANCE</div>
-
-            <h3>
-              Financial Fraud &amp; Asset Vulnerability
-            </h3>
-
-            <p>
-              Мошенничество, социальная инженерия,
-              импульсивные решения и отсутствие системного
-              контроля повышают риски для личных финансов
-              и цифровых активов.
-            </p>
-          </article>
-
-        </div>
-
       </div>
-    </section>
 
-
-    <!-- =========================
-         SOLUTION
-    ========================== -->
-
-    <section id="solution">
-      <div class="container">
-
-        <div class="section-label">
-          02 / Solution
-        </div>
-
-        <h2 class="section-title">
-          The ATIG Ecosystem
-        </h2>
-
-        <p class="section-intro">
-          ATIG объединяет персональный ИИ, долговременную
-          память, финансовый контур и автономных агентов
-          в единую Privacy-First экосистему.
-        </p>
-
-        <div class="solution-grid">
-
-          <article class="solution-card">
-            <div class="icon">LV</div>
-
-            <h3>
-              Life Vault
-              <br />
-              <span>Пожизненный архив</span>
-            </h3>
-
-            <p>
-              Суверенная векторная память на основе
-              <strong>RAG</strong>, предназначенная для
-              структурированного хранения жизненного контекста:
-              опыта, событий, документов, знаний и решений.
-            </p>
-          </article>
-
-
-          <article class="solution-card">
-            <div class="icon">PI</div>
-
-            <h3>
-              Personal Intelligence
-              <br />
-              <span>Личный ИИ</span>
-            </h3>
-
-            <p>
-              Локальные <strong>LLM</strong> на устройстве
-              позволяют обрабатывать значительную часть
-              персонального контекста непосредственно
-              в пользовательском контуре, снижая
-              необходимость передачи чувствительных данных.
-            </p>
-          </article>
-
-
-          <article class="solution-card">
-            <div class="icon">FI</div>
-
-            <h3>
-              Financial Immunity
-              <br />
-              <span>Финансовый щит</span>
-            </h3>
-
-            <p>
-              Концепция защищённого контура
-              <strong>Smart Funds</strong> для контроля
-              финансовых решений, выявления подозрительных
-              сценариев и снижения риска мошенничества
-              и импульсивных трат.
-            </p>
-          </article>
-
-
-          <article class="solution-card">
-            <div class="icon">LG</div>
-
-            <h3>
-              Legacy Guardian
-              <br />
-              <span>Хранитель Наследия</span>
-            </h3>
-
-            <p>
-              Концепция суверенных целевых фондов и
-              наследственных механизмов для долгосрочной
-              защиты семейного капитала и передачи
-              ценностей следующему поколению.
-            </p>
-          </article>
-
-
-          <article class="solution-card">
-            <div class="icon">AL</div>
-
-            <h3>
-              Autonomous Agent Logistics
-              <br />
-              <span>Автопилот</span>
-            </h3>
-
-            <p>
-              Автономные агенты могут автоматизировать
-              бытовые процессы: контроль счетов, платежей,
-              напоминаний и предиктивной логистики —
-              при наличии разрешений пользователя.
-            </p>
-          </article>
-
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- =========================
-         ARCHITECTURE
-    ========================== -->
-
-    <section id="architecture" class="architecture">
-      <div class="container">
-
-        <div class="section-label">
-          03 / Architecture
-        </div>
-
-        <h2 class="section-title">
-          Privacy начинается
-          с архитектуры.
-        </h2>
-
-        <p class="section-intro">
-          Базовый принцип ATIG — чувствительный персональный
-          контекст должен по возможности обрабатываться
-          ближе к пользователю, а внешние сервисы подключаются
-          только при необходимости и в рамках заданных политик.
-        </p>
-
-
+      <div class="architecture-box reveal">
         <div class="arch-flow">
 
           <div class="arch-node primary">
-            <div class="node-label">
-              User Layer
-            </div>
-
-            <h3>
-              Your Device
-            </h3>
-
-            <p>
-              Local LLM + Vector DB + RAG
-            </p>
+            <small>Your Device</small>
+            <h3>Local Intelligence</h3>
+            <p>Local LLM + Vector DB + RAG</p>
           </div>
 
-
-          <div class="arch-arrow">
-            ↔
-          </div>
-
+          <div class="arch-arrow">↔</div>
 
           <div class="arch-node">
-            <div class="node-label">
-              Security Layer
-            </div>
-
-            <h3>
-              Secure Gateway
-            </h3>
-
-            <p>
-              Контроль доступа,
-              политики и маршрутизация
-            </p>
+            <small>Sovereign Layer</small>
+            <h3>Secure Gateway</h3>
+            <p>Policies · Access · Agent Control</p>
           </div>
 
-
-          <div class="arch-arrow">
-            ↔
-          </div>
-
+          <div class="arch-arrow">↔</div>
 
           <div class="arch-node">
-            <div class="node-label">
-              Optional Layer
-            </div>
-
-            <h3>
-              External Services
-            </h3>
-
-            <p>
-              Внешние API и сервисы —
-              при необходимости и с защитой данных
-            </p>
+            <small>Optional</small>
+            <h3>External Services</h3>
+            <p>API · Cloud · Banking · Other Systems</p>
           </div>
 
         </div>
 
-
-        <p class="arch-note">
-          Архитектура предполагает принцип
-          <strong>Privacy by Design</strong>:
-          минимизация передачи данных, локальная обработка,
-          разграничение полномочий и прозрачность действий
-          автономных агентов.
-        </p>
-
-      </div>
-    </section>
-
-
-    <!-- =========================
-         BENEFITS
-    ========================== -->
-
-    <section id="benefits">
-      <div class="container">
-
-        <div class="section-label">
-          04 / Value
+        <div class="arch-principles">
+          <div class="principle"><strong>01 / Local-first</strong><br>Критический контекст может обрабатываться локально.</div>
+          <div class="principle"><strong>02 / Minimal exposure</strong><br>Внешние сервисы подключаются только при необходимости.</div>
+          <div class="principle"><strong>03 / User control</strong><br>Действия агентов должны выполняться в рамках разрешённых политик.</div>
         </div>
-
-        <h2 class="section-title">
-          Что ATIG может дать
-          человеку и рынку?
-        </h2>
-
-        <div class="benefits-grid">
-
-          <article class="benefit-panel">
-
-            <h3>
-              Для пользователя
-            </h3>
-
-            <ul class="benefit-list">
-              <li>
-                <span>
-                  <strong>Суверенитет</strong> —
-                  контроль над собственным цифровым контекстом.
-                </span>
-              </li>
-
-              <li>
-                <span>
-                  <strong>Время</strong> —
-                  автоматизация повторяющихся бытовых задач.
-                </span>
-              </li>
-
-              <li>
-                <span>
-                  <strong>Защита</strong> —
-                  дополнительный интеллектуальный слой
-                  контроля финансовых и цифровых рисков.
-                </span>
-              </li>
-
-              <li>
-                <span>
-                  <strong>Наследие</strong> —
-                  сохранение знаний, документов, истории
-                  и жизненного опыта.
-                </span>
-              </li>
-
-              <li>
-                <span>
-                  <strong>Развитие личности</strong> —
-                  персональный ИИ, который понимает
-                  долгосрочный контекст человека.
-                </span>
-              </li>
-            </ul>
-
-          </article>
-
-
-          <article class="benefit-panel">
-
-            <h3>
-              Для инвесторов и партнёров
-            </h3>
-
-            <ul class="benefit-list">
-              <li>
-                <span>
-                  Потенциально масштабируемая
-                  <strong>B2C + SaaS модель</strong>.
-                </span>
-              </li>
-
-              <li>
-                <span>
-                  Уникальное позиционирование
-                  <strong>Privacy-First AI</strong>.
-                </span>
-              </li>
-
-              <li>
-                <span>
-                  Архитектура для развития
-                  экосистемы AI-агентов.
-                </span>
-              </li>
-
-              <li>
-                <span>
-                  Долгосрочный пользовательский контекст
-                  как основа персонального AI-продукта.
-                </span>
-              </li>
-
-              <li>
-                <span>
-                  Потенциал развития международного
-                  продукта из Казахстана.
-                </span>
-              </li>
-            </ul>
-
-          </article>
-
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- =========================
-         CTA
-    ========================== -->
-
-    <section id="contact" class="cta">
-      <div class="container">
-
-        <div class="cta-box">
-
-          <div class="section-label">
-            05 / Next Step
-          </div>
-
-          <h2>
-            Построим ИИ,
-            который принадлежит человеку.
-          </h2>
-
-          <p>
-            ATIG — концепция персонального суверенного
-            искусственного интеллекта, разработанная
-            с фокусом на приватность, автономность,
-            защиту и долгосрочную ценность для человека.
-          </p>
-
-          <a
-            href="mailto:hello@atig.ai"
-            class="btn btn-primary"
-          >
-            Связаться с основателем
-          </a>
-
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-
-  <!-- =========================
-       FOOTER
-  ========================== -->
-
-  <footer>
-    <div class="container footer-inner">
-
-      <div>
-        <div class="footer-brand">
-          ATIG
-        </div>
-
-        <div>
-          Guardian Trusted Autonomous Intelligence
-        </div>
-      </div>
-
-      <div>
-        Разработано в Казахстане · Privacy First
       </div>
 
     </div>
-  </footer>
+  </section>
 
+  <!-- FOUR PILLARS -->
+  <section class="section" id="pillars">
+    <div class="container">
 
-  <!-- =========================
-       JAVASCRIPT
-  ========================== -->
+      <div class="section-head reveal">
+        <div class="eyebrow">03 / Four Pillars</div>
+        <h2 class="section-title">4 столпа наследия.</h2>
+        <p class="section-copy">
+          Четыре слоя одной системы: память, мышление, активы и защита.
+          От реального MVP сегодня — к межпоколенческой инфраструктуре завтра.
+        </p>
+      </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
+      <div class="pillars">
 
-      // Плавная навигация по секциям
-      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        <article class="pillar reveal" data-no="01">
+          <div class="pillar-icon">LV</div>
+          <h3>
+            Life Vault
+            <span>Пожизненный Векторный Архив</span>
+          </h3>
+          <p>
+            Непрерывная RAG-память: документы, опыт, события, решения и знания
+            человека. Данные предполагается хранить в открытых и переносимых
+            форматах, устойчивых к смене технологических эпох.
+          </p>
+          <div class="status-line">MEMORY / CONTINUOUS</div>
+        </article>
 
-        link.addEventListener("click", event => {
+        <article class="pillar reveal" data-no="02">
+          <div class="pillar-icon">MP</div>
+          <h3>
+            Mind Projection
+            <span>Цифровая Проекция Мышления</span>
+          </h3>
+          <p>
+            Долгосрочное формирование цифрового отпечатка логики, предпочтений,
+            опыта и способов принятия решений человека — с перспективой передачи
+            потомкам не только информации, но и контекста.
+          </p>
+          <div class="status-line">MIND / CONTEXT</div>
+        </article>
 
-          const targetId =
-            link.getAttribute("href");
+        <article class="pillar legacy reveal" data-no="03">
+          <div class="pillar-icon">SLT</div>
+          <h3>
+            Sovereign Legacy &amp; Trust
+            <span>Суверенные Родовые Фонды</span>
+          </h3>
+          <p>
+            Концепция защищённых целевых средств и трастовых механизмов для детей,
+            где правила доступа, распределения и использования могут быть связаны
+            с заранее заданной системой защиты. Юридическая реализация требует
+            отдельной правовой инфраструктуры и юрисдикционного проектирования.
+          </p>
+          <div class="status-line">LEGACY / LONG TERM</div>
+        </article>
 
-          const target =
-            document.querySelector(targetId);
+        <article class="pillar reveal" data-no="04">
+          <div class="pillar-icon">FS</div>
+          <h3>
+            Financial &amp; Real-Time Shield
+            <span>Финансовый Щит</span>
+          </h3>
+          <p>
+            Локальный антифрод, мониторинг аномалий и автопилот бытовых счетов.
+            Первый практический слой ATIG: помогать человеку замечать рискованные
+            операции и принимать более взвешенные финансовые решения.
+          </p>
+          <div class="status-line">FINANCE / REAL-TIME</div>
+        </article>
 
-          if (!target) return;
+      </div>
+    </div>
+  </section>
 
-          event.preventDefault();
+  <!-- ROADMAP -->
+  <section class="section" id="roadmap">
+    <div class="container">
 
-          target.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
+      <div class="section-head reveal">
+        <div class="eyebrow">04 / Roadmap</div>
+        <h2 class="section-title">Мостик от вечности к бизнес-MVP.</h2>
+        <p class="section-copy">
+          Грандиозное видение не заменяет продуктовую дисциплину.
+          ATIG развивается слоями: сначала полезный локальный инструмент,
+          затем семейная инфраструктура, затем межпоколенческий цифровой архив.
+        </p>
+      </div>
 
-        });
+      <div class="roadmap">
 
+        <article class="roadmap-step current reveal">
+          <div>
+            <div class="stage">Stage 01</div>
+            <div class="time">MVP / NOW</div>
+          </div>
+          <div>
+            <h3>Локальный персональный ассистент</h3>
+            <p>
+              Локальный ассистент, RAG-память, учет финансов и базовый
+              антифрод-контур. Цель этапа — доказать ежедневную полезность,
+              приватность и надёжность ядра.
+            </p>
+          </div>
+          <div class="mono">BUILD</div>
+        </article>
+
+        <article class="roadmap-step reveal">
+          <div>
+            <div class="stage">Stage 02</div>
+            <div class="time">3–5 YEARS</div>
+          </div>
+          <div>
+            <h3>Семейная цифровая инфраструктура</h3>
+            <p>
+              Семейные архивы, автопилот счетов, расширенные агенты,
+              суверенные детские фонды и инструменты управления
+              долгосрочными семейными активами.
+            </p>
+          </div>
+          <div class="mono">SCALE</div>
+        </article>
+
+        <article class="roadmap-step reveal">
+          <div>
+            <div class="stage">Stage 03</div>
+            <div class="time">10+ YEARS</div>
+          </div>
+          <div>
+            <h3>Межпоколенческий слой</h3>
+            <p>
+              Полная проекция личности, межпоколенческий передатчик опыта рода
+              и долговременная инфраструктура цифрового наследия.
+              Это исследовательский горизонт, а не обещание текущего продукта.
+            </p>
+          </div>
+          <div class="mono">LEGACY</div>
+        </article>
+
+      </div>
+
+      <div class="roadmap-note reveal">
+        <strong>Инвестиционная логика:</strong>
+        ближайший MVP создаёт измеримую ценность сегодня, а архитектура
+        закладывает возможность построения значительно более крупного
+        долгосрочного рынка персонального суверенного ИИ.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="container">
+
+      <div class="contact-box reveal">
+        <div class="eyebrow">05 / Contact</div>
+
+        <h2>
+          Построим цифровой ковчег,
+          который принадлежит человеку.
+        </h2>
+
+        <p>
+          ATIG создаётся в Казахстане как исследовательско-продуктовая
+          концепция персонального суверенного ИИ. Мы ищем партнёров,
+          менторов и инвесторов, готовых смотреть не только на следующий
+          релиз, но и на инфраструктуру человеческого будущего.
+        </p>
+
+        <a class="btn btn-primary" href="mailto:hello@atig.ai">
+          Связаться с основателем
+        </a>
+
+        <div class="email">hello@atig.ai</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-brand">ATIG</div>
+      <div>Autonomous Trusted Intelligence Guardian</div>
+    </div>
+    <div>ATIG · Разработано в Казахстане (Алматы) · Privacy by Design</div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Плавная навигация
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener("click", event => {
+        const target = document.querySelector(link.getAttribute("href"));
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       });
-
-      // Небольшой эффект появления карточек
-      const cards =
-        document.querySelectorAll(
-          ".problem-card, .solution-card, .benefit-panel"
-        );
-
-      const observer =
-        new IntersectionObserver(
-          entries => {
-
-            entries.forEach(entry => {
-
-              if (entry.isIntersecting) {
-
-                entry.target.style.opacity = "1";
-                entry.target.style.transform =
-                  "translateY(0)";
-
-                observer.unobserve(entry.target);
-              }
-
-            });
-
-          },
-          {
-            threshold: 0.12
-          }
-        );
-
-      cards.forEach(card => {
-
-        card.style.opacity = "0";
-        card.style.transform =
-          "translateY(18px)";
-
-        card.style.transition =
-          "opacity 0.6s ease, transform 0.6s ease, border-color 0.3s ease, background 0.3s ease";
-
-        observer.observe(card);
-
-      });
-
     });
-  </script>
+
+    // Анимация появления блоков при прокрутке
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+  });
+</script>
 
 </body>
 </html>

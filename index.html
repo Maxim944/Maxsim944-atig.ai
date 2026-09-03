@@ -145,6 +145,7 @@
             text-decoration: none;
             cursor: pointer;
             transition: all 0.2s;
+            display: inline-block;
         }
 
         .btn-primary {
@@ -259,6 +260,60 @@
         .storage-box h3 {
             color: var(--accent-cyan);
             margin-bottom: 12px;
+        }
+
+        /* Contacts Section */
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .contact-item span {
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+            min-width: 120px;
+        }
+
+        .contact-item a {
+            color: var(--accent-green);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
         }
 
         /* Footer */
@@ -428,8 +483,57 @@
         </div>
     </section>
 
-    <!-- Footer / Contacts -->
-    <footer id="contacts">
+    <!-- Contacts Section -->
+    <section id="contacts">
+        <div class="container">
+            <div class="tag">05 / CONTACTS</div>
+            <h2>Связаться с разработчиком</h2>
+            <p class="subtitle">Готовы обсудить технологию, партнерство в рамках Astana Hub / Microsoft for Startups или инвестиции в суверенный AI.</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">ПРАМЫЕ СВЯЗИ</div>
+                    <div class="contact-links">
+                        <div class="contact-item">
+                            <span>Telegram:</span>
+                            <a href="https://t.me/ATIG_AI" target="_blank">@ATIG_AI</a>
+                        </div>
+                        <div class="contact-item">
+                            <span>Канал:</span>
+                            <a href="https://t.me/atig_ai_channel" target="_blank">t.me/atig_ai_channel</a>
+                        </div>
+                        <div class="contact-item">
+                            <span>E-mail:</span>
+                            <a href="mailto:founder@atig.ai">founder@atig.ai</a>
+                        </div>
+                        <div class="contact-item">
+                            <span>Локация:</span>
+                            <span style="color: var(--text-main);">Астана / Алматы, Казахстан</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">БЫСТРОЕ СООБЩЕНИЕ</div>
+                    <form class="contact-form" action="mailto:founder@atig.ai" method="post" enctype="text/plain">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Ваше имя или организация" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Ваш E-mail или Telegram" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" rows="4" placeholder="Тема обращения (партнерство, стартап-программы, пилот)" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="border: none;">Отправить сообщение</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
         <div class="container">
             <p style="margin-bottom: 12px; color: var(--text-main); font-weight: 600;">ATIG — Autonomous Trusted Intelligence Guardian</p>
             <p>Проект развивается в экосистеме инноваций Казахстана (Astana Hub) и ориентирован на глобальный deep-tech рынок.</p>

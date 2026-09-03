@@ -280,7 +280,7 @@
         .contact-item span {
             font-family: var(--font-mono);
             color: var(--accent-cyan);
-            min-width: 120px;
+            min-width: 140px;
         }
 
         .contact-item a {
@@ -292,28 +292,6 @@
         .contact-item a:hover {
             text-decoration: underline;
             opacity: 0.8;
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 14px;
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            font-size: 0.95rem;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-green);
         }
 
         /* Footer */
@@ -490,43 +468,13 @@
             <h2>Связаться с разработчиком</h2>
             <p class="subtitle">Готовы обсудить технологию, партнерство в рамках Astana Hub / Microsoft for Startups или инвестиции в суверенный AI.</p>
 
-            <div class="grid-2">
-                <div class="card">
-                    <div class="card-header">ПРАМЫЕ СВЯЗИ</div>
-                    <div class="contact-links">
-                        <div class="contact-item">
-                            <span>Telegram:</span>
-                            <a href="https://t.me/ATIG_AI" target="_blank">@ATIG_AI</a>
-                        </div>
-                        <div class="contact-item">
-                            <span>Канал:</span>
-                            <a href="https://t.me/atig_ai_channel" target="_blank">t.me/atig_ai_channel</a>
-                        </div>
-                        <div class="contact-item">
-                            <span>E-mail:</span>
-                            <a href="mailto:founder@atig.ai">founder@atig.ai</a>
-                        </div>
-                        <div class="contact-item">
-                            <span>Локация:</span>
-                            <span style="color: var(--text-main);">Астана / Алматы, Казахстан</span>
-                        </div>
+            <div class="card" style="max-width: 600px;">
+                <div class="card-header">СВЯЗЬСЯ С НАМИ</div>
+                <div class="contact-links" style="margin-bottom: 0;">
+                    <div class="contact-item">
+                        <span>Электронная почта:</span>
+                        <a href="mailto:axs994@gmail.com">axs994@gmail.com</a>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">БЫСТРОЕ СООБЩЕНИЕ</div>
-                    <form class="contact-form" action="mailto:founder@atig.ai" method="post" enctype="text/plain">
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Ваше имя или организация" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Ваш E-mail или Telegram" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="message" rows="4" placeholder="Тема обращения (партнерство, стартап-программы, пилот)" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="border: none;">Отправить сообщение</button>
-                    </form>
                 </div>
             </div>
         </div>

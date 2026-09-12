@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0a0d12">
+  <meta name="theme-color" content="#06080c">
   <meta name="description" content="ATIG — Guardian Trusted Autonomous Intelligence. Персональный суверенный ИИ-спутник и финансовый щит.">
   <title>ATIG — Guardian Trusted Autonomous Intelligence</title>
 
-  <!-- Футуристичный шрифт Space Grotesk и Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
@@ -15,18 +14,16 @@
   <style>
     :root {
       --bg: #06080c;
-      --bg-surface: rgba(15, 20, 32, 0.65);
-      --panel: rgba(17, 24, 39, 0.75);
-      --panel-border: rgba(16, 185, 129, 0.2);
+      --bg-surface: rgba(13, 17, 26, 0.65);
+      --panel-border: rgba(16, 185, 129, 0.25);
       
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       
       --emerald: #10b981;
-      --emerald-glow: rgba(16, 185, 129, 0.4);
-      --nebula-purple: rgba(124, 58, 237, 0.25);
-      --nebula-blue: rgba(14, 165, 233, 0.2);
-      --gold: #f59e0b;
+      --emerald-glow: rgba(16, 185, 129, 0.5);
+      --purple-glow: rgba(124, 58, 237, 0.4);
+      --blue-glow: rgba(14, 165, 233, 0.4);
       
       --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'Fira Code', monospace;
@@ -47,7 +44,7 @@
       position: relative;
     }
 
-    /* Интерактивный холст со звездами */
+    /* 1. ИНТЕРАКТИВНЫЙ ФОН STARFIELD */
     #space-canvas {
       position: fixed;
       top: 0;
@@ -58,24 +55,47 @@
       pointer-events: none;
     }
 
-    /* Эффект Космических Туманностей (Nebula Gradients) */
-    .nebula-bg {
+    /* 2. ТУМАННОСТИ (NEBULA GRADIENTS) */
+    .nebula-container {
       position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      background: 
-        radial-gradient(circle at 15% 20%, var(--emerald-glow) 0%, transparent 40%),
-        radial-gradient(circle at 85% 60%, var(--nebula-purple) 0%, transparent 50%),
-        radial-gradient(circle at 50% 85%, var(--nebula-blue) 0%, transparent 45%);
-      filter: blur(60px);
-      opacity: 0.8;
-      animation: nebulaPulse 12s ease-in-out infinite alternate;
+      overflow: hidden;
     }
 
-    @keyframes nebulaPulse {
-      0% { opacity: 0.6; transform: scale(1); }
-      100% { opacity: 0.9; transform: scale(1.05); }
+    .nebula {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.6;
+      animation: nebulaFloat 18s ease-in-out infinite alternate;
+    }
+
+    .nebula-1 {
+      width: 600px; height: 600px;
+      top: -100px; left: -100px;
+      background: radial-gradient(circle, var(--emerald-glow) 0%, transparent 70%);
+    }
+
+    .nebula-2 {
+      width: 700px; height: 700px;
+      top: 40%; right: -150px;
+      background: radial-gradient(circle, var(--purple-glow) 0%, transparent 70%);
+      animation-delay: -6s;
+    }
+
+    .nebula-3 {
+      width: 650px; height: 650px;
+      bottom: -150px; left: 20%;
+      background: radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+      animation-delay: -12s;
+    }
+
+    @keyframes nebulaFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.15); }
+      100% { transform: translate(-40px, 80px) scale(0.95); }
     }
 
     .container {
@@ -98,8 +118,8 @@
       border: 1px solid rgba(16, 185, 129, 0.4);
       border-radius: 100px;
       background: rgba(16, 185, 129, 0.08);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
     }
 
     .tag::before {
@@ -109,15 +129,14 @@
       border-radius: 50%;
       background: var(--emerald);
       box-shadow: 0 0 10px var(--emerald);
-      animation: blink 2s infinite;
+      animation: pulse 2s infinite;
     }
 
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
     .section {
       padding: 100px 0;
-      border-top: 1px solid rgba(226, 232, 240, 0.05);
-      scroll-margin-top: 80px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .section-title {
@@ -128,13 +147,6 @@
       background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
-
-    .section-desc {
-      color: var(--text-muted);
-      font-size: 1.15rem;
-      max-width: 720px;
-      margin-top: 16px;
     }
 
     .btn {
@@ -150,39 +162,22 @@
       cursor: pointer;
     }
 
-    /* Галактическая кнопка с орбитальным свечением */
     .btn-galactic {
-      position: relative;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #04130e;
       border: 1px solid var(--emerald);
-      box-shadow: 0 0 20px var(--emerald-glow), 0 0 40px rgba(124, 58, 237, 0.2);
-      overflow: hidden;
-      z-index: 1;
+      box-shadow: 0 0 20px var(--emerald-glow);
     }
-
-    .btn-galactic::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 60%);
-      transform: scale(0);
-      transition: transform 0.6s ease-out;
-      z-index: -1;
-    }
-
-    .btn-galactic:hover::before { transform: scale(1); }
 
     .btn-galactic:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.7), 0 0 60px rgba(124, 58, 237, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 0 35px var(--emerald-glow), 0 0 50px rgba(124, 58, 237, 0.4);
     }
 
     .btn-secondary {
       background: rgba(255, 255, 255, 0.03);
       color: #e2e8f0;
-      border: 1px solid rgba(226, 232, 240, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
     }
 
@@ -190,7 +185,6 @@
       background: rgba(255, 255, 255, 0.08);
       border-color: var(--emerald);
       transform: translateY(-2px);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
     }
 
     header {
@@ -199,7 +193,7 @@
       z-index: 100;
       background: rgba(6, 8, 12, 0.8);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .nav-inner {
@@ -216,25 +210,26 @@
       text-decoration: none;
     }
 
-    .logo-mark {
-      width: 38px;
-      height: 38px;
+    /* АВАТАР ЛОГОТИПА С КОСМИЧЕСКИМ СВЕЧЕНИЕМ */
+    .logo-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(124, 58, 237, 0.2));
       border: 1px solid var(--emerald);
       display: grid;
       place-items: center;
       color: var(--emerald);
       font-family: var(--font-mono);
       font-weight: 700;
-      transform: rotate(45deg);
-      box-shadow: 0 0 20px var(--emerald-glow);
-      transition: transform 0.5s ease;
+      box-shadow: 0 0 15px var(--emerald-glow);
+      transition: all 0.4s ease;
     }
 
-    .logo:hover .logo-mark {
-      transform: rotate(225deg);
+    .logo:hover .logo-avatar {
+      transform: rotate(180deg) scale(1.05);
+      box-shadow: 0 0 25px var(--emerald-glow), 0 0 35px var(--purple-glow);
     }
-
-    .logo-mark span { transform: rotate(-45deg); }
 
     .logo-text {
       color: var(--text-main);
@@ -260,7 +255,6 @@
 
     .hero {
       padding: 140px 0 100px;
-      position: relative;
     }
 
     .hero-grid {
@@ -281,14 +275,13 @@
       background: linear-gradient(135deg, #10b981 0%, #38bdf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 25px rgba(16, 185, 129, 0.4));
+      filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
     }
 
     .hero-sub {
       color: var(--text-muted);
       font-size: 1.25rem;
       margin-top: 24px;
-      max-width: 600px;
     }
 
     .hero-cta {
@@ -297,121 +290,80 @@
       margin-top: 40px;
     }
 
-    /* 3D Орбитальное ядро */
-    .hero-visual {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-    }
-
-    .cyber-shield {
-      width: 260px;
-      height: 260px;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 40px;
-      position: relative;
-      display: grid;
-      place-items: center;
-      background: var(--bg-surface);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 20px var(--emerald-glow);
-      transform: rotate(45deg);
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .cyber-shield-inner {
-      width: 190px;
-      height: 190px;
-      border: 1px dashed var(--emerald);
-      border-radius: 28px;
-      display: grid;
-      place-items: center;
-      animation: spin 25s linear infinite;
-    }
-
-    .core-node {
-      transform: rotate(-45deg);
-      text-align: center;
-    }
-
-    .core-node div {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      color: var(--emerald);
-      font-size: 1.4rem;
-      text-shadow: 0 0 15px var(--emerald);
-    }
-
-    .core-node span {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      letter-spacing: 0.15em;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: rotate(45deg) translateY(0); }
-      50% { transform: rotate(45deg) translateY(-20px); }
-    }
-
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-
-    /* Космические карточки (Glassmorphism + Glow) */
-    .problems-grid, .solution-grid {
+    /* 3. СТИЛИЗАЦИЯ КАРТОЧЕК (SPACE CARDS & GLOW EFFECT) */
+    .space-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
       margin-top: 48px;
     }
 
-    .problem-card, .solution-card {
+    .space-card {
+      position: relative;
       background: var(--bg-surface);
       border: 1px solid var(--panel-border);
       padding: 36px;
       border-radius: var(--radius);
       backdrop-filter: blur(16px);
-      transition: all 0.3s ease;
-      position: relative;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       overflow: hidden;
     }
 
-    .problem-card:hover, .solution-card:hover {
-      border-color: var(--emerald);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15), 0 0 40px rgba(124, 58, 237, 0.15);
+    /* Подсветка неоновым градиентом при наведении */
+    .space-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(16, 185, 129, 0.15), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
     }
 
-    .solution-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: rgba(16, 185, 129, 0.1);
+    .space-card:hover::before { opacity: 1; }
+
+    .space-card:hover {
+      border-color: var(--emerald);
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 30px var(--emerald-glow), 0 0 50px var(--purple-glow);
+    }
+
+    /* Динамическая футуристичная иконка/аватар карточки */
+    .space-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(124, 58, 237, 0.15));
       border: 1px solid var(--emerald);
       display: grid;
       place-items: center;
       color: var(--emerald);
       font-family: var(--font-mono);
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 24px;
-      box-shadow: 0 0 15px var(--emerald-glow);
+      box-shadow: 0 0 20px var(--emerald-glow);
+      transition: transform 0.3s ease;
+    }
+
+    .space-card:hover .space-avatar {
+      transform: scale(1.1) rotate(5deg);
     }
 
     .cta-card {
-      background: linear-gradient(135deg, rgba(15, 20, 32, 0.8) 0%, rgba(124, 58, 237, 0.15) 100%);
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, rgba(13, 17, 26, 0.8) 0%, rgba(124, 58, 237, 0.2) 100%);
+      border: 1px solid var(--emerald);
       padding: 80px 40px;
       border-radius: calc(var(--radius) * 1.5);
       text-align: center;
       margin-top: 40px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px var(--emerald-glow);
       backdrop-filter: blur(20px);
     }
 
     footer {
       padding: 40px 0;
-      border-top: 1px solid rgba(226, 232, 240, 0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-muted);
       font-size: 0.9rem;
     }
@@ -424,7 +376,6 @@
 
     @media (max-width: 900px) {
       .hero-grid { grid-template-columns: 1fr; text-align: center; }
-      .hero-sub { margin-inline: auto; }
       .hero-cta { justify-content: center; }
       .nav-links { display: none; }
       .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
@@ -433,22 +384,27 @@
 </head>
 <body>
 
-  <!-- Холст для анимированных звезд -->
+  <!-- 1. Холст звездного неба -->
   <canvas id="space-canvas"></canvas>
-  <div class="nebula-bg"></div>
+
+  <!-- 2. Космические туманности -->
+  <div class="nebula-container">
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+  </div>
 
   <!-- HEADER -->
   <header>
     <div class="container nav-inner">
       <a href="#top" class="logo">
-        <div class="logo-mark"><span>A</span></div>
+        <div class="logo-avatar">A</div>
         <div class="logo-text">ATIG</div>
       </a>
       <ul class="nav-links">
         <li><a href="#problem">Проблематика</a></li>
         <li><a href="#solution">Экосистема</a></li>
-        <li><a href="#architecture">Архитектура</a></li>
-        <li><a href="#benefits">Ценность</a></li>
+        <li><a href="#contact">Контакты</a></li>
       </ul>
       <a href="#contact" class="btn btn-secondary" style="padding: 10px 20px; font-size: 0.85rem;">Контакты</a>
     </div>
@@ -462,23 +418,12 @@
         <div>
           <div class="tag">Guardian Trusted Autonomous Intelligence</div>
           <h1>ATIG: Ваш личный <span>финансовый щит</span> и цифровой ковчег.</h1>
-          <p class="hero-lead hero-sub">
+          <p class="hero-sub">
             Автономная ИИ-экосистема для защиты жизни, управления активами и сохранения цифрового наследия с приоритетом абсолютной приватности.
           </p>
           <div class="hero-cta">
             <a href="#contact" class="btn btn-galactic">Изучить концепцию</a>
-            <a href="#architecture" class="btn btn-secondary">Архитектура системы</a>
-          </div>
-        </div>
-
-        <div class="hero-visual">
-          <div class="cyber-shield">
-            <div class="cyber-shield-inner">
-              <div class="core-node">
-                <div>ATIG</div>
-                <span>CORE / LOCAL</span>
-              </div>
-            </div>
+            <a href="#solution" class="btn btn-secondary">Экосистема</a>
           </div>
         </div>
       </div>
@@ -487,26 +432,26 @@
     <!-- PROBLEM SECTION -->
     <section class="section" id="problem">
       <div class="container">
-        <div class="tag">Вызовы цифровой эпохи</div>
-        <h2 class="section-title">Современный человек уязвим перед алгоритмами и утерей контекста.</h2>
-        <p class="section-desc">Технологический прогресс создал риски, с которыми традиционные инструменты не справляются.</p>
+        <div class="tag">Вызовы эпохи</div>
+        <h2 class="section-title">Современный человек уязвим перед алгоритмами.</h2>
 
-        <div class="problems-grid">
-          <div class="problem-card">
-            <div class="mono" style="color: #ef4444; font-size: 0.8rem;">01 / RISKS</div>
-            <h3 style="margin-top: 12px; font-size: 1.3rem;">Утечки & Облачный ИИ</h3>
+        <!-- 3. SPACE CARDS с Glow-эффектом -->
+        <div class="space-grid">
+          <div class="space-card">
+            <div class="space-avatar">01</div>
+            <h3 style="font-size: 1.3rem;">Утечки & Облачный ИИ</h3>
             <p style="color: var(--text-muted); margin-top: 12px;">Передача личных данных и финансов в сторонние нейросети лишает пользователя суверенитета и создает угрозу слива чувствительной информации.</p>
           </div>
 
-          <div class="problem-card">
-            <div class="mono" style="color: #ef4444; font-size: 0.8rem;">02 / FRAUD</div>
-            <h3 style="margin-top: 12px; font-size: 1.3rem;">Финансовое мошенничество</h3>
+          <div class="space-card">
+            <div class="space-avatar">02</div>
+            <h3 style="font-size: 1.3rem;">Финансовое мошенничество</h3>
             <p style="color: var(--text-muted); margin-top: 12px;">Социальная инженерия и импульсивные решения ежедневно приводят к утере накоплений семей и пожилых людей.</p>
           </div>
 
-          <div class="problem-card">
-            <div class="mono" style="color: #ef4444; font-size: 0.8rem;">03 / LOSS</div>
-            <h3 style="margin-top: 12px; font-size: 1.3rem;">Фрагментация памяти и наследия</h3>
+          <div class="space-card">
+            <div class="space-avatar">03</div>
+            <h3 style="font-size: 1.3rem;">Фрагментация памяти</h3>
             <p style="color: var(--text-muted); margin-top: 12px;">Жизненный опыт и семейные активы теряются со сменой платформ. Нет единого суверенного хранилища жизни.</p>
           </div>
         </div>
@@ -518,31 +463,30 @@
       <div class="container">
         <div class="tag">Решение ATIG</div>
         <h2 class="section-title">Единая суверенная экосистема защиты и памяти.</h2>
-        <p class="section-desc">ATIG объединяет автономные нейросетевые модели и защищенные контуры для безопасного управления всеми аспектами жизни.</p>
 
-        <div class="solution-grid">
-          <div class="solution-card">
-            <div class="solution-icon">LV</div>
-            <h3>Life Vault</h3>
+        <div class="space-grid">
+          <div class="space-card">
+            <div class="space-avatar">LV</div>
+            <h3 style="font-size: 1.3rem;">Life Vault</h3>
             <p style="color: var(--text-muted); margin-top: 12px;"><strong>Пожизненный архив:</strong> Векторная память (RAG) в закрытом контуре. Индексирует весь ваш опыт и документы без утечек наружу.</p>
           </div>
 
-          <div class="solution-card">
-            <div class="solution-icon">PI</div>
-            <h3>Personal Intelligence</h3>
+          <div class="space-card">
+            <div class="space-avatar">PI</div>
+            <h3 style="font-size: 1.3rem;">Personal Intelligence</h3>
             <p style="color: var(--text-muted); margin-top: 12px;"><strong>Личный ИИ на устройстве:</strong> Локальные языковые модели (Local LLM), работающие непосредственно на вашем оборудовании.</p>
           </div>
 
-          <div class="solution-card">
-            <div class="solution-icon">FS</div>
-            <h3>Financial Immunity</h3>
+          <div class="space-card">
+            <div class="space-avatar">FI</div>
+            <h3 style="font-size: 1.3rem;">Financial Immunity</h3>
             <p style="color: var(--text-muted); margin-top: 12px;"><strong>Финансовый щит:</strong> Мониторинг аномалий, блокировка мошеннических транзакций и предупреждение эмоциональных трат.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CALL TO ACTION -->
+    <!-- CONTACT SECTION -->
     <section class="section" id="contact" style="border-top: none;">
       <div class="container">
         <div class="cta-card">
@@ -564,14 +508,19 @@
     </div>
   </footer>
 
-  <!-- Скрипт космического фона и взаимодействия -->
+  <!-- СКРИПТ: Starfield с эффектом реакции на мышь + отслеживание положения мыши для карточек -->
   <script>
-    // Генерация звездного неба на Canvas
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
 
     let stars = [];
-    const numStars = 150;
+    const numStars = 200;
+    let mouse = { x: null, y: null, radius: 150 };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -581,43 +530,87 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    for (let i = 0; i < numStars; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 1.5,
-        alpha: Math.random(),
-        speed: Math.random() * 0.005 + 0.002
-      });
-    }
+    class Star {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.size = Math.random() * 1.8 + 0.2;
+        this.alpha = Math.random();
+        this.speed = Math.random() * 0.01 + 0.005;
+        this.density = (Math.random() * 20) + 1;
+      }
 
-    function drawStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach(star => {
-        star.alpha += star.speed;
-        if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
-
+      draw() {
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(this.alpha)})`;
         ctx.fill();
-      });
-      requestAnimationFrame(drawStars);
-    }
+      }
 
-    drawStars();
+      update() {
+        // Мерцание
+        this.alpha += this.speed;
+        if (this.alpha > 1 || this.alpha < 0) this.speed = -this.speed;
 
-    // Плавная навигация
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href && href.startsWith('#') && href.length > 1) {
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Реакция на движение мыши
+        if (mouse.x !== null && mouse.y !== null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < mouse.radius) {
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            let maxDistance = mouse.radius;
+            let force = (maxDistance - distance) / maxDistance;
+            let directionX = forceDirectionX * force * this.density;
+            let directionY = forceDirectionY * force * this.density;
+
+            this.x -= directionX;
+            this.y -= directionY;
+          } else {
+            if (this.x !== this.baseX) {
+              let dx = this.x - this.baseX;
+              this.x -= dx * 0.05;
+            }
+            if (this.y !== this.baseY) {
+              let dy = this.y - this.baseY;
+              this.y -= dy * 0.05;
+            }
           }
         }
+      }
+    }
+
+    function init() {
+      stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push(new Star());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].draw();
+        stars[i].update();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+
+    // Трекинг мыши для неонового Glow-эффекта на карточках
+    document.querySelectorAll('.space-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
       });
     });
   </script>

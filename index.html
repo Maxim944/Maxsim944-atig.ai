@@ -3,386 +3,254 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATIG // Интерактивные Эпициклы (Ряды Фурье)</title>
+  <title>ATIG // Workspace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --bg-deep: #030308;
-      --panel-bg: rgba(12, 14, 26, 0.75);
-      --panel-border: rgba(212, 175, 55, 0.25);
+      --bg-deep: #020205;
+      --panel-bg: rgba(10, 12, 24, 0.65);
+      --panel-border: rgba(212, 175, 55, 0.2);
       --gold: #d4af37;
       --gold-light: #f3e5ab;
+      --nebula-purple: rgba(88, 28, 135, 0.25);
+      --nebula-blue: rgba(30, 58, 138, 0.3);
       --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --text-muted: #64748b;
+      --tab-bg: rgba(255, 255, 255, 0.03);
+      --tab-active: rgba(212, 175, 55, 0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-deep); font-family: 'Space Grotesk', sans-serif; color: var(--text-main); }
+    html, body { height: 100%; overflow: hidden; font-family: 'Space Grotesk', sans-serif; color: var(--text-main); background: var(--bg-deep); }
 
-    .canvas-container {
+    /* Космический фон */
+    .galaxy-bg {
       position: fixed;
       inset: 0;
-      width: 100vw;
-      height: 100vh;
-      display: block;
-      z-index: 1;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 10% 20%, var(--nebula-purple) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, var(--nebula-blue) 0%, transparent 60%),
+        linear-gradient(180deg, #020205 0%, #050510 100%);
     }
 
-    /* Плавающая панель управления в стиле ATIG */
-    .control-panel {
-      position: absolute;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      backdrop-filter: blur(16px);
-      padding: 16px 24px;
-      border-radius: 20px;
+    /* Главный контейнер IDE */
+    .ide-layout {
       display: flex;
-      align-items: center;
-      gap: 24px;
-      z-index: 10;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(212, 175, 55, 0.1);
-      flex-wrap: wrap;
-      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      backdrop-filter: blur(10px);
     }
 
-    .control-group {
+    /* Левая панель (Аналог AI-чата Cursor) */
+    .sidebar {
+      width: 340px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      border-right: 1px solid var(--panel-border);
+      background: var(--panel-bg);
     }
 
-    .control-group label span {
-      color: var(--gold-light);
+    .sidebar-header {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--panel-border);
       font-weight: 600;
+      color: var(--gold-light);
+      letter-spacing: 1px;
     }
 
-    input[type="range"] {
-      appearance: none;
-      width: 130px;
-      height: 4px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 2px;
+    .sidebar-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--panel-border);
+    }
+
+    .side-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .side-tab.active {
+      color: var(--gold);
+      background: var(--tab-active);
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .chat-history {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .msg { font-size: 0.9rem; line-height: 1.5; }
+    .msg-user { color: var(--text-main); padding-left: 12px; border-left: 2px solid var(--text-muted); }
+    .msg-ai { color: var(--gold-light); padding-left: 12px; border-left: 2px solid var(--gold); background: rgba(212, 175, 55, 0.05); padding: 12px; border-radius: 0 8px 8px 0; }
+
+    .chat-input-area {
+      padding: 16px;
+      border-top: 1px solid var(--panel-border);
+    }
+
+    .chat-input-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .chat-input-box:focus-within { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.15); }
+
+    .chat-input-box textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+      resize: none;
       outline: none;
     }
+    
+    .chat-input-box textarea::placeholder { color: var(--text-muted); }
 
-    input[type="range"]::-webkit-slider-thumb {
-      appearance: none;
-      width: 12px;
-      height: 12px;
-      background: var(--gold);
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 0 10px var(--gold);
+    /* Правая область (Рабочая зона / Редактор) */
+    .workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: rgba(5, 5, 12, 0.4);
     }
 
-    .btn {
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      color: var(--gold-light);
-      padding: 8px 16px;
-      border-radius: 12px;
+    .editor-tabs {
+      height: 48px;
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid var(--panel-border);
+    }
+
+    .editor-tab {
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Fira Code', monospace;
       font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-
-    .btn:hover {
-      background: rgba(212, 175, 55, 0.3);
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-    }
-
-    .btn.active {
-      background: var(--gold);
-      color: var(--bg-deep);
-    }
-
-    .header-title {
-      position: absolute;
-      top: 24px;
-      left: 30px;
-      z-index: 10;
-      pointer-events: none;
-    }
-    .header-title h1 {
-      font-size: 1.4rem;
-      color: var(--gold);
-      letter-spacing: 1px;
-      text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-    }
-    .header-title p {
-      font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 2px;
+      background: var(--tab-bg);
+      border-right: 1px solid var(--panel-border);
+      cursor: pointer;
     }
 
-    .back-btn {
-      position: absolute;
-      top: 24px;
-      right: 30px;
+    .editor-tab.active {
       background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
       color: var(--gold-light);
-      padding: 8px 16px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-size: 0.85rem;
-      backdrop-filter: blur(10px);
-      z-index: 10;
-      transition: all 0.2s;
+      border-top: 2px solid var(--gold);
     }
-    .back-btn:hover {
-      background: rgba(212, 175, 55, 0.2);
+
+    .editor-tab .close { opacity: 0.5; margin-left: 10px; }
+    .editor-tab .close:hover { opacity: 1; color: #ff4d4d; }
+
+    .editor-content {
+      flex: 1;
+      padding: 24px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+      overflow-y: auto;
     }
+
+    /* Подсветка синтаксиса "Космос" */
+    .kw { color: #c4b5fd; } /* Ключевые слова - сиреневый */
+    .fn { color: #93c5fd; } /* Функции - голубой */
+    .st { color: #f3e5ab; } /* Строки - светлое золото */
+    .cm { color: var(--text-muted); font-style: italic; } /* Комментарии */
   </style>
 </head>
 <body>
 
-  <div class="header-title">
-    <h1>ФУРЬЕ // Эпициклы Космоса</h1>
-    <p>Нарисуйте контур мышкой или используйте готовую траекторию</p>
-  </div>
+  <div class="galaxy-bg"></div>
 
-  <a href="index.html" class="back-btn">← На главную</a>
+  <div class="ide-layout">
+    <!-- ЛЕВАЯ ПАНЕЛЬ (AI Агент / Память) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">ATIG // AI AGENT</div>
+      
+      <div class="sidebar-tabs">
+        <div class="side-tab active">Диалог</div>
+        <div class="side-tab">Контекст</div>
+        <div class="side-tab">Наследие</div>
+      </div>
 
-  <canvas id="fourierCanvas" class="canvas-container"></canvas>
+      <div class="chat-history">
+        <div class="msg msg-user">
+          Загрузи структуру ядра и подготовь рабочую область для нового модуля памяти.
+        </div>
+        <div class="msg msg-ai">
+          Рабочая область инициализирована. Я подключил <b>core_memory.json</b> и открыл основной интерфейс. Жду ваших инструкций по структуре базы данных.
+        </div>
+      </div>
 
-  <div class="control-panel">
-    <button class="btn active" id="modeDraw">Режим рисования</button>
-    <button class="btn" id="btnPlay">Пауза</button>
+      <div class="chat-input-area">
+        <div class="chat-input-box">
+          <textarea rows="2" placeholder="Спросить ATIG или дать команду (Ctrl+Enter)..."></textarea>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ПРАВАЯ ПАНЕЛЬ (Редактор / Визуал) -->
+    <main class="workspace">
+      <div class="editor-tabs">
+        <div class="editor-tab active">
+          <span style="color: var(--gold);">✦</span> core_memory.json <span class="close">×</span>
+        </div>
+        <div class="editor-tab">
+          <span style="color: #93c5fd;">JS</span> neural_link.js <span class="close">×</span>
+        </div>
+        <div class="editor-tab">
+          <span style="color: #c4b5fd;">👁</span> 3D_Visualizer <span class="close">×</span>
+        </div>
+      </div>
+
+      <div class="editor-content">
+<pre><code><span class="cm">// ATIG Core Memory System</span>
+<span class="kw">const</span> <span class="fn">initializeMemoryLayer</span> = (<span class="kw">function</span>() {
+  <span class="kw">let</span> coreStatus = <span class="st">'active'</span>;
+  <span class="kw">let</span> syncLevel = <span class="st">'deep_space'</span>;
+
+  <span class="kw">return function</span>(userData) {
+    <span class="kw">if</span> (!userData.legacy) {
+      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="st">'Legacy data missing'</span>);
+    }
     
-    <div class="control-group">
-      <label>Частоты (Эпициклы): <span id="valCount">50</span></label>
-      <input type="range" id="rangeCount" min="1" max="150" value="50">
-    </div>
-
-    <div class="control-group">
-      <label>Скорость: <span id="valSpeed">1.0</span>x</label>
-      <input type="range" id="rangeSpeed" min="0.2" max="3" step="0.1" value="1">
-    </div>
-
-    <button class="btn" id="btnClear">Очистить</button>
+    <span class="cm">/* Формирование золотого ядра архива */</span>
+    <span class="fn">mountArchive</span>({
+      id: <span class="st">'197Au'</span>,
+      protons: <span class="kw">79</span>,
+      neutrons: <span class="kw">118</span>,
+      state: coreStatus
+    });
+  };
+})();</code></pre>
+      </div>
+    </main>
   </div>
 
-  <script>
-    const canvas = document.getElementById('fourierCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    // Состояния приложения
-    let isDrawing = false;
-    let isPlaying = true;
-    let rawPath = [];      // Точки, нарисованные пользователем
-    let fourierCoeffs = []; // Коэффициенты Фурье
-    let time = 0;
-    let pathTrace = [];    // След реконструированной траектории
-
-    let numCircles = 50;
-    let speedCoef = 1.0;
-
-    // Элементы управления
-    const rangeCount = document.getElementById('rangeCount');
-    const valCount = document.getElementById('valCount');
-    const rangeSpeed = document.getElementById('rangeSpeed');
-    const valSpeed = document.getElementById('valSpeed');
-    const btnPlay = document.getElementById('btnPlay');
-    const modeDraw = document.getElementById('modeDraw');
-    const btnClear = document.getElementById('btnClear');
-
-    rangeCount.addEventListener('input', (e) => {
-      numCircles = parseInt(e.target.value);
-      valCount.textContent = numCircles;
-    });
-
-    rangeSpeed.addEventListener('input', (e) => {
-      speedCoef = parseFloat(e.target.value);
-      valSpeed.textContent = speedCoef.toFixed(1);
-    });
-
-    btnPlay.addEventListener('click', () => {
-      isPlaying = !isPlaying;
-      btnPlay.textContent = isPlaying ? 'Пауза' : 'Воспроизведение';
-      btnPlay.classList.toggle('active', !isPlaying);
-    });
-
-    btnClear.addEventListener('click', () => {
-      rawPath = [];
-      fourierCoeffs = [];
-      pathTrace = [];
-      time = 0;
-    });
-
-    // Создание формы по умолчанию (сердце или петля в стиле логотипа ATIG)
-    function loadDefaultShape() {
-      const pts = [];
-      const cx = canvas.width / 2;
-      const cy = canvas.height / 2;
-      const R = 150;
-      for (let a = 0; a < Math.PI * 2; a += 0.05) {
-        // Форма кардиоиды / стилизованного контура
-        const x = cx + R * 1.5 * Math.cos(a);
-        const y = cy + R * Math.sin(a) + 30 * Math.sin(2 * a);
-        pts.push({ x, y });
-      }
-      rawPath = pts;
-      fourierCoeffs = computeDFT(rawPath);
-    }
-
-    // Дискретное преобразование Фурье (DFT)
-    function computeDFT(path) {
-      const N = path.length;
-      const X = [];
-      for (let k = 0; k < N; k++) {
-        let re = 0;
-        let im = 0;
-        for (let n = 0; n < N; n++) {
-          const phi = (2 * Math.PI * k * n) / N;
-          re += path[n].x * Math.cos(phi) + path[n].y * Math.sin(phi);
-          im += -path[n].x * Math.sin(phi) + path[n].y * Math.cos(phi);
-        }
-        re = re / N;
-        im = im / N;
-        let freq = k;
-        let radius = Math.sqrt(re * re + im * im);
-        let phase = Math.atan2(im, re);
-        X.push({ re, im, freq, radius, phase });
-      }
-      // Сортируем по убыванию радиуса эпициклов для наглядности
-      X.sort((a, b) => b.radius - a.radius);
-      return X;
-    }
-
-    // События мыши / тачпада для рисования
-    window.addEventListener('mousedown', (e) => {
-      if (e.target.closest('.control-panel') || e.target.closest('.back-btn') || e.target.closest('.header-title')) return;
-      isDrawing = true;
-      rawPath = [];
-      pathTrace = [];
-      time = 0;
-      rawPath.push({ x: e.clientX, y: e.clientY });
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isDrawing) return;
-      rawPath.push({ x: e.clientX, y: e.clientY });
-    });
-
-    window.addEventListener('mouseup', () => {
-      if (isDrawing) {
-        isDrawing = false;
-        if (rawPath.length > 5) {
-          fourierCoeffs = computeDFT(rawPath);
-        }
-      }
-    });
-
-    // Инициализация дефолтной формы при старте
-    loadDefaultShape();
-
-    // Главный цикл отрисовки
-    function animate() {
-      // Очищаем экран с глубоким космическим шлейфом
-      ctx.fillStyle = 'rgba(3, 3, 8, 0.3)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      if (fourierCoeffs.length > 0) {
-        let vx = canvas.width / 2;
-        let vy = canvas.height / 2;
-
-        if (!isDrawing && isPlaying) {
-          // Вычисление положения эпициклов
-          let cx = canvas.width / 2;
-          let cy = canvas.height / 2;
-
-          for (let i = 0; i < Math.min(numCircles, fourierCoeffs.length); i++) {
-            let prevx = cx;
-            let prevy = cy;
-
-            let freq = fourierCoeffs[i].freq;
-            let radius = fourierCoeffs[i].radius;
-            let phase = fourierCoeffs[i].phase;
-            
-            // Направление вращения
-            let angle = freq * time + phase;
-            cx += radius * Math.cos(angle);
-            cy += radius * Math.sin(angle);
-
-            // Отрисовка окружности эпицикла
-            ctx.strokeStyle = 'rgba(212, 175, 55, 0.12)';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(prevx, prevy, radius, 0, 2 * Math.PI);
-            ctx.stroke();
-
-            // Отрисовка радиус-вектора
-            ctx.strokeStyle = 'rgba(243, 229, 171, 0.35)';
-            ctx.beginPath();
-            ctx.moveTo(prevx, prevy);
-            ctx.lineTo(cx, cy);
-            ctx.stroke();
-
-            // Маленькая точка на конце радиуса
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-            ctx.beginPath();
-            ctx.arc(cx, cy, 2, 0, 2 * Math.PI);
-            ctx.fill();
-          }
-
-          vx = cx;
-          vy = cy;
-
-          // Добавление точки в след траектории
-          pathTrace.unshift({ x: vx, y: vy });
-          if (pathTrace.length > 800) pathTrace.pop();
-
-          // Шаг времени
-          const dt = (2 * Math.PI) / fourierCoeffs.length;
-          time += dt * 0.5 * speedCoef;
-        }
-
-        // Отрисовка следа реконструированной траектории (неоновое золото)
-        if (pathTrace.length > 1) {
-          ctx.beginPath();
-          ctx.moveTo(pathTrace[0].x, pathTrace[0].y);
-          for (let i = 1; i < pathTrace.length; i++) {
-            ctx.lineTo(pathTrace[i].x, pathTrace[i].y);
-          }
-          ctx.strokeStyle = '#d4af37';
-          ctx.lineWidth = 2.5;
-          ctx.shadowColor = '#d4af37';
-          ctx.shadowBlur = 12;
-          ctx.stroke();
-          ctx.shadowBlur = 0; // Сброс теней
-        }
-      }
-
-      // Отображение пользовательского сырого контура при рисовании
-      if (isDrawing && rawPath.length > 0) {
-        ctx.beginPath();
-        ctx.moveTo(rawPath[0].x, rawPath[0].y);
-        for (let i = 1; i < rawPath.length; i++) {
-          ctx.lineTo(rawPath[i].x, rawPath[i].y);
-        }
-        ctx.strokeStyle = 'rgba(148, 163, 184, 0.6)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-  </script>
 </body>
 </html>

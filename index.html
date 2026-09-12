@@ -3,17 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATIG // Суверенный ИИ</title>
+  <title>ATIG // Deep Space Core</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-color: #060b12;
-      --panel-bg: rgba(13, 20, 33, 0.65);
-      --panel-border: rgba(255, 255, 255, 0.1);
-      --accent-green: #10b981;
+      --bg-deep: #030308;
+      --panel-bg: rgba(12, 12, 24, 0.6);
+      --panel-border: rgba(212, 175, 55, 0.2); /* Золотистое тонкое обрамление */
+      --gold: #d4af37;
+      --gold-light: #f3e5ab;
+      --nebula-purple: rgba(88, 28, 135, 0.35);
+      --nebula-blue: rgba(30, 58, 138, 0.4);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
@@ -22,7 +26,7 @@
     html, body { height: 100%; overflow: hidden; }
 
     body {
-      background-color: var(--bg-color);
+      background-color: var(--bg-deep);
       color: var(--text-main);
       font-family: 'Space Grotesk', sans-serif;
       display: flex;
@@ -32,35 +36,30 @@
       position: relative;
     }
 
-    /* Фоновый космический слой с кривой атмосферы планеты и кольцами */
-    .space-bg {
+    /* Фоновый канвас для глубокого космоса и звезд */
+    #space-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* Атмосферные галактические туманности без зеленого цвета */
+    .galaxy-nebula {
       position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
       background: 
-        radial-gradient(circle at 50% -30%, rgba(14, 165, 233, 0.25) 0%, transparent 60%),
-        radial-gradient(ellipse at 50% 115%, rgba(16, 185, 129, 0.2) 0%, rgba(3, 7, 18, 0.9) 70%),
-        linear-gradient(180deg, #020408 0%, #060b12 100%);
+        radial-gradient(circle at 20% 20%, var(--nebula-purple) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, var(--nebula-blue) 0%, transparent 60%),
+        radial-gradient(circle at 50% -20%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, #020205 0%, #060612 100%);
     }
 
-    /* Эффект изгиба планеты / атмосферного кольца */
-    .planet-horizon {
-      position: fixed;
-      bottom: -40vh;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140vw;
-      height: 80vh;
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15) 0%, rgba(16, 185, 129, 0.05) 30%, transparent 70%);
-      border-top: 1px solid rgba(56, 189, 248, 0.3);
-      box-shadow: 0 -20px 80px rgba(14, 165, 233, 0.15);
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    /* Верхнее меню (почта, иконки) */
+    /* Верхняя панель */
     .top-bar {
       position: absolute;
       top: 24px;
@@ -70,6 +69,7 @@
       gap: 20px;
       font-size: 0.9rem;
       color: var(--text-muted);
+      z-index: 10;
     }
 
     .top-bar a {
@@ -77,7 +77,7 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-    .top-bar a:hover { color: var(--text-main); }
+    .top-bar a:hover { color: var(--gold-light); }
 
     /* Центральный блок */
     .main-wrapper {
@@ -87,25 +87,96 @@
       width: 100%;
       max-width: 680px;
       padding: 0 20px;
-      gap: 30px;
+      gap: 28px;
       z-index: 2;
     }
 
-    /* Логотип / Надпись ATIG */
-    .logo-title {
-      font-size: 4rem;
-      font-weight: 700;
-      letter-spacing: -1px;
-      color: #ffffff;
-      text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    /* ЛОГОТИП: Ядро атома золота с орбитами и электронами */
+    .atom-logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
-    .logo-title span { color: var(--accent-green); }
 
-    /* Поисково-диалоговая строка (как на вашем скриншоте) */
+    .gold-atom {
+      width: 90px;
+      height: 90px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    /* Золотое центральное ядро */
+    .nucleus {
+      width: 22px;
+      height: 22px;
+      background: radial-gradient(circle at 30% 30%, #fff 0%, var(--gold-light) 30%, var(--gold) 70%, #8a6f18 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.8), inset 0 0 5px rgba(255,255,255,0.8);
+      z-index: 5;
+      animation: core-pulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes core-pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
+      100% { transform: scale(1.05); box-shadow: 0 0 35px rgba(212, 175, 55, 1); }
+    }
+
+    /* Орбиты */
+    .orbit {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .orbit-1 { transform: rotate(30deg); }
+    .orbit-2 { transform: rotate(90deg); }
+    .orbit-3 { transform: rotate(150deg); }
+
+    /* Летящие по кругу электроны */
+    .electron {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #fff, 0 0 15px var(--gold-light);
+    }
+
+    .orbit-1 .electron { animation: spin-1 4s linear infinite; }
+    .orbit-2 .electron { animation: spin-2 5.5s linear infinite; }
+    .orbit-3 .electron { animation: spin-3 3.5s linear infinite; }
+
+    @keyframes spin-1 {
+      0% { transform: rotate(0deg) translateX(45px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(45px) rotate(-360deg); }
+    }
+    @keyframes spin-2 {
+      0% { transform: rotate(0deg) translateX(45px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(45px) rotate(-360deg); }
+    }
+    @keyframes spin-3 {
+      0% { transform: rotate(0deg) translateX(45px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(45px) rotate(-360deg); }
+    }
+
+    .logo-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    .logo-title span { color: var(--gold); }
+
+    /* Поисково-диалоговая строка */
     .search-bar {
       width: 100%;
       height: 56px;
-      background: rgba(15, 23, 42, 0.75);
+      background: var(--panel-bg);
       border: 1px solid var(--panel-border);
       border-radius: 28px;
       display: flex;
@@ -113,18 +184,17 @@
       padding: 0 20px;
       gap: 16px;
       backdrop-filter: blur(20px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(88, 28, 135, 0.2);
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .search-bar:focus-within {
-      border-color: var(--accent-green);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(16, 185, 129, 0.25);
+      border-color: var(--gold);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.25);
     }
 
     .search-icon {
-      color: var(--accent-green);
-      font-weight: bold;
+      color: var(--gold);
       font-size: 1.2rem;
     }
 
@@ -140,27 +210,21 @@
 
     .search-bar input::placeholder { color: var(--text-muted); }
 
-    .search-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--text-muted);
-    }
-
     .ai-badge {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent-green);
-      padding: 6px 12px;
+      background: rgba(212, 175, 55, 0.12);
+      color: var(--gold-light);
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 0.85rem;
       font-weight: 600;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.3);
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
     .ai-badge:hover {
-      background: rgba(16, 185, 129, 0.25);
+      background: rgba(212, 175, 55, 0.25);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     }
 
     /* Иконки быстрого доступа */
@@ -191,62 +255,101 @@
     .shortcut-icon {
       width: 48px;
       height: 48px;
-      background: rgba(15, 23, 42, 0.8);
+      background: var(--panel-bg);
       border: 1px solid var(--panel-border);
       border-radius: 50%;
       display: grid;
       place-items: center;
       font-weight: 600;
-      color: var(--text-main);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      color: var(--gold-light);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
   </style>
 </head>
 <body>
 
-  <div class="space-bg"></div>
-  <div class="planet-horizon"></div>
+  <canvas id="space-canvas"></canvas>
+  <div class="galaxy-nebula"></div>
 
   <div class="top-bar">
-    <a href="#">Почта</a>
     <a href="#">Контур</a>
+    <a href="#">Архив</a>
   </div>
 
   <div class="main-wrapper">
-    <div class="logo-title">ATI<span>G</span></div>
+    <!-- Золотое ядро атома с орбитами и электронами -->
+    <div class="atom-logo-container">
+      <div class="gold-atom">
+        <div class="nucleus"></div>
+        <div class="orbit orbit-1"><div class="electron"></div></div>
+        <div class="orbit orbit-2"><div class="electron"></div></div>
+        <div class="orbit orbit-3"><div class="electron"></div></div>
+      </div>
+      <div class="logo-title">ATI<span>G</span></div>
+    </div>
 
-    <!-- Строка ввода с переходом на chat.html -->
+    <!-- Строка ввода -->
     <div class="search-bar">
       <span class="search-icon">✦</span>
-      <input type="text" placeholder="Запрос к памяти ATIG или поиск..." id="mainInput">
-      <div class="search-actions">
-        <a href="chat.html" class="ai-badge">Режим ИИ</a>
-      </div>
+      <input type="text" placeholder="Запрос к ядру ATIG..." id="mainInput">
+      <a href="chat.html" class="ai-badge">Консоль ИИ</a>
     </div>
 
     <!-- Быстрые ярлыки -->
     <div class="shortcuts-grid">
       <a href="chat.html" class="shortcut-item">
-        <div class="shortcut-icon" style="color: var(--accent-green);">Ω</div>
+        <div class="shortcut-icon">Ω</div>
         <span>Диалог</span>
       </a>
       <a href="#" class="shortcut-item">
-        <div class="shortcut-icon">М</div>
+        <div class="shortcut-icon">✦</div>
         <span>Память</span>
       </a>
       <a href="#" class="shortcut-item">
-        <div class="shortcut-icon">Н</div>
+        <div class="shortcut-icon">Ψ</div>
         <span>Наследие</span>
-      </a>
-      <a href="#" class="shortcut-item">
-        <div class="shortcut-icon">+</div>
-        <span>Ещё</span>
       </a>
     </div>
   </div>
 
   <script>
-    // При нажатии Enter в главной строке перенаправляем в чат
+    // Генерация звездного неба глубокого космоса на Canvas
+    const canvas = document.getElementById('space-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    for (let i = 0; i < 200; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.8,
+        alpha: Math.random(),
+        speed: Math.random() * 0.002 + 0.0008
+      });
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(s => {
+        s.alpha += s.speed;
+        if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.alpha)})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+    drawStars();
+
+    // Переход в чат при нажатии Enter
     document.getElementById('mainInput').addEventListener('keypress', function(e) {
       if (e.key === 'Enter' && this.value.trim() !== '') {
         window.location.href = `chat.html?q=${encodeURIComponent(this.value)}`;

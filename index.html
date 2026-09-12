@@ -3,251 +3,261 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATIG // Workspace</title>
+  <title>ATIG // Neural IDE</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   
   <style>
     :root {
       --bg-deep: #020205;
-      --panel-bg: rgba(10, 12, 24, 0.65);
-      --panel-border: rgba(212, 175, 55, 0.2);
+      --panel-bg: rgba(10, 12, 24, 0.45);
+      --panel-border: rgba(212, 175, 55, 0.15);
       --gold: #d4af37;
       --gold-light: #f3e5ab;
       --nebula-purple: rgba(88, 28, 135, 0.25);
-      --nebula-blue: rgba(30, 58, 138, 0.3);
+      --nebula-blue: rgba(30, 58, 138, 0.2);
       --text-main: #f8fafc;
-      --text-muted: #64748b;
-      --tab-bg: rgba(255, 255, 255, 0.03);
-      --tab-active: rgba(212, 175, 55, 0.1);
+      --text-muted: #8b9bb4;
+      --text-dim: #475569;
+      --accent-bg: rgba(212, 175, 55, 0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; overflow: hidden; font-family: 'Space Grotesk', sans-serif; color: var(--text-main); background: var(--bg-deep); }
 
-    /* Космический фон */
+    /* Глубокий космос */
     .galaxy-bg {
       position: fixed;
       inset: 0;
       z-index: -1;
       background: 
-        radial-gradient(circle at 10% 20%, var(--nebula-purple) 0%, transparent 50%),
-        radial-gradient(circle at 90% 80%, var(--nebula-blue) 0%, transparent 60%),
-        linear-gradient(180deg, #020205 0%, #050510 100%);
+        radial-gradient(circle at 15% 30%, var(--nebula-purple) 0%, transparent 40%),
+        radial-gradient(circle at 85% 70%, var(--nebula-blue) 0%, transparent 50%),
+        linear-gradient(180deg, #020205 0%, #060612 100%);
     }
 
-    /* Главный контейнер IDE */
-    .ide-layout {
+    /* Макет */
+    .app-layout {
       display: flex;
       height: 100vh;
       width: 100vw;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
-    /* Левая панель (Аналог AI-чата Cursor) */
+    /* ЛЕВАЯ ПАНЕЛЬ (Sidebar) */
     .sidebar {
-      width: 340px;
+      width: 260px;
       display: flex;
       flex-direction: column;
       border-right: 1px solid var(--panel-border);
       background: var(--panel-bg);
+      padding: 12px 0;
     }
 
-    .sidebar-header {
-      height: 48px;
+    .top-menu { padding: 0 16px 16px; border-bottom: 1px solid var(--panel-border); font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 12px; }
+    .top-menu span:hover { color: var(--gold-light); cursor: pointer; }
+
+    .nav-section { padding: 12px 0; display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid var(--panel-border); }
+    .nav-item {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+    .nav-item:hover, .nav-item.active { color: var(--gold-light); background: var(--accent-bg); }
+    
+    .section-title { padding: 12px 16px 4px; font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
+
+    .spacer { flex: 1; }
+
+    .profile-area {
+      padding: 16px;
+      border-top: 1px solid var(--panel-border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+    .avatar { width: 28px; height: 28px; background: var(--accent-bg); border: 1px solid var(--gold); border-radius: 50%; display: grid; place-items: center; font-size: 0.8rem; color: var(--gold-light); }
+
+    /* ПРАВАЯ ЧАСТЬ (Рабочая область) */
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .header-tabs {
+      height: 40px;
       display: flex;
       align-items: center;
       padding: 0 16px;
       border-bottom: 1px solid var(--panel-border);
-      font-weight: 600;
-      color: var(--gold-light);
-      letter-spacing: 1px;
-    }
-
-    .sidebar-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--panel-border);
-    }
-
-    .side-tab {
-      flex: 1;
-      text-align: center;
-      padding: 10px 0;
       font-size: 0.85rem;
       color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
+      gap: 16px;
     }
+    .header-tabs .tab { display: flex; align-items: center; gap: 8px; color: var(--gold-light); }
 
-    .side-tab.active {
-      color: var(--gold);
-      background: var(--tab-active);
-      border-bottom: 2px solid var(--gold);
-    }
-
-    .chat-history {
+    /* Окно диалога */
+    .chat-container {
       flex: 1;
-      padding: 16px;
+      padding: 24px 10%;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
 
-    .msg { font-size: 0.9rem; line-height: 1.5; }
-    .msg-user { color: var(--text-main); padding-left: 12px; border-left: 2px solid var(--text-muted); }
-    .msg-ai { color: var(--gold-light); padding-left: 12px; border-left: 2px solid var(--gold); background: rgba(212, 175, 55, 0.05); padding: 12px; border-radius: 0 8px 8px 0; }
-
-    .chat-input-area {
-      padding: 16px;
-      border-top: 1px solid var(--panel-border);
-    }
-
-    .chat-input-box {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.5);
+    .message { display: flex; flex-direction: column; gap: 8px; font-size: 0.95rem; line-height: 1.6; }
+    
+    .msg-user {
+      background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--panel-border);
-      border-radius: 8px;
-      padding: 12px;
+      padding: 16px;
+      border-radius: 12px;
+      color: var(--text-main);
+    }
+
+    .thought-process {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding-left: 12px;
+      border-left: 2px solid var(--text-dim);
+      margin-bottom: 8px;
+    }
+    .thought-header { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-dim); margin-bottom: 4px; }
+    .thought-header:hover { color: var(--gold-light); }
+
+    .msg-ai { color: var(--gold-light); }
+
+    /* Строка ввода (как в Cursor) */
+    .input-wrapper {
+      padding: 20px 10%;
+      background: linear-gradient(to top, var(--bg-deep) 60%, transparent);
+    }
+
+    .input-box {
+      width: 100%;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      padding: 12px 16px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       transition: border-color 0.2s;
     }
+    .input-box:focus-within { border-color: var(--gold); }
 
-    .chat-input-box:focus-within { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.15); }
-
-    .chat-input-box textarea {
+    .input-box textarea {
       width: 100%;
       background: transparent;
       border: none;
       color: var(--text-main);
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       resize: none;
       outline: none;
     }
+    .input-box textarea::placeholder { color: var(--text-muted); }
+
+    .input-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
     
-    .chat-input-box textarea::placeholder { color: var(--text-muted); }
-
-    /* Правая область (Рабочая зона / Редактор) */
-    .workspace {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: rgba(5, 5, 12, 0.4);
-    }
-
-    .editor-tabs {
-      height: 48px;
-      display: flex;
-      background: rgba(0, 0, 0, 0.3);
-      border-bottom: 1px solid var(--panel-border);
-    }
-
-    .editor-tab {
-      padding: 0 20px;
+    .tool-btn {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      background: var(--tab-bg);
-      border-right: 1px solid var(--panel-border);
+      gap: 6px;
+      background: rgba(255,255,255,0.05);
+      padding: 4px 10px;
+      border-radius: 6px;
       cursor: pointer;
     }
+    .tool-btn:hover { color: var(--gold-light); background: var(--accent-bg); }
 
-    .editor-tab.active {
-      background: var(--panel-bg);
-      color: var(--gold-light);
-      border-top: 2px solid var(--gold);
-    }
-
-    .editor-tab .close { opacity: 0.5; margin-left: 10px; }
-    .editor-tab .close:hover { opacity: 1; color: #ff4d4d; }
-
-    .editor-content {
-      flex: 1;
-      padding: 24px;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: #cbd5e1;
-      overflow-y: auto;
-    }
-
-    /* Подсветка синтаксиса "Космос" */
-    .kw { color: #c4b5fd; } /* Ключевые слова - сиреневый */
-    .fn { color: #93c5fd; } /* Функции - голубой */
-    .st { color: #f3e5ab; } /* Строки - светлое золото */
-    .cm { color: var(--text-muted); font-style: italic; } /* Комментарии */
+    .model-selector { color: var(--gold); }
   </style>
 </head>
 <body>
 
   <div class="galaxy-bg"></div>
 
-  <div class="ide-layout">
-    <!-- ЛЕВАЯ ПАНЕЛЬ (AI Агент / Память) -->
+  <div class="app-layout">
+    <!-- Левая панель (Аналог Cursor Sidebar) -->
     <aside class="sidebar">
-      <div class="sidebar-header">ATIG // AI AGENT</div>
-      
-      <div class="sidebar-tabs">
-        <div class="side-tab active">Диалог</div>
-        <div class="side-tab">Контекст</div>
-        <div class="side-tab">Наследие</div>
+      <div class="top-menu">
+        <span>File</span><span>Edit</span><span>View</span><span>Help</span>
       </div>
 
-      <div class="chat-history">
-        <div class="msg msg-user">
-          Загрузи структуру ядра и подготовь рабочую область для нового модуля памяти.
-        </div>
-        <div class="msg msg-ai">
-          Рабочая область инициализирована. Я подключил <b>core_memory.json</b> и открыл основной интерфейс. Жду ваших инструкций по структуре базы данных.
-        </div>
+      <div class="nav-section">
+        <div class="nav-item active">✦ Новый контур</div>
+        <div class="nav-item">⌕ Поиск по базе</div>
+        <div class="nav-item">⚡ Автоматизация</div>
       </div>
 
-      <div class="chat-input-area">
-        <div class="chat-input-box">
-          <textarea rows="2" placeholder="Спросить ATIG или дать команду (Ctrl+Enter)..."></textarea>
-        </div>
+      <div class="section-title">Проекты</div>
+      <div class="nav-section">
+        <div class="nav-item">＋ Создать структуру</div>
+      </div>
+
+      <div class="section-title">Архив памяти (Репозитории)</div>
+      <div class="nav-section" style="border: none;">
+        <div class="nav-item">ATIG Core Analysis</div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <!-- Профиль из скриншота -->
+      <div class="profile-area">
+        <div class="avatar">М</div>
+        <span>Максим Пятница</span>
       </div>
     </aside>
 
-    <!-- ПРАВАЯ ПАНЕЛЬ (Редактор / Визуал) -->
-    <main class="workspace">
-      <div class="editor-tabs">
-        <div class="editor-tab active">
-          <span style="color: var(--gold);">✦</span> core_memory.json <span class="close">×</span>
+    <!-- Правая панель (Рабочая область / Чат) -->
+    <main class="main-area">
+      <div class="header-tabs">
+        <div class="tab">ATIG Codebase overview <span>×</span></div>
+      </div>
+
+      <!-- История диалога -->
+      <div class="chat-container">
+        <div class="message msg-user">
+          Привет
         </div>
-        <div class="editor-tab">
-          <span style="color: #93c5fd;">JS</span> neural_link.js <span class="close">×</span>
-        </div>
-        <div class="editor-tab">
-          <span style="color: #c4b5fd;">👁</span> 3D_Visualizer <span class="close">×</span>
+
+        <div class="message msg-ai">
+          <div class="thought-process">
+            <div class="thought-header">▼ Thought 1s</div>
+            <div>Анализ текущей директории памяти. Пользователь находится в корневом каталоге. Загрузка параметров ядра золота ¹⁹⁷Au.</div>
+          </div>
+          <div>Привет, Максим.<br><br>Сейчас открыт корневой модуль памяти ATIG, а не конкретный архив. Напиши, какую структуру мы будем проектировать дальше, или загрузи нужные данные в ядро.</div>
         </div>
       </div>
 
-      <div class="editor-content">
-<pre><code><span class="cm">// ATIG Core Memory System</span>
-<span class="kw">const</span> <span class="fn">initializeMemoryLayer</span> = (<span class="kw">function</span>() {
-  <span class="kw">let</span> coreStatus = <span class="st">'active'</span>;
-  <span class="kw">let</span> syncLevel = <span class="st">'deep_space'</span>;
-
-  <span class="kw">return function</span>(userData) {
-    <span class="kw">if</span> (!userData.legacy) {
-      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="st">'Legacy data missing'</span>);
-    }
-    
-    <span class="cm">/* Формирование золотого ядра архива */</span>
-    <span class="fn">mountArchive</span>({
-      id: <span class="st">'197Au'</span>,
-      protons: <span class="kw">79</span>,
-      neutrons: <span class="kw">118</span>,
-      state: coreStatus
-    });
-  };
-})();</code></pre>
+      <!-- Поле ввода (Внизу) -->
+      <div class="input-wrapper">
+        <div class="input-box">
+          <textarea rows="2" placeholder="Send follow-up..."></textarea>
+          <div class="input-footer">
+            <div class="tool-btn">＋ Attach context</div>
+            <div class="tool-btn model-selector">ATIG Neural Core 197Au 🔒</div>
+          </div>
+        </div>
       </div>
     </main>
   </div>

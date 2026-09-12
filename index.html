@@ -7,30 +7,35 @@
   <meta name="description" content="ATIG — Guardian Trusted Autonomous Intelligence. Персональный суверенный ИИ-спутник и финансовый щит.">
   <title>ATIG — Guardian Trusted Autonomous Intelligence</title>
 
+  <!-- Футуристичный шрифт Space Grotesk и Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg: #0a0d12;
-      --bg-surface: #111622;
-      --panel: rgba(17, 22, 34, 0.75);
-      --panel-border: rgba(226, 232, 240, 0.1);
+      --bg: #06080c;
+      --bg-surface: rgba(15, 20, 32, 0.65);
+      --panel: rgba(17, 24, 39, 0.75);
+      --panel-border: rgba(16, 185, 129, 0.2);
       
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       
       --emerald: #10b981;
-      --emerald-glow: rgba(16, 185, 129, 0.25);
-      --silver: #e2e8f0;
-      --silver-dark: #475569;
+      --emerald-glow: rgba(16, 185, 129, 0.4);
+      --nebula-purple: rgba(124, 58, 237, 0.25);
+      --nebula-blue: rgba(14, 165, 233, 0.2);
+      --gold: #f59e0b;
       
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --font-mono: 'Fira Code', 'Courier New', monospace;
+      --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Fira Code', monospace;
       
       --max-width: 1200px;
-      --radius: 16px;
+      --radius: 20px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -39,22 +44,38 @@
       font-family: var(--font-sans);
       line-height: 1.6;
       overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 85% 10%, var(--emerald-glow), transparent 30%),
-        radial-gradient(circle at 15% 60%, rgba(226, 232, 240, 0.03), transparent 25%);
+      position: relative;
     }
 
-    body::before {
-      content: "";
+    /* Интерактивный холст со звездами */
+    #space-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* Эффект Космических Туманностей (Nebula Gradients) */
+    .nebula-bg {
       position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      opacity: 0.15;
-      background-image: 
-        linear-gradient(rgba(226, 232, 240, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(226, 232, 240, 0.05) 1px, transparent 1px);
-      background-size: 40px 40px;
+      background: 
+        radial-gradient(circle at 15% 20%, var(--emerald-glow) 0%, transparent 40%),
+        radial-gradient(circle at 85% 60%, var(--nebula-purple) 0%, transparent 50%),
+        radial-gradient(circle at 50% 85%, var(--nebula-blue) 0%, transparent 45%);
+      filter: blur(60px);
+      opacity: 0.8;
+      animation: nebulaPulse 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes nebulaPulse {
+      0% { opacity: 0.6; transform: scale(1); }
+      100% { opacity: 0.9; transform: scale(1.05); }
     }
 
     .container {
@@ -71,12 +92,14 @@
       color: var(--emerald);
       font-family: var(--font-mono);
       font-size: 0.75rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      padding: 6px 12px;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 6px 14px;
+      border: 1px solid rgba(16, 185, 129, 0.4);
       border-radius: 100px;
-      background: rgba(16, 185, 129, 0.05);
+      background: rgba(16, 185, 129, 0.08);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
     }
 
     .tag::before {
@@ -85,25 +108,31 @@
       height: 6px;
       border-radius: 50%;
       background: var(--emerald);
-      box-shadow: 0 0 8px var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      animation: blink 2s infinite;
     }
+
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
     .section {
       padding: 100px 0;
-      border-top: 1px solid var(--panel-border);
+      border-top: 1px solid rgba(226, 232, 240, 0.05);
       scroll-margin-top: 80px;
     }
 
     .section-title {
-      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
       line-height: 1.1;
       letter-spacing: -0.03em;
       margin-top: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .section-desc {
       color: var(--text-muted);
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       max-width: 720px;
       margin-top: 16px;
     }
@@ -112,47 +141,24 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 28px;
-      border-radius: 10px;
+      padding: 16px 32px;
+      border-radius: 12px;
       font-weight: 600;
       font-size: 0.95rem;
       text-decoration: none;
-      transition: all 0.25s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
     }
 
-    .btn-primary {
-      background: var(--emerald);
-      color: #04130e;
-      border: 1px solid var(--emerald);
-      box-shadow: 0 4px 20px var(--emerald-glow);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 28px rgba(16, 185, 129, 0.4);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--silver);
-      border: 1px solid var(--panel-border);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: var(--silver);
-      transform: translateY(-2px);
-    }
-
-    /* Пульсирующая космическая орбита вокруг кнопки */
+    /* Галактическая кнопка с орбитальным свечением */
     .btn-galactic {
       position: relative;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #04130e;
-      border: none;
-      z-index: 1;
+      border: 1px solid var(--emerald);
+      box-shadow: 0 0 20px var(--emerald-glow), 0 0 40px rgba(124, 58, 237, 0.2);
       overflow: hidden;
+      z-index: 1;
     }
 
     .btn-galactic::before {
@@ -160,32 +166,44 @@
       position: absolute;
       top: -50%; left: -50%;
       width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 60%);
       transform: scale(0);
       transition: transform 0.6s ease-out;
       z-index: -1;
     }
 
-    .btn-galactic:hover::before {
-      transform: scale(1);
-    }
+    .btn-galactic:hover::before { transform: scale(1); }
 
     .btn-galactic:hover {
-      box-shadow: 0 0 25px rgba(16, 185, 129, 0.6), 0 0 50px rgba(124, 58, 237, 0.3);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.7), 0 0 60px rgba(124, 58, 237, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.03);
+      color: #e2e8f0;
+      border: 1px solid rgba(226, 232, 240, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--emerald);
       transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
     }
 
     header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(10, 13, 18, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--panel-border);
+      background: rgba(6, 8, 12, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.08);
     }
 
     .nav-inner {
-      height: 76px;
+      height: 80px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -199,8 +217,8 @@
     }
 
     .logo-mark {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border: 1px solid var(--emerald);
       display: grid;
       place-items: center;
@@ -208,16 +226,21 @@
       font-family: var(--font-mono);
       font-weight: 700;
       transform: rotate(45deg);
-      box-shadow: 0 0 15px var(--emerald-glow);
+      box-shadow: 0 0 20px var(--emerald-glow);
+      transition: transform 0.5s ease;
+    }
+
+    .logo:hover .logo-mark {
+      transform: rotate(225deg);
     }
 
     .logo-mark span { transform: rotate(-45deg); }
 
     .logo-text {
       color: var(--text-main);
-      font-weight: 800;
-      font-size: 1.25rem;
-      letter-spacing: 0.1em;
+      font-weight: 700;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
     }
 
     .nav-links {
@@ -229,14 +252,14 @@
     .nav-links a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
     }
 
-    .nav-links a:hover { color: var(--emerald); }
+    .nav-links a:hover { color: var(--emerald); text-shadow: 0 0 10px var(--emerald-glow); }
 
     .hero {
-      padding: 120px 0 100px;
+      padding: 140px 0 100px;
       position: relative;
     }
 
@@ -248,20 +271,22 @@
     }
 
     .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
       line-height: 1.05;
       letter-spacing: -0.04em;
       margin-top: 20px;
     }
 
     .hero h1 span {
-      color: var(--emerald);
-      text-shadow: 0 0 30px var(--emerald-glow);
+      background: linear-gradient(135deg, #10b981 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 25px rgba(16, 185, 129, 0.4));
     }
 
     .hero-sub {
       color: var(--text-muted);
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       margin-top: 24px;
       max-width: 600px;
     }
@@ -269,9 +294,10 @@
     .hero-cta {
       display: flex;
       gap: 16px;
-      margin-top: 36px;
+      margin-top: 40px;
     }
 
+    /* 3D Орбитальное ядро */
     .hero-visual {
       position: relative;
       width: 100%;
@@ -281,28 +307,28 @@
     }
 
     .cyber-shield {
-      width: 240px;
-      height: 240px;
-      border: 1px solid var(--panel-border);
-      border-radius: 30px;
+      width: 260px;
+      height: 260px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 40px;
       position: relative;
       display: grid;
       place-items: center;
-      background: var(--panel);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 20px var(--emerald-glow);
       transform: rotate(45deg);
       animation: float 6s ease-in-out infinite;
     }
 
     .cyber-shield-inner {
-      width: 180px;
-      height: 180px;
+      width: 190px;
+      height: 190px;
       border: 1px dashed var(--emerald);
-      border-radius: 20px;
+      border-radius: 28px;
       display: grid;
       place-items: center;
-      animation: spin 20s linear infinite;
+      animation: spin 25s linear infinite;
     }
 
     .core-node {
@@ -314,86 +340,52 @@
       font-family: var(--font-mono);
       font-weight: 700;
       color: var(--emerald);
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      text-shadow: 0 0 15px var(--emerald);
     }
 
     .core-node span {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
     }
 
     @keyframes float {
       0%, 100% { transform: rotate(45deg) translateY(0); }
-      50% { transform: rotate(45deg) translateY(-15px); }
+      50% { transform: rotate(45deg) translateY(-20px); }
     }
 
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
 
-    .problems-grid {
+    /* Космические карточки (Glassmorphism + Glow) */
+    .problems-grid, .solution-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
       margin-top: 48px;
     }
 
-    .problem-card {
+    .problem-card, .solution-card {
       background: var(--bg-surface);
       border: 1px solid var(--panel-border);
-      padding: 32px;
+      padding: 36px;
       border-radius: var(--radius);
+      backdrop-filter: blur(16px);
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
     }
 
-    .problem-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 2px;
-      background: linear-gradient(90deg, #ef4444, transparent);
-    }
-
-    .problem-card h3 {
-      font-size: 1.25rem;
-      margin-top: 12px;
-      color: var(--silver);
-    }
-
-    .problem-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-top: 12px;
-    }
-
-    .solution-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 24px;
-      margin-top: 48px;
-    }
-
-    .solution-card {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      padding: 36px;
-      border-radius: var(--radius);
-      backdrop-filter: blur(12px);
-      transition: all 0.3s ease;
-    }
-
-    .solution-card:hover {
-      border-color: rgba(16, 185, 129, 0.4);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    .problem-card:hover, .solution-card:hover {
+      border-color: var(--emerald);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15), 0 0 40px rgba(124, 58, 237, 0.15);
     }
 
     .solution-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid var(--emerald);
       display: grid;
@@ -401,135 +393,27 @@
       color: var(--emerald);
       font-family: var(--font-mono);
       font-weight: 700;
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-    }
-
-    .solution-card h3 {
-      font-size: 1.35rem;
-      color: var(--text-main);
-    }
-
-    .solution-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-top: 12px;
-    }
-
-    .arch-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius);
-      padding: 48px 32px;
-      margin-top: 48px;
-      position: relative;
-    }
-
-    .arch-flow {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr auto 1fr;
-      gap: 16px;
-      align-items: center;
-      text-align: center;
-    }
-
-    .arch-step {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      padding: 24px;
-      border-radius: 12px;
-    }
-
-    .arch-step.active {
-      border-color: var(--emerald);
-      box-shadow: 0 0 20px var(--emerald-glow);
-    }
-
-    .arch-step h4 {
-      font-family: var(--font-mono);
-      color: var(--emerald);
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-    }
-
-    .arch-step p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .arch-divider {
-      color: var(--silver-dark);
-      font-family: var(--font-mono);
-      font-size: 1.2rem;
-    }
-
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin-top: 48px;
-    }
-
-    .benefit-box {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      padding: 40px;
-      border-radius: var(--radius);
-    }
-
-    .benefit-box h3 {
-      font-size: 1.5rem;
-      color: var(--silver);
+      font-size: 1rem;
       margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .benefit-list {
-      list-style: none;
-      display: grid;
-      gap: 16px;
-    }
-
-    .benefit-list li {
-      display: flex;
-      gap: 12px;
-      color: var(--text-muted);
-      font-size: 0.98rem;
-    }
-
-    .benefit-list li::before {
-      content: "✓";
-      color: var(--emerald);
-      font-weight: bold;
+      box-shadow: 0 0 15px var(--emerald-glow);
     }
 
     .cta-card {
-      background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(16, 185, 129, 0.05) 100%);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 60px 32px;
+      background: linear-gradient(135deg, rgba(15, 20, 32, 0.8) 0%, rgba(124, 58, 237, 0.15) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 80px 40px;
       border-radius: calc(var(--radius) * 1.5);
       text-align: center;
       margin-top: 40px;
-    }
-
-    .cta-card h2 {
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
-      margin-top: 16px;
-    }
-
-    .cta-card p {
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 16px auto 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(16, 185, 129, 0.1);
+      backdrop-filter: blur(20px);
     }
 
     footer {
       padding: 40px 0;
-      border-top: 1px solid var(--panel-border);
+      border-top: 1px solid rgba(226, 232, 240, 0.08);
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
 
     .footer-inner {
@@ -542,15 +426,16 @@
       .hero-grid { grid-template-columns: 1fr; text-align: center; }
       .hero-sub { margin-inline: auto; }
       .hero-cta { justify-content: center; }
-      .arch-flow { grid-template-columns: 1fr; gap: 12px; }
-      .arch-divider { transform: rotate(90deg); padding: 8px 0; }
-      .benefits-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
       .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Холст для анимированных звезд -->
+  <canvas id="space-canvas"></canvas>
+  <div class="nebula-bg"></div>
 
   <!-- HEADER -->
   <header>
@@ -565,7 +450,7 @@
         <li><a href="#architecture">Архитектура</a></li>
         <li><a href="#benefits">Ценность</a></li>
       </ul>
-      <a href="#contact" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">Контакты</a>
+      <a href="#contact" class="btn btn-secondary" style="padding: 10px 20px; font-size: 0.85rem;">Контакты</a>
     </div>
   </header>
 
@@ -604,25 +489,25 @@
       <div class="container">
         <div class="tag">Вызовы цифровой эпохи</div>
         <h2 class="section-title">Современный человек уязвим перед алгоритмами и утерей контекста.</h2>
-        <p class="section-desc">Технологический прогресс создал риски, с которыми традиционные финансовые и информационные инструменты не справляются.</p>
+        <p class="section-desc">Технологический прогресс создал риски, с которыми традиционные инструменты не справляются.</p>
 
         <div class="problems-grid">
           <div class="problem-card">
             <div class="mono" style="color: #ef4444; font-size: 0.8rem;">01 / RISKS</div>
-            <h3>Утечки & Облачный ИИ</h3>
-            <p>Передача личных данных, финансов и документов в сторонние облачные нейросети лишает пользователя суверенитета и создает угрозу слива чувствительной информации.</p>
+            <h3 style="margin-top: 12px; font-size: 1.3rem;">Утечки & Облачный ИИ</h3>
+            <p style="color: var(--text-muted); margin-top: 12px;">Передача личных данных и финансов в сторонние нейросети лишает пользователя суверенитета и создает угрозу слива чувствительной информации.</p>
           </div>
 
           <div class="problem-card">
             <div class="mono" style="color: #ef4444; font-size: 0.8rem;">02 / FRAUD</div>
-            <h3>Финансовое мошенничество</h3>
-            <p>Социальная инженерия, импульсивные решения и изощренные атаки ежедневно приводят к утере накоплений семей и пожилых людей.</p>
+            <h3 style="margin-top: 12px; font-size: 1.3rem;">Финансовое мошенничество</h3>
+            <p style="color: var(--text-muted); margin-top: 12px;">Социальная инженерия и импульсивные решения ежедневно приводят к утере накоплений семей и пожилых людей.</p>
           </div>
 
           <div class="problem-card">
             <div class="mono" style="color: #ef4444; font-size: 0.8rem;">03 / LOSS</div>
-            <h3>Фрагментация памяти и наследия</h3>
-            <p>Жизненный опыт, критические знания и семейные активы теряются со сменой платформ и эпох. Нет единого суверенного хранилища жизни.</p>
+            <h3 style="margin-top: 12px; font-size: 1.3rem;">Фрагментация памяти и наследия</h3>
+            <p style="color: var(--text-muted); margin-top: 12px;">Жизненный опыт и семейные активы теряются со сменой платформ. Нет единого суверенного хранилища жизни.</p>
           </div>
         </div>
       </div>
@@ -639,114 +524,31 @@
           <div class="solution-card">
             <div class="solution-icon">LV</div>
             <h3>Life Vault</h3>
-            <p><strong>Пожизненный архив:</strong> Непрерывная векторная память (RAG) в закрытом контуре. Безопасно индексирует весь ваш опыт, документы и знания без утечек наружу.</p>
+            <p style="color: var(--text-muted); margin-top: 12px;"><strong>Пожизненный архив:</strong> Векторная память (RAG) в закрытом контуре. Индексирует весь ваш опыт и документы без утечек наружу.</p>
           </div>
 
           <div class="solution-card">
             <div class="solution-icon">PI</div>
             <h3>Personal Intelligence</h3>
-            <p><strong>Личный ИИ на устройстве:</strong> Локальные языковые модели (Local LLM), работающие непосредственно на вашем оборудовании с полным пониманием личного контекста.</p>
+            <p style="color: var(--text-muted); margin-top: 12px;"><strong>Личный ИИ на устройстве:</strong> Локальные языковые модели (Local LLM), работающие непосредственно на вашем оборудовании.</p>
           </div>
 
           <div class="solution-card">
             <div class="solution-icon">FS</div>
             <h3>Financial Immunity</h3>
-            <p><strong>Финансовый щит:</strong> Защищенный контур (Smart Funds), автономный мониторинг аномалий, блокировка мошеннических транзакций и предупреждение эмоциональных трат.</p>
-          </div>
-
-          <div class="solution-card">
-            <div class="solution-icon">LG</div>
-            <h3>Legacy Guardian</h3>
-            <p><strong>Хранитель Наследия:</strong> Алгоритмические целевые фонды и трасты для детей. Гарантирует передачу опыта и средств следующим поколениям с защитой от взысканий.</p>
-          </div>
-
-          <div class="solution-card">
-            <div class="solution-icon">AL</div>
-            <h3>Autonomous Logistics</h3>
-            <p><strong>Бытовой автопилот:</strong> Автоматизированный контроль счетов, коммунальных платежей, подписок и предиктивное планирование регулярных задач.</p>
-          </div>
-
-          <div class="solution-card">
-            <div class="solution-icon">PS</div>
-            <h3>Privacy Sovereign</h3>
-            <p><strong>Нулевое разглашение:</strong> Архитектура Privacy-By-Design. Ваши ключи, ваши данные. Никакой рекламы, продажи профиля или внешнего контроля.</p>
+            <p style="color: var(--text-muted); margin-top: 12px;"><strong>Финансовый щит:</strong> Мониторинг аномалий, блокировка мошеннических транзакций и предупреждение эмоциональных трат.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ARCHITECTURE SECTION -->
-    <section class="section" id="architecture">
-      <div class="container">
-        <div class="tag">Технологический стек</div>
-        <h2 class="section-title">Гибридная архитектура закрытого контура.</h2>
-        <p class="section-desc">Безопасность достигается за счет локальной обработки критических процессов и строго подконтрольного взаимодействия с внешним миром.</p>
-
-        <div class="arch-box">
-          <div class="arch-flow">
-            <div class="arch-step active">
-              <h4>YOUR DEVICE</h4>
-              <p>Local LLM + Vector DB (RAG)</p>
-              <span class="mono" style="font-size: 0.7rem; color: var(--emerald);">[ Полная изоляция ]</span>
-            </div>
-
-            <div class="arch-divider">↔</div>
-
-            <div class="arch-step">
-              <h4>SECURE GATEWAY</h4>
-              <p>Шлюз шифрования & Политики агента</p>
-              <span class="mono" style="font-size: 0.7rem; color: var(--text-muted);">[ Zero-Knowledge ]</span>
-            </div>
-
-            <div class="arch-divider">↔</div>
-
-            <div class="arch-step">
-              <h4>EXTERNAL SERVICES</h4>
-              <p>Банки, API, Зашифрованные облака</p>
-              <span class="mono" style="font-size: 0.7rem; color: var(--text-muted);">[ По запросу ]</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- BENEFITS SECTION -->
-    <section class="section" id="benefits">
-      <div class="container">
-        <div class="tag">Создаваемая ценность</div>
-        <h2 class="section-title">Почему ATIG меняет правила игры.</h2>
-
-        <div class="benefits-grid">
-          <div class="benefit-box">
-            <h3>Для пользователя</h3>
-            <ul class="benefit-list">
-              <li><strong>Полный цифровой суверенитет:</strong> Ваши данные не принадлежат корпорациям.</li>
-              <li><strong>Финансовое спокойствие:</strong> Надежный барьер против мошенников и импульсивных ошибок.</li>
-              <li><strong>Экономия времени:</strong> Автопилот берет на себя бытовую рутину и счета.</li>
-              <li><strong>Сохранение рода:</strong> Уверенность в передаче знаний и ресурсов детям.</li>
-            </ul>
-          </div>
-
-          <div class="benefit-box">
-            <h3>Для инвесторов & Партнеров</h3>
-            <ul class="benefit-list">
-              <li><strong>Масштабируемая модель:</strong> Комбинация B2C подписки и Премиум-SaaS.</li>
-              <li><strong>Уникальный Privacy-Focus:</strong> Растущий спрос на Local-first AI в мире.</li>
-              <li><strong>Высокий LTV:</strong> Продукт пожизненного цикла с высокой утилитарностью.</li>
-              <li><strong>Готовность к рынкам:</strong> Продукт разрабатывается с международным потенциалом.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CALL TO ACTION / FOOTER -->
+    <!-- CALL TO ACTION -->
     <section class="section" id="contact" style="border-top: none;">
       <div class="container">
         <div class="cta-card">
           <div class="tag">Присоединиться к будущему</div>
-          <h2>Готовы построить суверенный цифровой ковчег?</h2>
-          <p>Мы открыты к диалогу с венчурными фондами, бизнес-ангелами, профильными менторами и акселерационными программами.</p>
+          <h2 style="font-size: clamp(2.2rem, 4vw, 3rem); margin-top: 20px;">Готовы построить суверенный цифровой ковчег?</h2>
+          <p style="color: var(--text-muted); max-width: 600px; margin: 20px auto 36px;">Мы открыты к диалогу с венчурными фондами, бизнес-ангелами и менторами.</p>
           <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@atig.ai" target="_blank" rel="noopener noreferrer" class="btn btn-galactic">Связаться с основателем</a>
         </div>
       </div>
@@ -756,19 +558,56 @@
 
   <footer>
     <div class="container footer-inner">
-      <div>
-        <strong>ATIG</strong> — Guardian Trusted Autonomous Intelligence
-      </div>
-      <div>
-        Разработано в Казахстане (Алматы) · Privacy by Design
-      </div>
-      <div>
-        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@atig.ai" target="_blank" rel="noopener noreferrer" style="color: var(--emerald); text-decoration: none;" class="mono">hello@atig.ai</a>
-      </div>
+      <div><strong>ATIG</strong> — Guardian Trusted Autonomous Intelligence</div>
+      <div>Разработано в Казахстане (Алматы) · Privacy by Design</div>
+      <div><a href="https://mail.google.com/mail/?view=cm&fs=1&to=hello@atig.ai" target="_blank" rel="noopener noreferrer" style="color: var(--emerald); text-decoration: none;" class="mono">hello@atig.ai</a></div>
     </div>
   </footer>
 
+  <!-- Скрипт космического фона и взаимодействия -->
   <script>
+    // Генерация звездного неба на Canvas
+    const canvas = document.getElementById('space-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let stars = [];
+    const numStars = 150;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < numStars; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        alpha: Math.random(),
+        speed: Math.random() * 0.005 + 0.002
+      });
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.alpha += star.speed;
+        if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
+
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(drawStars);
+    }
+
+    drawStars();
+
+    // Плавная навигация
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
@@ -776,10 +615,7 @@
           e.preventDefault();
           const target = document.querySelector(href);
           if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         }
       });

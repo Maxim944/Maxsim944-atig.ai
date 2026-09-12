@@ -3,329 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATIG // Золотое Ядро [197Au]</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <title>ATIG // Интерактивные Эпициклы (Ряды Фурье)</title>
   <style>
     :root {
       --bg-deep: #030308;
-      --panel-bg: rgba(12, 14, 26, 0.7);
+      --panel-bg: rgba(12, 14, 26, 0.75);
       --panel-border: rgba(212, 175, 55, 0.25);
       --gold: #d4af37;
       --gold-light: #f3e5ab;
-      --nebula-purple: rgba(88, 28, 135, 0.3);
-      --nebula-blue: rgba(30, 58, 138, 0.35);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-deep); font-family: 'Space Grotesk', sans-serif; color: var(--text-main); }
 
-    body {
-      background-color: var(--bg-deep);
-      color: var(--text-main);
-      font-family: 'Space Grotesk', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    /* Фоновый канвас глубокого космоса со звёздами */
-    #space-canvas {
+    .canvas-container {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -2;
-      pointer-events: none;
+      display: block;
+      z-index: 1;
     }
 
-    /* Галактические туманности без зелёного цвета */
-    .galaxy-nebula {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background: 
-        radial-gradient(circle at 15% 20%, var(--nebula-purple) 0%, transparent 50%),
-        radial-gradient(circle at 85% 80%, var(--nebula-blue) 0%, transparent 60%),
-        radial-gradient(circle at 50% -20%, rgba(147, 51, 234, 0.15) 0%, transparent 55%),
-        linear-gradient(180deg, #020205 0%, #050510 100%);
-    }
-
-    /* Верхняя панель */
-    .top-bar {
+    /* Плавающая панель управления в стиле ATIG */
+    .control-panel {
       position: absolute;
-      top: 24px;
-      right: 32px;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(16px);
+      padding: 16px 24px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
       gap: 24px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
       z-index: 10;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(212, 175, 55, 0.1);
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .top-bar a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .top-bar a:hover { color: var(--gold-light); }
-
-    /* Центральный контейнер */
-    .main-wrapper {
+    .control-group {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 720px;
-      padding: 0 20px;
-      gap: 28px;
-      z-index: 2;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
     }
 
-    /* АНИМИРОВАННОЕ ЯДРО ЗОЛОТА (${}^{197}\text{Au}$) */
-    .atom-container {
-      position: relative;
-      width: 130px;
-      height: 130px;
-      display: grid;
-      place-items: center;
-    }
-
-    /* Центральный массив ядра (79p + 118n) */
-    .gold-nucleus {
-      width: 44px;
-      height: 44px;
-      background: radial-gradient(circle at 30% 30%, #ffffff 0%, #ffe87c 25%, #d4af37 70%, #6b5311 100%);
-      border-radius: 50%;
-      box-shadow: 0 0 35px rgba(212, 175, 55, 0.8), inset 0 0 8px rgba(255, 255, 255, 0.9);
-      z-index: 5;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      animation: core-pulse 3s ease-in-out infinite alternate;
-    }
-
-    .nucleus-tooltip {
-      position: absolute;
-      bottom: -42px;
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.75rem;
+    .control-group label span {
       color: var(--gold-light);
-      white-space: nowrap;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-      pointer-events: none;
+      font-weight: 600;
     }
 
-    @keyframes core-pulse {
-      0% { transform: scale(0.97); box-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
-      100% { transform: scale(1.03); box-shadow: 0 0 45px rgba(212, 175, 55, 1); }
-    }
-
-    /* Орбиты электронов */
-    .orbit {
-      position: absolute;
-      inset: -15px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .orbit-1 { transform: rotate(25deg); }
-    .orbit-2 { transform: rotate(85deg); }
-    .orbit-3 { transform: rotate(145deg); }
-    .orbit-4 { transform: rotate(205deg); width: calc(100% + 30px); height: calc(100% + 30px); }
-
-    /* Электроны на орбитах */
-    .electron {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #ffffff;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #ffffff, 0 0 16px var(--gold-light);
-    }
-
-    .orbit-1 .electron { animation: spin 4s linear infinite; }
-    .orbit-2 .electron { animation: spin 5.5s linear infinite reverse; }
-    .orbit-3 .electron { animation: spin 3.5s linear infinite; }
-    .orbit-4 .electron { animation: spin 6.5s linear infinite reverse; }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg) translateX(70px) rotate(0deg); }
-      100% { transform: rotate(360deg) translateX(70px) rotate(-360deg); }
-    }
-
-    .logo-title {
-      font-size: 2.8rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: #ffffff;
-      text-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
-      text-align: center;
-      margin-top: 10px;
-    }
-    .logo-title span { color: var(--gold); }
-
-    /* Поисково-диалоговая строка */
-    .search-bar {
-      width: 100%;
-      height: 58px;
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      border-radius: 29px;
-      display: flex;
-      align-items: center;
-      padding: 0 22px;
-      gap: 16px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(88, 28, 135, 0.2);
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .search-bar:focus-within {
-      border-color: var(--gold);
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(212, 175, 55, 0.3);
-    }
-
-    .search-icon {
-      color: var(--gold);
-      font-size: 1.2rem;
-    }
-
-    .search-bar input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: var(--text-main);
-      font-size: 1rem;
-      font-family: inherit;
+    input[type="range"] {
+      appearance: none;
+      width: 130px;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px;
       outline: none;
     }
 
-    .search-bar input::placeholder { color: var(--text-muted); }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: var(--gold);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--gold);
+    }
 
-    .ai-badge {
-      background: rgba(212, 175, 55, 0.12);
+    .btn {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.4);
       color: var(--gold-light);
-      padding: 7px 16px;
-      border-radius: 20px;
+      padding: 8px 16px;
+      border-radius: 12px;
       font-size: 0.85rem;
       font-weight: 600;
-      border: 1px solid rgba(212, 175, 55, 0.35);
       cursor: pointer;
-      text-decoration: none;
       transition: all 0.2s;
-    }
-    .ai-badge:hover {
-      background: rgba(212, 175, 55, 0.25);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
+      font-family: inherit;
     }
 
-    /* Ярлыки быстрого доступа */
-    .shortcuts-grid {
-      display: flex;
-      justify-content: center;
-      gap: 26px;
-      flex-wrap: wrap;
-      margin-top: 10px;
+    .btn:hover {
+      background: rgba(212, 175, 55, 0.3);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     }
 
-    .shortcut-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
+    .btn.active {
+      background: var(--gold);
+      color: var(--bg-deep);
+    }
+
+    .header-title {
+      position: absolute;
+      top: 24px;
+      left: 30px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .header-title h1 {
+      font-size: 1.4rem;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+    .header-title p {
+      font-size: 0.8rem;
       color: var(--text-muted);
-      font-size: 0.85rem;
-      transition: transform 0.2s, color 0.2s;
+      margin-top: 2px;
     }
 
-    .shortcut-item:hover {
-      transform: translateY(-3px);
-      color: var(--text-main);
-    }
-
-    .shortcut-icon {
-      width: 50px;
-      height: 50px;
+    .back-btn {
+      position: absolute;
+      top: 24px;
+      right: 30px;
       background: var(--panel-bg);
       border: 1px solid var(--panel-border);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-weight: 600;
       color: var(--gold-light);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      padding: 8px 16px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+      transition: all 0.2s;
+    }
+    .back-btn:hover {
+      background: rgba(212, 175, 55, 0.2);
     }
   </style>
 </head>
 <body>
 
-  <canvas id="space-canvas"></canvas>
-  <div class="galaxy-nebula"></div>
-
-  <div class="top-bar">
-    <a href="#">Контур</a>
-    <a href="#">Архив памяти</a>
+  <div class="header-title">
+    <h1>ФУРЬЕ // Эпициклы Космоса</h1>
+    <p>Нарисуйте контур мышкой или используйте готовую траекторию</p>
   </div>
 
-  <div class="main-wrapper">
-    <!-- Золотое ядро атома 197Au (79p, 118n) с орбитами -->
-    <div class="atom-container">
-      <div class="gold-nucleus" title="Изотоп 197Au: 79 протонов, 118 нейтронов"></div>
-      <div class="orbit orbit-1"><div class="electron"></div></div>
-      <div class="orbit orbit-2"><div class="electron"></div></div>
-      <div class="orbit orbit-3"><div class="electron"></div></div>
-      <div class="orbit orbit-4"><div class="electron"></div></div>
-      <div class="nucleus-tooltip">¹⁹⁷Au [79p · 118n]</div>
+  <a href="index.html" class="back-btn">← На главную</a>
+
+  <canvas id="fourierCanvas" class="canvas-container"></canvas>
+
+  <div class="control-panel">
+    <button class="btn active" id="modeDraw">Режим рисования</button>
+    <button class="btn" id="btnPlay">Пауза</button>
+    
+    <div class="control-group">
+      <label>Частоты (Эпициклы): <span id="valCount">50</span></label>
+      <input type="range" id="rangeCount" min="1" max="150" value="50">
     </div>
 
-    <div class="logo-title">ATI<span>G</span></div>
-
-    <!-- Интерактивная строка поиска / запроса -->
-    <div class="search-bar">
-      <span class="search-icon">✦</span>
-      <input type="text" placeholder="Запрос к ядру ATIG..." id="mainInput">
-      <a href="chat.html" class="ai-badge">Консоль ИИ</a>
+    <div class="control-group">
+      <label>Скорость: <span id="valSpeed">1.0</span>x</label>
+      <input type="range" id="rangeSpeed" min="0.2" max="3" step="0.1" value="1">
     </div>
 
-    <!-- Быстрые ссылки -->
-    <div class="shortcuts-grid">
-      <a href="chat.html" class="shortcut-item">
-        <div class="shortcut-icon">Ω</div>
-        <span>Диалог</span>
-      </a>
-      <a href="#" class="shortcut-item">
-        <div class="shortcut-icon">✦</div>
-        <span>Память</span>
-      </a>
-      <a href="#" class="shortcut-item">
-        <div class="shortcut-icon">Ψ</div>
-        <span>Наследие</span>
-      </a>
-    </div>
+    <button class="btn" id="btnClear">Очистить</button>
   </div>
 
   <script>
-    // Генерация звездного неба глубокого космоса
-    const canvas = document.getElementById('space-canvas');
+    const canvas = document.getElementById('fourierCanvas');
     const ctx = canvas.getContext('2d');
-    let stars = [];
 
     function resize() {
       canvas.width = window.innerWidth;
@@ -334,36 +180,209 @@
     window.addEventListener('resize', resize);
     resize();
 
-    for (let i = 0; i < 220; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 1.8,
-        alpha: Math.random(),
-        speed: Math.random() * 0.002 + 0.0006
-      });
+    // Состояния приложения
+    let isDrawing = false;
+    let isPlaying = true;
+    let rawPath = [];      // Точки, нарисованные пользователем
+    let fourierCoeffs = []; // Коэффициенты Фурье
+    let time = 0;
+    let pathTrace = [];    // След реконструированной траектории
+
+    let numCircles = 50;
+    let speedCoef = 1.0;
+
+    // Элементы управления
+    const rangeCount = document.getElementById('rangeCount');
+    const valCount = document.getElementById('valCount');
+    const rangeSpeed = document.getElementById('rangeSpeed');
+    const valSpeed = document.getElementById('valSpeed');
+    const btnPlay = document.getElementById('btnPlay');
+    const modeDraw = document.getElementById('modeDraw');
+    const btnClear = document.getElementById('btnClear');
+
+    rangeCount.addEventListener('input', (e) => {
+      numCircles = parseInt(e.target.value);
+      valCount.textContent = numCircles;
+    });
+
+    rangeSpeed.addEventListener('input', (e) => {
+      speedCoef = parseFloat(e.target.value);
+      valSpeed.textContent = speedCoef.toFixed(1);
+    });
+
+    btnPlay.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      btnPlay.textContent = isPlaying ? 'Пауза' : 'Воспроизведение';
+      btnPlay.classList.toggle('active', !isPlaying);
+    });
+
+    btnClear.addEventListener('click', () => {
+      rawPath = [];
+      fourierCoeffs = [];
+      pathTrace = [];
+      time = 0;
+    });
+
+    // Создание формы по умолчанию (сердце или петля в стиле логотипа ATIG)
+    function loadDefaultShape() {
+      const pts = [];
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const R = 150;
+      for (let a = 0; a < Math.PI * 2; a += 0.05) {
+        // Форма кардиоиды / стилизованного контура
+        const x = cx + R * 1.5 * Math.cos(a);
+        const y = cy + R * Math.sin(a) + 30 * Math.sin(2 * a);
+        pts.push({ x, y });
+      }
+      rawPath = pts;
+      fourierCoeffs = computeDFT(rawPath);
     }
 
-    function drawStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach(s => {
-        s.alpha += s.speed;
-        if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.alpha)})`;
-        ctx.fill();
-      });
-      requestAnimationFrame(drawStars);
+    // Дискретное преобразование Фурье (DFT)
+    function computeDFT(path) {
+      const N = path.length;
+      const X = [];
+      for (let k = 0; k < N; k++) {
+        let re = 0;
+        let im = 0;
+        for (let n = 0; n < N; n++) {
+          const phi = (2 * Math.PI * k * n) / N;
+          re += path[n].x * Math.cos(phi) + path[n].y * Math.sin(phi);
+          im += -path[n].x * Math.sin(phi) + path[n].y * Math.cos(phi);
+        }
+        re = re / N;
+        im = im / N;
+        let freq = k;
+        let radius = Math.sqrt(re * re + im * im);
+        let phase = Math.atan2(im, re);
+        X.push({ re, im, freq, radius, phase });
+      }
+      // Сортируем по убыванию радиуса эпициклов для наглядности
+      X.sort((a, b) => b.radius - a.radius);
+      return X;
     }
-    drawStars();
 
-    // Переход в чат при нажатии Enter
-    document.getElementById('mainInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter' && this.value.trim() !== '') {
-        window.location.href = `chat.html?q=${encodeURIComponent(this.value)}`;
+    // События мыши / тачпада для рисования
+    window.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.control-panel') || e.target.closest('.back-btn') || e.target.closest('.header-title')) return;
+      isDrawing = true;
+      rawPath = [];
+      pathTrace = [];
+      time = 0;
+      rawPath.push({ x: e.clientX, y: e.clientY });
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDrawing) return;
+      rawPath.push({ x: e.clientX, y: e.clientY });
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isDrawing) {
+        isDrawing = false;
+        if (rawPath.length > 5) {
+          fourierCoeffs = computeDFT(rawPath);
+        }
       }
     });
+
+    // Инициализация дефолтной формы при старте
+    loadDefaultShape();
+
+    // Главный цикл отрисовки
+    function animate() {
+      // Очищаем экран с глубоким космическим шлейфом
+      ctx.fillStyle = 'rgba(3, 3, 8, 0.3)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (fourierCoeffs.length > 0) {
+        let vx = canvas.width / 2;
+        let vy = canvas.height / 2;
+
+        if (!isDrawing && isPlaying) {
+          // Вычисление положения эпициклов
+          let cx = canvas.width / 2;
+          let cy = canvas.height / 2;
+
+          for (let i = 0; i < Math.min(numCircles, fourierCoeffs.length); i++) {
+            let prevx = cx;
+            let prevy = cy;
+
+            let freq = fourierCoeffs[i].freq;
+            let radius = fourierCoeffs[i].radius;
+            let phase = fourierCoeffs[i].phase;
+            
+            // Направление вращения
+            let angle = freq * time + phase;
+            cx += radius * Math.cos(angle);
+            cy += radius * Math.sin(angle);
+
+            // Отрисовка окружности эпицикла
+            ctx.strokeStyle = 'rgba(212, 175, 55, 0.12)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(prevx, prevy, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            // Отрисовка радиус-вектора
+            ctx.strokeStyle = 'rgba(243, 229, 171, 0.35)';
+            ctx.beginPath();
+            ctx.moveTo(prevx, prevy);
+            ctx.lineTo(cx, cy);
+            ctx.stroke();
+
+            // Маленькая точка на конце радиуса
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.beginPath();
+            ctx.arc(cx, cy, 2, 0, 2 * Math.PI);
+            ctx.fill();
+          }
+
+          vx = cx;
+          vy = cy;
+
+          // Добавление точки в след траектории
+          pathTrace.unshift({ x: vx, y: vy });
+          if (pathTrace.length > 800) pathTrace.pop();
+
+          // Шаг времени
+          const dt = (2 * Math.PI) / fourierCoeffs.length;
+          time += dt * 0.5 * speedCoef;
+        }
+
+        // Отрисовка следа реконструированной траектории (неоновое золото)
+        if (pathTrace.length > 1) {
+          ctx.beginPath();
+          ctx.moveTo(pathTrace[0].x, pathTrace[0].y);
+          for (let i = 1; i < pathTrace.length; i++) {
+            ctx.lineTo(pathTrace[i].x, pathTrace[i].y);
+          }
+          ctx.strokeStyle = '#d4af37';
+          ctx.lineWidth = 2.5;
+          ctx.shadowColor = '#d4af37';
+          ctx.shadowBlur = 12;
+          ctx.stroke();
+          ctx.shadowBlur = 0; // Сброс теней
+        }
+      }
+
+      // Отображение пользовательского сырого контура при рисовании
+      if (isDrawing && rawPath.length > 0) {
+        ctx.beginPath();
+        ctx.moveTo(rawPath[0].x, rawPath[0].y);
+        for (let i = 1; i < rawPath.length; i++) {
+          ctx.lineTo(rawPath[i].x, rawPath[i].y);
+        }
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
   </script>
 </body>
 </html>

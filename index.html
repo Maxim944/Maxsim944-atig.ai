@@ -2,264 +2,341 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATIG // Neural IDE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ATIG // Neural AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-deep: #020205;
-      --panel-bg: rgba(10, 12, 24, 0.45);
-      --panel-border: rgba(212, 175, 55, 0.15);
+      --bg-deep: #05060b;
+      --panel-bg: rgba(18, 20, 32, 0.75);
+      --panel-border: rgba(212, 175, 55, 0.2);
+      --input-bg: rgba(255, 255, 255, 0.05);
+      --input-border: rgba(255, 255, 255, 0.12);
       --gold: #d4af37;
       --gold-light: #f3e5ab;
-      --nebula-purple: rgba(88, 28, 135, 0.25);
-      --nebula-blue: rgba(30, 58, 138, 0.2);
+      --nebula-purple: rgba(88, 28, 135, 0.22);
+      --nebula-blue: rgba(30, 58, 138, 0.25);
       --text-main: #f8fafc;
-      --text-muted: #8b9bb4;
-      --text-dim: #475569;
-      --accent-bg: rgba(212, 175, 55, 0.1);
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; font-family: 'Space Grotesk', sans-serif; color: var(--text-main); background: var(--bg-deep); }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Space Grotesk', sans-serif; color: var(--text-main); background: var(--bg-deep); }
 
-    /* Глубокий космос */
+    /* Космический фон как на скрине Grok/GPT */
     .galaxy-bg {
       position: fixed;
       inset: 0;
       z-index: -1;
       background: 
-        radial-gradient(circle at 15% 30%, var(--nebula-purple) 0%, transparent 40%),
-        radial-gradient(circle at 85% 70%, var(--nebula-blue) 0%, transparent 50%),
-        linear-gradient(180deg, #020205 0%, #060612 100%);
+        radial-gradient(circle at 50% 20%, var(--nebula-purple) 0%, transparent 50%),
+        radial-gradient(circle at 50% 80%, var(--nebula-blue) 0%, transparent 60%),
+        linear-gradient(180deg, #030308 0%, #080914 100%);
     }
 
-    /* Макет */
-    .app-layout {
+    /* Главный макет (Mobile First) */
+    .app-viewport {
       display: flex;
+      flex-direction: column;
       height: 100vh;
-      width: 100vw;
-      backdrop-filter: blur(12px);
-    }
-
-    /* ЛЕВАЯ ПАНЕЛЬ (Sidebar) */
-    .sidebar {
-      width: 260px;
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid var(--panel-border);
-      background: var(--panel-bg);
-      padding: 12px 0;
-    }
-
-    .top-menu { padding: 0 16px 16px; border-bottom: 1px solid var(--panel-border); font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 12px; }
-    .top-menu span:hover { color: var(--gold-light); cursor: pointer; }
-
-    .nav-section { padding: 12px 0; display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid var(--panel-border); }
-    .nav-item {
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: 0.2s;
-    }
-    .nav-item:hover, .nav-item.active { color: var(--gold-light); background: var(--accent-bg); }
-    
-    .section-title { padding: 12px 16px 4px; font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
-
-    .spacer { flex: 1; }
-
-    .profile-area {
-      padding: 16px;
-      border-top: 1px solid var(--panel-border);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      color: var(--text-main);
-      cursor: pointer;
-    }
-    .avatar { width: 28px; height: 28px; background: var(--accent-bg); border: 1px solid var(--gold); border-radius: 50%; display: grid; place-items: center; font-size: 0.8rem; color: var(--gold-light); }
-
-    /* ПРАВАЯ ЧАСТЬ (Рабочая область) */
-    .main-area {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+      height: 100dvh; /* Поддержка мобильных браузеров */
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 12px 16px;
       position: relative;
     }
 
-    .header-tabs {
-      height: 40px;
+    /* 1. ВЕРХНЯЯ ШАПКА (HEADER) */
+    .app-header {
       display: flex;
       align-items: center;
-      padding: 0 16px;
-      border-bottom: 1px solid var(--panel-border);
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      gap: 16px;
+      justify-content: space-between;
+      height: 52px;
+      z-index: 10;
     }
-    .header-tabs .tab { display: flex; align-items: center; gap: 8px; color: var(--gold-light); }
 
-    /* Окно диалога */
-    .chat-container {
+    .header-icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      display: grid;
+      place-items: center;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    /* Переключатель режимов по центру (Спросить / Память / Наследие) */
+    .top-mode-tabs {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .mode-tab {
+      color: var(--text-muted);
+      cursor: pointer;
+      padding-bottom: 4px;
+      transition: all 0.2s;
+    }
+
+    .mode-tab.active {
+      color: var(--text-main);
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .login-btn {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* 2. ЦЕНТРАЛЬНАЯ ЧАСТЬ (HERO) */
+    .main-content {
       flex: 1;
-      padding: 24px 10%;
-      overflow-y: auto;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px 0;
       gap: 24px;
+      overflow-y: auto;
     }
 
-    .message { display: flex; flex-direction: column; gap: 8px; font-size: 0.95rem; line-height: 1.6; }
-    
-    .msg-user {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--panel-border);
-      padding: 16px;
-      border-radius: 12px;
+    .hero-title {
+      font-size: 1.6rem;
+      font-weight: 500;
       color: var(--text-main);
+      letter-spacing: -0.5px;
     }
 
-    .thought-process {
-      font-family: 'Fira Code', monospace;
+    /* Логотип-сфера ATIG по центру */
+    .atig-orb {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, var(--gold-light), var(--gold) 60%, #000);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+      margin-bottom: 8px;
+      animation: pulse 4s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(212, 175, 55, 0.2); }
+      50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
+    }
+
+    /* 3. КНОПКИ-ЧИПСЫ ПОДСКАЗОК (Как на скрине Grok/ChatGPT) */
+    .chips-scroll {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      overflow-x: auto;
+      padding: 4px 0;
+      scrollbar-width: none; /* Скрыть скроллбар */
+    }
+    .chips-scroll::-webkit-scrollbar { display: none; }
+
+    .chip-btn {
+      white-space: nowrap;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 20px;
       font-size: 0.85rem;
-      color: var(--text-muted);
-      padding-left: 12px;
-      border-left: 2px solid var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.2s;
+    }
+    .chip-btn.highlight {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: var(--panel-border);
+      color: var(--gold-light);
+    }
+
+    /* 4. ГЛАВНОЕ ПОЛЕ ВВОДА (PROMPT BOX) */
+    .prompt-container {
+      width: 100%;
       margin-bottom: 8px;
     }
-    .thought-header { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-dim); margin-bottom: 4px; }
-    .thought-header:hover { color: var(--gold-light); }
 
-    .msg-ai { color: var(--gold-light); }
-
-    /* Строка ввода (как в Cursor) */
-    .input-wrapper {
-      padding: 20px 10%;
-      background: linear-gradient(to top, var(--bg-deep) 60%, transparent);
-    }
-
-    .input-box {
-      width: 100%;
+    .prompt-box {
       background: var(--panel-bg);
       border: 1px solid var(--panel-border);
-      border-radius: 12px;
+      border-radius: 24px;
       padding: 12px 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: border-color 0.2s;
+      gap: 10px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
     }
-    .input-box:focus-within { border-color: var(--gold); }
 
-    .input-box textarea {
+    .prompt-box textarea {
       width: 100%;
       background: transparent;
       border: none;
       color: var(--text-main);
       font-family: inherit;
-      font-size: 0.95rem;
-      resize: none;
+      font-size: 1rem;
       outline: none;
+      resize: none;
+      max-height: 120px;
     }
-    .input-box textarea::placeholder { color: var(--text-muted); }
+    .prompt-box textarea::placeholder { color: var(--text-muted); }
 
-    .input-footer {
+    .prompt-footer {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      font-size: 0.8rem;
-      color: var(--text-dim);
+      justify-content: space-between;
     }
-    
-    .tool-btn {
+
+    .prompt-controls-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .attach-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text-main);
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    /* Селектор модели (Qwen / Grok / ATIG Core) */
+    .model-selector-chip {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--panel-border);
+      color: var(--gold-light);
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-family: 'Fira Code', monospace;
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255,255,255,0.05);
-      padding: 4px 10px;
-      border-radius: 6px;
       cursor: pointer;
     }
-    .tool-btn:hover { color: var(--gold-light); background: var(--accent-bg); }
 
-    .model-selector { color: var(--gold); }
+    .prompt-controls-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mic-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text-main);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      display: grid;
+      place-items: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* 5. ПОДВАЛ / ЮРИДИЧЕСКИЙ ТЕКСТ (Как у ChatGPT/Grok) */
+    .disclaimer {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 8px 0;
+    }
+    .disclaimer a { color: var(--text-muted); text-decoration: underline; }
   </style>
 </head>
 <body>
 
   <div class="galaxy-bg"></div>
 
-  <div class="app-layout">
-    <!-- Левая панель (Аналог Cursor Sidebar) -->
-    <aside class="sidebar">
-      <div class="top-menu">
-        <span>File</span><span>Edit</span><span>View</span><span>Help</span>
+  <div class="app-viewport">
+    
+    <!-- ВЕРХНЯЯ ШАПКА -->
+    <header class="app-header">
+      <div class="header-icon-btn">≡</div>
+      
+      <div class="top-mode-tabs">
+        <div class="mode-tab active">Спросить</div>
+        <div class="mode-tab">Память</div>
+        <div class="mode-tab">Наследие</div>
       </div>
 
-      <div class="nav-section">
-        <div class="nav-item active">✦ Новый контур</div>
-        <div class="nav-item">⌕ Поиск по базе</div>
-        <div class="nav-item">⚡ Автоматизация</div>
-      </div>
+      <button class="login-btn">Войти</button>
+    </header>
 
-      <div class="section-title">Проекты</div>
-      <div class="nav-section">
-        <div class="nav-item">＋ Создать структуру</div>
-      </div>
-
-      <div class="section-title">Архив памяти (Репозитории)</div>
-      <div class="nav-section" style="border: none;">
-        <div class="nav-item">ATIG Core Analysis</div>
-      </div>
-
-      <div class="spacer"></div>
-
-      <!-- Профиль из скриншота -->
-      <div class="profile-area">
-        <div class="avatar">М</div>
-        <span>Максим Пятница</span>
-      </div>
-    </aside>
-
-    <!-- Правая панель (Рабочая область / Чат) -->
-    <main class="main-area">
-      <div class="header-tabs">
-        <div class="tab">ATIG Codebase overview <span>×</span></div>
-      </div>
-
-      <!-- История диалога -->
-      <div class="chat-container">
-        <div class="message msg-user">
-          Привет
-        </div>
-
-        <div class="message msg-ai">
-          <div class="thought-process">
-            <div class="thought-header">▼ Thought 1s</div>
-            <div>Анализ текущей директории памяти. Пользователь находится в корневом каталоге. Загрузка параметров ядра золота ¹⁹⁷Au.</div>
-          </div>
-          <div>Привет, Максим.<br><br>Сейчас открыт корневой модуль памяти ATIG, а не конкретный архив. Напиши, какую структуру мы будем проектировать дальше, или загрузи нужные данные в ядро.</div>
-        </div>
-      </div>
-
-      <!-- Поле ввода (Внизу) -->
-      <div class="input-wrapper">
-        <div class="input-box">
-          <textarea rows="2" placeholder="Send follow-up..."></textarea>
-          <div class="input-footer">
-            <div class="tool-btn">＋ Attach context</div>
-            <div class="tool-btn model-selector">ATIG Neural Core 197Au 🔒</div>
-          </div>
-        </div>
+    <!-- ЦЕНТРАЛЬНАЯ ЧАСТЬ -->
+    <main class="main-content">
+      <div class="atig-orb"></div>
+      <h1 class="hero-title">Над чем вы работаете?</h1>
+      
+      <!-- Подсказки как на 1 и 2 скриншотах -->
+      <div class="chips-scroll">
+        <div class="chip-btn highlight">✦ Попробуйте Qwen Core</div>
+        <div class="chip-btn">🧬 Создать ядро памяти</div>
+        <div class="chip-btn">⚡ Быстрый ответ</div>
       </div>
     </main>
+
+    <!-- ФОКУСНАЯ СТРОКА ВВОДА (ВНИЗУ) -->
+    <div class="prompt-container">
+      <div class="prompt-box">
+        <textarea rows="1" placeholder="Задайте любой вопрос ATIG..."></textarea>
+        
+        <div class="prompt-footer">
+          <div class="prompt-controls-left">
+            <div class="attach-btn">＋</div>
+            <div class="model-selector-chip">⚡ Быстрый (Qwen 2.5) ∨</div>
+          </div>
+
+          <div class="prompt-controls-right">
+            <div class="mic-btn">🎙</div>
+            <button class="send-btn">↑</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ПОДВАЛ -->
+    <footer class="disclaimer">
+      ATIG — это ваш личный ИИ-архив памяти. <a href="#">Условия и политика</a>
+    </footer>
+
   </div>
 
 </body>

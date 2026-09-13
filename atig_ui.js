@@ -1,13 +1,19 @@
 /**
  * ATIG Neural AI - UI & Ollama Integration Module
- * Связывает интерфейс сайта с локальной нейросетью Qwen в Termux.
+ * Содержит системный промпт с идентификацией и целями системы ATIG.
  */
 
 class ATIGUI {
   constructor() {
-    this.modelName = 'qwen2.5-coder:1.5b'; // Модель из Termux
+    this.modelName = 'qwen2.5-coder:1.5b';
     this.isProcessing = false;
     this.isChatStarted = false;
+
+    // Системная инструкция для нейросетевого ядра ATIG
+    this.systemPrompt = `Ты — ATIG (Атиг), автономный локальный персональный хранитель, архив памяти и интеллектуальный помощник.
+Твоя ключевая задача — помогать сохранять, структурировать и использовать информацию, касающуюся жизни, памяти, наследия и повседневных технических задач.
+Ты работаешь в полностью локальном и защищенном контуре.
+Отвечай точно, профессионально и по существу. Не выдумывай несуществующие программы или термины. Если информация отсутствует или запрос выходит за рамки твоих знаний, открыто сообщай об этом.`;
 
     this.initDOM();
     this.initEvents();
@@ -86,7 +92,10 @@ class ATIGUI {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: this.modelName,
-          messages: [{ role: 'user', content: text }],
+          messages: [
+            { role: 'system', content: this.systemPrompt },
+            { role: 'user', content: text }
+          ],
           stream: true
         })
       });
@@ -114,7 +123,7 @@ class ATIGUI {
                 this.scrollToBottom();
               }
             } catch (e) {
-              // Пропускаем фрагменты неполных чанков
+              // Игнорируем обрывки незавершенных JSON-чанков
             }
           }
         }

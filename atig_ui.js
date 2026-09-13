@@ -1,14 +1,13 @@
 /**
- * ATIG Neural AI - UI Logic Module (Single Page App Edition)
- * Трансформирует стартовый экран в активный чат при отправке запроса.
+ * ATIG Neural AI - UI & Ollama Integration Module
+ * Связывает интерфейс сайта с локальной нейросетью Qwen в Termux.
  */
 
 class ATIGUI {
   constructor() {
-    this.activeModel = '✦ Qwen 2.5 Max // ATIG Core';
+    this.modelName = 'qwen2.5-coder:1.5b'; // Модель из Termux
     this.isProcessing = false;
     this.isChatStarted = false;
-    this.typingSpeed = 50;
 
     this.initDOM();
     this.initEvents();
@@ -18,7 +17,6 @@ class ATIGUI {
     this.mainContent = document.querySelector('.main-content');
     this.textarea = document.querySelector('.prompt-box textarea');
     this.sendBtn = document.querySelector('.send-btn');
-    this.modelChip = document.querySelector('.model-selector-chip');
     this.chipBtns = document.querySelectorAll('.chip-btn');
   }
 
@@ -60,7 +58,6 @@ class ATIGUI {
     this.isProcessing = true;
     this.textarea.value = '';
 
-    // Переключаем макет в режим активного чата при первой отправке
     if (!this.isChatStarted) {
       this.switchToChatMode();
     }
@@ -68,12 +65,9 @@ class ATIGUI {
     this.processQuery(text);
   }
 
-  // Трансформирует стартовую страницу в контейнер сообщений
   switchToChatMode() {
     this.isChatStarted = true;
-    this.mainContent.innerHTML = ''; // Очищаем стартовые логотип и чипсы
-    
-    // Настраиваем контейнер для потока сообщений
+    this.mainContent.innerHTML = '';
     this.mainContent.style.justifyContent = 'flex-start';
     this.mainContent.style.alignItems = 'stretch';
     this.mainContent.style.textAlign = 'left';
@@ -81,25 +75,59 @@ class ATIGUI {
   }
 
   async processQuery(text) {
-    // 1. Отображаем карточку пользователя
     this.appendUserCard(text);
 
-    // 2. Статус-пилюля «Thought»
-    const statusPill = this.appendStatusPill('Thought 1s');
-    await this.delay(700);
-    statusPill.textContent = 'Worked with Qwen Engine ∨';
-
-    // 3. Создаем блок для ответа нейросети
+    const statusPill = this.appendStatusPill('Запрос к Qwen...');
     const aiResponseEl = this.appendEmptyAIResponse();
 
-    // 4. Генерируем ответ Qwen
-    const responseText = `Ядро ${this.activeModel} на связи. Запрос «${text}» успешно принят и сохранен в структуры памяти ATIG. Ожидаю следующую команду.`;
+    try {
+      const response = await fetch('http://localhost:11434/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: this.modelName,
+          messages: [{ role: 'user', content: text }],
+          stream: true
+        })
+      });
 
-    await this.streamText(responseText, aiResponseEl);
-    this.isProcessing = false;
+      if (!response.ok) throw new Error('Ollama API error');
+
+      statusPill.textContent = `Ядро: ${this.modelName} ∨`;
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.trim() !== '') {
+            try {
+              const parsed = JSON.parse(line);
+              if (parsed.message && parsed.message.content) {
+                aiResponseEl.textContent += parsed.message.content;
+                this.scrollToBottom();
+              }
+            } catch (e) {
+              // Пропускаем фрагменты неполных чанков
+            }
+          }
+        }
+      }
+    } catch (err) {
+      statusPill.textContent = 'Ошибка связи с Ollama ✕';
+      statusPill.style.background = 'rgba(239, 68, 68, 0.1)';
+      statusPill.style.color = '#f87171';
+      aiResponseEl.innerHTML = '<span style="color: #ef4444;">Не удалось подключиться к Ollama. Проверьте запуск сервера в Termux.</span>';
+    } finally {
+      this.isProcessing = false;
+    }
   }
-
-  // --- РЕНДЕРИНГ ЭЛЕМЕНТОВ ---
 
   appendUserCard(text) {
     const card = document.createElement('div');
@@ -111,6 +139,7 @@ class ATIGUI {
     card.style.alignSelf = 'flex-end';
     card.style.color = '#ffffff';
     card.style.fontSize = '0.95rem';
+    card.style.wordBreak = 'break-word';
     card.textContent = text;
 
     this.mainContent.appendChild(card);
@@ -141,32 +170,11 @@ class ATIGUI {
     resp.style.lineHeight = '1.5';
     resp.style.padding = '4px 8px';
     resp.style.maxWidth = '90%';
+    resp.style.whiteSpace = 'pre-wrap';
 
     this.mainContent.appendChild(resp);
     this.scrollToBottom();
     return resp;
-  }
-
-  streamText(text, element) {
-    return new Promise((resolve) => {
-      const words = text.split(' ');
-      let i = 0;
-
-      const interval = setInterval(() => {
-        if (i < words.length) {
-          element.innerHTML += words[i] + ' ';
-          this.scrollToBottom();
-          i++;
-        } else {
-          clearInterval(interval);
-          resolve();
-        }
-      }, this.typingSpeed);
-    });
-  }
-
-  delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   scrollToBottom() {

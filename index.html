@@ -42,7 +42,7 @@
         nav a {
             color: var(--text-muted);
             text-decoration: none;
-            margin-left: 24px;
+            margin-left: 20px;
             font-size: 0.95rem;
             transition: 0.3s;
         }
@@ -51,8 +51,8 @@
         /* Hero секция */
         .hero {
             text-align: center;
-            padding: 60px 20px 40px;
-            max-width: 800px;
+            padding: 50px 20px 30px;
+            max-width: 850px;
             margin: 0 auto;
         }
         .slogan-badge {
@@ -67,7 +67,7 @@
             border: 1px solid rgba(229, 184, 73, 0.2);
         }
         .hero h1 {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             font-weight: 600;
             margin-bottom: 12px;
             letter-spacing: -0.5px;
@@ -96,7 +96,8 @@
             font-size: 1rem;
             resize: none;
             outline: none;
-            height: 70px;
+            height: 80px;
+            font-family: inherit;
         }
         .input-actions {
             display: flex;
@@ -105,6 +106,13 @@
             border-top: 1px solid var(--border-color);
             padding-top: 15px;
             margin-top: 10px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .quick-btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         .quick-btn {
             background: rgba(255,255,255,0.05);
@@ -114,28 +122,30 @@
             border-radius: 8px;
             font-size: 0.85rem;
             cursor: pointer;
-            margin-right: 8px;
             transition: 0.2s;
         }
-        .quick-btn:hover { background: rgba(255,255,255,0.1); }
+        .quick-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-gold); }
         .submit-btn {
             background: var(--accent-gold);
             color: #000;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
+            font-size: 0.95rem;
+            transition: 0.2s;
         }
+        .submit-btn:hover { opacity: 0.9; }
 
         /* О платформе ATIG */
         .about-section {
-            max-width: 900px;
+            max-width: 850px;
             margin: 50px auto;
             padding: 0 20px;
         }
         .section-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-bottom: 20px;
             color: var(--text-main);
             border-left: 3px solid var(--accent-gold);
@@ -143,7 +153,7 @@
         }
         .about-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
         .about-card {
@@ -164,19 +174,17 @@
 
         /* Линия жизни */
         .timeline-container {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
             margin-top: 20px;
-            overflow-x: auto;
         }
         .timeline-step {
             text-align: center;
-            flex: 1;
-            position: relative;
             padding: 10px;
         }
         .timeline-step .number {
@@ -194,38 +202,61 @@
         }
         .timeline-step h4 { font-size: 0.95rem; margin-bottom: 4px; }
         .timeline-step p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Мобильные стили */
+        @media (max-width: 768px) {
+            header { padding: 15px 5%; flex-direction: column; gap: 10px; }
+            nav a { margin: 0 10px; font-size: 0.85rem; }
+            .hero h1 { font-size: 1.6rem; }
+            .input-actions { flex-direction: column; align-items: stretch; }
+            .submit-btn { width: 100%; margin-top: 10px; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Навигация -->
     <header>
         <div class="logo">ATIG <span>// Neural Life</span></div>
         <nav>
             <a href="#about" class="active">О платформе</a>
             <a href="#timeline">Линия жизни</a>
-            <a href="#umobook">UmoBook</a>
-            <a href="#legacy">Наследие</a>
+            <a href="#about">UmoBook</a>
+            <a href="#about">Наследие</a>
         </nav>
     </header>
 
+    <!-- Главная секция -->
     <main class="hero">
         <div class="slogan-badge">Познай себя • Стань лучше • Оставь след в века</div>
         <h1>Единый личный ИИ от рождения и навсегда</h1>
         <p>Ваш суверенный цифровой спутник. Хранит опыт, помогает принимать решения и сохраняет ваше наследие для потомков.</p>
 
+        <!-- Окно ввода -->
         <div class="input-card">
-            <textarea placeholder="Зафиксируйте событие дня, мысль или задайте вопрос своему ATIG..."></textarea>
+            <textarea id="memoryInput" placeholder="Зафиксируйте событие дня, мысль или задайте вопрос своему ATIG..."></textarea>
             <div class="input-actions">
-                <div>
-                    <button class="quick-btn">🎙 Записать день</button>
-                    <button class="quick-btn">💡 Принять решение</button>
-                    <button class="quick-btn">🧬 В ядро памяти</button>
+                <div class="quick-btn-group">
+                    <button class="quick-btn" onclick="setQuickText('🎙 [Запись дня]: ')">🎙 Записать день</button>
+                    <button class="quick-btn" onclick="setQuickText('💡 [Принятие решения]: ')">💡 Принять решение</button>
+                    <button class="quick-btn" onclick="setQuickText('🧬 [Ядро памяти]: ')">🧬 В ядро памяти</button>
                 </div>
-                <button class="submit-btn">Сохранить</button>
+                <button class="submit-btn" id="saveBtn">Сохранить</button>
+            </div>
+        </div>
+
+        <!-- ЛЕНТА СОХРАНЕННЫХ ЗАПИСЕЙ -->
+        <div id="memoryFeedSection" style="max-width: 850px; margin: 35px auto 0; text-align: left;">
+            <h3 style="font-size: 1.1rem; color: var(--accent-gold); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                🧬 Сохраненные события в ядре памяти
+            </h3>
+            <div id="memoryList" style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Сюда выводится список записей -->
             </div>
         </div>
     </main>
 
+    <!-- Секция с описанием платформы -->
     <section id="about" class="about-section">
         <h2 class="section-title">О платформе ATIG</h2>
         <div class="about-grid">
@@ -267,86 +298,120 @@
             </div>
         </div>
     </section>
-<!-- Модальное окно первой регистрации / активации ATIG -->
-<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:1000; align-items:center; justify-content:center;">
-    <div style="background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:30px; max-width:420px; width:90%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.8);">
-        <div style="font-size:2rem; margin-bottom:10px;">🧬</div>
-        <h3 style="font-size:1.3rem; margin-bottom:10px; color:var(--text-main);">Активация ядра ATIG</h3>
-        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
-            Ваша первая запись готова к сохранению. Профиль создается один раз на всю жизнь без повторных регистраций.
-        </p>
-        <input type="text" id="userIdentityInput" placeholder="Введите Ваш e-mail или телефон" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border-color); background:#0b0d12; color:#fff; font-size:0.95rem; margin-bottom:15px; outline:none;">
-        <button id="confirmAuthBtn" style="width:100%; background:var(--accent-gold); color:#000; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:1rem;">
-            Зафиксировать профиль и сохранить
-        </button>
-        <button onclick="closeAuthModal()" style="background:transparent; border:none; color:var(--text-muted); margin-top:12px; cursor:pointer; font-size:0.85rem;">
-            Отмена
-        </button>
+
+    <!-- МОДАЛЬНОЕ ОКНО АКТИВАЦИИ ПРОФИЛЯ -->
+    <div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:30px; max-width:420px; width:90%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.8);">
+            <div style="font-size:2rem; margin-bottom:10px;">🧬</div>
+            <h3 style="font-size:1.3rem; margin-bottom:10px; color:var(--text-main);">Активация ядра ATIG</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+                Ваша первая запись готова к сохранению. Профиль создается один раз на всю жизнь без повторных регистраций.
+            </p>
+            <input type="text" id="userIdentityInput" placeholder="Введите Ваш e-mail или телефон" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border-color); background:#0b0d12; color:#fff; font-size:0.95rem; margin-bottom:15px; outline:none;">
+            <button id="confirmAuthBtn" style="width:100%; background:var(--accent-gold); color:#000; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:1rem;">
+                Зафиксировать профиль и сохранить
+            </button>
+            <button onclick="closeAuthModal()" style="background:transparent; border:none; color:var(--text-muted); margin-top:12px; cursor:pointer; font-size:0.85rem;">
+                Отмена
+            </button>
+        </div>
     </div>
-</div>
 
-<script>
-    // Проверка наличия профиля в локальном хранилище
-    function getUserId() {
-        return localStorage.getItem('atig_user_id');
-    }
+    <!-- ЛОГИКА JAVASCRIPT -->
+    <script>
+        const saveBtn = document.getElementById('saveBtn');
+        const textarea = document.getElementById('memoryInput');
+        const authModal = document.getElementById('authModal');
+        const confirmAuthBtn = document.getElementById('confirmAuthBtn');
 
-    const saveBtn = document.querySelector('.submit-btn');
-    const textarea = document.querySelector('.input-card textarea');
-    const authModal = document.getElementById('authModal');
-    const confirmAuthBtn = document.getElementById('confirmAuthBtn');
-
-    // Клик по кнопке "Сохранить"
-    saveBtn.addEventListener('click', () => {
-        const text = textarea.value.trim();
-        if (!text) {
-            alert('Пожалуйста, введите мысль или событие для сохранения.');
-            return;
+        function getUserId() {
+            return localStorage.getItem('atig_user_id');
         }
 
-        const userId = getUserId();
-
-        if (!userId) {
-            // Если профиля нет — показываем окно первой регистрации
-            authModal.style.display = 'flex';
-        } else {
-            // Если профиль есть — сразу отправляем запись
-            sendMemoryToBackend(userId, text);
-        }
-    });
-
-    // Подтверждение первой регистрации
-    confirmAuthBtn.addEventListener('click', () => {
-        const identity = document.getElementById('userIdentityInput').value.trim();
-        const text = textarea.value.trim();
-
-        if (!identity) {
-            alert('Укажите e-mail или телефон для привязки единого профиля.');
-            return;
+        function setQuickText(prefix) {
+            textarea.value = prefix;
+            textarea.focus();
         }
 
-        // Имитация создания уникального ID (в будущем через бэкенд)
-        const newUserId = 'atig_user_' + Date.now();
-        localStorage.setItem('atig_user_id', newUserId);
-        localStorage.setItem('atig_user_identity', identity);
+        // Клик по кнопке "Сохранить"
+        saveBtn.addEventListener('click', () => {
+            const text = textarea.value.trim();
+            if (!text) {
+                alert('Пожалуйста, введите мысль или событие для сохранения.');
+                return;
+            }
 
-        authModal.style.display = 'none';
-        
-        // Сохраняем первую запись
-        sendMemoryToBackend(newUserId, text);
-    });
+            const userId = getUserId();
+            if (!userId) {
+                authModal.style.display = 'flex';
+            } else {
+                sendMemoryToBackend(userId, text);
+            }
+        });
 
-    function closeAuthModal() {
-        authModal.style.display = 'none';
-    }
+        // Подтверждение активации
+        confirmAuthBtn.addEventListener('click', () => {
+            const identity = document.getElementById('userIdentityInput').value.trim();
+            const text = textarea.value.trim();
 
-    // Функция отправки записи в бэкенд
-    function sendMemoryToBackend(userId, content) {
-        console.log('Отправка в ATIG Core:', { userId, content });
-        alert('Запись успешно зафиксирована в вашем ядре памяти ATIG!');
-        textarea.value = '';
-    }
-</script>
+            if (!identity) {
+                alert('Укажите e-mail или телефон для привязки единого профиля.');
+                return;
+            }
 
+            const newUserId = 'atig_user_' + Date.now();
+            localStorage.setItem('atig_user_id', newUserId);
+            localStorage.setItem('atig_user_identity', identity);
+
+            authModal.style.display = 'none';
+            sendMemoryToBackend(newUserId, text);
+        });
+
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+        }
+
+        // Отрисовка записей на странице
+        function renderMemories() {
+            const memoryList = document.getElementById('memoryList');
+            if (!memoryList) return;
+            
+            const memories = JSON.parse(localStorage.getItem('atig_memories') || '[]');
+            
+            if (memories.length === 0) {
+                memoryList.innerHTML = '<div style="color: var(--text-muted); font-size: 0.9rem; padding: 15px; border: 1px dashed var(--border-color); border-radius: 8px; text-align: center;">История памяти пока пуста. Сделайте первую запись выше.</div>';
+                return;
+            }
+
+            memoryList.innerHTML = memories.map(item => `
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                    <div style="font-size: 0.78rem; color: var(--accent-gold); margin-bottom: 6px; font-weight: 600;">
+                        ⏱ ${item.date}
+                    </div>
+                    <div style="color: var(--text-main); font-size: 0.95rem; line-height: 1.5; white-space: pre-wrap;">${item.content}</div>
+                </div>
+            `).reverse().join('');
+        }
+
+        // Сохранение записи
+        function sendMemoryToBackend(userId, content) {
+            const memories = JSON.parse(localStorage.getItem('atig_memories') || '[]');
+            
+            const newEntry = {
+                id: Date.now(),
+                content: content,
+                date: new Date().toLocaleString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+            };
+            
+            memories.push(newEntry);
+            localStorage.setItem('atig_memories', JSON.stringify(memories));
+
+            textarea.value = '';
+            renderMemories();
+        }
+
+        // Автоматическая загрузка записей при старте
+        window.addEventListener('DOMContentLoaded', renderMemories);
+    </script>
 </body>
 </html>

@@ -1,343 +1,272 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ATIG // Neural AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg-deep: #05060b;
-      --panel-bg: rgba(18, 20, 32, 0.75);
-      --panel-border: rgba(212, 175, 55, 0.2);
-      --input-bg: rgba(255, 255, 255, 0.05);
-      --input-border: rgba(255, 255, 255, 0.12);
-      --gold: #d4af37;
-      --gold-light: #f3e5ab;
-      --nebula-purple: rgba(88, 28, 135, 0.22);
-      --nebula-blue: rgba(30, 58, 138, 0.25);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATIG // Персональный ИИ от рождения в века</title>
+    <style>
+        :root {
+            --bg-color: #0b0d12;
+            --card-bg: #141721;
+            --accent-gold: #e5b849;
+            --text-main: #f0f2f5;
+            --text-muted: #8c93a6;
+            --border-color: #232838;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Space Grotesk', sans-serif; color: var(--text-main); background: var(--bg-deep); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
 
-    /* Космический фон как на скрине Grok/GPT */
-    .galaxy-bg {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background: 
-        radial-gradient(circle at 50% 20%, var(--nebula-purple) 0%, transparent 50%),
-        radial-gradient(circle at 50% 80%, var(--nebula-blue) 0%, transparent 60%),
-        linear-gradient(180deg, #030308 0%, #080914 100%);
-    }
+        /* Навигация */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(11, 13, 18, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: 1px; color: #fff; }
+        .logo span { color: var(--accent-gold); }
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        nav a:hover, nav a.active { color: var(--text-main); }
 
-    /* Главный макет (Mobile First) */
-    .app-viewport {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      height: 100dvh; /* Поддержка мобильных браузеров */
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 12px 16px;
-      position: relative;
-    }
+        /* Hero секция */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .slogan-badge {
+            display: inline-block;
+            background: rgba(229, 184, 73, 0.1);
+            color: var(--accent-gold);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid rgba(229, 184, 73, 0.2);
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+        }
 
-    /* 1. ВЕРХНЯЯ ШАПКА (HEADER) */
-    .app-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 52px;
-      z-index: 10;
-    }
+        /* Главное окно ввода */
+        .input-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .input-card textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1rem;
+            resize: none;
+            outline: none;
+            height: 70px;
+        }
+        .input-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+        .quick-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-right: 8px;
+            transition: 0.2s;
+        }
+        .quick-btn:hover { background: rgba(255,255,255,0.1); }
+        .submit-btn {
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-    .header-icon-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      display: grid;
-      place-items: center;
-      color: var(--text-main);
-      cursor: pointer;
-    }
+        /* О платформе ATIG */
+        .about-section {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 12px;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .about-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 12px;
+        }
+        .about-card h3 {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .about-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
 
-    /* Переключатель режимов по центру (Спросить / Память / Наследие) */
-    .top-mode-tabs {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-
-    .mode-tab {
-      color: var(--text-muted);
-      cursor: pointer;
-      padding-bottom: 4px;
-      transition: all 0.2s;
-    }
-
-    .mode-tab.active {
-      color: var(--text-main);
-      border-bottom: 2px solid var(--gold);
-    }
-
-    .login-btn {
-      background: #ffffff;
-      color: #000000;
-      font-weight: 600;
-      font-size: 0.88rem;
-      padding: 8px 18px;
-      border-radius: 20px;
-      border: none;
-      cursor: pointer;
-    }
-
-    /* 2. ЦЕНТРАЛЬНАЯ ЧАСТЬ (HERO) */
-    .main-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px 0;
-      gap: 24px;
-      overflow-y: auto;
-    }
-
-    .hero-title {
-      font-size: 1.6rem;
-      font-weight: 500;
-      color: var(--text-main);
-      letter-spacing: -0.5px;
-    }
-
-    /* Логотип-сфера ATIG по центру */
-    .atig-orb {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, var(--gold-light), var(--gold) 60%, #000);
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
-      margin-bottom: 8px;
-      animation: pulse 4s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(212, 175, 55, 0.2); }
-      50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
-    }
-
-    /* 3. КНОПКИ-ЧИПСЫ ПОДСКАЗОК (Как на скрине Grok/ChatGPT) */
-    .chips-scroll {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-      overflow-x: auto;
-      padding: 4px 0;
-      scrollbar-width: none; /* Скрыть скроллбар */
-    }
-    .chips-scroll::-webkit-scrollbar { display: none; }
-
-    .chip-btn {
-      white-space: nowrap;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      color: var(--text-main);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: all 0.2s;
-    }
-    .chip-btn.highlight {
-      background: rgba(212, 175, 55, 0.12);
-      border-color: var(--panel-border);
-      color: var(--gold-light);
-    }
-
-    /* 4. ГЛАВНОЕ ПОЛЕ ВВОДА (PROMPT BOX) */
-    .prompt-container {
-      width: 100%;
-      margin-bottom: 8px;
-    }
-
-    .prompt-box {
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      border-radius: 24px;
-      padding: 12px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(20px);
-    }
-
-    .prompt-box textarea {
-      width: 100%;
-      background: transparent;
-      border: none;
-      color: var(--text-main);
-      font-family: inherit;
-      font-size: 1rem;
-      outline: none;
-      resize: none;
-      max-height: 120px;
-    }
-    .prompt-box textarea::placeholder { color: var(--text-muted); }
-
-    .prompt-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .prompt-controls-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .attach-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      color: var(--text-main);
-      display: grid;
-      place-items: center;
-      font-size: 1.1rem;
-      cursor: pointer;
-    }
-
-    /* Селектор модели (Qwen / Grok / ATIG Core) */
-    .model-selector-chip {
-      background: rgba(212, 175, 55, 0.1);
-      border: 1px solid var(--panel-border);
-      color: var(--gold-light);
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 0.8rem;
-      font-family: 'Fira Code', monospace;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-    }
-
-    .prompt-controls-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .mic-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      color: var(--text-main);
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-    }
-
-    .send-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #ffffff;
-      color: #000000;
-      border: none;
-      display: grid;
-      place-items: center;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* 5. ПОДВАЛ / ЮРИДИЧЕСКИЙ ТЕКСТ (Как у ChatGPT/Grok) */
-    .disclaimer {
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      text-align: center;
-      padding: 8px 0;
-    }
-    .disclaimer a { color: var(--text-muted); text-decoration: underline; }
-  </style>
+        /* Линия жизни */
+        .timeline-container {
+            display: flex;
+            justify-content: space-between;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .timeline-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            padding: 10px;
+        }
+        .timeline-step .number {
+            width: 32px;
+            height: 32px;
+            background: rgba(229, 184, 73, 0.15);
+            color: var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .timeline-step h4 { font-size: 0.95rem; margin-bottom: 4px; }
+        .timeline-step p { font-size: 0.8rem; color: var(--text-muted); }
+    </style>
 </head>
 <body>
 
-  <div class="galaxy-bg"></div>
-
-  <div class="app-viewport">
-    
-    <!-- ВЕРХНЯЯ ШАПКА -->
-    <header class="app-header">
-      <div class="header-icon-btn">≡</div>
-      
-      <div class="top-mode-tabs">
-        <div class="mode-tab active">Спросить</div>
-        <div class="mode-tab">Память</div>
-        <div class="mode-tab">Наследие</div>
-      </div>
-
-      <button class="login-btn">Войти</button>
+    <header>
+        <div class="logo">ATIG <span>// Neural Life</span></div>
+        <nav>
+            <a href="#about" class="active">О платформе</a>
+            <a href="#timeline">Линия жизни</a>
+            <a href="#umobook">UmoBook</a>
+            <a href="#legacy">Наследие</a>
+        </nav>
     </header>
 
-    <!-- ЦЕНТРАЛЬНАЯ ЧАСТЬ -->
-    <main class="main-content">
-      <div class="atig-orb"></div>
-      <h1 class="hero-title">Над чем вы работаете?</h1>
-      
-      <!-- Подсказки как на 1 и 2 скриншотах -->
-      <div class="chips-scroll">
-        <div class="chip-btn highlight">✦ Попробуйте Qwen Core</div>
-        <div class="chip-btn">🧬 Создать ядро памяти</div>
-        <div class="chip-btn">⚡ Быстрый ответ</div>
-      </div>
+    <main class="hero">
+        <div class="slogan-badge">Познай себя • Стань лучше • Оставь след в века</div>
+        <h1>Единый личный ИИ от рождения и навсегда</h1>
+        <p>Ваш суверенный цифровой спутник. Хранит опыт, помогает принимать решения и сохраняет ваше наследие для потомков.</p>
+
+        <div class="input-card">
+            <textarea placeholder="Зафиксируйте событие дня, мысль или задайте вопрос своему ATIG..."></textarea>
+            <div class="input-actions">
+                <div>
+                    <button class="quick-btn">🎙 Записать день</button>
+                    <button class="quick-btn">💡 Принять решение</button>
+                    <button class="quick-btn">🧬 В ядро памяти</button>
+                </div>
+                <button class="submit-btn">Сохранить</button>
+            </div>
+        </div>
     </main>
 
-    <!-- ФОКУСНАЯ СТРОКА ВВОДА (ВНИЗУ) -->
-    <div class="prompt-container">
-      <div class="prompt-box">
-        <textarea rows="1" placeholder="Задайте любой вопрос ATIG..."></textarea>
-        
-        <div class="prompt-footer">
-          <div class="prompt-controls-left">
-            <div class="attach-btn">＋</div>
-            <div class="model-selector-chip">⚡ Быстрый (Qwen 2.5) ∨</div>
-          </div>
-
-          <div class="prompt-controls-right">
-            <div class="mic-btn">🎙</div>
-            <button class="send-btn">↑</button>
-          </div>
+    <section id="about" class="about-section">
+        <h2 class="section-title">О платформе ATIG</h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>Единый профиль на всю жизнь</h3>
+                <p>ATIG дается человеку один раз. Без повторных регистраций. Он растет, обучается и адаптируется вместе с вами на протяжении всей жизни.</p>
+            </div>
+            <div class="about-card">
+                <h3>Разгрузка разума</h3>
+                <p>Человек не должен удерживать в голове весь поток информации. ATIG сохраняет факты и выводы, оставляя за вами только принятие решений.</p>
+            </div>
+            <div class="about-card">
+                <h3>Память для потомков</h3>
+                <p>Ваш жизненный опыт, мудрость и личная история не исчезают, а превращаются в вечный семейный архив на тысячелетия.</p>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- ПОДВАЛ -->
-    <footer class="disclaimer">
-      ATIG — это ваш личный ИИ-архив памяти. <a href="#">Условия и политика</a>
-    </footer>
-
-  </div>
+        <h2 class="section-title" id="timeline" style="margin-top: 50px;">Сквозная линия жизни</h2>
+        <div class="timeline-container">
+            <div class="timeline-step">
+                <div class="number">1</div>
+                <h4>Рождение & UmoBook</h4>
+                <p>Раннее развитие и детские воспоминания</p>
+            </div>
+            <div class="timeline-step">
+                <div class="number">2</div>
+                <h4>Становление</h4>
+                <p>Обучение, привычки и поиск призвания</p>
+            </div>
+            <div class="timeline-step">
+                <div class="number">3</div>
+                <h4>Зрелость</h4>
+                <p>Анализ решений и личная база знаний</p>
+            </div>
+            <div class="timeline-step">
+                <div class="number">4</div>
+                <h4>В века</h4>
+                <p>Цифровое наследие для потомков</p>
+            </div>
+        </div>
+    </section>
 
 </body>
 </html>

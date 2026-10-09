@@ -267,6 +267,86 @@
             </div>
         </div>
     </section>
+<!-- Модальное окно первой регистрации / активации ATIG -->
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:var(--card-bg); border:1px solid var(--border-color); border-radius:16px; padding:30px; max-width:420px; width:90%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,0.8);">
+        <div style="font-size:2rem; margin-bottom:10px;">🧬</div>
+        <h3 style="font-size:1.3rem; margin-bottom:10px; color:var(--text-main);">Активация ядра ATIG</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+            Ваша первая запись готова к сохранению. Профиль создается один раз на всю жизнь без повторных регистраций.
+        </p>
+        <input type="text" id="userIdentityInput" placeholder="Введите Ваш e-mail или телефон" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--border-color); background:#0b0d12; color:#fff; font-size:0.95rem; margin-bottom:15px; outline:none;">
+        <button id="confirmAuthBtn" style="width:100%; background:var(--accent-gold); color:#000; border:none; padding:12px; border-radius:8px; font-weight:700; cursor:pointer; font-size:1rem;">
+            Зафиксировать профиль и сохранить
+        </button>
+        <button onclick="closeAuthModal()" style="background:transparent; border:none; color:var(--text-muted); margin-top:12px; cursor:pointer; font-size:0.85rem;">
+            Отмена
+        </button>
+    </div>
+</div>
+
+<script>
+    // Проверка наличия профиля в локальном хранилище
+    function getUserId() {
+        return localStorage.getItem('atig_user_id');
+    }
+
+    const saveBtn = document.querySelector('.submit-btn');
+    const textarea = document.querySelector('.input-card textarea');
+    const authModal = document.getElementById('authModal');
+    const confirmAuthBtn = document.getElementById('confirmAuthBtn');
+
+    // Клик по кнопке "Сохранить"
+    saveBtn.addEventListener('click', () => {
+        const text = textarea.value.trim();
+        if (!text) {
+            alert('Пожалуйста, введите мысль или событие для сохранения.');
+            return;
+        }
+
+        const userId = getUserId();
+
+        if (!userId) {
+            // Если профиля нет — показываем окно первой регистрации
+            authModal.style.display = 'flex';
+        } else {
+            // Если профиль есть — сразу отправляем запись
+            sendMemoryToBackend(userId, text);
+        }
+    });
+
+    // Подтверждение первой регистрации
+    confirmAuthBtn.addEventListener('click', () => {
+        const identity = document.getElementById('userIdentityInput').value.trim();
+        const text = textarea.value.trim();
+
+        if (!identity) {
+            alert('Укажите e-mail или телефон для привязки единого профиля.');
+            return;
+        }
+
+        // Имитация создания уникального ID (в будущем через бэкенд)
+        const newUserId = 'atig_user_' + Date.now();
+        localStorage.setItem('atig_user_id', newUserId);
+        localStorage.setItem('atig_user_identity', identity);
+
+        authModal.style.display = 'none';
+        
+        // Сохраняем первую запись
+        sendMemoryToBackend(newUserId, text);
+    });
+
+    function closeAuthModal() {
+        authModal.style.display = 'none';
+    }
+
+    // Функция отправки записи в бэкенд
+    function sendMemoryToBackend(userId, content) {
+        console.log('Отправка в ATIG Core:', { userId, content });
+        alert('Запись успешно зафиксирована в вашем ядре памяти ATIG!');
+        textarea.value = '';
+    }
+</script>
 
 </body>
 </html>
